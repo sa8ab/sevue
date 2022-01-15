@@ -1,5 +1,5 @@
 <template>
-  <div :class="['r-tab', { fit, bordered, iconOnly, scrollable }]">
+  <div :class="['r-tab', { fit, bordered, iconOnly, scrollable, moverFull }]">
     <!-- tabbar -->
     <div class="tabbar" ref="tabbar">
       <div
@@ -38,6 +38,7 @@ export default {
     bordered: { default: false, type: Boolean },
     iconOnly: { default: false, type: Boolean },
     scrollable: { default: false, type: Boolean },
+    moverFull: { default: false, type: Boolean },
   },
   data: () => ({
     activeTab: "",
@@ -47,6 +48,7 @@ export default {
     moverLeft: "0",
     children: [],
     dafSlot: [],
+    isInit: true,
   }),
   mounted() {
     this.setChildren();
@@ -64,9 +66,13 @@ export default {
 
       if (oldTabIndex < newTabIndex) this.direction = "forward";
       else this.direction = "backward";
-      setTimeout(() => {
-        this.setMoverStyle({ index: newTabIndex });
-      }, 100);
+      setTimeout(
+        () => {
+          this.setMoverStyle({ index: newTabIndex });
+          this.isInit = false;
+        },
+        this.isInit ? 200 : 0
+      );
       this.$nextTick(() => {
         this.activeTab = tab;
         this.$emit("tabChange", { title: tab, index: newTabIndex });
@@ -119,12 +125,9 @@ export default {
 <style lang="scss">
 $duration: $duration * 1.5;
 .r-tab {
-  border-radius: $radius;
-  overflow: hidden;
   .tabbar {
     display: flex;
     position: relative;
-    border-radius: $radius;
     overflow: hidden;
   }
   .tab-button {
@@ -162,8 +165,11 @@ $duration: $duration * 1.5;
     }
   }
   &.bordered {
+    overflow: hidden;
+    border-radius: $radius;
+    border: $border;
     .tabbar {
-      border: $border;
+      border-bottom: $border;
     }
   }
   &.iconOnly {
@@ -177,6 +183,22 @@ $duration: $duration * 1.5;
       overflow-x: auto;
       white-space: nowrap;
       @extend .scroll-bar;
+    }
+  }
+  &.moverFull {
+    .mover {
+      height: 100%;
+      z-index: 0;
+      background: $prm;
+    }
+    .tab-button {
+      position: relative !important;
+      z-index: 2;
+      transition-delay: $duration / 2;
+      &.active {
+        color: white;
+        background: transparent;
+      }
     }
   }
 }

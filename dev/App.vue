@@ -7,7 +7,7 @@
       <ROption :value="3" text="test 2" />
     </RSelect>
     <div class="" style="height: 40px" @click="x = 10"></div>
-    <RTab>
+    <RTab bordered moverFull scrollable fit>
       <RTabItem title="Tab One" icon="bx-user">item1</RTabItem>
       <RTabItem title="Tab 3" icon="bx-user">item3</RTabItem>
       <RTabItem title="Tab 4" icon="bx-user">item4</RTabItem>
