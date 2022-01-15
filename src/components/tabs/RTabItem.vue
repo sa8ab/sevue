@@ -1,10 +1,9 @@
 <template>
   <transition
-    @beforeEnter="beforeEnter"
     @enter="enter"
     @afterEnter="afterEnter"
     @beforeLeave="beforeLeave"
-    name="fade"
+    :name="renderTransitionName"
   >
     <div class="r-tab-item" v-if="active">
       <slot></slot>
@@ -26,22 +25,18 @@ export default {
   },
   mounted() {},
   methods: {
-    beforeEnter(el) {
-      // this.tab.setHeight(`0 px`);
-    },
     enter(el) {
       const { height } = el.getBoundingClientRect();
-
       setTimeout(() => {
         this.tab.setHeight(`${height}px`);
       }, 0);
     },
-    afterEnter(el) {
+    afterEnter() {
       this.tab.setHeight(`auto`);
     },
     beforeLeave(el) {
+      // because auto to px does not translate
       const { height } = el.getBoundingClientRect();
-      console.log({ height });
       this.tab.setHeight(`${height}px`);
     },
   },
@@ -49,23 +44,12 @@ export default {
     active() {
       return this.tab.activeTab === this.title;
     },
+    renderTransitionName() {
+      return this.tab.direction;
+    },
   },
 };
 </script>
 
 <style lang="scss">
-.r-tab-item {
-  padding: $p;
-}
-.fade {
-  &-enter,
-  &-leave-to {
-    opacity: 0;
-  }
-  &-enter-active,
-  &-leave-active {
-    position: absolute;
-    transition: all $duration;
-  }
-}
 </style>

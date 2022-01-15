@@ -9,7 +9,9 @@
     <div class="" style="height: 40px" @click="x = 10"></div>
     <RTab>
       <RTabItem title="Tab One" icon="bx-user">item1</RTabItem>
-      <RTabItem title="Tab Two" icon="bx-heart">
+      <RTabItem title="Tab 3" icon="bx-user">item3</RTabItem>
+      <RTabItem title="Tab 4" icon="bx-user">item4</RTabItem>
+      <RTabItem title="Tab Two Longer" icon="bx-heart">
         <div v-for="z in x" :key="z">item2</div>
       </RTabItem>
     </RTab>

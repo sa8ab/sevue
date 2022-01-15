@@ -101,7 +101,8 @@ $fxsmall: 0.74rem;
   align-items: center;
 }
 
-.overflow-x-scroll-bar {
+.overflow-x-scroll-bar,
+.scroll-bar {
   &::-webkit-scrollbar {
     height: 4px;
     width: 4px;
