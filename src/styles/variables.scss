@@ -1,0 +1,129 @@
+:root {
+  --rgb-prm: 0, 168, 255;
+  --r-prm: rgb(var(--rgb-prm));
+  --r-red: #eb3b5a;
+  --green: #26de81;
+  --yellow: #f79f1f;
+  --gray: #f9fafb;
+  --b1: #f6f6f6;
+  --b2: #ffffff;
+  --c1: #121212;
+  --c2: #1e1e1e;
+  --hover: #f2f2f2;
+  --radius: 6px;
+  --radius-2: 14px;
+  --rgb-b1: 246, 246, 246;
+  --rgb-b2: 255, 255, 255;
+  --rgb-c1: 18, 18, 18;
+  --rgb-c2: 30, 30, 30;
+
+  --active-text: #000000;
+  --deactive-text: gray;
+  --shadow: 0px 0px 6px 0px rgba(100, 100, 100, 0.2);
+
+  --popup-underlay-opacity: 0.2;
+}
+.dark {
+  --b1: #121212;
+  --b2: #1f1f1f;
+  --c1: #f6f6f6;
+  --c2: #ffffff;
+  --gray: #161b21;
+  --hover: #2f2f2f;
+  --rgb-b1: 18, 18, 18;
+  --rgb-b2: 30, 30, 30;
+  --rgb-c1: 246, 246, 246;
+  --rgb-c2: 255, 255, 255;
+  --prm-light: rgba(0, 151, 230, 0.2);
+  --btn-hover: rgba(0, 151, 230, 0.3);
+
+  --active-text: #ffffff;
+  --deactive-text: gray;
+
+  --popup-underlay-opacity: 0.5;
+}
+
+$b1: var(--b1);
+$b2-hover: var(--hover);
+$hover: var(--hover);
+$b2: var(--b2);
+$b1-darker: #d2d2d2;
+$c1: var(--c1);
+$c2: var(--c2);
+$rgb-b1: var(--rgb-b1);
+$rgb-b2: var(--rgb-b2);
+$rgb-c1: var(--rgb-c1);
+$rgb-c2: var(--rgb-c2);
+$duration: 0.3s;
+$active-text: var(--active-text);
+$deactive-text: var(--active-text);
+$prm: var(--r-prm);
+$rgb-prm: var(--rgb-prm);
+$prm-light: rgba($rgb-prm, 0.2);
+$btn-hover: rgba($rgb-prm, 0.3);
+$btn-border: rgba(0, 151, 230, 0.4);
+$red: #eb3b5a;
+$green: #26de81;
+$yellow: #f79f1f;
+$orange: #e67e22;
+$night: #353b48;
+$gray: var(--gray);
+$black: #222222;
+$cancel: #747d8c;
+$radius: 6px;
+$radius2: 16px;
+$shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.1);
+$shadow2: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+$shadow4: 0 5px 30px rgba(#444444, 0.1);
+$lowShadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+// $shadowprm: 0px 2px 6px 0px rgba($prm, 0.8);
+$borderColor: rgba($rgb-c1, 0.1);
+$border: 1px solid rgba($rgb-c1, 0.1);
+$popupUnderlay: rgba($black, var(--popup-underlay-opacity));
+
+$p: 4px;
+$p2: 8px;
+$p4: 14px;
+// $p5: 20px;
+$p6: 22px;
+// $p7: 28px;
+$p8: 38px;
+$bp: 8px 12px;
+
+$flarge: 1.18rem;
+$fxlarge: 1.25rem;
+$fsmall: 0.86rem;
+$fxsmall: 0.74rem;
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overflow-x-scroll-bar {
+  &::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+    display: block;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(gray, 0.3);
+    border-radius: 5px;
+  }
+}
+
+// ripple
+
+$transition: (
+  "fast-out-slow-in": cubic-bezier(0.4, 0, 0.2, 1),
+  "linear-out-slow-in": cubic-bezier(0, 0, 0.2, 1),
+  "fast-out-linear-in": cubic-bezier(0.4, 0, 1, 1),
+  "ease-in-out": cubic-bezier(0.4, 0, 0.6, 1),
+  "fast-in-fast-out": cubic-bezier(0.25, 0.8, 0.25, 1),
+  "swing": cubic-bezier(0.25, 0.8, 0.5, 1),
+) !default;
+$ripple-animation-transition-in: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+  opacity 0.1s cubic-bezier(0.4, 0, 0.2, 1) !default;
+$ripple-animation-transition-out: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) !default;
+$ripple-animation-visible-opacity: 0.15 !default;

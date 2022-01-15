@@ -1,15 +1,19 @@
 {
-  "name": "revux-test",
+  "name": "sevue",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "vue-cli-service serve dev/main.js",
+    "build": "vue-cli-service build --target lib --name sevue src/main.js",
     "lint": "vue-cli-service lint"
   },
+  "main": "./dist/sevue.common.js",
   "dependencies": {
+    "boxicons": "^2.1.1",
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-click-outside": "^1.1.0",
+    "vue-material-design-ripple": "^1.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -18,6 +22,9 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "node-sass": "^7.0.1",
+    "sass": "^1.32.8",
+    "sass-loader": "^10.1.1",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
