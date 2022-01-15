@@ -12,13 +12,13 @@
   --b2: #ffffff;
   --c1: #121212;
   --c2: #1e1e1e;
-  --hover: #f2f2f2;
   --r-radius: 6px;
   --r-radius-2: 14px;
   --rgb-b1: 246, 246, 246;
   --rgb-b2: 255, 255, 255;
   --rgb-c1: 18, 18, 18;
   --rgb-c2: 30, 30, 30;
+  --hover: rgba(30, 30, 30, 0.2);
 
   --active-text: #000000;
   --deactive-text: gray;
@@ -32,11 +32,11 @@
   --c1: #f6f6f6;
   --c2: #ffffff;
   --gray: #161b21;
-  --hover: #2f2f2f;
   --rgb-b1: 18, 18, 18;
   --rgb-b2: 30, 30, 30;
   --rgb-c1: 246, 246, 246;
   --rgb-c2: 255, 255, 255;
+  --hover: rgba(255, 255, 255, 0.2);
   --prm-light: rgba(0, 151, 230, 0.2);
   --btn-hover: rgba(0, 151, 230, 0.3);
 
@@ -65,9 +65,9 @@ $rgb-prm: var(--rgb-prm);
 $prm-light: rgba($rgb-prm, 0.2);
 $btn-hover: rgba($rgb-prm, 0.3);
 $btn-border: rgba(0, 151, 230, 0.4);
-$red: var(--rgb-red);
-$green: var(--rgb-green);
-$yellow: var(--rgb-yellow);
+$red: var(--r-red);
+$green: var(--r-green);
+$yellow: var(--r-yellow);
 $gray: var(--gray);
 $cancel: #747d8c;
 $radius: var(--r-radius);

@@ -295,6 +295,7 @@ export default {
   height: 30px;
   border-radius: 50%;
   overflow: hidden;
+  color: $c1;
   .bx {
     transition: all $duration;
   }

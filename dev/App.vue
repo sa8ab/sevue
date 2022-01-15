@@ -1,12 +1,18 @@
 <template>
-  <div id="app" class="dark">
+  <div id="app">
     <RButton @click="onClick">Test Component</RButton>
     <div class="" style="height: 40px"></div>
     <RSelect v-model="select" placeholder="Select An Option">
       <ROption :value="2" text="test 1" />
       <ROption :value="3" text="test 2" />
     </RSelect>
-    <div class="" style="height: 40px"></div>
+    <div class="" style="height: 40px" @click="x = 10"></div>
+    <RTab>
+      <RTabItem title="Tab One" icon="bx-user">item1</RTabItem>
+      <RTabItem title="Tab Two" icon="bx-heart">
+        <div v-for="z in x" :key="z">item2</div>
+      </RTabItem>
+    </RTab>
   </div>
 </template>
 
@@ -15,6 +21,7 @@ export default {
   name: "App",
   data: () => ({
     select: 0,
+    x: 4,
   }),
   methods: {
     onClick() {
@@ -27,8 +34,9 @@ export default {
 <style scoped lang="scss">
 #app {
   padding: $p8;
-  background: #323232;
-  color: white;
+  background: #f8f8f8;
+  // background: $b1;
+  color: $c1;
   min-height: 100vh;
 }
 </style>

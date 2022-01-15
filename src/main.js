@@ -1,6 +1,7 @@
-import { RSelect, ROption } from './components/select'
 import RButton from './components/button'
 import HeightTransition from './components/heightTransition'
+import { RSelect, ROption } from './components/select'
+import { RTab, RTabItem } from './components/tabs'
 
 
 // directives
@@ -24,6 +25,8 @@ export default {
     Vue.component('RButton', RButton)
     Vue.component('RSelect', RSelect)
     Vue.component('ROption', ROption)
+    Vue.component('RTab', RTab)
+    Vue.component('RTabItem', RTabItem)
     Vue.component('HeightTransition', HeightTransition)
 
     // directives
