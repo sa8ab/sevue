@@ -153,10 +153,10 @@ export default {
 <style scoped lang="scss">
 button {
   border: none;
-  font-family: "Sans", sans-serif;
   color: inherit;
   font-size: 1rem;
   cursor: pointer;
+  font-family: inherit;
 }
 .ripple-button {
   padding: 8px 12px;

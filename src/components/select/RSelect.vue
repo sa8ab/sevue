@@ -280,7 +280,7 @@ export default {
   border: none;
   background: transparent;
   font-size: 1rem;
-  font-family: "Sans";
+  font-family: inherit;
   color: $c1;
   padding: 6px;
   white-space: nowrap;
@@ -318,7 +318,7 @@ export default {
 .select-dropdown {
   position: absolute;
   background: $b2;
-  border-radius: $radius * 2;
+  border-radius: $radius;
   overflow: hidden;
   overflow-y: auto;
   box-shadow: $shadow2;
