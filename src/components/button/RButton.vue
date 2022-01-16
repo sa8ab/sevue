@@ -14,6 +14,7 @@
         disabled,
         noColor,
         icon,
+        round,
         iconOnly,
         iconOnlyAlt,
         iconLarge,
@@ -80,6 +81,10 @@ export default {
       type: String,
     },
     noColor: {
+      default: false,
+      type: Boolean,
+    },
+    round: {
       default: false,
       type: Boolean,
     },
@@ -150,7 +155,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 button {
   border: none;
   color: inherit;
@@ -166,6 +171,9 @@ button {
   transition: all 0.3s;
   display: inline-block;
   user-select: none;
+}
+.ripple-button.round {
+  border-radius: 50%;
 }
 // .bx {
 //   margin: 0 2px;

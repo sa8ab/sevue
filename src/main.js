@@ -13,6 +13,9 @@ import stickTo from './directives/stickTo'
 // helpers
 import { setOptions, getColor } from '@/helpers'
 
+// functions
+import notification from './components/notification/function'
+
 // styles
 import './styles/index.scss'
 import "boxicons/css/boxicons.min.css";
@@ -44,5 +47,7 @@ export default {
     // rootFunctions
     Vue.prototype.$r = {}
     Vue.prototype.$r.getColor = getColor
+    Vue.prototype.$r.notify = notification
+
   }
 }

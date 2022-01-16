@@ -206,7 +206,7 @@ $duration: $duration * 1.5;
   }
 }
 .r-tab-item {
-  padding: $p;
+  padding: $p2;
 }
 .forward {
   &-enter {
