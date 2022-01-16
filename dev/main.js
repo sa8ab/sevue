@@ -6,7 +6,7 @@ Vue.config.productionTip = false
 Vue.use(Revux, {
   theme: {
     colors: {
-      prm: '102, 0, 0'
+      prm: '0, 151, 230'
     }
   }
 })

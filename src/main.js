@@ -11,7 +11,7 @@ import appendToBody from './directives/appendToBody'
 import stickTo from './directives/stickTo'
 
 // helpers
-import { setOptions } from '@/helpers'
+import { setOptions, getColor } from '@/helpers'
 
 // styles
 import './styles/index.scss'
@@ -40,5 +40,9 @@ export default {
     Vue.directive('ClickOutside', clickOutside)
     Vue.directive('appendToBody', appendToBody)
     Vue.directive('stickTo', stickTo)
+
+    // rootFunctions
+    Vue.prototype.$r = {}
+    Vue.prototype.$r.getColor = getColor
   }
 }

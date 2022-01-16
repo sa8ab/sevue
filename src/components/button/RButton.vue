@@ -12,7 +12,6 @@
         link,
         cancel: cancel || disabled,
         disabled,
-        red,
         noColor,
         icon,
         iconOnly,
@@ -23,6 +22,7 @@
     ]"
     :disabled="disabled"
     v-ripple="{ class: 'ripple-effect' }"
+    :style="{ '--rgb-prm': $r.getColor(color) }"
   >
     <div class="inner">
       <i :class="['bx', icon]"></i>
@@ -75,9 +75,9 @@ export default {
       default: false,
       type: Boolean,
     },
-    red: {
-      default: false,
-      type: Boolean,
+    color: {
+      default: "",
+      type: String,
     },
     noColor: {
       default: false,
@@ -161,8 +161,8 @@ button {
 .ripple-button {
   padding: 8px 12px;
   border-radius: $radius;
-  color: $prm;
-  background: $prm-light;
+  color: color();
+  background: color("prm", $lightA);
   transition: all 0.3s;
   display: inline-block;
   user-select: none;
@@ -202,7 +202,7 @@ button {
   }
 }
 .ripple-button.fill:hover {
-  background: rgba($rgb-prm, 0.8);
+  background: color("prm", 0.8);
 }
 .ripple-button.cancel {
   color: $cancel;
@@ -214,16 +214,16 @@ button {
     background: rgba($cancel, 0.4);
   }
 }
-.ripple-button.red {
-  color: $red;
-  background: rgba($red, 0.2);
-  &.flat {
-    background: transparent;
-  }
-  &:hover {
-    background: rgba($red, 0.3);
-  }
-}
+// .ripple-button.red {
+//   color: $red;
+//   background: rgba($red, 0.2);
+//   &.flat {
+//     background: transparent;
+//   }
+//   &:hover {
+//     background: rgba($red, 0.3);
+//   }
+// }
 .ripple-button.noColor {
   color: $c1;
   background: transparent;

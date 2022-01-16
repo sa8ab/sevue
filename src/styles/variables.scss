@@ -60,10 +60,12 @@ $rgb-c2: var(--rgb-c2);
 $duration: 0.3s;
 $active-text: var(--active-text);
 $deactive-text: var(--active-text);
-$prm: var(--r-prm);
-$rgb-prm: var(--rgb-prm);
-$prm-light: rgba($rgb-prm, 0.2);
-$btn-hover: rgba($rgb-prm, 0.3);
+$prm: var(--r-prm); // unused
+$rgb-prm: var(--rgb-prm); // unused
+$lightA: 0.2;
+$hoverA: 0.3;
+$prm-light: rgba($rgb-prm, $lightA);
+$btn-hover: rgba($rgb-prm, $hoverA);
 $btn-border: rgba(0, 151, 230, 0.4);
 $red: var(--r-red);
 $green: var(--r-green);
@@ -94,6 +96,10 @@ $flarge: 1.18rem;
 $fxlarge: 1.25rem;
 $fsmall: 0.86rem;
 $fxsmall: 0.74rem;
+
+@function color($color: "prm", $alpha: 1) {
+  @return rgba(var(--rgb-#{$color}), $alpha);
+}
 
 .flexCenter {
   display: flex;

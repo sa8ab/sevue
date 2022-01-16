@@ -1,5 +1,8 @@
 <template>
-  <div :class="['r-tab', { fit, bordered, iconOnly, scrollable, moverFull }]">
+  <div
+    :class="['r-tab', { fit, bordered, iconOnly, scrollable, moverFull }]"
+    :style="{ '--rgb-prm': $r.getColor(color) }"
+  >
     <!-- tabbar -->
     <div class="tabbar" ref="tabbar">
       <div
@@ -39,6 +42,7 @@ export default {
     iconOnly: { default: false, type: Boolean },
     scrollable: { default: false, type: Boolean },
     moverFull: { default: false, type: Boolean },
+    color: { default: "", type: String },
   },
   data: () => ({
     activeTab: "",
@@ -141,8 +145,8 @@ $duration: $duration * 1.5;
       font-size: $fsmall;
     }
     &.active {
-      color: $prm;
-      background: $prm-light;
+      color: color("prm");
+      background: color("prm", $lightA);
     }
   }
   .mover {
@@ -150,7 +154,7 @@ $duration: $duration * 1.5;
     bottom: 0;
     height: 2px;
     border-radius: 2px;
-    background: $prm;
+    background: color("prm");
     transition: width $duration, left $duration;
   }
   .tabs-container {
@@ -189,7 +193,6 @@ $duration: $duration * 1.5;
     .mover {
       height: 100%;
       z-index: 0;
-      background: $prm;
     }
     .tab-button {
       position: relative !important;

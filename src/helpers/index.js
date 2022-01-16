@@ -36,3 +36,27 @@ export const setOptions = (vue, options) => {
         }
     })
 }
+
+const hexToRgb = hex =>
+    hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
+        , (m, r, g, b) => '#' + r + r + g + g + b + b)
+        .substring(1).match(/.{2}/g)
+        .map(x => parseInt(x, 16))
+
+export const getColor = (color) => {
+    const presetColors = ['red', 'yellow', 'prm', 'green']
+    const isRGB = /^(rgb|rgba)/.test(color)
+    const isHEX = color.startsWith('#')
+    const isPreset = presetColors.includes(color)
+    if (isRGB) {
+        const [r, g, b] = color.replace(/[rgba()]/g, '').split(',')
+        return `${r}, ${g}, ${b}`
+    } else if (isHEX) {
+        const [r, g, b] = hexToRgb(color)
+        return `${r}, ${g}, ${b}`
+    } else if (isPreset) {
+        if (typeof window === 'undefined') return ''
+        const style = window.getComputedStyle(document.body)
+        return style.getPropertyValue('--rgb-' + color)
+    }
+}
