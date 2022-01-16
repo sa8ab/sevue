@@ -17,8 +17,13 @@ import { setOptions } from '@/helpers'
 import './styles/index.scss'
 import "boxicons/css/boxicons.min.css";
 
+const defaultOptions = {
+  ripple: true,
+  theme: {}
+}
 export default {
-  install: (Vue, options = {}) => {
+  install: (Vue, userOptions) => {
+    const options = { ...defaultOptions, ...userOptions }
 
     setOptions(Vue, options)
 
@@ -30,7 +35,8 @@ export default {
     Vue.component('HeightTransition', HeightTransition)
 
     // directives
-    Vue.directive("ripple", Ripple);
+    const hasRipple = options.ripple
+    Vue.directive("ripple", hasRipple ? Ripple : {});
     Vue.directive('ClickOutside', clickOutside)
     Vue.directive('appendToBody', appendToBody)
     Vue.directive('stickTo', stickTo)

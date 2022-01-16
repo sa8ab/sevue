@@ -6,8 +6,8 @@
       <ROption :value="2" text="test 1" />
       <ROption :value="3" text="test 2" />
     </RSelect>
-    <div class="" style="height: 40px" @click="x = 10"></div>
-    <RTab bordered moverFull scrollable fit>
+    <div class="" style="height: 40px" @click="moveTabs"></div>
+    <RTab bordered moverFull scrollable fit ref="tabs">
       <RTabItem title="Tab One" icon="bx-user">item1</RTabItem>
       <RTabItem title="Tab 3" icon="bx-user">item3</RTabItem>
       <RTabItem title="Tab 4" icon="bx-user">item4</RTabItem>
@@ -28,6 +28,9 @@ export default {
   methods: {
     onClick() {
       console.log("clicked");
+    },
+    moveTabs() {
+      this.$refs.tabs.setActiveTab("Tab 4");
     },
   },
 };
