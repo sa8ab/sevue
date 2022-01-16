@@ -2,7 +2,7 @@
   <div id="app">
     <RButton @click="onClick">Test Component</RButton>
     <div class="" style="height: 40px"></div>
-    <RSelect v-model="select" placeholder="Select An Option">
+    <RSelect v-model="select" placeholder="Select An Option" color="red">
       <ROption :value="2" text="test 1" />
       <ROption :value="3" text="test 2" />
     </RSelect>

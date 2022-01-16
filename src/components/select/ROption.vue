@@ -6,6 +6,7 @@
       v-if="visible"
       v-ripple
       tabindex="-1"
+      :style="{ '--rgb-prm': $r.getColor(select().color) }"
     >
       <div class="padding">
         <slot> {{ text }} </slot>
@@ -94,7 +95,7 @@ export default {
   }
   &.focused {
     background: $hover;
-    outline: 1px dashed $prm;
+    outline: 1px dashed color();
   }
   &.disabled {
     opacity: 0.6;
@@ -102,7 +103,7 @@ export default {
   }
 }
 .active {
-  color: $prm;
-  background: $prm-light !important;
+  color: color();
+  background: color("prm", $lightA) !important;
 }
 </style>

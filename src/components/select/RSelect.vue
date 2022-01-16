@@ -1,5 +1,10 @@
 <template>
-  <div class="r-select" v-click-outside="close" tabindex="-1">
+  <div
+    class="r-select"
+    v-click-outside="close"
+    tabindex="-1"
+    :style="{ '--rgb-prm': $r.getColor(color) }"
+  >
     <div :class="['trigger', { red, focused: active, disabled }]">
       <label for="" class="label">{{ label }}</label>
       <div class="input-container" ref="toggle">
@@ -59,6 +64,7 @@ export default {
     red: { type: Boolean },
     disabled: { type: Boolean },
     label: { type: String },
+    color: { type: String },
   },
   data: () => ({
     search: "",
@@ -230,89 +236,82 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.trigger {
-  &.focused {
-    .icon,
-    .label {
-      color: $prm;
+<style lang="scss">
+.r-select {
+  .trigger {
+    &.focused {
+      .icon,
+      .label {
+        color: color();
+      }
+      .input-container {
+        border: 1px solid color();
+        box-shadow: $shadow;
+      }
     }
-    .input-container {
-      border: 1px solid $prm;
-      box-shadow: $shadow;
-    }
-  }
-  &.red {
-    .icon,
-    .label {
-      color: $red;
-    }
-    .input-container {
-      border: 1px solid $red;
+    &.disabled {
+      opacity: 0.8;
     }
   }
-  &.disabled {
-    opacity: 0.8;
-  }
-}
 
-.input-container {
-  background: $b1;
-  border-radius: $radius;
-  display: flex;
-  align-items: center;
-  border: 1px solid $b1;
-  transition: border $duration;
-  overflow: hidden;
-}
-.label,
-.description {
-  padding: 2px;
-  display: flex;
-  font-size: 0.86rem;
-}
-.title {
-  display: flex;
-  align-items: center;
-}
-.input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  font-size: 1rem;
-  font-family: inherit;
-  color: $c1;
-  padding: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.dropdown-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  overflow: hidden;
-  color: $c1;
-  .bx {
-    transition: all $duration;
+  .input-container {
+    background: $b1;
+    border-radius: $radius;
+    display: flex;
+    align-items: center;
+    border: 1px solid $b1;
+    transition: border $duration;
+    overflow: hidden;
   }
-  .rotate {
-    transform: rotate(180deg);
+  .label,
+  .description {
+    padding: 2px;
+    display: flex;
+    font-size: 0.86rem;
   }
-}
-.isAnyItemSelected {
-  &::placeholder {
+  .title {
+    display: flex;
+    align-items: center;
+  }
+  .input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    font-family: inherit;
     color: $c1;
+    padding: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-}
-.noOptions {
-  padding: $p2;
-}
-.noInput {
-  cursor: pointer;
+  .dropdown-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    color: $c1;
+    .bx {
+      transition: all $duration;
+    }
+    .rotate {
+      transform: rotate(180deg);
+    }
+  }
+  .isAnyItemSelected {
+    &::placeholder {
+      color: $c1;
+    }
+  }
+  .noOptions {
+    padding: $p2;
+  }
+  .noInput {
+    cursor: pointer;
+  }
 }
 </style>
 <style lang="scss">
