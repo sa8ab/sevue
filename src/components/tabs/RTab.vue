@@ -197,8 +197,8 @@ $duration: $duration * 1.5;
     .tab-button {
       position: relative !important;
       z-index: 2;
-      transition-delay: $duration / 2;
       &.active {
+        transition-delay: $duration / 2;
         color: white;
         background: transparent;
       }
