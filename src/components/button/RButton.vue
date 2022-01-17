@@ -195,15 +195,15 @@ button {
   background: transparent;
 }
 .ripple-button.bordered {
-  border: 1px solid $btn-border;
+  border: 1px solid color("prm", 0.8);
 }
 .ripple-button.fill {
-  background: $prm;
+  background: color();
   color: white;
 }
 .ripple-button.link {
   background: transparent;
-  color: $prm;
+  color: color();
   padding: 0px 8px;
   &::v-deep {
     .ripple-effect {

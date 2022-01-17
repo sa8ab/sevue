@@ -9,20 +9,8 @@ features:
   - Feature 3
 ---
 
-<img src="/preview.png" class="light-img" width="1280" height="640" alt=""/>
-<img src="/preview-dark.png" class="dark-img" width="1280" height="640" alt=""/>
-
-[Module]() for [NuxtJS](https://nuxtjs.org).
-
-<div>
-
-<alert type="success">
-
-<RButton icon="bx-star" fill>Here</RButton>
-
-</alert>
-
-</div>
+<!-- <img src="/preview.png" class="light-img" width="1280" height="640" alt=""/>
+<img src="/preview-dark.png" class="dark-img" width="1280" height="640" alt=""/> -->
 
 <alert type="success">
 

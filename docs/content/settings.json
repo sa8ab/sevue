@@ -2,8 +2,8 @@
   "title": "Sevue Docs",
   "url": "",
   "logo": {
-    "light": "/logo-light.svg",
-    "dark": "/logo-dark.svg"
+    "light": "/sevue.png",
+    "dark": "/sevue.png"
   },
   "github": "sa8ab/sevue",
   "twitter": "saeed8ab"

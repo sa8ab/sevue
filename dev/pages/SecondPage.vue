@@ -26,7 +26,6 @@ export default {
 <style scoped lang="scss">
 .checkboxes {
   display: flex;
-  flex-direction: column;
   gap: 10px;
 }
 </style>

@@ -6,6 +6,18 @@
 button:focus {
   outline: none;
 }
+article {
+  button,
+  a {
+    line-height: 1rem;
+    text-decoration: none !important;
+  }
+}
 img {
   border: none;
+}
+.scrollactive-nav {
+  li {
+    border: none;
+  }
 }
