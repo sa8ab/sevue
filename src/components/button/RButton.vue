@@ -123,13 +123,20 @@ export default {
     isButton() {
       return !this.isAnchor && !this.isLink;
     },
+    isNuxt() {
+      return !!this.$nuxt;
+    },
     renderComponent() {
-      return this.isLink ? "nuxt-link" : this.isAnchor ? "a" : "button";
+      return this.isLink
+        ? `${this.isNuxt ? "nuxt" : "router"}-link`
+        : this.isAnchor
+        ? "a"
+        : "button";
     },
     specificProps() {
       if (this.isLink) {
         return {
-          to: this.localeRoute(this.to),
+          to: this.to,
           exact: this.exact,
         };
       } else if (this.isAnchor) {
