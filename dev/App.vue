@@ -1,6 +1,6 @@
 <template>
   <div id="app" :class="{ dark }">
-    <RButton @click="onClick">Toggle Dark</RButton>
+    <RButton @click="onClick" icon="bx-user">Toggle Dark</RButton>
     <div class="" style="height: 40px"></div>
     <div class="select-container">
       <RSelect v-model="select" placeholder="Select An Option" color="red">
@@ -19,7 +19,7 @@
         </RTabItem>
       </RTab>
     </div>
-    <div class="" style="height: 40px"></div>
+    <div class="" style="height: 30px"></div>
     <div class="buttons">
       <RButton
         @click="notify('bottom-right', 'red')"
@@ -110,6 +110,9 @@ export default {
   background: $b1;
   color: $c1;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .select-container {
   width: 400px;

@@ -26,7 +26,7 @@
     :style="{ '--rgb-prm': $r.getColor(color) }"
   >
     <div class="inner">
-      <i :class="['bx', icon]"></i>
+      <i :class="[$r.iconPrefix, icon]"></i>
       <div class="icon-space" v-if="icon"></div>
       <slot></slot>
     </div>

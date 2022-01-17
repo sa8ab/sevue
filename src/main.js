@@ -18,10 +18,10 @@ import notification from './components/notification/function'
 
 // styles
 import './styles/index.scss'
-import "boxicons/css/boxicons.min.css";
 
 const defaultOptions = {
   ripple: true,
+  iconPrefix: 'bx',
   theme: {}
 }
 export default {
@@ -46,6 +46,7 @@ export default {
 
     // rootFunctions
     Vue.prototype.$r = {}
+    Vue.prototype.$r.iconPrefix = options.iconPrefix
     Vue.prototype.$r.getColor = getColor
     Vue.prototype.$r.notify = notification
 
