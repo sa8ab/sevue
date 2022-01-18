@@ -255,11 +255,11 @@ export default {
   }
 
   .input-container {
-    background: $b1;
+    background: color("b1");
     border-radius: $radius;
     display: flex;
     align-items: center;
-    border: 1px solid $b1;
+    border: 1px solid color("b1");
     transition: border $duration;
     overflow: hidden;
   }
@@ -317,7 +317,8 @@ export default {
 <style lang="scss">
 .select-dropdown {
   position: absolute;
-  background: $b2;
+  background: color("b2");
+  color: color("text");
   border-radius: $radius;
   overflow: hidden;
   overflow-y: auto;

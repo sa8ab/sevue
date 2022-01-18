@@ -78,12 +78,12 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .r-select-item {
   width: 100%;
   font-size: $fsmall;
   margin-bottom: $p / 2;
-  padding: 0;
+  padding: 0 !important;
   .padding {
     padding: $bp;
   }

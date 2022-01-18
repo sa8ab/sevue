@@ -246,13 +246,13 @@ button {
 //   }
 // }
 .r-button.noColor {
-  color: inherit;
+  color: inherit !important;
   background: transparent;
   &.flat {
     background: transparent;
   }
   &.fill {
-    background: $b2;
+    background: color("b2");
   }
   &:hover {
     background: color("text", $lightA);

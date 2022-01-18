@@ -14,7 +14,7 @@ export default {
 #app {
   padding: $p8;
   background: #f8f8f8;
-  background: $b1;
+  background: color("b1");
   color: color("text");
   min-height: 100vh;
   display: flex;

@@ -14,10 +14,16 @@
       icon="bx-bell"
     >
     </RButton>
-    <RButton @click="onClick">
-      Toggle Dark
+    <RButton @click="$r.setDark(true)" fill>
+      Set Dark
       <template #icon>
-        <i class="bx bx-user"> </i>
+        <i class="bx bx-moon"> </i>
+      </template>
+    </RButton>
+    <RButton @click="$r.setDark(false)" fill>
+      Set Light
+      <template #icon>
+        <i class="bx bx-sun"> </i>
       </template>
     </RButton>
     <RButton icon="bx-user" to="/second">Second Page</RButton>
@@ -138,7 +144,7 @@ export default {
 }
 .select-container {
   width: 400px;
-  background: $b2;
+  background: color("b2");
   padding: $p4;
   border-radius: $radius2;
 }

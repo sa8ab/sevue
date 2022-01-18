@@ -44,10 +44,10 @@
   --popup-underlay-opacity: 0.5;
 }
 
-$b1: var(--b1);
+$b1: color("b1");
 $b2-hover: var(--hover);
 $hover: var(--hover);
-$b2: var(--b2);
+$b2: color("b2");
 $b1-darker: #d2d2d2;
 $text: rgb(var(--rgb-text));
 $rgb-b1: var(--rgb-b1);

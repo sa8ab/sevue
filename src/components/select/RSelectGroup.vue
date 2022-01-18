@@ -36,7 +36,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .r-select-group {
   .title {
     padding: $p;
