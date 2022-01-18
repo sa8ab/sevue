@@ -101,9 +101,9 @@ export default {
     opacity: 0.6;
     pointer-events: none;
   }
-}
-.active {
-  color: color();
-  background: color("prm", $lightA) !important;
+  &.active {
+    color: color();
+    background: color("prm", $lightA) !important;
+  }
 }
 </style>

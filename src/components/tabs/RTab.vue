@@ -8,7 +8,7 @@
       <div
         v-for="({ title, icon }, i) in tabs"
         :key="i"
-        :class="['tab-button r', { active: activeTab === title }]"
+        :class="['tab-button r', { tabactive: activeTab === title }]"
         :icon="icon"
         ref="tabBarItems"
         @click="setActiveTab(title)"
@@ -147,7 +147,7 @@ $duration: $duration * 1.5;
     .title {
       font-size: $fsmall;
     }
-    &.active {
+    &.tabactive {
       color: color("prm");
       background: color("prm", $lightA);
     }
@@ -200,7 +200,7 @@ $duration: $duration * 1.5;
     .tab-button {
       position: relative !important;
       z-index: 2;
-      &.active {
+      &.tabactive {
         transition-delay: $duration / 2;
         color: white;
         background: transparent;

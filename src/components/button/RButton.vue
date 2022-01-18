@@ -265,38 +265,40 @@ button {
   background: $btn-hover;
 }
 
-.inner {
+.r-button .inner {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.iconAfter {
-  .inner {
-    flex-direction: row-reverse;
+.r-button {
+  &.iconAfter {
+    .inner {
+      flex-direction: row-reverse;
+    }
   }
-}
-.iconOnly,
-.iconOnlyAlt {
-  width: 32px;
-  height: 32px;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  .icon {
-    margin: 0;
+  &.iconOnly,
+  &.iconOnlyAlt {
+    width: 32px;
+    height: 32px;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    .icon {
+      margin: 0;
+    }
+    .icon-space {
+      width: 0;
+    }
+    .icon {
+      line-height: 0 !important;
+    }
   }
-  .icon-space {
-    width: 0;
+  &.noPadding {
+    padding: 0;
   }
-  .icon {
-    line-height: 0 !important;
+  &.iconOnlyAlt {
+    width: 36px;
+    height: 36px;
   }
-}
-.r-button.noPadding {
-  padding: 0;
-}
-.iconOnlyAlt {
-  width: 36px;
-  height: 36px;
 }
 </style>

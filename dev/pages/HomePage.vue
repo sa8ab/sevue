@@ -36,7 +36,7 @@
     </div>
     <div class="" style="height: 40px"></div>
     <div class="tabs-container">
-      <RTab bordered ref="tabs" color="red">
+      <RTab bordered iconOnly ref="tabs" color="red">
         <template #icon-0> <i class="bx bx-star"></i></template>
         <RTabItem title="Tab One" icon="bx-user">item1</RTabItem>
         <RTabItem title="Tab 3" icon="bx-user"
