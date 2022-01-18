@@ -132,6 +132,7 @@ export default {
 $duration: $duration * 1.5;
 .r-tab {
   color: color("text");
+  min-width: 100%;
   .tabbar {
     display: flex;
     position: relative;
@@ -227,6 +228,7 @@ $duration: $duration * 1.5;
   &-enter-active,
   &-leave-active {
     position: absolute;
+    width: 100%;
     transition: all $duration;
   }
 }
@@ -246,6 +248,7 @@ $duration: $duration * 1.5;
   &-enter-active,
   &-leave-active {
     position: absolute;
+    width: 100%;
     transition: all $duration;
   }
 }

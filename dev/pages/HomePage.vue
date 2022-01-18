@@ -1,5 +1,5 @@
 <template>
-  <div class="home-page">
+  <div class="page">
     <RButton
       @click="
         $r.notification({
@@ -10,7 +10,7 @@
           duration: 200000,
         })
       "
-      iconOnly
+      iconOnlyAlt
       icon="bx-bell"
     >
     </RButton>
@@ -30,7 +30,7 @@
     </div>
     <div class="" style="height: 40px"></div>
     <div class="tabs-container">
-      <RTab bordered ref="tabs" color="yellow">
+      <RTab bordered ref="tabs" color="red">
         <template #icon-0> <i class="bx bx-star"></i></template>
         <RTabItem title="Tab One" icon="bx-user">item1</RTabItem>
         <RTabItem title="Tab 3" icon="bx-user"
@@ -38,7 +38,10 @@
         ></RTabItem>
         <RTabItem title="Tab 4" icon="bx-user">item4</RTabItem>
         <RTabItem title="Tab Two Longer" icon="bx-heart">
-          <div v-for="z in x" :key="z">item2</div>
+          <div v-for="z in x" :key="z">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum,
+            rerum.
+          </div>
         </RTabItem>
       </RTab>
     </div>
@@ -100,9 +103,7 @@
 </template>
 
 <script>
-import CloseIcon from "../../src/components/icons/CloseIcon.vue";
 export default {
-  components: { CloseIcon },
   name: "HomePage",
   data: () => ({
     select: 0,
@@ -130,6 +131,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .select-container {
   width: 400px;
   background: $b2;
@@ -138,6 +144,7 @@ export default {
 }
 .tabs-container {
   display: flex;
+  width: 600px;
 }
 .r-tl {
   &::v-deep {

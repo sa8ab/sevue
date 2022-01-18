@@ -124,9 +124,10 @@ methods: {
 </code-group>
 </demo>
 
-## Color
+## Color & Text Color
 
-You can change the color of the notification using `color` property. Available values are `prm`, `red`, `green`, `yellow`, `HEX` or `RGB`/`RGBA` values.
+You can change the color or the text color of the notification using `color`/`textColor` properties. Available values are `prm`, `red`, `green`, `yellow`, `HEX` or `RGB`/`RGBA` values.
+`textColor` defaults to white (#fff).
 
 <demo>
 <template #demo>

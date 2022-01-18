@@ -1,9 +1,7 @@
 <template>
   <div :class="['demo', { active }]">
     <div class="view">
-      <div>
-        <slot name="demo"></slot>
-      </div>
+      <slot name="demo"></slot>
     </div>
     <div class="actions">
       <RButton
