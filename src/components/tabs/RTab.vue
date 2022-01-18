@@ -14,7 +14,9 @@
         @click="setActiveTab(title)"
         v-ripple
       >
-        <i :class="['bx', icon]" v-if="icon"></i>
+        <slot :name="`icon-${i}`">
+          <i :class="['bx', icon]" v-if="icon"></i>
+        </slot>
         <span class="title" v-if="!iconOnly">
           {{ title }}
         </span>
@@ -98,6 +100,7 @@ export default {
     },
     setChildren() {
       this.children = this.getSlot().filter((item) => item.tag);
+      console.log(this.children);
     },
     setHeight(height) {
       this.height = height;

@@ -1,6 +1,11 @@
 <template>
   <div class="home-page">
-    <RButton @click="onClick" icon="bx-user">Toggle Dark</RButton>
+    <RButton @click="onClick">
+      Toggle Dark
+      <template #icon>
+        <i class="bx bx-user"> </i>
+      </template>
+    </RButton>
     <RButton icon="bx-user" to="/second">Second Page</RButton>
     <div class="" style="height: 40px"></div>
     <div class="select-container">
@@ -12,8 +17,11 @@
     <div class="" style="height: 40px"></div>
     <div class="tabs-container">
       <RTab bordered ref="tabs" color="yellow">
+        <template #icon-0> <i class="bx bx-star"></i></template>
         <RTabItem title="Tab One" icon="bx-user">item1</RTabItem>
-        <RTabItem title="Tab 3" icon="bx-user">item3</RTabItem>
+        <RTabItem title="Tab 3" icon="bx-user"
+          >item3 <template #icon> <i class="bx bx-star"></i></template
+        ></RTabItem>
         <RTabItem title="Tab 4" icon="bx-user">item4</RTabItem>
         <RTabItem title="Tab Two Longer" icon="bx-heart">
           <div v-for="z in x" :key="z">item2</div>
