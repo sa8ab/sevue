@@ -238,7 +238,6 @@ export default {
 
 <style lang="scss">
 .r-select {
-  color: color("text");
   .trigger {
     &.focused {
       .icon,
@@ -280,7 +279,7 @@ export default {
     background: transparent;
     font-size: 1rem;
     font-family: inherit;
-    color: $text;
+    color: inherit;
     padding: 6px;
     white-space: nowrap;
     overflow: hidden;
@@ -294,7 +293,7 @@ export default {
     height: 30px;
     border-radius: 50%;
     overflow: hidden;
-    color: $text;
+    color: inherit;
     .bx {
       transition: all $duration;
     }
@@ -304,7 +303,7 @@ export default {
   }
   .isAnyItemSelected {
     &::placeholder {
-      color: $text;
+      color: inherit;
     }
   }
   .noOptions {
@@ -317,7 +316,6 @@ export default {
 </style>
 <style lang="scss">
 .select-dropdown {
-  color: color("text");
   position: absolute;
   background: $b2;
   border-radius: $radius;

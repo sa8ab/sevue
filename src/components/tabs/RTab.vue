@@ -131,7 +131,6 @@ export default {
 <style lang="scss">
 $duration: $duration * 1.5;
 .r-tab {
-  color: color("text");
   min-width: 100%;
   .tabbar {
     display: flex;

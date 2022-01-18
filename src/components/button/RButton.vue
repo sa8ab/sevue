@@ -205,7 +205,7 @@ button {
 }
 .r-button.fill {
   background: color();
-  color: white;
+  color: white !important;
 }
 .r-button.link {
   background: transparent;
@@ -246,7 +246,7 @@ button {
 //   }
 // }
 .r-button.noColor {
-  color: $text;
+  color: inherit;
   background: transparent;
   &.flat {
     background: transparent;

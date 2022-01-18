@@ -15,7 +15,7 @@ export default {
   padding: $p8;
   background: #f8f8f8;
   background: $b1;
-  color: $text;
+  color: color("text");
   min-height: 100vh;
   display: flex;
   flex-direction: column;
