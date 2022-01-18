@@ -19,6 +19,7 @@
         iconOnlyAlt,
         iconLarge,
         iconAfter,
+        noPadding,
       },
     ]"
     :disabled="disabled"
@@ -27,7 +28,7 @@
   >
     <div class="inner">
       <slot name="icon">
-        <i :class="[$r.iconPrefix, icon]"></i>
+        <i :class="['icon', $r.iconPrefix, icon]" v-if="icon"></i>
       </slot>
       <div class="icon-space" v-if="icon || $slots.icon"></div>
       <slot></slot>
@@ -160,6 +161,9 @@ export default {
       }
       return {};
     },
+    noPadding() {
+      return this.$slots.icon && (this.iconOnly || this.iconOnlyAlt);
+    },
   },
 };
 </script>
@@ -184,11 +188,11 @@ button {
 .ripple-button.round {
   border-radius: 50%;
 }
-// .bx {
-//   margin: 0 2px;
-// }
 .icon-space {
   width: $p2;
+}
+.icon {
+  line-height: 0 !important;
 }
 .iconLarge .bx {
   font-size: 1.5rem;
@@ -278,9 +282,15 @@ button {
   // display: flex;
   // justify-content: center;
   // align-items: center;
-  .bx {
+  .icon {
     margin: 0;
   }
+  .icon-space {
+    width: 0;
+  }
+}
+.ripple-button.noPadding {
+  padding: 0;
 }
 .iconOnlyAlt {
   width: 36px;

@@ -1,5 +1,10 @@
 <template>
   <div class="home-page">
+    <RButton fill iconOnly icon="bx-check" iconLarge>
+      <!-- <template #icon>
+        <close-icon />
+      </template> -->
+    </RButton>
     <RButton @click="onClick">
       Toggle Dark
       <template #icon>
@@ -86,7 +91,9 @@
 </template>
 
 <script>
+import CloseIcon from "../../src/components/icons/CloseIcon.vue";
 export default {
+  components: { CloseIcon },
   name: "HomePage",
   data: () => ({
     select: 0,
@@ -101,7 +108,7 @@ export default {
       this.$refs.tabs.setActiveTab("Tab 4");
     },
     notify(placement, color) {
-      this.$r.notify({
+      this.$r.notification({
         title: placement,
         text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam, iusto!",
         color,

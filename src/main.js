@@ -50,7 +50,7 @@ export default {
     Vue.prototype.$r = {}
     Vue.prototype.$r.iconPrefix = options.iconPrefix
     Vue.prototype.$r.getColor = getColor
-    Vue.prototype.$r.notify = notification
+    Vue.prototype.$r.notification = notification
 
   }
 }

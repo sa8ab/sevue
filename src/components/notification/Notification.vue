@@ -8,27 +8,34 @@
     <div
       v-if="active"
       :class="['r-notification']"
-      :style="{ '--rgb-prm': $r.getColor(color) }"
+      :style="{ '--rgb-prm': getColor(color) }"
     >
       <div class="notification-inner">
         <div class="title">{{ title }}</div>
         <p class="text">{{ text }}</p>
         <RButton
           @click="active = false"
-          icon="bx-x"
           class="close"
           color="#ffffff"
           iconOnly
           round
           flat
-        ></RButton>
+        >
+          <template #icon>
+            <CloseIcon />
+          </template>
+        </RButton>
       </div>
     </div>
   </transition>
 </template>
 
 <script>
+import { getColor } from "@/helpers";
+import RButton from "../button/RButton.vue";
+import CloseIcon from "../icons/CloseIcon.vue";
 export default {
+  components: { RButton, CloseIcon },
   name: "Notification",
   props: {
     title: { default: "", type: String },
@@ -40,12 +47,15 @@ export default {
     active: false,
   }),
   mounted() {
-    this.active = true;
-    setTimeout(() => {
-      this.active = false;
-    }, 4000);
+    this.$nextTick(() => {
+      this.active = true;
+      setTimeout(() => {
+        this.active = false;
+      }, 40000);
+    });
   },
   methods: {
+    getColor,
     beforeEnter(el) {
       el.style.height = 0;
       el.style.paddingBottom = "6px";
