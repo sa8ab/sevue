@@ -5,6 +5,7 @@
   box-sizing: border-box;
   border: none;
   outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 body {
   color: $c1;
