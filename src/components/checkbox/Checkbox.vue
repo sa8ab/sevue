@@ -68,6 +68,7 @@ export default {
 
 <style lang="scss">
 .r-cb {
+  color: color("text");
   user-select: none;
   position: relative;
   cursor: pointer;

@@ -27,7 +27,8 @@ export function setCords(element, parent) {
 
 export const setOptions = (vue, options) => {
     const colors = options.colors || {}
-
+    const dark = options.dark
+    setDark(dark)
     const colorKeys = Object.keys(colors)
     colorKeys.forEach((key) => {
         const color = getColor(colors[key])
@@ -35,6 +36,15 @@ export const setOptions = (vue, options) => {
             document.documentElement.style.setProperty(`--rgb-${key}`, color);
         }
     })
+}
+
+export const setDark = (dark) => {
+    if (typeof document === 'undefined') return
+    if (dark) {
+        document.body.classList.add('dark');
+    } else {
+        document.body.classList.remove('dark');
+    }
 }
 
 const hexToRgb = hex =>

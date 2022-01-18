@@ -238,6 +238,7 @@ export default {
 
 <style lang="scss">
 .r-select {
+  color: color("text");
   .trigger {
     &.focused {
       .icon,
@@ -316,6 +317,7 @@ export default {
 </style>
 <style lang="scss">
 .select-dropdown {
+  color: color("text");
   position: absolute;
   background: $b2;
   border-radius: $radius;

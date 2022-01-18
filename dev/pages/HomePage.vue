@@ -111,7 +111,8 @@ export default {
   }),
   methods: {
     onClick() {
-      this.dark = !this.dark;
+      // this.dark = !this.dark;
+      this.$r.setDark(true);
     },
     moveTabs() {
       this.$refs.tabs.setActiveTab("Tab 4");

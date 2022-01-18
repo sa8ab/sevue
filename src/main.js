@@ -12,7 +12,7 @@ import appendToBody from './directives/appendToBody'
 import stickTo from './directives/stickTo'
 
 // helpers
-import { setOptions, getColor } from '@/helpers'
+import { setOptions, getColor, setDark } from '@/helpers'
 
 // functions
 import notification from './components/notification/function'
@@ -23,7 +23,8 @@ import './styles/index.scss'
 const defaultOptions = {
   ripple: true,
   iconPrefix: 'bx',
-  theme: {}
+  theme: {},
+  dark: false
 }
 export default {
   install: (Vue, userOptions) => {
@@ -51,6 +52,7 @@ export default {
     Vue.prototype.$r.iconPrefix = options.iconPrefix
     Vue.prototype.$r.getColor = getColor
     Vue.prototype.$r.notification = notification
+    Vue.prototype.$r.setDark = setDark
 
   }
 }
