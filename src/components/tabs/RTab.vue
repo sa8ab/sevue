@@ -100,7 +100,6 @@ export default {
     },
     setChildren() {
       this.children = this.getSlot().filter((item) => item.tag);
-      console.log(this.children);
     },
     setHeight(height) {
       this.height = height;

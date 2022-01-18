@@ -26,13 +26,13 @@ export function setCords(element, parent) {
 }
 
 export const setOptions = (vue, options) => {
-    const colors = options.theme && options.theme.colors || {}
+    const colors = options.colors || {}
 
     const colorKeys = Object.keys(colors)
     colorKeys.forEach((key) => {
-        colors[key]
+        const color = getColor(colors[key])
         if (typeof document !== 'undefined') {
-            document.documentElement.style.setProperty(`--rgb-${key}`, colors[key]);
+            document.documentElement.style.setProperty(`--rgb-${key}`, color);
         }
     })
 }
