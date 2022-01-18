@@ -1,7 +1,7 @@
 ---
 title: Notifications
 description: "UI components for Vue JS and Nuxt JS | Sevue"
-position: 3
+position: 5
 category: "Components"
 ---
 
