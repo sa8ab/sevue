@@ -23,7 +23,7 @@ import './styles/index.scss'
 const defaultOptions = {
   ripple: true,
   iconPrefix: 'bx',
-  theme: {},
+  colors: {},
   dark: false
 }
 export default {

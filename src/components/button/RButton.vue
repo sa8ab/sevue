@@ -255,7 +255,7 @@ button {
     background: $b2;
   }
   &:hover {
-    background: $b2-hover;
+    background: color("text", $lightA);
   }
 }
 .r-button.disabled {

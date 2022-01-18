@@ -7,13 +7,21 @@ category: "Guide"
 
 ## Color
 
-Default colors of Sevue are:
+Default colors of Sevue are (rgb-b1 and rgb-b2 are backround colors):
 
 ```css
 --rgb-prm: 0, 168, 255;
 --rgb-red: 235, 59, 90;
 --rgb-green: 38, 222, 129;
 --rgb-yellow: 247, 159, 31;
+--rgb-text: 18, 18, 18;
+--rgb-b1: 246, 246, 246;
+--rgb-b2: 255, 255, 255;
+
+/* for dark theme under .dark class */
+--rgb-text: 246, 246, 246;
+--rgb-b1: 18, 18, 18;
+--rgb-b2: 30, 30, 30;
 ```
 
 which results in the folowing
@@ -30,6 +38,10 @@ For Example:
 :root {
   --rgb-prm: 46, 204, 113;
   --rgb-red: 192, 57, 43;
+  --rgb-text: 0, 0, 0;
+}
+.dark {
+  --rgb-text: 255, 255, 255;
 }
 ```
 
