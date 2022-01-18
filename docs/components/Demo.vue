@@ -28,7 +28,6 @@ export default {
   }),
   watch: {
     active(active) {
-      console.log({ active });
       if (active) {
         gsap.to(this.$refs.code, { duration: 0.4, height: "auto" });
       } else {

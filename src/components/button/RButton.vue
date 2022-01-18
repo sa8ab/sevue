@@ -191,9 +191,9 @@ button {
 .icon-space {
   width: $p2;
 }
-.icon {
-  line-height: 0 !important;
-}
+// .icon {
+//   line-height: 0 !important;
+// }
 .iconLarge .bx {
   font-size: 1.5rem;
 }
@@ -287,6 +287,9 @@ button {
   }
   .icon-space {
     width: 0;
+  }
+  .icon {
+    line-height: 0 !important;
   }
 }
 .ripple-button.noPadding {

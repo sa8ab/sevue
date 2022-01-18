@@ -51,7 +51,7 @@ export default {
       this.active = true;
       setTimeout(() => {
         this.active = false;
-      }, 40000);
+      }, 4000);
     });
   },
   methods: {
