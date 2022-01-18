@@ -7,22 +7,18 @@
   >
     <div
       v-if="active"
-      :class="['r-notification']"
-      :style="{ '--rgb-prm': getColor(color) }"
+      :class="['r-notification', { hasColor: color }]"
+      :style="{
+        '--rgb-prm': getColor(color),
+        '--rgb-text': getColor(textColor),
+      }"
     >
       <div class="notification-inner">
         <div class="title">{{ title }}</div>
         <p class="text">{{ text }}</p>
-        <RButton
-          @click="active = false"
-          class="close"
-          color="#ffffff"
-          iconOnly
-          round
-          flat
-        >
+        <RButton @click="active = false" class="close" iconOnly round flat>
           <template #icon>
-            <CloseIcon />
+            <CloseIcon :color="textColor" />
           </template>
         </RButton>
       </div>
@@ -41,6 +37,8 @@ export default {
     title: { default: "", type: String },
     text: { default: "", type: String },
     color: { default: "", type: String },
+    textColor: { default: "#fff", type: String },
+    duration: { default: 4000, type: Number },
   },
   data: () => ({
     // title: "",
@@ -51,7 +49,7 @@ export default {
       this.active = true;
       setTimeout(() => {
         this.active = false;
-      }, 4000);
+      }, this.duration);
     });
   },
   methods: {
@@ -74,12 +72,13 @@ export default {
 
 <style lang="scss">
 .r-notification {
-  color: white;
+  color: color("text");
   width: 100%;
   border-radius: $radius2;
   transition: transform $duration, height $duration;
-  overflow: hidden;
+  // overflow: hidden;
   .notification-inner {
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
     background: color();
     padding: $p4;
     border-radius: $radius2;
@@ -104,38 +103,38 @@ export default {
     transform: translateY(4px);
   }
 }
-.bottom-right {
-  .r-notification {
-    border-bottom-right-radius: 0;
-    .notification-inner {
-      border-bottom-right-radius: 0;
-    }
-  }
-}
-.bottom-left {
-  .r-notification {
-    border-bottom-left-radius: 0;
-    .notification-inner {
-      border-bottom-left-radius: 0;
-    }
-  }
-}
-.top-right {
-  .r-notification {
-    border-top-right-radius: 0;
-    .notification-inner {
-      border-top-right-radius: 0;
-    }
-  }
-}
-.top-left {
-  .r-notification {
-    border-top-left-radius: 0;
-    .notification-inner {
-      border-top-left-radius: 0;
-    }
-  }
-}
+// .bottom-right {
+//   .r-notification {
+//     border-bottom-right-radius: 0;
+//     .notification-inner {
+//       border-bottom-right-radius: 0;
+//     }
+//   }
+// }
+// .bottom-left {
+//   .r-notification {
+//     border-bottom-left-radius: 0;
+//     .notification-inner {
+//       border-bottom-left-radius: 0;
+//     }
+//   }
+// }
+// .top-right {
+//   .r-notification {
+//     border-top-right-radius: 0;
+//     .notification-inner {
+//       border-top-right-radius: 0;
+//     }
+//   }
+// }
+// .top-left {
+//   .r-notification {
+//     border-top-left-radius: 0;
+//     .notification-inner {
+//       border-top-left-radius: 0;
+//     }
+//   }
+// }
 .move {
   &-enter-to,
   &-leave {

@@ -1,9 +1,18 @@
 <template>
   <div class="home-page">
-    <RButton fill iconOnly icon="bx-check" iconLarge>
-      <!-- <template #icon>
-        <close-icon />
-      </template> -->
+    <RButton
+      @click="
+        $r.notification({
+          title: 'sth',
+          text: 'something',
+          color: '#fff',
+          textColor: '#000',
+          duration: 200000,
+        })
+      "
+      iconOnly
+      icon="bx-bell"
+    >
     </RButton>
     <RButton @click="onClick">
       Toggle Dark

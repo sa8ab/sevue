@@ -10,14 +10,12 @@
   --gray: #f9fafb;
   --b1: #f6f6f6;
   --b2: #ffffff;
-  --c1: #121212;
-  --c2: #1e1e1e;
+  --rgb-text: 18, 18, 18;
+  --r-text: rgb(var(--rgb-text));
   --r-radius: 6px;
   --r-radius-2: 14px;
   --rgb-b1: 246, 246, 246;
   --rgb-b2: 255, 255, 255;
-  --rgb-c1: 18, 18, 18;
-  --rgb-c2: 30, 30, 30;
   --hover: rgba(30, 30, 30, 0.2);
 
   --active-text: #000000;
@@ -30,8 +28,7 @@
 .dark {
   --b1: #121212;
   --b2: #1f1f1f;
-  --c1: #f6f6f6;
-  --c2: #ffffff;
+  --rgb-text: 246, 246, 246;
   --gray: #161b21;
   --rgb-b1: 18, 18, 18;
   --rgb-b2: 30, 30, 30;
@@ -52,12 +49,10 @@ $b2-hover: var(--hover);
 $hover: var(--hover);
 $b2: var(--b2);
 $b1-darker: #d2d2d2;
-$c1: var(--c1);
-$c2: var(--c2);
+$text: var(--text);
 $rgb-b1: var(--rgb-b1);
 $rgb-b2: var(--rgb-b2);
-$rgb-c1: var(--rgb-c1);
-$rgb-c2: var(--rgb-c2);
+$rgb-text: var(--rgb-text);
 $duration: 0.3s;
 $active-text: var(--active-text);
 $deactive-text: var(--active-text);
@@ -79,8 +74,8 @@ $shadow2: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
 $shadow4: 0 5px 30px rgba(#444444, 0.1);
 $lowShadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
 // $shadowprm: 0px 2px 6px 0px rgba($prm, 0.8);
-$borderColor: rgba($rgb-c1, 0.1);
-$border: 1px solid rgba($rgb-c1, 0.1);
+$borderColor: rgba($rgb-text, 0.1);
+$border: 1px solid rgba($rgb-text, 0.1);
 $popupUnderlay: rgba(#343434, var(--popup-underlay-opacity));
 
 $p: 4px;

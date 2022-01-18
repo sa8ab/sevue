@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{ dark: true }">
+  <div id="app" :class="{ dark: false }">
     <router-view></router-view>
   </div>
 </template>
@@ -15,7 +15,7 @@ export default {
   padding: $p8;
   background: #f8f8f8;
   background: $b1;
-  color: $c1;
+  color: $text;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

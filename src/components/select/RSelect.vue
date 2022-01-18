@@ -279,7 +279,7 @@ export default {
     background: transparent;
     font-size: 1rem;
     font-family: inherit;
-    color: $c1;
+    color: $text;
     padding: 6px;
     white-space: nowrap;
     overflow: hidden;
@@ -293,7 +293,7 @@ export default {
     height: 30px;
     border-radius: 50%;
     overflow: hidden;
-    color: $c1;
+    color: $text;
     .bx {
       transition: all $duration;
     }
@@ -303,7 +303,7 @@ export default {
   }
   .isAnyItemSelected {
     &::placeholder {
-      color: $c1;
+      color: $text;
     }
   }
   .noOptions {

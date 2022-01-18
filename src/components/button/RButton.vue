@@ -4,7 +4,7 @@
     v-bind="specificProps"
     v-on="specificListeners"
     :class="[
-      'ripple-button',
+      'r-button',
       {
         flat,
         bordered,
@@ -176,7 +176,7 @@ button {
   cursor: pointer;
   font-family: inherit;
 }
-.ripple-button {
+.r-button {
   padding: 8px 12px;
   border-radius: $radius;
   color: color();
@@ -185,7 +185,7 @@ button {
   display: inline-block;
   user-select: none;
 }
-.ripple-button.round {
+.r-button.round {
   border-radius: 50%;
 }
 .icon-space {
@@ -197,22 +197,22 @@ button {
 .iconLarge .bx {
   font-size: 1.5rem;
 }
-.ripple-button.flat {
+.r-button.flat {
   background: transparent;
 }
-.ripple-button.bordered {
+.r-button.bordered {
   border: 1px solid color("prm", 0.8);
 }
-.ripple-button.fill {
+.r-button.fill {
   background: color();
   color: white;
 }
-.ripple-button.link {
+.r-button.link {
   background: transparent;
   color: color();
   padding: 0px 8px;
   &::v-deep {
-    .ripple-effect {
+    .r-effect {
       display: none !important;
       opacity: 0 !important;
     }
@@ -222,10 +222,10 @@ button {
     opacity: 0.8;
   }
 }
-.ripple-button.fill:hover {
+.r-button.fill:hover {
   background: color("prm", 0.8);
 }
-.ripple-button.cancel {
+.r-button.cancel {
   color: $cancel;
   background: rgba($cancel, 0.4);
   &.flat {
@@ -235,7 +235,7 @@ button {
     background: rgba($cancel, 0.4);
   }
 }
-// .ripple-button.red {
+// .r-button.red {
 //   color: $red;
 //   background: rgba($red, 0.2);
 //   &.flat {
@@ -245,8 +245,8 @@ button {
 //     background: rgba($red, 0.3);
 //   }
 // }
-.ripple-button.noColor {
-  color: $c1;
+.r-button.noColor {
+  color: $text;
   background: transparent;
   &.flat {
     background: transparent;
@@ -258,10 +258,10 @@ button {
     background: $b2-hover;
   }
 }
-.ripple-button.disabled {
+.r-button.disabled {
   cursor: default !important;
 }
-.ripple-button:hover {
+.r-button:hover {
   background: $btn-hover;
 }
 
@@ -292,7 +292,7 @@ button {
     line-height: 0 !important;
   }
 }
-.ripple-button.noPadding {
+.r-button.noPadding {
   padding: 0;
 }
 .iconOnlyAlt {

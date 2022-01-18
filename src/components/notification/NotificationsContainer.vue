@@ -34,6 +34,7 @@ export default {
 .r-notifications-container {
   z-index: 100;
   position: fixed;
+  width: 100%;
   max-width: 300px;
   display: flex;
   flex-direction: column;
