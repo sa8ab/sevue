@@ -91,6 +91,32 @@ You can show an icon before or after button content with `icon` prop. In order t
 </code-group>
 </demo>
 
+## Icon Using Template
+
+As an alternative you can pass the icon using slot named `icon` to the button component
+
+<demo>
+<template #demo>
+<button-icon-template></button-icon-template>
+</template>
+<code-group>
+<code-block label="template" active>
+
+```html
+<RButton fill>
+  <template #icon> <i class="bx bxl-vuejs"></i></template>
+  Icon Slot
+</RButton>
+<RButton fill iconAfter>
+  <template #icon> <i class="bx bxs-hot"></i></template>
+  Icon After
+</RButton>
+```
+
+</code-block>
+</code-group>
+</demo>
+
 ## Only Icon
 
 You can pass `iconOnly` prop to make the width if the button fit the icon
@@ -106,7 +132,9 @@ You can pass `iconOnly` prop to make the width if the button fit the icon
 <RButton fill icon="bx-user" color="yellow" iconOnly></RButton>
 <RButton icon="bx-star" color="yellow" iconOnly></RButton>
 <RButton fill icon="bx-envelope" color="red" round iconOnly></RButton>
-<RButton icon="bx-bell" color="red" round iconOnly></RButton>
+<RButton icon="" color="red" round iconOnly>
+  <template #icon><i class="bx bx-bell"></i></template>
+</RButton>
 ```
 
 </code-block>
