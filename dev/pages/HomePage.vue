@@ -29,9 +29,16 @@
     <RButton icon="bx-user" to="/second">Second Page</RButton>
     <div class="" style="height: 40px"></div>
     <div class="select-container">
-      <RSelect v-model="select" placeholder="Select An Option" color="red">
-        <ROption :value="2" text="test 1" />
-        <ROption :value="3" text="test 2" />
+      <RSelect
+        v-model="select"
+        placeholder="Select An Option"
+        color="red"
+        isNested
+      >
+        <RSelectGroup title="group title">
+          <ROption :value="2" text="test 1" />
+          <ROption :value="3" text="test 2" />
+        </RSelectGroup>
       </RSelect>
     </div>
     <div class="" style="height: 40px"></div>

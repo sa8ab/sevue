@@ -2,7 +2,7 @@ import RButton from './components/button'
 import RCheckbox from './components/checkbox'
 import RPopup from './components/popup'
 import HeightTransition from './components/heightTransition'
-import { RSelect, ROption } from './components/select'
+import { RSelect, ROption, RSelectGroup } from './components/select'
 import { RTab, RTabItem } from './components/tabs'
 
 
@@ -36,6 +36,7 @@ export default {
     Vue.component('RButton', RButton)
     Vue.component('RSelect', RSelect)
     Vue.component('ROption', ROption)
+    Vue.component('RSelectGroup', RSelectGroup)
     Vue.component('RTab', RTab)
     Vue.component('RTabItem', RTabItem)
     Vue.component('HeightTransition', HeightTransition)

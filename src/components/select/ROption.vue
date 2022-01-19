@@ -6,7 +6,7 @@
       v-if="visible"
       v-ripple
       tabindex="-1"
-      :style="{ '--rgb-prm': $r.getColor(select().color) }"
+      :style="{ '--rgb-prm': getColor(select().color) }"
     >
       <div class="padding">
         <slot> {{ text }} </slot>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { getColor } from "../../helpers";
 export default {
   name: "RSelectItem",
   inject: {
@@ -36,6 +37,7 @@ export default {
   data: () => ({}),
   created() {},
   methods: {
+    getColor,
     onClick() {
       this.onSelectValue();
     },

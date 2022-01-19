@@ -53,7 +53,7 @@ const hexToRgb = hex =>
         .substring(1).match(/.{2}/g)
         .map(x => parseInt(x, 16))
 
-export const getColor = (color) => {
+export const getColor = (color = '') => {
     const presetColors = ['red', 'yellow', 'prm', 'green']
     const isRGB = /^(rgb|rgba)/.test(color)
     const isHEX = color.startsWith('#')
