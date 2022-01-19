@@ -115,9 +115,6 @@ You can set the `active` prop as a dynamic value without `.sync` modifier and us
 ```js
 {
   methods: {
-    openPopup() {
-      this.active = true;
-    },
     ...mapMutations({
       closePopup: 'CLOSE_POPUP',
       openPopup: 'OPEN_POPUP'
