@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="checkboxes flex gap-4 justify-center">
+    <div class="checkboxes flex gap-4 justify-center flex-wrap">
       <RCheckbox
         v-model="selected"
         v-for="{ name, id } in list"
