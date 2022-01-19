@@ -35,6 +35,8 @@ category: "Components"
 
 ## Array Value
 
+In order to save multiple values you can pass variable of type Array to `v-model` and the same `v-model` to all checkboxes. value of each checkbox is determined using `val` prop.
+
 <demo>
 <template #demo>
 <checkbox-array></checkbox-array>
@@ -73,6 +75,8 @@ data: () => ({
 </demo>
 
 ## Color
+
+Available values are `prm`, `yellow`, `red`, `green`, any HEX or RGBA/RGB value.
 
 <demo>
 <template #demo>

@@ -17,7 +17,7 @@
 <script>
 export default {
   data: () => ({
-    selected: [],
+    selected: ["Red", "RGBA color", "Hex Value", "RGB color"],
     list: [
       { name: "Red", id: 1, color: "red" },
       { name: "RGBA color", id: 2, color: "rgba(243, 104, 224, 1)" },
