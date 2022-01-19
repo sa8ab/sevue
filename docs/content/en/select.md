@@ -185,6 +185,47 @@ data: () => ({
 </code-group>
 </demo>
 
+## Multiple Selection
+
+Prop of `multiple` gives the ability of selecting multiple values. The selected array contains the values given to options.
+
+<demo>
+<template #demo>
+<select-multiple></select-multiple>
+</template>
+<code-group>
+<code-block label="Template" active>
+
+```html
+<RSelect
+  v-model="selected"
+  placeholder="Select An Option"
+  label="Multiple Select"
+  searchable
+>
+  <ROption v-for="{ id, name } in items" :key="id" :text="name" :value="id" />
+</RSelect>
+```
+
+</code-block>
+<code-block label="Script" >
+
+```js
+data: () => ({
+  selected: [],
+  items: [
+    { name: "Manager", id: 1 },
+    { name: "CEO", id: 2 },
+    { name: "Partner", id: 3 },
+    { name: "Developer", id: 4 },
+  ],
+}),
+```
+
+</code-block>
+</code-group>
+</demo>
+
 ## Grouped
 
 You can group items into different sections using `RSelectGroup` component and `ROption` as children of it.
