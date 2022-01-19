@@ -21,3 +21,13 @@ img {
     border: none;
   }
 }
+
+.dark-mode {
+  --rgb-text: 246, 246, 246;
+  --gray: #161b21;
+  --rgb-b1: 18, 18, 18;
+  --rgb-b2: 30, 30, 30;
+  --hover: rgba(255, 255, 255, 0.2);
+
+  --popup-underlay-opacity: 0.5;
+}
