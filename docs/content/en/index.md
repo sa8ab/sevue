@@ -17,7 +17,7 @@ UI components for Vue2 and Nuxt JS
 
 <div class="flex justify-center gap-2">
 
-<RButton to="/setup" fill>Get Started</RButton>
+<RButton to="/installtion" fill>Get Started</RButton>
 <RButton flat href="https://github.com/sa8ab/sevue" icon="bxl-github" blank>Github</RButton>
 
 </div>

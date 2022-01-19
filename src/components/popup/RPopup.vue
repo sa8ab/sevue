@@ -76,6 +76,7 @@ export default {
   align-items: center;
   padding: $p2;
   z-index: 80;
+  color: color("text");
   &-underlay {
     position: fixed;
     top: 0;
