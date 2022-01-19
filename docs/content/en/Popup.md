@@ -95,6 +95,48 @@ You can add footer do the popup using `footer` slot: `<template #footer></templa
 </code-group>
 </demo>
 
+## No Close
+
+You can disable the closing of the popup by user using `noClose` prop.
+
+<demo>
+<template #demo>
+<popup-noclose></popup-noclose>
+</template>
+<code-group>
+<code-block label="Template" active>
+
+```html
+<RButton @click="openPopup">Open Popup</RButton>
+<RPopup :active.sync="active" title="Popup Title" noClose>
+  This Popup does not close if you click outside of it Because it has `noColor`
+  prop set as `true`.
+  <template #footer>
+    <RButton @click="active = false" fill>Done</RButton>
+  </template>
+</RPopup>
+```
+
+</code-block>
+<code-block label="Script" >
+
+```js
+{
+  data: () => ({
+    active: false,
+  }),
+  methods: {
+    openPopup() {
+      this.active = true;
+    },
+  },
+}
+```
+
+</code-block>
+</code-group>
+</demo>
+
 ## Usage With Vuex
 
 You can set the `active` prop as a dynamic value without `.sync` modifier and use `@close` event to close the popup programatically.
@@ -130,4 +172,3 @@ You can set the `active` prop as a dynamic value without `.sync` modifier and us
 
 </code-block>
 </code-group>
-</demo>

@@ -110,7 +110,7 @@ export default {
     height: 100%;
     background: color();
     z-index: 1;
-    transform: translateY(-100%);
+    transform: translateY(100%);
     transition: transform $duration;
     // border-radius: $radius;
   }
@@ -119,6 +119,7 @@ export default {
     z-index: 2;
     transform: scale(0);
     transition: transform $duration / 2;
+    transition-delay: $duration / 2;
   }
   &.isChecked {
     &:hover {
