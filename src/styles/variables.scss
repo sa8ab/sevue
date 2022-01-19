@@ -8,8 +8,6 @@
   --r-green: rgb(var(--rgb-green));
   --r-yellow: rgb(var(--rgb-yellow));
   --gray: #f9fafb;
-  --b1: #f6f6f6;
-  --b2: #ffffff;
   --rgb-text: 18, 18, 18;
   --r-text: rgb(var(--rgb-text));
   --r-radius: 6px;
@@ -18,44 +16,30 @@
   --rgb-b2: 255, 255, 255;
   --hover: rgba(30, 30, 30, 0.2);
 
-  --active-text: #000000;
-  --deactive-text: gray;
   --shadow: 0px 0px 6px 0px rgba(100, 100, 100, 0.2);
   --duration: 0.3s;
 
   --popup-underlay-opacity: 0.2;
 }
 .dark {
-  --b1: #121212;
-  --b2: #1f1f1f;
   --rgb-text: 246, 246, 246;
   --gray: #161b21;
   --rgb-b1: 18, 18, 18;
   --rgb-b2: 30, 30, 30;
-  --rgb-c1: 246, 246, 246;
-  --rgb-c2: 255, 255, 255;
   --hover: rgba(255, 255, 255, 0.2);
-  --prm-light: rgba(0, 151, 230, 0.2);
-  --btn-hover: rgba(0, 151, 230, 0.3);
-
-  --active-text: #ffffff;
-  --deactive-text: gray;
 
   --popup-underlay-opacity: 0.5;
 }
 
-$b1: color("b1");
+$b1: rgb(var(--rgb-b1));
 $b2-hover: var(--hover);
 $hover: var(--hover);
-$b2: color("b2");
-$b1-darker: #d2d2d2;
-$text: rgb(var(--rgb-text));
+$b2: rgb(var(--rgb-b2));
 $rgb-b1: var(--rgb-b1);
 $rgb-b2: var(--rgb-b2);
+$text: rgb(var(--rgb-text));
 $rgb-text: var(--rgb-text);
 $duration: 0.3s;
-$active-text: var(--active-text);
-$deactive-text: var(--active-text);
 $prm: var(--r-prm); // unused
 $rgb-prm: var(--rgb-prm); // unused
 $lightA: 0.2;
@@ -75,7 +59,7 @@ $shadow4: 0 5px 30px rgba(#444444, 0.1);
 $lowShadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
 // $shadowprm: 0px 2px 6px 0px rgba($prm, 0.8);
 $borderColor: rgba($rgb-text, 0.1);
-$border: 1px solid rgba($rgb-text, 0.1);
+$border: 1px solid $borderColor;
 $popupUnderlay: rgba(#343434, var(--popup-underlay-opacity));
 
 $p: 4px;
