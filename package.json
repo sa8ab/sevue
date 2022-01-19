@@ -1,6 +1,6 @@
 {
   "name": "sevue",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve dev/main.js",
