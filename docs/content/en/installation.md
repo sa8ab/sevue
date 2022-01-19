@@ -1,5 +1,5 @@
 ---
-title: Setup
+title: Installation
 description: ""
 position: 2
 category: Guide
@@ -7,7 +7,7 @@ category: Guide
 
 <!-- Check the [Nuxt.js documentation](https://nuxtjs.org/guides/configuration-glossary/configuration-modules) for more information about installing and using modules in Nuxt.js. -->
 
-## Installation
+<!-- ## Installation -->
 
 Add `sevue` dependency to your project:
 
@@ -36,4 +36,25 @@ import Sevue from "sevue";
 import "sevue/dist/sevue.css";
 
 Vue.use(Sevue);
+```
+
+## Nuxt JS
+
+Add the plugin in plugins directory
+
+```js [plugins/sevue.js]
+import Vue from "vue";
+import Sevue from "sevue";
+import "sevue/dist/sevue.css";
+
+Vue.use(Sevue);
+```
+
+Add the plugin in `plugins` section of `nuxt.config.js`
+
+```js [nuxt.config.js]
+plugins: [
+  // ...
+  "@/plugins/sevue.js",
+];
 ```

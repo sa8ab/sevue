@@ -71,7 +71,7 @@ You can change the look of the component by passing the boolean props of `flat`,
 
 ## Icon
 
-You can show an icon before or after button content with `icon` prop. In order to customize you own icon pack please refer to [icons section](/icons).
+You can show an icon before or after button content with `icon` prop. In order to customize you own icon pack please refer to [icons section](/customization#icons).
 
 `iconAfter` prop places the icon after the content of the button.
 
