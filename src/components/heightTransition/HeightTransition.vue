@@ -3,8 +3,8 @@
     @beforeEnter="beforeEnter"
     @enter="enter"
     @leave="leave"
-    @afterEnter="afterEnter"
     name="height-transition"
+    :appear="appear"
   >
     <slot />
   </transition>
@@ -13,18 +13,17 @@
 <script>
 export default {
   name: "HeightTransition",
+  props: {
+    appear: { default: false },
+  },
   methods: {
     beforeEnter(el) {
       el.style.height = 0;
     },
     enter(el, done) {
-      console.log("enter");
-      const height = el.scrollHeight;
-      el.style.height = `${height}px`;
-    },
-    afterEnter(el) {
-      console.log("after enter", el);
-      el.style.height = `auto`;
+      const h = el.scrollHeight;
+      el.style.height = `${h}px`;
+      // done();
     },
     leave(el) {
       el.style.height = "0px";
@@ -33,11 +32,10 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .height-transition {
   &-enter-active,
   &-leave-active {
-    transition: all $duration;
     overflow: hidden;
   }
 }

@@ -10,11 +10,13 @@
       </RCheckbox>
       <RCheckbox v-model="c" color="#C4E538"> Custom Color </RCheckbox>
     </div>
+    <div style="height: 40px"></div>
     <RButton @click="active = true">Open Popup</RButton>
     <RPopup :active.sync="active" title="popup title">
       popup content
       <template #footer> something </template>
     </RPopup>
+    <div style="height: 40px"></div>
     <RSelect
       v-model="selected"
       placeholder="Select An Option"
@@ -31,6 +33,24 @@
         />
       </RSelectGroup>
     </RSelect>
+    <div style="height: 40px"></div>
+    <RButton @click="changeMessage">Change Input Message</RButton>
+    <RCheckbox color="red" v-model="inputRed">input red</RCheckbox>
+    <div class="input">
+      <RInput
+        placeholder="input"
+        label="input label"
+        icon="bx-user"
+        iconAfter
+        color="yellow"
+        :message="message"
+        :red="inputRed"
+      >
+        <template #icon>
+          <i class="bx bx-user"></i>
+        </template>
+      </RInput>
+    </div>
   </div>
 </template>
 
@@ -42,6 +62,8 @@ export default {
     c: false,
     active: false,
     selected: null,
+    message: "",
+    inputRed: false,
     items: [
       {
         name: "Greece",
@@ -69,6 +91,11 @@ export default {
       },
     ],
   }),
+  methods: {
+    changeMessage() {
+      this.message = this.message ? "" : "some message";
+    },
+  },
 };
 </script>
 
@@ -76,5 +103,9 @@ export default {
 .checkboxes {
   display: flex;
   gap: 10px;
+}
+.input {
+  padding: 10px;
+  background: color("b2");
 }
 </style>

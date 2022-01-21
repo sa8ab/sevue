@@ -1,5 +1,5 @@
 <template>
-  <HeightTransition>
+  <HeightTransition appear>
     <div
       :class="['r-select-item r', { active: isActive, focused, disabled }]"
       @click="onClick"
