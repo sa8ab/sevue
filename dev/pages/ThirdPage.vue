@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="slider-container">
-      <pre>{{ slider }}</pre>
+      <div style="height: 40px"></div>
       <RSlider
         v-model="slider"
         :max="10"

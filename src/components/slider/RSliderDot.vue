@@ -111,7 +111,7 @@ export default {
     background: color();
     pointer-events: none;
     border-radius: $radius;
-    padding: $p;
+    padding: $p $p2;
     user-select: none;
     opacity: 0;
     transition: all $duration / 2;
