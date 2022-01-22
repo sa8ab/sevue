@@ -103,7 +103,6 @@ export default {
     },
     onValueOneUpdate(e) {
       this.value1 = this.getValueFromPosition({ position: e.clientX });
-      // console.log({ value1: this.value1 });
       this.emitInput();
     },
     onValueTwoUpdate(e) {
@@ -155,7 +154,6 @@ export default {
           value: x * this.step,
         });
       }
-      console.log(list);
       return list;
     },
     progressStyle() {

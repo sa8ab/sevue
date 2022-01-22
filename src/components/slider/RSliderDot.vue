@@ -2,7 +2,7 @@
   <div
     :class="['r-slider-dot', { focused, active: isDragging, alwaysTooltip }]"
     @mousedown="onDragStart"
-    @mousemove="onDrag"
+    @touchstart="onDragStart"
     :style="containerStyle"
     @click.stop.prevent="() => {}"
     ref="dot"
