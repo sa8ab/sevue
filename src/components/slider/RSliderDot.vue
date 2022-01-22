@@ -85,6 +85,7 @@ export default {
   top: 50%;
   left: 0;
   transform: translate(-50%, -50%);
+  z-index: 8;
   cursor: grab;
   .the-dot {
     width: 16px;

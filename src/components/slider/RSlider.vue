@@ -2,6 +2,14 @@
   <div class="r-slider" :style="{ '--rgb-prm': $r.getColor(color) }">
     <div class="bar" ref="slider" @click="onSliderClick">
       <div class="progress" :style="progressStyle"></div>
+      <div class="ticks" v-if="ticks">
+        <RSliderTick
+          class="tick"
+          v-for="tick in ticksCount"
+          :key="tick.value"
+          v-bind="tick"
+        />
+      </div>
       <Dot
         ref="dotOne"
         :dotVal="value1"
@@ -29,8 +37,9 @@
 
 <script>
 import Dot from "./RSliderDot.vue";
+import RSliderTick from "./RSliderTick.vue";
 export default {
-  components: { Dot },
+  components: { Dot, RSliderTick },
   name: "RSlider",
   provide() {
     return {
@@ -46,6 +55,8 @@ export default {
     tooltip: { default: false, type: Boolean },
     alwaysTooltip: { default: false, type: Boolean },
     color: { default: "", type: String },
+    ticks: { default: false, type: Boolean },
+    tickLabels: { default: false, type: Boolean },
   },
   data: () => ({
     value1: 0,
@@ -110,6 +121,9 @@ export default {
       if (value < min) return min;
       return value;
     },
+    getPositionFromValue({ value }) {
+      return (value / (this.max - this.min)) * 100;
+    },
     setIsDragging(e) {
       this.isDragging = e;
     },
@@ -133,6 +147,17 @@ export default {
       }
       return false;
     },
+    ticksCount() {
+      const list = [];
+      const count = (this.max - this.min) / this.step;
+      for (let x = 0; x < count + 1; x++) {
+        list.push({
+          value: x * this.step,
+        });
+      }
+      console.log(list);
+      return list;
+    },
     progressStyle() {
       const { min, max, value1, value2, isRange } = this;
       return isRange
@@ -153,8 +178,9 @@ export default {
 <style lang="scss">
 .r-slider {
   width: 100%;
+  user-select: none;
   .bar {
-    background: color("b2");
+    // background: color("b2");
     background: $hover;
     height: 8px;
     width: 100%;
@@ -169,6 +195,10 @@ export default {
     height: 100%;
     width: 20px;
     background: color();
+    pointer-events: none;
+    z-index: 2;
+  }
+  .ticks {
     pointer-events: none;
   }
 }

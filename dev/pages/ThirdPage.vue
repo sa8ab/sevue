@@ -4,12 +4,13 @@
       <pre>{{ slider }}</pre>
       <RSlider
         v-model="slider"
-        :max="50000"
-        :min="40000"
-        :step="100"
-        color="red"
+        :max="10"
+        :min="0"
+        :step="2"
         tooltip
+        ticks
         alwaysTooltip
+        tickLabels
       >
         <template #tooltip="{ value }">{{ value }}</template>
       </RSlider>
@@ -20,7 +21,7 @@
 <script>
 export default {
   data: () => ({
-    slider: [40000, 40000],
+    slider: [0, 10],
   }),
 };
 </script>
