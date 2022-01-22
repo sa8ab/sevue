@@ -4,6 +4,7 @@ import RPopup from './components/popup'
 import RInput from './components/input'
 import HeightTransition from './components/heightTransition'
 import { RSelect, ROption, RSelectGroup } from './components/select'
+import { RSlider } from './components/slider'
 import { RTab, RTabItem } from './components/tabs'
 
 
@@ -44,6 +45,7 @@ export default {
     Vue.component('RCheckbox', RCheckbox)
     Vue.component('RPopup', RPopup)
     Vue.component('RInput', RInput)
+    Vue.component('RSlider', RSlider)
 
     // directives
     const hasRipple = options.ripple

@@ -1,5 +1,10 @@
 <template>
   <div id="app" :class="{ dark: false }">
+    <div class="items">
+      <RButton flat to="/">Home</RButton>
+      <RButton flat to="/second">Second</RButton>
+      <RButton flat to="/third">Third</RButton>
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -12,13 +17,17 @@ export default {
 
 <style scoped lang="scss">
 #app {
-  padding: $p8;
-  background: #f8f8f8;
+  padding: 10px;
   background: color("b1");
   color: color("text");
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.items {
+  display: flex;
+  padding-bottom: 10px;
+  gap: 4px;
 }
 </style>
