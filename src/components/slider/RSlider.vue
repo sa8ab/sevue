@@ -5,7 +5,7 @@
       <div class="ticks" v-if="ticks">
         <RSliderTick
           class="tick"
-          v-for="tick in ticksCount"
+          v-for="tick in ticksList"
           :key="tick.value"
           v-bind="tick"
         />
@@ -147,7 +147,7 @@ export default {
       }
       return false;
     },
-    ticksCount() {
+    ticksList() {
       const list = [];
       const count = (this.max - this.min) / this.step;
       for (let x = 0; x < count + 1; x++) {
