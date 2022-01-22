@@ -9,10 +9,8 @@
         :step="2"
         tooltip
         ticks
-        alwaysTooltip
         tickLabels
       >
-        <template #tooltip="{ value }">{{ value }}</template>
       </RSlider>
     </div>
   </div>
@@ -21,7 +19,7 @@
 <script>
 export default {
   data: () => ({
-    slider: [0, 10],
+    slider: 4,
   }),
 };
 </script>

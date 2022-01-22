@@ -11,7 +11,9 @@
     tabindex="0"
   >
     <div class="r-slider-tooltip" v-if="tooltip">
-      <slot />
+      <slot>
+        {{ value }}
+      </slot>
     </div>
     <div class="the-dot" />
   </div>
