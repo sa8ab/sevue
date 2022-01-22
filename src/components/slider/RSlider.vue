@@ -196,6 +196,7 @@ export default {
     width: 20px;
     background: color();
     pointer-events: none;
+    border-radius: 8px;
     z-index: 2;
   }
   .ticks {
