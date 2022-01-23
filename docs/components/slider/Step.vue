@@ -3,9 +3,10 @@
     <pre>slider value: {{ slider }}</pre>
     <RSlider
       v-model="slider"
-      :step="10"
+      :step="step"
       :min="0"
       :max="100"
+      :precision="precision"
       :ticks="ticks"
       :tickLabels="tickLabels"
     />
@@ -14,7 +15,7 @@
 
 <script>
 export default {
-  props: ["ticks", "tickLabels"],
+  props: ["ticks", "tickLabels", "step", "precision"],
   data: () => ({
     slider: 10,
   }),

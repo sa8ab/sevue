@@ -29,7 +29,7 @@
 <script>
 export default {
   data: () => ({
-    slider: 4,
+    slider: [1, 6],
   }),
 };
 </script>

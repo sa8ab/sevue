@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <pre>slider value: {{ slider }}</pre>
     <RSlider
       v-model="slider"
       :step="5"
@@ -10,7 +9,6 @@
       tooltip
       :alwaysTooltip="alwaysTooltip"
     >
-      <template #tooltip="{ value }">{{ value }}</template>
     </RSlider>
   </div>
 </template>

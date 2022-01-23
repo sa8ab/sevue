@@ -12,7 +12,7 @@
   >
     <div class="r-slider-tooltip" v-if="tooltip">
       <slot>
-        {{ value }}
+        {{ dotVal }}
       </slot>
     </div>
     <div class="the-dot" />

@@ -35,17 +35,43 @@ data: () => ({
 
 ## Step
 
-Value will move in steps instead of one by one. this can have decimals like `1.5`
+With this prop value will move in steps instead of one by one. this can have decimals like `1.5`
 
 <demo>
 <template #demo>
-  <slider-step></slider-step>
+  <slider-step :step="10"></slider-step>
 </template>
 <code-group>
 <code-block label="Template" active>
 
 ```html
-<RSlider v-model="slider" :min="0" :max="100" />
+<RSlider v-model="slider" :min="0" :max="100" :step="10" />
+```
+
+</code-block>
+<code-block label="Script" active>
+
+```javascript
+data: () => ({
+  slider: 10,
+}),
+```
+
+</code-block>
+</code-group>
+</demo>
+
+With decimal values you need to pass `precision` prop which is the number of digits after point. for example for `0.50` it will be `2`
+
+<demo>
+<template #demo>
+<slider-step :step="0.5" :precision="1"></slider-step>
+</template>
+<code-group>
+<code-block label="Template" active>
+
+```html
+<RSlider v-model="slider" :min="0" :max="100" :step="0.5" :precision="1" />
 ```
 
 </code-block>
@@ -73,7 +99,6 @@ You can pass Array as v-model in order to render range slider
 <code-block label="Template" active>
 
 ```html
-<pre>slider value: {{ slider }}</pre>
 <RSlider v-model="slider" :step="5" :min="0" :max="100" ticks />
 ```
 
@@ -92,17 +117,17 @@ data: () => ({
 
 ## Ticks & TickLabels
 
-Shows ticks and its values
+Shows ticks using `ticks` prop and its values using `tickLabels` prop.
 
 <demo>
 <template #demo>
-  <slider-step :ticks="true" :tick-labels="true"></slider-step>
+  <slider-ticks :ticks="true" :tick-labels="true"></slider-ticks>
 </template>
 <code-group>
 <code-block label="Template" active>
 
 ```html
-<RSlider v-model="slider" :min="0" :max="100" ticks tickLabels />
+<RSlider v-model="slider" :step="10" :min="0" :max="100" ticks tickLabels />
 ```
 
 </code-block>
@@ -110,7 +135,7 @@ Shows ticks and its values
 
 ```javascript
 data: () => ({
-  slider: 10,
+  slider: [20, 80],
 }),
 ```
 
