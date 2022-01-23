@@ -74,8 +74,8 @@ export default {
     setValues() {
       if (this.isRange) {
         const [one, two] = this.value;
-        this.value1 = one;
-        this.value2 = two;
+        this.value1 = this.areDotsReversed ? two : one;
+        this.value2 = this.areDotsReversed ? one : two;
       } else {
         this.value1 = this.value;
       }

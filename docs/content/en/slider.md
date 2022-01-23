@@ -156,7 +156,6 @@ Setting `tooltip` prop to `true` renders a tooltip once the user starts dragging
 
 ```html
 <RSlider v-model="slider" :step="5" :min="0" :max="100" ticks tooltip>
-  <template #tooltip="{ value }">{{ value }}</template>
 </RSlider>
 ```
 
@@ -165,7 +164,7 @@ Setting `tooltip` prop to `true` renders a tooltip once the user starts dragging
 
 ```javascript
 data: () => ({
-  slider: 10,
+  slider: [10, 40],
 }),
 ```
 
