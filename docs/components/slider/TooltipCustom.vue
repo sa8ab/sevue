@@ -4,7 +4,7 @@
       v-model="slider"
       :step="5"
       :min="0"
-      :max="100"
+      :max="40"
       ticks
       tooltip
       alwaysTooltip
@@ -19,7 +19,7 @@
 <script>
 export default {
   data: () => ({
-    slider: [10, 40],
+    slider: [10, 30],
   }),
 };
 </script>

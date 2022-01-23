@@ -199,7 +199,7 @@ You can set `alwaysTooltip` prop to `true` to always show the tooltip.
 
 ```javascript
 data: () => ({
-  slider: 10,
+  slider: [10, 40],
 }),
 ```
 
@@ -211,7 +211,7 @@ You can also use you custom template for tooltip. the named `tooltip` slot provi
 
 <demo>
 <template #demo>
-  <slider-tooltip-custom :always-tooltip="true"></slider-tooltip-custom>
+  <slider-tooltip-custom></slider-tooltip-custom>
 </template>
 <code-group>
 <code-block label="Template" active>
@@ -221,7 +221,7 @@ You can also use you custom template for tooltip. the named `tooltip` slot provi
   v-model="slider"
   :step="5"
   :min="0"
-  :max="100"
+  :max="40"
   ticks
   tooltip
   alwaysTooltip
@@ -237,7 +237,7 @@ You can also use you custom template for tooltip. the named `tooltip` slot provi
 
 ```javascript
 data: () => ({
-  slider: 10,
+  slider: [10, 30],
 }),
 ```
 
