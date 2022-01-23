@@ -67,7 +67,7 @@ export default {
     isDragging: false,
     transition: `all 0.3s`,
   }),
-  mounted() {
+  created() {
     this.setValues();
   },
   methods: {
@@ -171,6 +171,11 @@ export default {
             width: `${((value1 - min) / (max - min)) * 100}%`,
             transition: !this.isDragging && this.transition,
           };
+    },
+  },
+  watch: {
+    value() {
+      this.setValues();
     },
   },
 };
