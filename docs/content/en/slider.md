@@ -143,7 +143,7 @@ data: () => ({
 </code-group>
 </demo>
 
-## Tooltip
+## Tooltip & AlwaysTooltip
 
 Setting `tooltip` prop to `true` renders a tooltip once the user starts dragging
 
@@ -191,7 +191,44 @@ You can set `alwaysTooltip` prop to `true` to always show the tooltip.
   tooltip
   alwaysTooltip
 >
-  <template #tooltip="{ value }">{{ value }}</template>
+</RSlider>
+```
+
+</code-block>
+<code-block label="Script">
+
+```javascript
+data: () => ({
+  slider: 10,
+}),
+```
+
+</code-block>
+</code-group>
+</demo>
+
+You can also use you custom template for tooltip. the named `tooltip` slot provides `value` which you can get the current value of the thumb
+
+<demo>
+<template #demo>
+  <slider-tooltip-custom :always-tooltip="true"></slider-tooltip-custom>
+</template>
+<code-group>
+<code-block label="Template" active>
+
+```html
+<RSlider
+  v-model="slider"
+  :step="5"
+  :min="0"
+  :max="100"
+  ticks
+  tooltip
+  alwaysTooltip
+>
+  <template #tooltip="{ value }">
+    <span> x{{ value }} </span>
+  </template>
 </RSlider>
 ```
 
