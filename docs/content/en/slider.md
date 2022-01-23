@@ -7,6 +7,8 @@ category: Components
 
 ## Default
 
+Slider for selecting value(s) from given range. it requires `min` & `max` props and updates the given v-model.
+
 <demo>
 <template #demo>
   <slider-default></slider-default>
@@ -33,7 +35,7 @@ data: () => ({
 
 ## Step
 
-Value will move in steps instead of one by one
+Value will move in steps instead of one by one. this can have decimals like `1.5`
 
 <demo>
 <template #demo>

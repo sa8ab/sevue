@@ -1,5 +1,8 @@
 <template>
-  <div class="r-slider" :style="{ '--rgb-prm': $r.getColor(color) }">
+  <div
+    :class="['r-slider', { tickLabels }]"
+    :style="{ '--rgb-prm': $r.getColor(color) }"
+  >
     <div class="bar" ref="slider" @click="onSliderClick">
       <div class="progress" :style="progressStyle"></div>
       <div class="ticks" v-if="ticks">
@@ -177,6 +180,7 @@ export default {
 .r-slider {
   width: 100%;
   user-select: none;
+  padding: $p2 0;
   .bar {
     // background: color("b2");
     background: $hover;
@@ -199,6 +203,9 @@ export default {
   }
   .ticks {
     pointer-events: none;
+  }
+  &.tickLabels {
+    padding-bottom: 24px;
   }
 }
 </style>

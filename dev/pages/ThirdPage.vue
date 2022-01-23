@@ -12,6 +12,16 @@
         tickLabels
       >
       </RSlider>
+      <RSlider
+        v-model="slider"
+        :max="10"
+        :min="0"
+        :step="2"
+        tooltip
+        ticks
+        tickLabels
+      >
+      </RSlider>
     </div>
   </div>
 </template>
