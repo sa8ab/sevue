@@ -9,10 +9,14 @@
       }"
     >
       <div class="r-loading-inner">
-        <div class="r-loading-spinner">
+        <div
+          class="r-loading-spinner"
+          :style="{ width: `${size}px`, height: `${size}px` }"
+        >
           <div class="r-loading-spinner__1"></div>
           <div class="r-loading-spinner__2"></div>
         </div>
+        <div class="text">{{ text }}</div>
       </div>
     </div>
   </transition>
@@ -23,10 +27,10 @@ import { getColor } from "@/helpers";
 export default {
   name: "Notification",
   props: {
-    title: { default: "", type: String },
     text: { default: "", type: String },
     color: { default: "", type: String },
     background: { default: "", type: String },
+    size: { default: 40, type: [String, Number] },
     target: { default: undefined },
   },
   data: () => ({
@@ -68,7 +72,8 @@ export default {
   &-inner {
     color: color();
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
   &.hasTarget {
     position: absolute;
@@ -80,6 +85,9 @@ export default {
   &-enter-active,
   &-leave-active {
     transition: all $duration;
+  }
+  .text {
+    padding-top: 12px;
   }
   &-spinner {
     border-radius: 50%;

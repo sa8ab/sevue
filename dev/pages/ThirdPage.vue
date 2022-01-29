@@ -25,12 +25,7 @@
     </div>
     <RButton @click="loading">Loading</RButton>
     <div
-      style="
-        background: #404040;
-        width: 200px;
-        height: 200px;
-        position: relative;
-      "
+      style="background: gray; width: 200px; height: 200px; position: relative"
       class="targetx"
       ref="target"
     >
@@ -47,7 +42,8 @@ export default {
   methods: {
     loading() {
       const x = this.$r.loading({
-        target: this.$refs.target,
+        // target: this.$refs.target,
+        text: "loading",
       });
       setTimeout(() => {
         x.close();
