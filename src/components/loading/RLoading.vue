@@ -11,6 +11,7 @@
       <div class="r-loading-inner">
         <div
           class="r-loading-spinner"
+          d
           :style="{ width: `${size}px`, height: `${size}px` }"
         >
           <div class="r-loading-spinner__1"></div>
@@ -47,7 +48,7 @@ export default {
       this.active = false;
       setTimeout(() => {
         this.$el.remove();
-      }, 3000);
+      }, 300);
     },
   },
 };
