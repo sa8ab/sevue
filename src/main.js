@@ -19,6 +19,7 @@ import { setOptions, getColor, setDark } from '@/helpers'
 
 // functions
 import notification from './components/notification/function'
+import loading from './components/loading/function'
 
 // styles
 import './styles/index.scss'
@@ -59,6 +60,7 @@ export default {
     Vue.prototype.$r.iconPrefix = options.iconPrefix
     Vue.prototype.$r.getColor = getColor
     Vue.prototype.$r.notification = notification
+    Vue.prototype.$r.loading = loading
     Vue.prototype.$r.setDark = setDark
 
   }
