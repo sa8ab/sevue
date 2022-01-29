@@ -11,13 +11,12 @@
       <div class="r-loading-inner">
         <div
           class="r-loading-spinner"
-          d
-          :style="{ width: `${size}px`, height: `${size}px` }"
+          :style="{ transform: `scale(${scale})` }"
         >
           <div class="r-loading-spinner__1"></div>
           <div class="r-loading-spinner__2"></div>
         </div>
-        <div class="text">{{ text }}</div>
+        <div class="text" v-if="text">{{ text }}</div>
       </div>
     </div>
   </transition>
@@ -31,7 +30,7 @@ export default {
     text: { default: "", type: String },
     color: { default: "", type: String },
     background: { default: "", type: String },
-    size: { default: 40, type: [String, Number] },
+    scale: { default: 1, type: [String, Number] },
     target: { default: undefined },
   },
   data: () => ({

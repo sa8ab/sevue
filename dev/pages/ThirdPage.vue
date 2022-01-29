@@ -42,8 +42,9 @@ export default {
   methods: {
     loading() {
       const x = this.$r.loading({
-        // target: this.$refs.target,
+        target: this.$refs.target,
         text: "loading",
+        scale: 0.5,
       });
       setTimeout(() => {
         x.close();
