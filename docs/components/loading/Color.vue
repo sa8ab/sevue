@@ -1,100 +1,50 @@
 <template>
-  <div class="notification-default">
-    <div class="buttons">
-      <RButton
-        @click="notification('bottom-right', 'prm')"
-        icon="bx-border-radius"
-        class="r-br"
-        iconOnlyAlt
-        iconLarge
-      >
-      </RButton>
-      <RButton
-        @click="notification('bottom-left', 'red')"
-        icon="bx-border-radius"
-        class="r-bl"
-        iconOnlyAlt
-        iconLarge
-        color="red"
-      >
-      </RButton>
-      <RButton
-        @click="notification('top-right', 'green')"
-        icon="bx-border-radius"
-        class="r-tr"
-        iconOnlyAlt
-        iconLarge
-        color="green"
-      >
-      </RButton>
-      <RButton
-        @click="notification('top-left', 'yellow')"
-        icon="bx-border-radius"
-        class="r-tl"
-        iconOnlyAlt
-        iconLarge
-        color="yellow"
-      >
-      </RButton>
-      <RButton
-        @click="notification('top', '#d35400')"
-        icon="bx-border-top"
-        iconOnlyAlt
-        iconLarge
-        color="#d35400"
-      >
-      </RButton>
-      <RButton
-        @click="notification('bottom', 'rgba(52, 73, 94, 1.0)')"
-        icon="bx-border-bottom"
-        iconOnlyAlt
-        iconLarge
-        color="rgba(52, 73, 94, 1.0)"
-      >
-      </RButton>
-    </div>
+  <div class="container">
+    <RButton @click="prmBackground">Loading</RButton>
+    <RButton @click="hexBackground">HEX Background</RButton>
+    <RButton @click="hexColor">HEX Color</RButton>
   </div>
 </template>
 
 <script>
 export default {
   methods: {
-    notification(placement, color) {
-      this.$r.notification({
-        title: color,
-        text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, adipisci!a",
-        placement,
-        color,
+    prmBackground() {
+      const loading = this.$r.loading({
+        background: "prm",
+        color: "#fff",
       });
+      setTimeout(() => {
+        loading.close();
+      }, 2500);
+    },
+    hexBackground() {
+      const loading = this.$r.loading({
+        background: "#27ae60",
+        color: "#fff",
+      });
+      setTimeout(() => {
+        loading.close();
+      }, 3000);
+    },
+    hexColor() {
+      const loading = this.$r.loading({
+        color: "#27ae60",
+        text: "Loading #27ae60",
+      });
+      setTimeout(() => {
+        loading.close();
+      }, 3000);
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.r-tl {
-  &::v-deep {
-    .bx {
-      transform: rotate(-90deg) !important;
-    }
-  }
-}
-.r-bl {
-  &::v-deep {
-    .bx {
-      transform: rotate(180deg) !important;
-    }
-  }
-}
-.r-br {
-  &::v-deep {
-    .bx {
-      transform: rotate(90deg) !important;
-    }
-  }
-}
-.buttons {
+.container {
   display: flex;
-  gap: 8px;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 </style>

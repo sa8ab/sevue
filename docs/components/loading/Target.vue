@@ -16,7 +16,7 @@ export default {
     loadingOnButton() {
       const loading = this.$r.loading({
         target: this.$refs.targetButton,
-        scale: 0.7,
+        scale: 0.6,
       });
       setTimeout(() => {
         loading.close();
@@ -43,7 +43,7 @@ export default {
 .target-container {
   margin: auto;
   padding: 40px 8px;
-  box-shadow: 0 0 16px rgba(black, 0.2);
+  box-shadow: 0 4px 16px -4px rgba(black, 0.2);
   border-radius: 8px;
   position: relative;
   overflow: hidden;
