@@ -23,9 +23,8 @@
       >
       </RSlider>
     </div>
-    <RButton @click="loading" @mouseenter="onEvent" aria-thing>
-      Loading
-    </RButton>
+    <RInput @keyup.enter="onEvent" @keyup.esc="onEvent" placeholder="input" />
+    <RButton @click="loading"> Loading </RButton>
     <div
       style="background: gray; width: 200px; height: 200px; position: relative"
       class="targetx"

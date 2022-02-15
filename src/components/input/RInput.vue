@@ -15,10 +15,7 @@
           :type="type"
           :placeholder="placeholder"
           :value="value"
-          @input="onInput"
-          @change="onChange"
-          @focus="onFocus"
-          @blur="onBlur"
+          v-on="listeners"
           v-bind="$attrs"
           :disabled="disabled"
         />
@@ -84,20 +81,23 @@ export default {
   data: () => ({
     focused: false,
   }),
-  methods: {
-    onInput(e) {
-      this.$emit("input", e.target.value);
-    },
-    onChange(e) {
-      this.$emit("change", e);
-    },
-    onFocus(e) {
-      this.focused = true;
-      this.$emit("focus", e);
-    },
-    onBlur(e) {
-      this.focused = false;
-      this.$emit("blur", e);
+  methods: {},
+  computed: {
+    listeners() {
+      return {
+        ...this.$listeners,
+        input: (e) => {
+          this.$emit("input", e.target.value);
+        },
+        focus: (e) => {
+          this.focused = true;
+          this.$emit("focus", e);
+        },
+        blur: (e) => {
+          this.focused = false;
+          this.$emit("blur", e);
+        },
+      };
     },
   },
 };
