@@ -12,12 +12,11 @@
           </slot>
         </div>
         <input
-          :type="type"
           :placeholder="placeholder"
           :value="value"
+          :disabled="disabled"
           v-on="listeners"
           v-bind="$attrs"
-          :disabled="disabled"
         />
       </div>
 
@@ -43,10 +42,6 @@ export default {
     },
     icon: {
       default: "",
-      type: String,
-    },
-    type: {
-      default: "text",
       type: String,
     },
     placeholder: {

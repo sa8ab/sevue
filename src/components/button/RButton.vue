@@ -3,6 +3,7 @@
     :is="renderComponent"
     v-bind="specificProps"
     v-on="specificListeners"
+    :disabled="disabled"
     :class="[
       'r-button',
       {
@@ -219,13 +220,17 @@ button {
       opacity: 0 !important;
     }
   }
-  &:hover {
+  &:hover,
+  &:focus {
     background: transparent;
     opacity: 0.8;
   }
 }
-.r-button.fill:hover {
-  background: color("prm", 0.8);
+.r-button.fill {
+  &:hover,
+  &:focus {
+    background: color("prm", 0.8);
+  }
 }
 .r-button.cancel {
   color: $cancel;
@@ -233,7 +238,8 @@ button {
   &.flat {
     background: transparent;
   }
-  &:hover {
+  &:hover,
+  &:focus {
     background: rgba($cancel, 0.4);
   }
 }
@@ -256,7 +262,8 @@ button {
   &.fill {
     background: color("b2");
   }
-  &:hover {
+  &:hover,
+  &:focus {
     background: color("text", $lightA);
   }
 }
@@ -264,7 +271,8 @@ button {
   cursor: default !important;
   pointer-events: none;
 }
-.r-button:hover {
+.r-button:hover,
+.r-button:focus {
   background: $btn-hover;
 }
 

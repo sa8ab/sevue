@@ -23,7 +23,7 @@
       >
       </RSlider>
     </div>
-    <RInput @keyup.enter="onEvent" @keyup.esc="onEvent" placeholder="input" />
+    <RInput placeholder="input" v-model="x" disabled />
     <RButton @click="loading"> Loading </RButton>
     <div
       style="background: gray; width: 200px; height: 200px; position: relative"
@@ -39,6 +39,7 @@
 export default {
   data: () => ({
     slider: [1, 6],
+    x: "",
   }),
   methods: {
     onEvent() {
