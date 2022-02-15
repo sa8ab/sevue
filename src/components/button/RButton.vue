@@ -22,7 +22,6 @@
         noPadding,
       },
     ]"
-    :disabled="disabled"
     v-ripple="{ class: 'ripple-effect' }"
     :style="{ '--rgb-prm': $r.getColor(color) }"
   >
@@ -141,25 +140,28 @@ export default {
         return {
           to: this.to,
           exact: this.exact,
+          ...this.$attrs,
         };
       } else if (this.isAnchor) {
         return {
           href: this.href,
           target: this.target,
+          ...this.$attrs,
         };
       }
-      return {};
+      return this.$attrs;
     },
     specificListeners() {
       if (this.isButton) {
         return {
+          ...this.$listeners,
           click: (e) => {
             e.preventDefault();
             this.$emit("click");
           },
         };
       }
-      return {};
+      return this.$listeners;
     },
     noPadding() {
       return this.$slots.icon && (this.iconOnly || this.iconOnlyAlt);
@@ -260,6 +262,7 @@ button {
 }
 .r-button.disabled {
   cursor: default !important;
+  pointer-events: none;
 }
 .r-button:hover {
   background: $btn-hover;

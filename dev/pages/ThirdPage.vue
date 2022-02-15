@@ -23,7 +23,9 @@
       >
       </RSlider>
     </div>
-    <RButton @click="loading">Loading</RButton>
+    <RButton @click="loading" @mouseenter="onEvent" aria-thing>
+      Loading
+    </RButton>
     <div
       style="background: gray; width: 200px; height: 200px; position: relative"
       class="targetx"
@@ -40,6 +42,9 @@ export default {
     slider: [1, 6],
   }),
   methods: {
+    onEvent() {
+      console.log("on event");
+    },
     loading() {
       const x = this.$r.loading({
         target: this.$refs.target,
