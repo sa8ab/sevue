@@ -147,23 +147,13 @@ export default {
       this.$refs.input.focus();
       this.$nextTick(() => {
         this.popupItem = this.$refs.dropdown;
-        const sameWidth = {
-          name: "sameWidth",
-          enabled: true,
-          phase: "beforeWrite",
-          requires: ["computeStyles"],
-          fn: ({ state }) => {
-            console.log(`${state.rects.reference.width}px`, state);
-            state.styles.popper.width = `${state.rects.reference.width}px`;
-          },
-          effect: ({ state }) => {
-            state.elements.popper.style.width = `${state.elements.reference.offsetWidth}px`;
-          },
-        };
-        this.popper = createSameWidthPopper(this.$refs.toggle, this.$refs.dropdown, {
-          placement: "bottom",
-          modifiers: [sameWidth],
-        });
+        this.popper = createSameWidthPopper(
+          this.$refs.toggle,
+          this.$refs.dropdown,
+          {
+            placement: "bottom",
+          }
+        );
       });
     },
     close() {
@@ -369,8 +359,11 @@ export default {
       opacity: 0;
       transform: translateY(8px);
     }
-    opacity: 0;
-    transform: translateY(8px);
+    &[data-popper-placement^="top"] {
+      .select-dropdown {
+        transform: translateY(-8px);
+      }
+    }
   }
 }
 </style>
