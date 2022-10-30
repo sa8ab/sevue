@@ -9,6 +9,7 @@
   },
   "main": "./dist/sevue.common.js",
   "dependencies": {
+    "@popperjs/core": "^2.11.6",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-click-outside": "^1.1.0",

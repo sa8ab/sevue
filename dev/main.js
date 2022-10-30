@@ -9,7 +9,7 @@ import "boxicons/css/boxicons.min.css";
 Vue.config.productionTip = false
 Vue.use(Revux, {
   colors: {
-    prm: 'rgb(0, 151, 230)'
+    prm: '#833471'
   },
   iconPrefix: 'bx'
 })

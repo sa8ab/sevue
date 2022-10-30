@@ -27,7 +27,7 @@
       </template>
     </RButton>
     <RButton icon="bx-user" to="/second">Second Page</RButton>
-    <div class="" style="height: 40px"></div>
+    <div class="" style="height: 400px"></div>
     <div class="select-container">
       <RSelect
         v-model="select"
@@ -41,7 +41,7 @@
         </RSelectGroup>
       </RSelect>
     </div>
-    <div class="" style="height: 40px"></div>
+    <div class="" style="height: 400px"></div>
     <div class="tabs-container">
       <RTab bordered iconOnly ref="tabs" color="red">
         <template #icon-0> <i class="bx bx-star"></i></template>

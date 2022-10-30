@@ -26,24 +26,26 @@
         </div>
       </div>
     </div>
-    <transition name="fade-move">
+    <transition name="fade-move" @after-leave="onAfterLeave">
       <div
-        class="select-dropdown"
+        class="dropdown-container"
         v-if="active"
         ref="dropdown"
         v-append-to-body
-        v-stick-to="$refs.toggle"
       >
-        <div class="noOptions" v-if="noOptions">
-          <slot name="noItems" class="noOptions"> No Options Available </slot>
+        <div class="select-dropdown">
+          <div class="noOptions" v-if="noOptions">
+            <slot name="noItems" class="noOptions"> No Options Available </slot>
+          </div>
+          <slot />
         </div>
-        <slot />
       </div>
     </transition>
   </div>
 </template>
 
 <script>
+import { createSameWidthPopper } from "@/helpers/popper";
 export default {
   provide() {
     return {
@@ -73,6 +75,7 @@ export default {
     children: [],
     focusedItem: -1,
     dafSlot: [],
+    popper: {},
   }),
   mounted() {
     this.setChildren();
@@ -144,12 +147,34 @@ export default {
       this.$refs.input.focus();
       this.$nextTick(() => {
         this.popupItem = this.$refs.dropdown;
+        const sameWidth = {
+          name: "sameWidth",
+          enabled: true,
+          phase: "beforeWrite",
+          requires: ["computeStyles"],
+          fn: ({ state }) => {
+            console.log(`${state.rects.reference.width}px`, state);
+            state.styles.popper.width = `${state.rects.reference.width}px`;
+          },
+          effect: ({ state }) => {
+            state.elements.popper.style.width = `${state.elements.reference.offsetWidth}px`;
+          },
+        };
+        this.popper = createSameWidthPopper(this.$refs.toggle, this.$refs.dropdown, {
+          placement: "bottom",
+          modifiers: [sameWidth],
+        });
       });
     },
     close() {
       this.active = false;
       this.search = "";
       this.focusedItem = -1;
+    },
+    onAfterLeave() {
+      if (this.popper.destroy) {
+        this.popper.destroy();
+      }
     },
     onFocus() {
       this.focused = true;
@@ -315,8 +340,10 @@ export default {
 }
 </style>
 <style lang="scss">
+.dropdown-container {
+  z-index: 100;
+}
 .select-dropdown {
-  position: absolute;
   background: color("b2");
   color: color("text");
   border-radius: $radius;
@@ -324,17 +351,24 @@ export default {
   overflow-y: auto;
   box-shadow: $shadow2;
   padding: $p;
-  z-index: 100;
   max-height: 240px;
+  width: 100%;
   @extend .overflow-x-scroll-bar;
 }
 .fade-move {
   &-enter-active,
   &-leave-active {
-    transition: all $duration / 1.5;
+    .select-dropdown {
+      transition: all $duration / 1.5;
+    }
+    transition: opacity $duration / 1.5;
   }
   &-enter,
   &-leave-to {
+    .select-dropdown {
+      opacity: 0;
+      transform: translateY(8px);
+    }
     opacity: 0;
     transform: translateY(8px);
   }
