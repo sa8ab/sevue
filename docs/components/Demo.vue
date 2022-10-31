@@ -52,7 +52,6 @@ export default {
   display: flex;
   justify-content: center;
   padding-bottom: 20px;
-  overflow-y: auto;
 }
 .actions {
   display: flex;
