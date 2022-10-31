@@ -154,7 +154,8 @@ export default {
 <style lang="scss">
 .r-pagination {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto auto auto;
+  justify-content: center;
   gap: $p;
   &-main {
     display: flex;

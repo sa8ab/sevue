@@ -1,12 +1,6 @@
 <template>
   <div class="pagination-page">
-    <RPagination
-      :count="40"
-      v-model="page"
-      :mainRange="0"
-      :sideRange="2"
-      compact
-    >
+    <RPagination :count="14" v-model="page" :mainRange="1" :sideRange="2">
       <template #next>
         <i class="bx bx-right-arrow-alt"></i>
       </template>
@@ -27,6 +21,6 @@ export default {
 
 <style scoped>
 .pagination-page {
-  padding-top: 100px;
+  padding-top: 40px;
 }
 </style>
