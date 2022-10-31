@@ -178,6 +178,7 @@ export default {
   }
   &-navigation {
     height: 100%;
+    min-height: 32px;
   }
   &-item-blank {
     pointer-events: none !important;
