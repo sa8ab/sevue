@@ -1,7 +1,10 @@
 <template>
   <div
     :class="['r-pagination notRTL', { bordered, disabled, compact }]"
-    :style="{ '--rgb-prm': $r.getColor(color) }"
+    :style="{
+      '--rgb-prm': $r.getColor(color),
+      '--rgb-active-text-color': $r.getColor(activeTextColor),
+    }"
   >
     <RButton
       class="r-pagination-item r-pagination-navigation prev"
@@ -69,6 +72,7 @@ export default {
   name: "RPagination",
   props: {
     color: { type: String },
+    activeTextColor: { type: String, default: "#fff" },
     count: { type: Number },
     sideRange: { type: Number, default: 2 },
     mainRange: { type: Number, default: 1 },
@@ -168,7 +172,7 @@ export default {
     min-width: 32px;
     &.active {
       background: color() !important;
-      color: color("b1") !important;
+      color: color("active-text-color") !important;
     }
   }
   &-item-blank {
@@ -185,7 +189,7 @@ export default {
     pointer-events: none;
   }
   &.compact {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: auto auto;
     .r-pagination-main {
       grid-column: 1 / 3;
     }

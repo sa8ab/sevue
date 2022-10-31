@@ -1,22 +1,33 @@
 <template>
   <div class="container">
-    <RSlider v-model="slider1" :min="0" :max="10" color="green" ticks />
-    <div style="height: 24px"></div>
-    <RSlider v-model="slider2" :min="0" :max="10" color="red" ticks />
-    <div style="height: 24px"></div>
-    <RSlider v-model="slider3" :min="0" :max="10" color="#e056fd" ticks />
+    <RPagination :count="10" v-model="page1" color="red" />
+    <RPagination :count="5" v-model="page2" color="#F5853F" />
+    <RPagination :count="30" v-model="page3" color="#32E875" />
+    <RPagination
+      :count="14"
+      v-model="page4"
+      color="rgb(68, 207, 203)"
+      class="fourth"
+      activeTextColor="#000"
+    />
   </div>
 </template>
 
 <script>
 export default {
   data: () => ({
-    slider1: [0, 4],
-    slider2: 4,
-    slider3: 8,
+    page1: 1,
+    page2: 3,
+    page3: 5,
+    page4: 2,
   }),
 };
 </script>
 
-<style>
+<style scoped lang="scss">
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 </style>
