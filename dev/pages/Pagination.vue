@@ -1,13 +1,6 @@
 <template>
   <div class="pagination-page">
-    <RPagination
-      :count="14"
-      v-model="page"
-      :mainRange="1"
-      :sideRange="2"
-      compact
-      activeTextColor="red"
-    >
+    <RPagination :count="14" v-model="page" :mainRange="1" :sideRange="3">
       <template #next>
         <i class="bx bx-right-arrow-alt"></i>
       </template>

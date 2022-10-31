@@ -165,6 +165,7 @@ export default {
     display: flex;
     align-items: center;
     gap: $p;
+    flex-wrap: wrap;
   }
   &-item {
     padding: 0 $p2 !important;
@@ -174,6 +175,9 @@ export default {
       background: color() !important;
       color: color("active-text-color") !important;
     }
+  }
+  &-navigation {
+    height: 100%;
   }
   &-item-blank {
     pointer-events: none !important;
