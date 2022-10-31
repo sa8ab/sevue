@@ -4,6 +4,7 @@
       <RButton flat to="/">Home</RButton>
       <RButton flat to="/second">Second</RButton>
       <RButton flat to="/third">Third</RButton>
+      <RButton flat to="/pagination">Pagination</RButton>
     </div>
     <router-view></router-view>
   </div>

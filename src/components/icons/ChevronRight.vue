@@ -4,17 +4,22 @@
     width="24"
     height="24"
     viewBox="0 0 24 24"
-    ref="icon"
     :style="`fill: currentColor; transform: ; msfilter: `"
   >
     <path
-      d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z"
+      d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"
     ></path>
   </svg>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    color: {
+      default: "inherit",
+    },
+  },
+};
 </script>
 
 <style>

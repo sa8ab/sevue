@@ -22,6 +22,11 @@ img {
   }
 }
 
+.notRTL,
+.notRTL * {
+  direction: ltr;
+}
+
 .dark-mode body {
   --rgb-text: 246, 246, 246;
   --gray: #161b21;

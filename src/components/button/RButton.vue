@@ -266,6 +266,9 @@ button {
   &:focus {
     background: color("text", $lightA);
   }
+  &.bordered {
+    border: $border;
+  }
 }
 .r-button.disabled {
   cursor: default !important;
