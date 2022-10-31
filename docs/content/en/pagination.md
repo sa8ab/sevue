@@ -43,7 +43,7 @@ default values are:
 - sideRange: `2`
 - mainRange: `1`
 
-![count](pagination-count.png)
+![count](/pagination-count.png)
 
 <demo>
 <template #demo>
