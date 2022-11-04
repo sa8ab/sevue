@@ -5,6 +5,7 @@
       <RButton flat to="/second">Second</RButton>
       <RButton flat to="/third">Third</RButton>
       <RButton flat to="/pagination">Pagination</RButton>
+      <RButton flat to="/transition-menu">Transition Menu</RButton>
     </div>
     <router-view></router-view>
   </div>
@@ -30,5 +31,6 @@ export default {
   display: flex;
   padding-bottom: 10px;
   gap: 4px;
+  flex-wrap: wrap;
 }
 </style>
