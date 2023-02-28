@@ -2,7 +2,6 @@ import { fileURLToPath, URL } from "node:url";
 
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import path from "node:path";
 import typescript2 from "rollup-plugin-typescript2";
 
 // https://vitejs.dev/config/
@@ -11,8 +10,7 @@ export default defineConfig({
     vue(),
     typescript2({
       check: false,
-      tsconfig: path.resolve(__dirname, "tsconfig.json"),
-      // include: ["src/components/**/*.vue", "src/components/*.vue"],
+      include: ["src/components/**/*.vue", "src/components/*.vue"],
       tsconfigOverride: {
         compilerOptions: {
           outDir: "dist",
@@ -38,6 +36,15 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+         @import "./src/styles/variables.scss";
+        `,
+      },
     },
   },
 });

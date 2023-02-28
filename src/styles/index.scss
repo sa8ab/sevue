@@ -1,0 +1,30 @@
+@import "./ripple.scss";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.r {
+  padding: $bp;
+  border-radius: $radius;
+  cursor: pointer;
+  user-select: none;
+  transition: all $duration;
+  &:hover {
+    background: $hover;
+  }
+}
+.delete {
+  color: $red !important;
+}
+.red {
+  color: $red !important;
+}
+
+*[class*="r-"] {
+  text-decoration: none;
+}
