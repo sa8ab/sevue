@@ -8,8 +8,8 @@
 
 <script setup lang="ts">
 import { useNotification } from '../src/main'
-
 const notification = useNotification()
+
 const click = () => {
   notification({
     text: 'Notification Text',
