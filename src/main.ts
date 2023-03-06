@@ -2,17 +2,22 @@ import type { App } from "vue";
 
 // components
 import RButton from "./components/button";
+import notificationFactory from "./components/notification";
 
 // directives
 import ripple from "./directives/ripple";
 import clickOutside from "./directives/clickOutside";
 import appendToBody from "./directives/appendToBody";
 
+// composables
+// import { useNotification } from "./composables/useNotification";
+
+import { getColor, setDark, setOptions } from "./utils";
+
 // styles
 import "./styles/index.scss";
 
 import type { SevueOptions } from "./types";
-import { getColor, setDark, setOptions } from "./utils";
 
 const defaultOptions: SevueOptions = {
   ripple: true,
@@ -39,7 +44,7 @@ export default {
     app.config.globalProperties.$r.iconPrefix = options.iconPrefix;
     app.config.globalProperties.$r.getColor = getColor;
     app.config.globalProperties.$r.setDark = setDark;
-    // app.config.globalProperties.$r.notification = notification;
+    app.config.globalProperties.$r.notification = notificationFactory(app);
     // app.config.globalProperties.$r.loading = loading;
 
     app.provide("r", {
@@ -47,6 +52,7 @@ export default {
       getColor,
       setDark,
     });
+    app.provide("notification", notificationFactory(app));
   },
 };
 export { RButton };

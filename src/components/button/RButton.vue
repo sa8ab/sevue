@@ -1,9 +1,6 @@
 <template>
-  <component
-    :is="renderComponent"
-    v-bind="specificAttrs"
-    :disabled="disabled"
-    :class="[
+  <component :is="renderComponent" @keyup.tab="focused = true" @blur="focused = false" :disabled="disabled" :to="to"
+    :href="href" :class="[
       'r-button',
       {
         flat,
@@ -20,14 +17,13 @@
         iconLarge,
         iconAfter,
         noPadding,
+        focused,
+        colorInherit,
       },
-    ]"
-    v-ripple="{ class: 'ripple-effect' }"
-    :style="{ '--rgb-prm': '200, 100, 100' }"
-  >
+    ]" :style="{ '--r-prm': getColor(color), '--r-text': getColor(textColor) }" v-ripple>
     <div class="inner">
       <slot name="icon">
-        <!-- <i :class="['icon', $r.iconPrefix, icon]" v-if="icon"></i> -->
+        <i :class="['icon bx', icon]" v-if="icon"></i>
       </slot>
       <div class="icon-space" v-if="icon || $slots.icon"></div>
       <slot></slot>
@@ -36,27 +32,18 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, useAttrs, useSlots } from "vue";
+// import { NuxtLink } from "#components";
+import { getColor } from "@/utils";
+import { useSlots, ref, computed } from "vue";
 
 const props = defineProps({
   to: {
-    default: "",
-  },
-  exact: {
-    type: Boolean,
-    default: false,
+    type: String,
+    default: undefined,
   },
   href: {
     type: String,
-    default: "",
-  },
-  target: {
-    type: String,
-    default: "",
-  },
-  download: {
-    default: false,
-    type: Boolean,
+    default: undefined,
   },
   flat: {
     default: false,
@@ -79,6 +66,11 @@ const props = defineProps({
     type: Boolean,
   },
   color: {
+    default: "",
+    type: String,
+  },
+  // TEXTCOLOR ONLY WORKS IN FLAT STYLE
+  textColor: {
     default: "",
     type: String,
   },
@@ -114,45 +106,24 @@ const props = defineProps({
     default: false,
     type: Boolean,
   },
+  colorInherit: {
+    default: false,
+    type: Boolean,
+  },
 });
-defineEmits(["click"]);
 
 const slots = useSlots();
-const attrs = useAttrs();
 
-const isLink = computed(() => !!props.to);
-const isAnchor = computed(() => !!props.href);
-const isButton = computed(() => !isAnchor.value && !isLink.value);
-const isNuxt = computed(() => false);
-const renderComponent = computed(() =>
-  isLink.value
-    ? `${isNuxt.value ? "nuxt" : "router"}-link`
-    : isAnchor.value
-    ? "a"
-    : "button"
-);
+const focused = ref(false);
+
+const isLink = computed(() => !!props.to || !!props.href);
+const renderComponent = computed(() => (isLink.value ? "NuxtLink" : "button"));
 const noPadding = computed(
   () => slots.icon && (props.iconOnly || props.iconOnlyAlt)
 );
-const specificAttrs = computed(() => {
-  if (isLink.value) {
-    return {
-      to: props.to,
-      exact: props.exact,
-      ...attrs,
-    };
-  } else if (isAnchor.value) {
-    return {
-      href: props.href,
-      target: props.target,
-      ...attrs,
-    };
-  }
-  return attrs;
-});
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 button {
   border: none;
   color: inherit;
@@ -165,10 +136,14 @@ button {
   padding: 8px 12px;
   border-radius: $radius;
   color: color();
-  background: color("prm", $lightA);
+  background: color(prm, var(--light-alpha));
   transition: all 0.3s;
   display: inline-block;
   user-select: none;
+
+  &:hover {
+    background: color(prm, var(--hover-alpha));
+  }
 }
 
 .r-button.round {
@@ -179,96 +154,12 @@ button {
   width: $p2;
 }
 
-// .icon {
-//   line-height: 0 !important;
-// }
 .iconLarge .bx {
   font-size: 1.5rem;
 }
 
-.r-button.flat {
-  background: transparent;
-}
-
 .r-button.bordered {
-  border: 1px solid color("prm", 0.8);
-}
-
-.r-button.fill {
-  background: color();
-  color: white !important;
-}
-
-.r-button.link {
-  background: transparent;
-  color: color();
-  padding: 0px 8px;
-
-  &::v-deep {
-    .r-effect {
-      display: none !important;
-      opacity: 0 !important;
-    }
-  }
-
-  &:hover,
-  &:focus {
-    background: transparent;
-    opacity: 0.8;
-  }
-}
-
-.r-button.fill {
-  &:hover,
-  &:focus {
-    background: color("prm", 0.8);
-  }
-}
-
-.r-button.cancel {
-  color: $cancel;
-  background: rgba($cancel, 0.4);
-
-  &.flat {
-    background: transparent;
-  }
-
-  &:hover,
-  &:focus {
-    background: rgba($cancel, 0.4);
-  }
-}
-
-// .r-button.red {
-//   color: $red;
-//   background: rgba($red, 0.2);
-//   &.flat {
-//     background: transparent;
-//   }
-//   &:hover {
-//     background: rgba($red, 0.3);
-//   }
-// }
-.r-button.noColor {
-  color: inherit !important;
-  background: transparent;
-
-  &.flat {
-    background: transparent;
-  }
-
-  &.fill {
-    background: color("b2");
-  }
-
-  &:hover,
-  &:focus {
-    background: color("text", $lightA);
-  }
-
-  &.bordered {
-    border: $border;
-  }
+  border: 1px solid color(prm, 0.8);
 }
 
 .r-button.disabled {
@@ -276,15 +167,54 @@ button {
   pointer-events: none;
 }
 
-.r-button:hover,
-.r-button:focus {
-  background: $btn-hover;
-}
-
 .r-button .inner {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.r-button.flat {
+  background: transparent;
+
+  &:hover {
+    background: color(prm, var(--hover-alpha));
+  }
+}
+
+.r-button.fill {
+  background: color();
+  color: color(text);
+
+  &:hover {
+    background: color(prm, 0.8);
+  }
+}
+
+.r-button.link {
+  background: transparent;
+  color: color();
+  padding: 0px 8px;
+
+  &:hover {
+    background: transparent;
+    opacity: 0.8;
+  }
+}
+
+.r-button.cancel {
+  --r-prm: var(--r-disabled);
+}
+
+.r-button.colorInherit {
+  color: inherit;
+}
+
+.r-button.noColor {
+  background: transparent;
+
+  &:hover {
+    background: color(hover);
+  }
 }
 
 .r-button {
@@ -309,10 +239,6 @@ button {
     .icon-space {
       width: 0;
     }
-
-    .icon {
-      line-height: 0 !important;
-    }
   }
 
   &.noPadding {
@@ -323,5 +249,9 @@ button {
     width: 36px;
     height: 36px;
   }
+}
+
+.focused {
+  box-shadow: 0px 0px 0px math.div($p, 2) color(prm);
 }
 </style>

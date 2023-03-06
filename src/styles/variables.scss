@@ -1,69 +1,47 @@
+@function color($color: "prm", $alpha: 1) {
+  @return rgba(var(--r-#{$color}), $alpha);
+}
+
 :root {
-  --rgb-prm: 0, 168, 255;
-  --rgb-red: 235, 59, 90;
-  --rgb-green: 38, 222, 129;
-  --rgb-yellow: 247, 159, 31;
-  --r-prm: rgb(var(--rgb-prm));
-  --r-red: rgb(var(--rgb-red));
-  --r-green: rgb(var(--rgb-green));
-  --r-yellow: rgb(var(--rgb-yellow));
-  --gray: #f9fafb;
-  --rgb-text: 18, 18, 18;
-  --r-text: rgb(var(--rgb-text));
+  // colors
+  --r-prm: 0, 168, 255;
+  --r-red: 235, 59, 90;
+  --r-green: 38, 222, 129;
+  --r-yellow: 247, 159, 31;
+  --r-gray: 249, 250, 251;
+  --r-b1: 246, 246, 246;
+  --r-b2: 255, 255, 255;
+  --r-text: 18, 18, 18;
+  --r-disabled: 116, 125, 140;
+  --r-hover: 30, 30, 30;
+
   --r-radius: 6px;
   --r-radius-2: 14px;
-  --rgb-b1: 246, 246, 246;
-  --rgb-b2: 255, 255, 255;
-  --hover: rgba(30, 30, 30, 0.2);
-  --rgb-hover: 30, 30, 30;
-
-  --shadow: 0px 0px 6px 0px rgba(100, 100, 100, 0.2);
+  --hover-alpha: 0.2;
   --duration: 0.3s;
+  --light-alpha: 0.2;
+  --hover-alpha: 0.3;
 
+  // shadows & borders
+  --shadow: 0px 0px 6px 0px rgba(100, 100, 100, 0.2);
+  --borderColor: color(c1, 0.1);
+  --border: 1px solid var(--borderColor);
   --popup-underlay-opacity: 0.2;
 }
 .dark {
-  --rgb-text: 246, 246, 246;
-  --gray: #161b21;
-  --rgb-b1: 18, 18, 18;
-  --rgb-b2: 30, 30, 30;
-  --hover: rgba(255, 255, 255, 0.2);
-  --rgb-hover: 255, 255, 255;
+  --r-gray: 22, 27, 33;
+  --r-b1: 18, 18, 18;
+  --r-b2: 30, 30, 30;
+  --r-text: 246, 246, 246;
+  --r-disabled: 116, 125, 140;
+  --r-hover: 255, 255, 255;
 
   --popup-underlay-opacity: 0.5;
 }
 
-$b1: rgb(var(--rgb-b1));
-$b2-hover: var(--hover);
-$hover: var(--hover);
-$b2: rgb(var(--rgb-b2));
-$rgb-b1: var(--rgb-b1);
-$rgb-b2: var(--rgb-b2);
-$text: rgb(var(--rgb-text));
-$rgb-text: var(--rgb-text);
 $duration: 0.3s;
-$prm: var(--r-prm); // unused
-$rgb-prm: var(--rgb-prm); // unused
-$lightA: 0.2;
-$hoverA: 0.3;
-$prm-light: rgba($rgb-prm, $lightA);
-$btn-hover: rgba($rgb-prm, $hoverA);
-$red: var(--r-red);
-$green: var(--r-green);
-$yellow: var(--r-yellow);
-$gray: var(--gray);
-$cancel: #747d8c;
-$radius: var(--r-radius);
-$radius2: var(--r-radius-2);
-$shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.1);
-$shadow2: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
-$shadow4: 0 5px 30px rgba(#444444, 0.1);
-$lowShadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
-// $shadowprm: 0px 2px 6px 0px rgba($prm, 0.8);
-$borderColor: rgba($rgb-text, 0.1);
-$border: 1px solid $borderColor;
-$popupUnderlay: rgba(#343434, var(--popup-underlay-opacity));
-
+$radius: 6px;
+$radius2: 14px;
 $p: 4px;
 $p2: 8px;
 $p4: 14px;
@@ -77,10 +55,6 @@ $flarge: 1.18rem;
 $fxlarge: 1.25rem;
 $fsmall: 0.86rem;
 $fxsmall: 0.74rem;
-
-@function color($color: "prm", $alpha: 1) {
-  @return rgba(var(--rgb-#{$color}), $alpha);
-}
 
 .flexCenter {
   display: flex;
@@ -102,7 +76,6 @@ $fxsmall: 0.74rem;
 }
 
 // ripple
-
 $transition: (
   "fast-out-slow-in": cubic-bezier(0.4, 0, 0.2, 1),
   "linear-out-slow-in": cubic-bezier(0, 0, 0.2, 1),

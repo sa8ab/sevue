@@ -15,14 +15,14 @@
   user-select: none;
   transition: all $duration;
   &:hover {
-    background: $hover;
+    background: color(hover);
   }
 }
 .delete {
-  color: $red !important;
+  color: color(red) !important;
 }
 .red {
-  color: $red !important;
+  color: color(red) !important;
 }
 
 *[class*="r-"] {

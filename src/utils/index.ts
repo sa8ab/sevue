@@ -38,6 +38,7 @@ export const getColor = (color: string = ""): string => {
   const isRGB = /^(rgb|rgba)/.test(color);
   const isHEX = color.startsWith("#");
   const isPreset = presetColors.includes(color);
+  const isCSSVar = color.startsWith("var");
   if (isRGB) {
     const [r, g, b] = color.replace(/[rgba()]/g, "").split(",");
     return `${r}, ${g}, ${b}`;
@@ -47,7 +48,9 @@ export const getColor = (color: string = ""): string => {
   } else if (isPreset) {
     if (typeof window === "undefined") return "";
     const style = window.getComputedStyle(document.body);
-    return style.getPropertyValue("--rgb-" + color);
+    return style.getPropertyValue("--r-" + color);
+  } else if (isCSSVar) {
+    return color;
   } else {
     return "";
   }

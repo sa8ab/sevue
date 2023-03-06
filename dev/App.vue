@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="app dark">
     <div>
       <RButton @click="click"> hi there </RButton>
     </div>
@@ -7,10 +7,17 @@
 </template>
 
 <script setup lang="ts">
-const click = () => console.log("clicked");
+import { inject } from 'vue';
+
+const notification: any = inject('notification')
+const click = () => {
+  notification({
+    text: 'some notification',
+  })
+};
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .app {
   display: flex;
   flex-direction: column;
@@ -18,5 +25,6 @@ const click = () => console.log("clicked");
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  background: color(b1);
 }
 </style>
