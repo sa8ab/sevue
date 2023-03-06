@@ -2,6 +2,7 @@ import Notification from "./Notification.vue";
 import NotificationContainer from "./NotificationContainer.vue";
 import mounter from "@/utils/mountComponent";
 import type { App } from "vue";
+import type { NotificationOptions } from "@/types";
 
 const notificationFactory = (app: App) => {
   const defaultProps = {
@@ -14,13 +15,9 @@ const notificationFactory = (app: App) => {
       ...data,
     };
 
-    const appendName = propsData.placement.includes("top")
-      ? "prepend"
-      : "append";
+    const appendName = propsData.placement.includes("top") ? "prepend" : "append";
 
-    const container = document.querySelector(
-      `.r-notifications-container.${propsData.placement}`
-    );
+    const container = document.querySelector(`.r-notifications-container.${propsData.placement}`);
 
     if (container) {
       const { element } = mounter(Notification, {

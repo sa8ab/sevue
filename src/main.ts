@@ -10,9 +10,10 @@ import clickOutside from "./directives/clickOutside";
 import appendToBody from "./directives/appendToBody";
 
 // composables
-// import { useNotification } from "./composables/useNotification";
+import useNotification from "./composables/useNotification";
 
 import { getColor, setDark, setOptions } from "./utils";
+import { notificationKey, sevueKey } from "./injectionKeys";
 
 // styles
 import "./styles/index.scss";
@@ -47,12 +48,14 @@ export default {
     app.config.globalProperties.$r.notification = notificationFactory(app);
     // app.config.globalProperties.$r.loading = loading;
 
-    app.provide("r", {
-      iconPrefix: options.iconPrefix,
+    app.provide(sevueKey, {
+      iconPrefix: options.iconPrefix as string,
       getColor,
       setDark,
     });
-    app.provide("notification", notificationFactory(app));
+    app.provide(notificationKey, notificationFactory(app));
   },
 };
-export { RButton };
+export { RButton, useNotification };
+// inject keys
+export { notificationKey, sevueKey };

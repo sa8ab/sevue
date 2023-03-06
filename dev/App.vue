@@ -7,12 +7,12 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue';
+import { useNotification } from '../src/main'
 
-const notification: any = inject('notification')
+const notification = useNotification()
 const click = () => {
   notification({
-    text: 'some notification',
+    text: 'Notification Text',
   })
 };
 </script>

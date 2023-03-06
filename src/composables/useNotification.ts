@@ -1,14 +1,10 @@
-import NotificationsContainer from "../components/notification/NotificationContainer.vue";
-import Notification from "../components/notification/Notification.vue";
+import { notificationKey } from "@/injectionKeys";
 import { inject } from "vue";
+import type { NotificationOptions } from "@/types";
 
-export const useNotification = () => {
-  const defaultProps = {
-    placement: "bottom-right",
-  };
-  const mounter: any = inject("mounter");
-
-  const notification = undefined;
-
+const useNotification = () => {
+  const notification = inject(notificationKey) as (options: NotificationOptions) => void;
   return notification;
 };
+
+export default useNotification;
