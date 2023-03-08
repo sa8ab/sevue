@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['r-select-item r', { active: isActive, focused, disabled }]"
+    :class="['r-option r', { active: isActive, focused, disabled }]"
     @click="onSelectValue"
     v-if="visible"
     v-ripple
@@ -57,7 +57,8 @@ const isActive = computed(() => {
 </script>
 
 <style scoped lang="scss">
-.r-select-item {
+.r-option {
+  color: color(text);
   width: 100%;
   font-size: $fsmall;
   min-height: 100%;
@@ -69,7 +70,7 @@ const isActive = computed(() => {
   }
 
   &:hover {
-    background: color(hover);
+    background: color(hover, var(--hover-alpha));
   }
 
   &:last-child {
@@ -89,6 +90,6 @@ const isActive = computed(() => {
 
 .active {
   color: color(prm);
-  background: color(prm-light) !important;
+  background: color(prm, var(--light-alpha)) !important;
 }
 </style>

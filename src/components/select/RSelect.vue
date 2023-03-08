@@ -1,6 +1,6 @@
 <template>
-  <div class="r-select" v-click-outside="close" tabindex="-1">
-    <div :class="['trigger', { focused: state.active, disabled }]">
+  <div class="r-select" v-click-outside="clickOutside" tabindex="-1">
+    <div :class="['trigger', { focused: state.active, disabled }]" @click="open">
       <label for="" class="label">
         {{ label }}
         <span class="required-text" v-if="requiredText"> &nbsp;( required ) </span>
@@ -12,12 +12,13 @@
           :placeholder="inputPlaceholder"
           :readOnly="!searchable"
           ref="inputRef"
-          @click="open"
+          @keyup.tab="open"
+          @keyup.esc="close"
           @keydown.arrow-down.stop.prevent="onArrowDown"
           @keydown.arrow-up.stop.prevent="onArrowUp"
           @keydown.enter.stop.prevent="onEnter"
         />
-        <div :class="['dropdown-icon']" @click="toggleOpen" v-ripple>
+        <div :class="['dropdown-icon']" @click.stop="toggleOpen" v-ripple>
           <i :class="['bx bx-chevron-down', { rotate: state.active }]"></i>
         </div>
       </div>
@@ -41,7 +42,7 @@
 import { createPopper, type Instance, type Modifier } from "@popperjs/core";
 import { isArray } from "@vue/shared";
 import { RSelectKey } from '@/injectionKeys'
-import { nextTick, computed, onBeforeUnmount, onMounted, provide, reactive, ref, toRef, useSlots, watch, type VNode, type VNodeArrayChildren } from "vue";
+import { nextTick, computed, onBeforeUnmount, onMounted, provide, reactive, ref, toRef, useSlots, watch, type VNode } from "vue";
 type Props = {
   searchable?: boolean
   multiple?: boolean
@@ -72,7 +73,6 @@ const props = withDefaults(
     placeholder: ''
   }
 )
-
 const emit = defineEmits(["update:modelValue"]);
 const state = reactive<State>({
   search: "",
@@ -110,6 +110,8 @@ const onSelectValue = ({ event, activate }: { event: string | number, activate: 
     emit("update:modelValue", event);
   }
   if (!props.keepOpenAfterSelection) {
+
+    console.log('no open after selection');
     state.search = "";
     // in order to focus on the laters selected item
     // this.focusedItem = this.options.findIndex(({ value }) => value === event);
@@ -126,6 +128,7 @@ const toggleOpen = () => {
   }
 };
 const open = () => {
+  console.log('open');
   state.active = true;
   inputRef.value.focus();
   nextTick(() => {
@@ -148,10 +151,21 @@ const open = () => {
   });
 };
 const close = () => {
+  console.log('CALL close');
+  if(!state.active) return
   state.active = false;
   state.search = "";
   state.focusedItem = -1;
+  console.log('close');
+
 };
+const clickOutside = {
+  handler: close,
+  middleware: (e: Event) => {
+    const contains = dropdown.value?.contains(e.target)
+    return !contains
+  }
+}
 
 // Options
 const { default: defaultSlot } = useSlots();
@@ -257,15 +271,19 @@ provide(RSelectKey, {
 
 <style scoped lang="scss">
 .trigger {
+  color: color(text);
+  &:hover {
+    .input-container {
+      box-shadow: var(--border-active);
+    }
+  }
   &.focused {
     .icon,
     .label {
       color: color();
     }
-
     .input-container {
-      border: 1px solid color();
-      box-shadow: var(--shadow);
+      box-shadow: 0 0 0 1px color();
     }
   }
 
@@ -280,8 +298,8 @@ provide(RSelectKey, {
   border-radius: $radius;
   display: flex;
   align-items: center;
-  border: 1px solid color(b1);
-  transition: border $duration;
+  box-shadow: var(--border);
+  transition: box-shadow $duration;
   overflow: hidden;
 }
 
@@ -289,7 +307,9 @@ provide(RSelectKey, {
 .description {
   padding: 2px;
   display: flex;
-  font-size: 0.86rem;
+  font-size: $fsmall;
+  opacity: var(--info-alpha);
+  transition: color $duration;
 }
 
 .required-text {
@@ -323,7 +343,8 @@ provide(RSelectKey, {
   height: 30px;
   border-radius: 50%;
   overflow: hidden;
-
+  cursor: pointer;
+  transition: color $duration;
   .bx {
     transition: all $duration;
   }
@@ -358,7 +379,7 @@ provide(RSelectKey, {
   max-height: 240px;
   overflow: hidden;
   overflow-y: auto;
-  box-shadow: var(--shadow2);
+  box-shadow: var(--shadow);
   padding: $p;
   @extend .overflow-x-scroll-bar;
 }

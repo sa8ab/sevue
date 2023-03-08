@@ -13,19 +13,25 @@
   --r-b2: 255, 255, 255;
   --r-text: 18, 18, 18;
   --r-disabled: 116, 125, 140;
-  --r-hover: 30, 30, 30;
+  --r-hover: 140, 140, 140;
+  --r-border-color: 60, 60, 60;
+  --r-shadow-color: 140, 140, 140;
+  --r-shadow-alpha: 0.2;
 
   --r-radius: 6px;
   --r-radius-2: 14px;
   --hover-alpha: 0.2;
-  --duration: 0.3s;
+  --duration: 0.2s;
   --light-alpha: 0.2;
   --hover-alpha: 0.3;
+  --info-alpha: 0.8;
+  --border-alpha: 0.2;
+  --border-active-alpha: 0.4;
 
   // shadows & borders
-  --shadow: 0px 0px 6px 0px rgba(100, 100, 100, 0.2);
-  --borderColor: color(c1, 0.1);
-  --border: 1px solid var(--borderColor);
+  --shadow: 0px 2px 4px 0px rgba(var(--r-shadow-color), var(--r-shadow-alpha));
+  --border: 0 0 0 1px rgba(var(--r-border-color), var(--border-alpha));
+  --border-active: 0 0 0 1px rgba(var(--r-border-color), var(--border-active-alpha));
   --popup-underlay-opacity: 0.2;
 }
 .dark {
@@ -34,12 +40,17 @@
   --r-b2: 30, 30, 30;
   --r-text: 246, 246, 246;
   --r-disabled: 116, 125, 140;
-  --r-hover: 255, 255, 255;
+  --r-hover: 180, 180, 180;
+  --r-border-color: 200, 200, 200;
+  --r-shadow-color: 100, 100, 100;
 
+  --shadow: 0px 2px 4px 0px rgba(var(--r-shadow-color), var(--r-shadow-alpha));
+  --border: 0 0 0 1px rgba(var(--r-border-color), var(--border-alpha));
+  --border-active: 0 0 0 1px rgba(var(--r-border-color), var(--border-active-alpha));
   --popup-underlay-opacity: 0.5;
 }
 
-$duration: 0.3s;
+$duration: 0.2s;
 $radius: 6px;
 $radius2: 14px;
 $p: 4px;

@@ -22,3 +22,7 @@
 body {
   font-family: Inter;
 }
+
+*:focus {
+  box-shadow: 0 0 0 4px red !important;
+}
