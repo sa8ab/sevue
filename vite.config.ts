@@ -1,6 +1,7 @@
 import { fileURLToPath, URL } from "node:url";
 
 import { defineConfig } from "vite";
+import DefineOptions from "unplugin-vue-define-options/vite";
 import vue from "@vitejs/plugin-vue";
 import typescript2 from "rollup-plugin-typescript2";
 
@@ -8,6 +9,7 @@ import typescript2 from "rollup-plugin-typescript2";
 export default defineConfig({
   plugins: [
     vue(),
+    DefineOptions(),
     typescript2({
       check: false,
       include: ["src/components/**/*.vue", "src/components/*.vue"],

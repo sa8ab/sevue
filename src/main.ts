@@ -2,6 +2,7 @@ import type { App } from "vue";
 
 // components
 import RButton from "./components/button";
+import { RSelect, ROption } from "./components/select";
 import notificationFactory from "./components/notification";
 
 // directives
@@ -34,6 +35,8 @@ export default {
 
     // components
     app.component("RButton", RButton);
+    app.component("RSelect", RSelect);
+    app.component("ROption", ROption);
 
     // directives
     app.directive("ripple", ripple);
