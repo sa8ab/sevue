@@ -7,6 +7,7 @@ import notificationFactory from "./components/notification";
 import RInput from "./components/input";
 import RPopup from "./components/popup";
 import RCheckbox from "./components/checkbox";
+import RPagination from "./components/pagination";
 
 // directives
 import ripple from "./directives/ripple";
@@ -45,6 +46,7 @@ export default {
     app.component("RInput", RInput);
     app.component("RPopup", RPopup);
     app.component("RCheckbox", RCheckbox);
+    app.component("RPagination", RPagination);
 
     // directives
     app.directive("ripple", ripple);
