@@ -1,6 +1,12 @@
 <template>
-  <component :is="renderComponent" @keyup.tab="focused = true" @blur="focused = false" :disabled="disabled" :to="to"
-    :href="href" :class="[
+  <component
+    :is="renderComponent"
+    @keyup.tab="focused = true"
+    @blur="focused = false"
+    :disabled="disabled"
+    :to="to"
+    :href="href"
+    :class="[
       'r-button',
       {
         flat,
@@ -20,7 +26,10 @@
         focused,
         colorInherit,
       },
-    ]" :style="{ '--r-prm': getColor(color), '--r-text': getColor(textColor) }" v-ripple>
+    ]"
+    :style="{ '--r-prm': getColor(color), '--r-text': getColor(textColor) }"
+    v-ripple
+  >
     <div class="inner">
       <slot name="icon">
         <i :class="['icon bx', icon]" v-if="icon"></i>
@@ -118,9 +127,7 @@ const focused = ref(false);
 
 const isLink = computed(() => !!props.to || !!props.href);
 const renderComponent = computed(() => (isLink.value ? "NuxtLink" : "button"));
-const noPadding = computed(
-  () => slots.icon && (props.iconOnly || props.iconOnlyAlt)
-);
+const noPadding = computed(() => slots.icon && (props.iconOnly || props.iconOnlyAlt));
 </script>
 
 <style scoped lang="scss">
@@ -213,7 +220,7 @@ button {
   background: transparent;
 
   &:hover {
-    background: color(hover);
+    background: color(hover, var(--hover-alpha));
   }
 }
 

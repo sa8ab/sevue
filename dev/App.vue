@@ -1,15 +1,19 @@
 <template>
   <div class="app">
     <RButton @click="click"> toggle dark </RButton>
-    <RInput label="RInput" v-model="v" />
-    {{ v }}
+    <RButton @click="active = true">Popup</RButton>
+    <RButton @click="active = true">Popup</RButton>
+    <RButton @click="active = true">Popup</RButton>
+    <RButton @click="active = true">Popup</RButton>
+    <RButton @click="active = true">Popup</RButton>
+    <RPopup v-model:active="active"> some content </RPopup>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 
-const v = ref("");
+const active = ref(false);
 const items = ref([
   { value: "10", text: "hey there" },
   { value: "20", text: "some text" },
@@ -31,6 +35,8 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+}
+body {
   background: color(b1);
   color: color(text);
 }
