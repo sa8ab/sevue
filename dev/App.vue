@@ -1,8 +1,7 @@
 <template>
   <div class="app">
     <RButton @click="click"> toggle dark </RButton>
-    <RButton @click="active = true">Popup</RButton>
-    <RPopup v-model:active="active" title="cdsdsofmek"> some content </RPopup>
+    <RCheckbox v-model="active">{{ active }}</RCheckbox>
   </div>
 </template>
 
