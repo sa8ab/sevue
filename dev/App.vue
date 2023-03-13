@@ -2,11 +2,7 @@
   <div class="app">
     <RButton @click="click"> toggle dark </RButton>
     <RButton @click="active = true">Popup</RButton>
-    <RButton @click="active = true">Popup</RButton>
-    <RButton @click="active = true">Popup</RButton>
-    <RButton @click="active = true">Popup</RButton>
-    <RButton @click="active = true">Popup</RButton>
-    <RPopup v-model:active="active"> some content </RPopup>
+    <RPopup v-model:active="active" title="cdsdsofmek"> some content </RPopup>
   </div>
 </template>
 

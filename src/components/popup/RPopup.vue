@@ -86,7 +86,7 @@ const onClose = () => {
     font-size: 1.2rem;
     font-weight: bold;
     // box-shadow: $shadow2;
-    border-bottom: 1px solid color(c1, 0.1);
+    border-bottom: 1px solid color(text, 0.1);
   }
   &-content {
     // height: 100%;
