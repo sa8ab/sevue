@@ -1,5 +1,8 @@
 <template>
-  <label :class="['r-cb', { isChecked }]" :style="{ '--r-prm': getColor(color) }">
+  <label
+    :class="['r-cb', { isChecked }]"
+    :style="{ '--r-prm': getColor(color), '--r-text': getColor(iconColor) }"
+  >
     <input
       type="checkbox"
       :value="val"
@@ -8,7 +11,7 @@
       :falseValue="falseValue"
     />
     <div class="check-container">
-      <CheckIcon />
+      <CheckIcon class="icon" />
       <div class="background"></div>
     </div>
     <slot />
@@ -23,15 +26,17 @@ import CheckIcon from "@/components/icons/Check.vue";
 
 const props = withDefaults(
   defineProps<{
-    modelValue: string | number;
+    modelValue: string | number | boolean | any[];
     val?: string | number | any[];
     color?: string;
+    iconColor?: string;
     trueValue?: any;
     falseValue?: any;
   }>(),
   {
     trueValue: true,
     falseValue: false,
+    iconColor: "#fff",
   }
 );
 const emit = defineEmits(["update:modelValue"]);
@@ -114,6 +119,7 @@ const isChecked = computed(() => {
     transform: scale(0);
     transition: transform $duration / 2;
     transition-delay: $duration / 2;
+    color: color(text);
   }
   &.isChecked {
     &:hover {

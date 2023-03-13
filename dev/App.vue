@@ -1,14 +1,14 @@
 <template>
   <div class="app">
     <RButton @click="click"> toggle dark </RButton>
-    <RCheckbox v-model="active">{{ active }}</RCheckbox>
+    <RCheckbox v-model="active" val="sth">{{ active }}</RCheckbox>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 
-const active = ref(false);
+const active = ref("");
 const items = ref([
   { value: "10", text: "hey there" },
   { value: "20", text: "some text" },
