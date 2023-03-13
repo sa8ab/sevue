@@ -1,12 +1,15 @@
 <template>
   <div class="app">
     <RButton @click="click"> toggle dark </RButton>
-    <RCheckbox v-model="active" val="sth">{{ active }}</RCheckbox>
+    <RButton @click="loader"> Loader </RButton>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, inject } from "vue";
+import { LoadingKey, useLoading } from "../src/main";
+
+const loading = useLoading();
 
 const active = ref("");
 const items = ref([
@@ -15,6 +18,12 @@ const items = ref([
 ]);
 const click = () => {
   document.body.classList.toggle("dark");
+};
+const loader = () => {
+  const close = loading();
+  setTimeout(() => {
+    close();
+  }, 1000);
 };
 
 onMounted(() => {
@@ -34,5 +43,8 @@ onMounted(() => {
 body {
   background: color(b1);
   color: color(text);
+}
+.loader-container {
+  position: relative;
 }
 </style>

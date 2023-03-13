@@ -15,14 +15,16 @@ import appendToBody from "./directives/appendToBody";
 
 // composables
 import useNotification from "./composables/useNotification";
+import useLoading from "./composables/useLoading";
 
 import { getColor, setDark, setOptions } from "./utils";
-import { notificationKey, sevueKey } from "./injectionKeys";
+import { LoadingKey, notificationKey, sevueKey } from "./injectionKeys";
 
 // styles
 import "./styles/index.scss";
 
 import type { SevueOptions } from "./types";
+import loadingFactory from "./components/loading";
 
 const defaultOptions: SevueOptions = {
   ripple: true,
@@ -55,6 +57,7 @@ export default {
     app.config.globalProperties.$r.getColor = getColor;
     app.config.globalProperties.$r.setDark = setDark;
     app.config.globalProperties.$r.notification = notificationFactory(app);
+    app.config.globalProperties.$r.loading = loadingFactory(app);
     // app.config.globalProperties.$r.loading = loading;
 
     app.provide(sevueKey, {
@@ -63,8 +66,9 @@ export default {
       setDark,
     });
     app.provide(notificationKey, notificationFactory(app));
+    app.provide(LoadingKey, loadingFactory(app));
   },
 };
-export { RButton, useNotification };
+export { RButton, useNotification, useLoading };
 // inject keys
-export { notificationKey, sevueKey };
+export { notificationKey, sevueKey, LoadingKey };

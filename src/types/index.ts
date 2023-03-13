@@ -27,3 +27,11 @@ export interface NotificationOptions {
   textColor?: String;
   duration?: Number;
 }
+
+export type LoadingOptions = {
+  text?: string;
+  color?: string;
+  background?: string;
+  scale?: number;
+  target?: string | HTMLElement;
+};
