@@ -1,5 +1,8 @@
-@function color($color: "prm", $alpha: 1) {
+@function color($color: prm, $alpha: 1) {
   @return rgba(var(--r-#{$color}), $alpha);
+}
+@function borderx($color: prm, $alpha: 1) {
+  @return 0 0 0 1px rgba(var(--r-#{$color}), $alpha);
 }
 
 :root {

@@ -1,16 +1,13 @@
 <template>
   <div class="app">
     <RButton @click="click"> toggle dark </RButton>
-    <RSelect v-model="v" label="label" keepOpenAfterSelection>
-      <ROption v-for="{ value, text } in items" :value="value" :text="text" />
-    </RSelect>
+    <RInput label="RInput" v-model="v" />
+    {{ v }}
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useNotification } from "../src/main";
-const notification = useNotification();
 
 const v = ref("");
 const items = ref([
