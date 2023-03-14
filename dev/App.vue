@@ -3,7 +3,6 @@
     <RButton @click="click" disabled> toggle dark </RButton>
     <RButton @click="click"> toggle dark </RButton>
     <RButton @click="loader" textStyle flat> Loader </RButton>
-    <RPagination :count="10" v-model="active" bordered />
   </div>
 </template>
 
@@ -13,7 +12,7 @@ import { LoadingKey, useLoading } from "../src/main";
 
 const loading = useLoading();
 
-const active = ref(1);
+const active = ref([0, 50]);
 const items = ref([
   { value: "10", text: "hey there" },
   { value: "20", text: "some text" },
