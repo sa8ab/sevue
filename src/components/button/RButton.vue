@@ -257,6 +257,13 @@ button {
     height: 36px;
   }
 }
+// Specials
+.r-button.textStyle.disabled {
+  color: color(disabled);
+}
+.r-button.fill.disabled {
+  opacity: var(--disabled-alpha);
+}
 
 .focused {
   box-shadow: 0px 0px 0px math.div($p, 2) color(prm);

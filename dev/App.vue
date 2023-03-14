@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    <RButton @click="click" disabled> toggle dark </RButton>
     <RButton @click="click"> toggle dark </RButton>
     <RButton @click="loader" textStyle flat> Loader </RButton>
     <RPagination :count="10" v-model="active" bordered />
