@@ -117,8 +117,8 @@ const isChecked = computed(() => {
     position: relative;
     z-index: 2;
     transform: scale(0);
-    transition: transform $duration / 2;
-    transition-delay: $duration / 2;
+    transition: transform math.div($duration, 2);
+    transition-delay: math.div($duration, 2);
     color: color(text);
   }
   &.isChecked {

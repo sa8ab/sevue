@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['r-pagination notRTL', { bordered, disabled, compact }]"
+    :class="['r-pagination notRTL', { bordered, disabled, compact, activeShadow }]"
     :style="{
       '--r-prm': getColor(color),
       '--r-active-text-color': getColor(activeTextColor),
@@ -82,16 +82,18 @@ const props = withDefaults(
     disabled?: boolean;
     noNavigation?: boolean;
     compact?: boolean;
+    activeShadow?: boolean;
   }>(),
   {
     activeTextColor: "#fff",
     sideRange: 2,
     mainRange: 1,
     modelValue: 1,
-    buttonProps: { noColor: true, flat: true },
+    buttonProps: { textStyle: true, flat: true },
     disabled: false,
     noNavigation: false,
     compact: false,
+    activeShadow: true,
   }
 );
 const emit = defineEmits(["update:modelValue"]);
@@ -216,6 +218,9 @@ watch(
     .prev {
       grid-row: 2 / 3;
     }
+  }
+  &.activeShadow .active {
+    box-shadow: 0 0 8px -2px color() !important;
   }
 }
 </style>

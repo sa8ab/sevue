@@ -15,7 +15,7 @@
         link,
         cancel: cancel || disabled,
         disabled,
-        noColor,
+        textStyle,
         icon,
         round,
         iconOnly,
@@ -78,12 +78,12 @@ const props = defineProps({
     default: "",
     type: String,
   },
-  // TEXTCOLOR ONLY WORKS IN FLAT STYLE
+  // TEXTCOLOR ONLY WORKS IN FILL STYLE
   textColor: {
     default: "",
     type: String,
   },
-  noColor: {
+  textStyle: {
     default: false,
     type: Boolean,
   },
@@ -216,9 +216,9 @@ button {
   color: inherit;
 }
 
-.r-button.noColor {
+.r-button.textStyle {
   background: transparent;
-
+  color: inherit;
   &:hover {
     background: color(hover, var(--hover-alpha));
   }

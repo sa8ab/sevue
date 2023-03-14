@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <RButton @click="click"> toggle dark </RButton>
-    <RButton @click="loader"> Loader </RButton>
+    <RButton @click="loader" textStyle flat> Loader </RButton>
     <RPagination :count="10" v-model="active" bordered />
   </div>
 </template>
