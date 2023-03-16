@@ -6,9 +6,9 @@
     <!-- tabbar -->
     <div class="tabbar" ref="tabbar">
       <div
-        v-for="({ title, icon }, i) in tabs"
+        v-for="({ title, icon, disabled }, i) in tabs"
         :key="i"
-        :class="['tab-button r', { tabactive: state.activeTab === title }]"
+        :class="['tab-button r', { tabactive: state.activeTab === title, disabled }]"
         :icon="icon"
         ref="tabBarItems"
         @click="setActiveTab(title)"
@@ -31,7 +31,6 @@
 </template>
 
 <script setup lang="ts">
-// import useDynamicSlots from "@/composables/useDynamicSlots";
 import { getColor } from "@/utils";
 import { nextTick, onMounted, reactive, ref, toRef, computed, useSlots, watch, type VNode, provide } from "vue";
 type State = {
@@ -45,7 +44,8 @@ type State = {
 }
 type Tab = {
   title: string,
-  icon: string
+  icon?: string,
+  disabled?: boolean
 }
 const props = withDefaults(
   defineProps<{
@@ -55,6 +55,7 @@ const props = withDefaults(
     scrollable?: boolean;
     moverFull?: boolean;
     color?: string;
+    initialActiveTab?: number
   }>(),
   {}
 );
@@ -76,7 +77,7 @@ const { default: defaultSlot } = useSlots();
 onMounted(() => {
   state.children = defaultSlot!();
   nextTick(() => {
-    setActiveTab(tabs.value[0]?.title);
+    setActiveTab(tabs.value[props.initialActiveTab ?? 0]?.title);
   });
 });
 watch(
@@ -139,13 +140,11 @@ $duration: $duration * 1.5;
 
 .r-tab {
   min-width: 100%;
-
   .tabbar {
     display: flex;
     position: relative;
     overflow: hidden;
   }
-
   .tab-button {
     display: flex;
     align-items: center;
@@ -162,8 +161,11 @@ $duration: $duration * 1.5;
       color: color(prm);
       background: color(prm, var(--light-alpha));
     }
+    &.disabled {
+      color: color(disabled);
+      pointer-events: none;
+    }
   }
-
   .mover {
     position: absolute;
     bottom: 0;
@@ -172,14 +174,12 @@ $duration: $duration * 1.5;
     background: color(prm);
     transition: width $duration, left $duration;
   }
-
   .tabs-container {
     border-radius: var(--r-radius);
     overflow: hidden;
     position: relative;
     transition: all $duration;
   }
-
   &.fit {
     .tab-button {
       flex: 1;

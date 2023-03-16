@@ -3,8 +3,9 @@
     <RButton @click="click" disabled> toggle dark </RButton>
     <RButton @click="click"> toggle dark </RButton>
     <RButton @click="loader" textStyle flat> Loader </RButton>
-    <RTab bordered moverFull>
-      <RTabItem title="some title"> hi </RTabItem>
+    <RTab bordered class="tabbar" :initialActiveTab="1">
+      <RTabItem title="some title" :disabled="true"> hi </RTabItem>
+      <RTabItem title="tab 2"> Tab 2 </RTabItem>
       <RTabItem title="some other title">
         <div>hi</div>
         <div>hi</div>
@@ -19,8 +20,6 @@
 <script setup lang="ts">
 import { ref, onMounted, inject } from "vue";
 import { LoadingKey, useLoading } from "../src/main";
-// import RTab from '../src/components/tabs/RTab.vue'
-// import RTabItem from '../src/components/tabs/RTabItem.vue'
 
 const loading = useLoading();
 
@@ -54,8 +53,11 @@ onMounted(() => {
   min-height: 100vh;
   max-width: 800px;
   margin: auto;
+  padding: 8px;
 }
-
+.tabbar {
+  width: 100%;
+}
 body {
   background: color(b1);
   color: color(text);

@@ -18,6 +18,7 @@ const tab = inject("tab") as any;
 const props = defineProps<{
   title?: string;
   icon?: string;
+  disabled?: boolean;
 }>();
 
 const enter = (el: HTMLElement) => {
