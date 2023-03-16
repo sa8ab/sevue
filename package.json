@@ -1,12 +1,12 @@
 {
   "name": "sevue",
-  "version": "0.3.0",
+  "version": "0.3.5",
   "private": false,
   "files": [
     "dist"
   ],
-  "main": "./dist/testv3.umd.js",
-  "module": "./dist/testv3.es.js",
+  "main": "./dist/sevue.umd.js",
+  "module": "./dist/sevue.es.js",
   "types": "./dist/main.d.ts",
   "scripts": {
     "dev": "vite",

@@ -12,7 +12,7 @@ export default defineConfig({
     DefineOptions(),
     typescript2({
       check: false,
-      include: ["src/components/**/*.vue", "src/components/*.vue"],
+      include: ["src/components/**/*.vue", "src/components/*.vue", "src/composables/**", "src/directives/**", "src/main.ts", "src/utils/**"],
       tsconfigOverride: {
         compilerOptions: {
           outDir: "dist",

@@ -4,7 +4,7 @@ import type { LoadingOptions, NotificationOptions } from "@/types";
 export const notificationKey = Symbol() as InjectionKey<(options: NotificationOptions) => void>;
 export const sevueKey = Symbol() as InjectionKey<{
   iconPrefix: string;
-  getColor: (color?: string) => string;
+  getColor: (color?: string) => string | undefined;
   setDark: (dark: boolean) => void;
 }>;
 

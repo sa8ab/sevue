@@ -8,8 +8,8 @@ export const setOptions = (vue: App, options: SevueOptions) => {
   const colorKeys = Object.keys(colors);
   colorKeys.forEach((key) => {
     const color = getColor(colors[key] as string);
-    if (typeof document !== "undefined") {
-      document.documentElement.style.setProperty(`--rgb-${key}`, color);
+    if (typeof document !== "undefined" && color) {
+      document.documentElement.style.setProperty(`--r-${key}`, color);
     }
   });
 };
@@ -33,7 +33,7 @@ const hexToRgb = (hex: string) =>
     .match(/.{2}/g)!
     .map((x) => parseInt(x, 16));
 
-export const getColor = (color: string = ""): string => {
+export const getColor = (color: string = ""): string | undefined => {
   const presetColors = ["red", "yellow", "prm", "green"];
   const isRGB = /^(rgb|rgba)/.test(color);
   const isHEX = color.startsWith("#");
@@ -52,6 +52,6 @@ export const getColor = (color: string = ""): string => {
   } else if (isCSSVar) {
     return color;
   } else {
-    return "";
+    return undefined
   }
 };
