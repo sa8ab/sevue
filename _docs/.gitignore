@@ -9,4 +9,3 @@ coverage
 dist
 sw.*
 .env
-.output
