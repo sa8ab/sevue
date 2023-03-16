@@ -3,12 +3,24 @@
     <RButton @click="click" disabled> toggle dark </RButton>
     <RButton @click="click"> toggle dark </RButton>
     <RButton @click="loader" textStyle flat> Loader </RButton>
+    <RTab bordered moverFull>
+      <RTabItem title="some title"> hi </RTabItem>
+      <RTabItem title="some other title">
+        <div>hi</div>
+        <div>hi</div>
+        <div>hi</div>
+        <div>hi</div>
+        <div>hi</div>
+      </RTabItem>
+    </RTab>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, inject } from "vue";
 import { LoadingKey, useLoading } from "../src/main";
+// import RTab from '../src/components/tabs/RTab.vue'
+// import RTabItem from '../src/components/tabs/RTabItem.vue'
 
 const loading = useLoading();
 
@@ -40,11 +52,15 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  max-width: 800px;
+  margin: auto;
 }
+
 body {
   background: color(b1);
   color: color(text);
 }
+
 .loader-container {
   position: relative;
 }

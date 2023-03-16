@@ -9,6 +9,7 @@ import RPopup from "./components/popup";
 import RCheckbox from "./components/checkbox";
 import RPagination from "./components/pagination";
 import RSlider from "./components/slider";
+import { RTab, RTabItem } from "./components/tabs";
 
 // directives
 import ripple from "./directives/ripple";
@@ -49,6 +50,8 @@ export default {
     app.component("RCheckbox", RCheckbox);
     app.component("RPagination", RPagination);
     app.component("RSlider", RSlider);
+    app.component("RTab", RTab);
+    app.component("RTabItem", RTabItem);
 
     // directives
     app.directive("ripple", ripple);

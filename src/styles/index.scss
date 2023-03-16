@@ -10,12 +10,12 @@
 
 .r {
   padding: $bp;
-  border-radius: $radius;
+  border-radius: var(--r-radius);
   cursor: pointer;
   user-select: none;
   transition: all $duration;
   &:hover {
-    background: color(hover);
+    background: color(hover, var(--hover-alpha));
   }
 }
 .delete {
