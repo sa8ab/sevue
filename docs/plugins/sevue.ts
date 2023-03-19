@@ -1,4 +1,3 @@
-// @ts-ignore
 import Sevue from 'sevue'
 import 'sevue/dist/style.css'
 export default defineNuxtPlugin((nuxtApp) => {

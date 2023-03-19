@@ -10,19 +10,30 @@ export default defineConfig({
   plugins: [
     vue(),
     DefineOptions(),
-    typescript2({
-      check: false,
-      include: ["src/components/**/*.vue", "src/components/*.vue", "src/composables/**", "src/directives/**", "src/main.ts", "src/utils/**"],
-      tsconfigOverride: {
-        compilerOptions: {
-          outDir: "dist",
-          sourceMap: true,
-          declaration: true,
-          declarationMap: true,
+    {
+      ...typescript2({
+        check: false,
+        include: [
+          "src/components/**/*.vue",
+          "src/components/*.vue",
+          "src/composables/**",
+          "src/directives/**",
+          "src/main.ts",
+          "src/utils/**",
+        ],
+        tsconfigOverride: {
+          compilerOptions: {
+            outDir: "dist",
+            sourceMap: true,
+            declaration: true,
+            declarationMap: true,
+          },
         },
-      },
-      exclude: ["vite.config.ts"],
-    }),
+        exclude: ["vite.config.ts"],
+      }),
+      name: "build-only",
+      apply: "build", // or 'serve'
+    },
   ],
   build: {
     lib: {

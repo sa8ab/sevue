@@ -1,3 +1,9 @@
+export type Sevue = {
+  iconPrefix: string;
+  getColor: (color?: string) => string | undefined;
+  setDark: (dark: boolean) => void;
+};
+
 export type Colors = {
   red?: string;
   yellow?: string;
