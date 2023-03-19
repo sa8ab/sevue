@@ -42,9 +42,9 @@
 
 <script lang="ts" setup>
 // import { NuxtLink } from "#components";
-import { useSevue } from "@/main";
+import { getColor } from "@/utils";
 import { useSlots, ref, computed } from "vue";
-const { getColor } = useSevue();
+
 const props = defineProps({
   to: {
     type: String,

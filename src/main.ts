@@ -18,7 +18,6 @@ import appendToBody from "./directives/appendToBody";
 
 // composables
 import useNotification from "./composables/useNotification";
-import useSevue from "./composables/useSevue";
 import useLoading from "./composables/useLoading";
 
 import { getColor, setDark, setOptions } from "./utils";
@@ -77,6 +76,6 @@ export default {
     app.provide(LoadingKey, loadingFactory(app));
   },
 };
-export { RButton, useNotification, useLoading, useSevue };
+export { RButton, useNotification, useLoading };
 // inject keys
 export { notificationKey, sevueKey, LoadingKey };

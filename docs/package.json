@@ -16,6 +16,6 @@
   },
   "dependencies": {
     "boxicons": "^2.1.4",
-    "sevue": "^0.3.5"
+    "sevue": "^0.3.7"
   }
 }
