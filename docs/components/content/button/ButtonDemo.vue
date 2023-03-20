@@ -8,7 +8,7 @@
 const items = [
   { name: "Default", props: {} },
   { name: "Fill Style", props: { fill: true, color: "yellow" } },
-  { name: "Falt Style", props: { flat: true, color: "red" } },
+  { name: "Flat Style", props: { flat: true, color: "red" } },
   { name: "Disabled", props: { disabled: true } },
 ];
 const v = ref(true);
