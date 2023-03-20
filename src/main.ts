@@ -79,3 +79,9 @@ export default {
 export { RButton, useNotification, useLoading };
 // inject keys
 export { notificationKey, sevueKey, LoadingKey };
+
+declare module "vue" {
+  interface ComponentCustomProperties {
+    $r: any
+  }
+}

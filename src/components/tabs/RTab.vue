@@ -1,7 +1,7 @@
 <template>
   <div
     :class="['r-tab', { fit, bordered, iconOnly, scrollable, moverFull }]"
-    :style="{ '--r-prm': getColor(color) }"
+    :style="{ '--r-prm': color }"
   >
     <!-- tabbar -->
     <div class="tabbar" ref="tabbar">
@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { getColor } from "@/utils";
+import useColor from "@/composables/useColor";
 import { nextTick, onMounted, reactive, ref, toRef, computed, useSlots, watch, type VNode, provide } from "vue";
 type State = {
   activeTab: string
@@ -60,6 +60,7 @@ const props = withDefaults(
   {}
 );
 const emit = defineEmits(["tabChange"]);
+const color = useColor(toRef(props, 'color'))
 const state = reactive<State>({
   activeTab: "",
   height: "auto",

@@ -27,7 +27,7 @@
         colorInherit,
       },
     ]"
-    :style="{ '--r-prm': getColor(color), '--r-text': getColor(textColor) }"
+    :style="{ '--r-prm': color, '--r-text': textColor }"
     v-ripple
   >
     <div class="inner">
@@ -42,8 +42,9 @@
 
 <script lang="ts" setup>
 // import { NuxtLink } from "#components";
+import useColor from "@/composables/useColor";
 import { getColor } from "@/utils";
-import { useSlots, ref, computed } from "vue";
+import { useSlots, ref, computed, toRef } from "vue";
 
 const props = defineProps({
   to: {
@@ -120,7 +121,8 @@ const props = defineProps({
     type: Boolean,
   },
 });
-
+const color = useColor(toRef(props, 'color'))
+const textColor = useColor(toRef(props, 'textColor'))
 const slots = useSlots();
 
 const focused = ref(false);

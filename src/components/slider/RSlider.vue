@@ -1,5 +1,5 @@
 <template>
-  <div :class="['r-slider', { tickLabels }]" :style="{ '--rgb-prm': getColor(color) }">
+  <div :class="['r-slider', { tickLabels }]" :style="{ '--rgb-prm': color }">
     <div class="bar" ref="slider" @click="onSliderClick">
       <div class="progress" :style="progressStyle"></div>
       <div class="ticks" v-if="ticks">
@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { getColor } from "@/utils";
+import useColor from "@/composables/useColor";
 import { computed, onBeforeMount, provide, reactive, watch, ref, type StyleValue, toRef } from "vue";
 import Dot from "./RSliderDot.vue";
 import RSliderTick from "./RSliderTick.vue";
@@ -60,6 +60,7 @@ const props = withDefaults(
   }
 );
 const emit = defineEmits(["update:modelValue"]);
+const color = useColor(toRef(props, 'color'))
 
 const state = reactive({
   value1: 0,

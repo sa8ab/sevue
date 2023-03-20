@@ -1,7 +1,7 @@
 <template>
   <label
     :class="['r-cb', { isChecked }]"
-    :style="{ '--r-prm': getColor(color), '--r-text': getColor(iconColor) }"
+    :style="{ '--r-prm': color, '--r-text': iconColor }"
   >
     <input
       type="checkbox"
@@ -14,6 +14,7 @@
       <CheckIcon class="icon" />
       <div class="background"></div>
     </div>
+    {{ color }}
     <slot />
   </label>
 </template>
@@ -21,9 +22,9 @@
 <script setup lang="ts">
 import { getColor } from "@/utils";
 import { isArray } from "@vue/shared";
-import { computed } from "vue";
+import { computed, toRef } from "vue";
 import CheckIcon from "@/components/icons/Check.vue";
-
+import useColor from "@/composables/useColor";
 const props = withDefaults(
   defineProps<{
     modelValue: string | number | boolean | any[];
@@ -41,6 +42,8 @@ const props = withDefaults(
 );
 const emit = defineEmits(["update:modelValue"]);
 
+const color = useColor(toRef(props, 'color'))
+const iconColor = useColor(toRef(props, 'iconColor'))
 // const onInput = (e: Event) => {
 //   emit("update:modelValue", (<HTMLInputElement>e.target).value);
 // };

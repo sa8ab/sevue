@@ -1,7 +1,7 @@
 <template>
   <div class="items">
     <RButton v-for="{ name, props } in items" v-bind="props">{{ name }}</RButton>
-    <RCheckbox v-model="v">CHeckbox</RCheckbox>
+    <RCheckbox v-model="v" color="red">Checkbox</RCheckbox>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ const items = [
   { name: "Fill Style", props: { flat: true, color: "red" } },
   { name: "Disabled", props: { disabled: true } },
 ];
-const v = ref(false);
+const v = ref(true);
 </script>
 
 <style scoped lang="scss">

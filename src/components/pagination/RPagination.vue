@@ -2,8 +2,8 @@
   <div
     :class="['r-pagination notRTL', { bordered, disabled, compact, activeShadow }]"
     :style="{
-      '--r-prm': getColor(color),
-      '--r-active-text-color': getColor(activeTextColor),
+      '--r-prm': color,
+      '--r-active-text-color': activeTextColor,
     }"
   >
     <RButton
@@ -66,8 +66,8 @@
 import RButton from "../button/RButton.vue";
 import ChevronRight from "../icons/ChevronRight.vue";
 import ChevronLeft from "../icons/ChevronLeft.vue";
-import { getColor } from "@/utils";
-import { computed, watch } from "vue";
+import { computed, watch, toRef } from "vue";
+import useColor from "@/composables/useColor";
 
 const props = withDefaults(
   defineProps<{
@@ -97,6 +97,9 @@ const props = withDefaults(
   }
 );
 const emit = defineEmits(["update:modelValue"]);
+const color = useColor(toRef(props, 'color'))
+const activeTextColor = useColor(toRef(props, 'activeTextColor'))
+
 const setValue = (val: number) => {
   emit("update:modelValue", val);
 };

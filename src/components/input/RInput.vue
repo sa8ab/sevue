@@ -1,7 +1,7 @@
 <template>
   <div
     :class="['r-input', { focused: state.focused, disabled, iconAfter, sharp, error }]"
-    :style="{ '--r-prm': getColor(color) }"
+    :style="{ '--r-prm': color }"
   >
     <label>
       <span class="label" v-if="label">{{ label }}</span>
@@ -32,10 +32,10 @@
 </template>
 
 <script setup lang="ts">
-import { getColor } from "@/utils";
-import { inject, reactive } from "vue";
+import { inject, reactive, toRef } from "vue";
 import { sevueKey } from "@/injectionKeys";
 import HeightTransition from "../HeightTransition.vue";
+import useColor from "@/composables/useColor";
 
 const sevue = inject(sevueKey);
 
@@ -55,7 +55,7 @@ const props = defineProps<{
   error?: boolean;
 }>();
 const emit = defineEmits(["update:modelValue"]);
-
+const color = useColor(toRef(props, 'color'))
 const state = reactive({
   focused: false,
 });

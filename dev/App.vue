@@ -14,6 +14,8 @@
         <div>hi</div>
       </RTabItem>
     </RTab>
+    <RCheckbox v-model="x" :color="checkboxColor">Checkbox</RCheckbox>
+    <RButton @click="checkboxColor = 'yellow'">Change Color {{ checkboxColor }}</RButton>
   </div>
 </template>
 
@@ -24,6 +26,8 @@ import { LoadingKey, useLoading } from "../src/main";
 const loading = useLoading();
 
 const active = ref([0, 50]);
+const x = ref(true);
+const checkboxColor = ref('green');
 const items = ref([
   { value: "10", text: "hey there" },
   { value: "20", text: "some text" },
