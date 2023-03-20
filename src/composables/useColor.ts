@@ -1,11 +1,11 @@
-import { nextTick, ref, watch, type Ref } from "vue";
+import { onBeforeMount, ref, watch, type Ref } from "vue";
 import { getColor } from "@/utils";
 
 const useColor = (color: Ref<string | undefined>) => {
 
   const result = ref<string | undefined>()
 
-  nextTick(() => {
+  onBeforeMount(() => {
     result.value = getColor(color.value)
   })
 
@@ -14,7 +14,6 @@ const useColor = (color: Ref<string | undefined>) => {
   })
 
   return result
-
 };
 
 export default useColor;

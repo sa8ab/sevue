@@ -1,3 +1,3 @@
 <template>
-    <RButton>Default Button</RButton>
+  <RButton>Default Button</RButton>
 </template>

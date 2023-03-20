@@ -43,7 +43,6 @@
 <script lang="ts" setup>
 // import { NuxtLink } from "#components";
 import useColor from "@/composables/useColor";
-import { getColor } from "@/utils";
 import { useSlots, ref, computed, toRef } from "vue";
 
 const props = defineProps({

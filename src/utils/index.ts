@@ -46,12 +46,13 @@ export const getColor = (color: string = ""): string | undefined => {
     const [r, g, b] = hexToRgb(color);
     return `${r}, ${g}, ${b}`;
   } else if (isPreset) {
-    if (typeof window === "undefined") {
-      console.log('no window');
-      return "";
-    };
-    const style = window.getComputedStyle(document.body);
-    return style.getPropertyValue("--r-" + color);
+    return `var(--r-${color})`
+    // if (typeof window === "undefined") {
+    //   console.log('no window');
+    //   return undefined;
+    // };
+    // const style = window.getComputedStyle(document.body);
+    // return style.getPropertyValue("--r-" + color);
   } else if (isCSSVar) {
     return color;
   } else {
