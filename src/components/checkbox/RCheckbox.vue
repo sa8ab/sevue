@@ -14,13 +14,11 @@
       <CheckIcon class="icon" />
       <div class="background"></div>
     </div>
-    {{ color }}
     <slot />
   </label>
 </template>
 
 <script setup lang="ts">
-import { getColor } from "@/utils";
 import { isArray } from "@vue/shared";
 import { computed, toRef } from "vue";
 import CheckIcon from "@/components/icons/Check.vue";
