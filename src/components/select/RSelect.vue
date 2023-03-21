@@ -11,16 +11,16 @@
         :disabled="disabled"
         ref="rInput"
         iconAfter
-        @containerClick="onInputClick"
-        @iconClick.stop.prevent="toggleOpen"
+        @labelClick="open"
         @keyup.tab="open"
         @keyup.esc="close"
         @keydown.arrow-down.stop.prevent="onArrowDown"
         @keydown.arrow-up.stop.prevent="onArrowUp"
         @keydown.enter.stop.prevent="onEnter"
       >
-        <template #icon>
+        <template #after>
           <span
+            @click.prevent="toggleOpen"
             :class="['dropdown-icon', { rotate: state.active }]"
             v-ripple
           >
@@ -128,9 +128,6 @@ const onSelectValue = ({ event, activate }: { event: string | number, activate: 
 };
 
 // open/close dropdown
-const onInputClick = () => {
-  open()
-}
 const toggleOpen = () => {
   if (state.active) {
     close();

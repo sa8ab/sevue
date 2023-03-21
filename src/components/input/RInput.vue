@@ -6,11 +6,10 @@
       { focused: state.focused, disabled, iconAfter, sharp, error, hasIcon },
     ]"
     :style="{ '--r-prm': color }"
-    @click="containerClick"
   >
-    <label >
-      <span class="label" v-if="label">{{ label }}</span>
-      <div class="input-container" ref="inputContainerRef">
+    <span class="label" v-if="label">{{ label }}</span>
+    <div class="input-container" ref="inputContainerRef">
+      <label class="label-element" @click="labelClick">
         <div class="icon-container" v-if="hasIcon" @click="iconClick">
           <slot name="icon">
             <i v-if="icon" :class="['icon', sevue?.iconPrefix, icon]"></i>
@@ -26,14 +25,15 @@
           @input="onInput"
           ref="inputRef"
         />
-      </div>
+      </label>
+      <slot name="after"></slot>
+    </div>
 
-      <HeightTransition>
-        <span class="message" v-if="message">
-          <span class="padding">{{ message }}</span>
-        </span>
-      </HeightTransition>
-    </label>
+    <HeightTransition>
+      <span class="message" v-if="message">
+        <span class="padding">{{ message }}</span>
+      </span>
+    </HeightTransition>
   </div>
 </template>
 
@@ -61,22 +61,22 @@ const props = defineProps<{
   error?: boolean;
   containerClass?: string;
 }>();
-const emit = defineEmits(["update:modelValue", "containerClick", "iconClick"]);
+const emit = defineEmits(["update:modelValue", "labelClick", "iconClick"]);
 const color = useColor(toRef(props, "color"));
 const state = reactive({
   focused: false,
 });
 const inputRef = ref();
 const inputContainerRef = ref();
-const slots = useSlots()
+const slots = useSlots();
 
-const hasIcon = computed(() => slots.icon || props.icon)
+const hasIcon = computed(() => slots.icon || props.icon);
 
 const onInput = (e: Event) => {
   emit("update:modelValue", (<HTMLInputElement>e.target).value);
 };
-const containerClick = (e: Event) => {
-  emit("containerClick", e);
+const labelClick = (e: Event) => {
+  emit("labelClick", e);
 };
 const iconClick = (e: Event) => {
   emit("iconClick", e);
@@ -140,16 +140,20 @@ defineExpose({
 
   .input-container {
     background: color(b1);
-    border-radius: var(--r-radius);
-    flex: 1;
     display: flex;
     align-items: center;
+    gap: $p;
+    border-radius: var(--r-radius);
     transition: box-shadow $duration;
     overflow: hidden;
     box-shadow: var(--border);
     &:hover {
       box-shadow: var(--border-active);
     }
+  }
+  .label-element {
+    display: flex;
+    align-items: center;
   }
 
   .icon-container {
@@ -159,7 +163,7 @@ defineExpose({
     transition: color $duration;
   }
   &.iconAfter {
-    .icon-container{
+    .icon-container {
       padding-right: $p2;
       padding-left: 0;
     }
@@ -180,7 +184,7 @@ defineExpose({
     opacity: 0.8;
   }
 
-  &.iconAfter .input-container {
+  &.iconAfter .label-element {
     flex-direction: row-reverse;
   }
 
