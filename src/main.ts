@@ -2,7 +2,7 @@ import type { App } from "vue";
 
 // components
 import RButton from "./components/button";
-import { RSelect, ROption } from "./components/select";
+import { RSelect, ROption, RSelectGroup } from "./components/select";
 import notificationFactory from "./components/notification";
 import RInput from "./components/input";
 import RPopup from "./components/popup";
@@ -45,6 +45,7 @@ export default {
     app.component("RButton", RButton);
     app.component("RSelect", RSelect);
     app.component("ROption", ROption);
+    app.component("RSelectGroup", RSelectGroup);
     app.component("RInput", RInput);
     app.component("RPopup", RPopup);
     app.component("RCheckbox", RCheckbox);

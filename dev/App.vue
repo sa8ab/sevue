@@ -18,7 +18,14 @@
     <RButton @click="checkboxColor = 'yellow'">Change Color {{ checkboxColor }}</RButton>
     <div class="select-n-input">
       <RSelect v-model="selected">
-        <ROption value="id" text="hey" />
+        <RSelectGroup title="g title">
+          <ROption value="id" text="hey" />
+          <ROption value="id4" text="hey4" />
+          <ROption value="id6" text="hey6" />
+        </RSelectGroup>
+        <RSelectGroup title="g title 2">
+          <ROption value="id2" text="hey 2" />
+        </RSelectGroup>
       </RSelect>
       <RInput v-model="selected" class="someclass" ref="iref" icon="bx-user"></RInput>
     </div>

@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 import { createPopper, type Instance, type Modifier } from "@popperjs/core";
-import { isArray } from "@vue/shared";
+import { def, isArray } from "@vue/shared";
 import { RSelectKey } from '@/injectionKeys'
 import { nextTick, computed, onBeforeUnmount, onMounted, provide, reactive, ref, toRef, useSlots, watch, type VNode } from "vue";
 type Props = {
@@ -155,10 +155,8 @@ const toggleOpen = () => {
   }
 };
 const open = (e?: any) => {
-  console.log(e);
   if(state.active) return
   state.active = true;
-  // rInput.value.inputRef.focus();
   nextTick(() => {
     const sameWidth: Modifier<'sameWidth', {}> = {
       name: "sameWidth",
@@ -179,14 +177,11 @@ const open = (e?: any) => {
   });
 };
 const close = () => {
-  console.log('CALL close');
   if(!state.active) return
   state.active = false;
   state.search = "";
   state.focusedItem = -1;
   rInput.value.inputRef.blur()
-  console.log('close');
-
 };
 const clickOutside = {
   handler: close,
@@ -205,10 +200,12 @@ const setChildren = (defSlot: VNode[]) => {
       if ((node.type as any).isOption) {
         tempOptions.push(node.props as any);
       } else if (typeof node.children === "object" && node.children) {
-        checkItem(node.children as VNode[]);
+        // @ts-ignore
+        checkItem(node.children.default() as VNode[]);
       }
     });
   };
+  
   checkItem(defSlot);
   state.options = tempOptions;
 };

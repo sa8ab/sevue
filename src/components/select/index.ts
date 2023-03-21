@@ -1,3 +1,4 @@
 import RSelect from "./RSelect.vue";
 import ROption from "./ROption.vue";
-export { RSelect, ROption };
+import RSelectGroup from "./RSelectGroup.vue";
+export { RSelect, ROption, RSelectGroup };
