@@ -12,6 +12,7 @@ export const RSelectKey = Symbol() as InjectionKey<{
   modelValue: Ref<string | number | (string | number)[]>;
   multiple: Ref<boolean>;
   search: Ref<string>;
+  color: Ref<string>;
   focusedItemValue: ComputedRef<
     { value: string | number; text?: string; disabled?: boolean } | undefined
   >;

@@ -5,6 +5,7 @@
     v-if="visible"
     v-ripple
     tabindex="-1"
+    :style="{'--r-prm': color}"
   >
     <div class="padding">
       <slot> {{ text }}</slot>
@@ -13,9 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject } from "vue";
+import { computed, inject, toRef } from "vue";
 import { RSelectKey } from "@/injectionKeys";
 import { isArray } from "@vue/shared";
+import useColor from "@/composables/useColor";
 
 defineOptions({
   isOption: true,
@@ -31,7 +33,11 @@ const props = defineProps({
     type: [Number, String],
   },
   disabled: { default: false, type: Boolean },
+  color: {
+    type: String
+  }
 });
+const color = useColor(props.color ? toRef(props, 'color') : toRef(select!, 'color'))
 const onSelectValue = () => {
   select!.onSelectValue({
     event: props.value,
@@ -78,7 +84,7 @@ const isActive = computed(() => {
   }
 
   &.focused {
-    background: color(hover);
+    background: color(hover, var(--hover-alpha));
     outline: 1px dashed color(prm);
   }
 

@@ -17,14 +17,14 @@
     <RCheckbox v-model="x" :color="checkboxColor">Checkbox</RCheckbox>
     <RButton @click="checkboxColor = 'yellow'">Change Color {{ checkboxColor }}</RButton>
     <div class="select-n-input">
-      <RSelect v-model="selected">
+      <RSelect v-model="selected" color="red">
         <RSelectGroup title="g title">
           <ROption value="id" text="hey" />
           <ROption value="id4" text="hey4" />
           <ROption value="id6" text="hey6" />
         </RSelectGroup>
         <RSelectGroup title="g title 2">
-          <ROption value="id2" text="hey 2" />
+          <ROption value="id2" text="hey 2" color="#2313fa" />
         </RSelectGroup>
       </RSelect>
       <RInput v-model="selected" class="someclass" ref="iref" icon="bx-user"></RInput>

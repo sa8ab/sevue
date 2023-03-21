@@ -1,5 +1,5 @@
 <template>
-  <div class="r-select" v-click-outside="clickOutside" tabindex="-1">
+  <div class="r-select" v-click-outside="clickOutside" tabindex="-1" :style="{'--r-prm': color}">
     <div :class="['trigger', { disabled }]">
       <!-- <label for="" class="label" v-if="label">
         {{ label }}
@@ -69,6 +69,7 @@ import { createPopper, type Instance, type Modifier } from "@popperjs/core";
 import { def, isArray } from "@vue/shared";
 import { RSelectKey } from '@/injectionKeys'
 import { nextTick, computed, onBeforeUnmount, onMounted, provide, reactive, ref, toRef, useSlots, watch, type VNode } from "vue";
+import useColor from "@/composables/useColor";
 type Props = {
   searchable?: boolean
   multiple?: boolean
@@ -78,7 +79,8 @@ type Props = {
   disabled?: boolean
   label?: string
   requiredText?: boolean
-  keepOpenAfterSelection?: boolean
+  keepOpenAfterSelection?: boolean,
+  color?: string
 }
 type Option = { value: string | number, text?: string, disabled?: boolean }
 type State = {
@@ -100,6 +102,7 @@ const props = withDefaults(
   }
 )
 const emit = defineEmits(["update:modelValue"]);
+const color = useColor(toRef(props, 'color'))
 const state = reactive<State>({
   search: "",
   active: false,
@@ -290,6 +293,7 @@ provide(RSelectKey, {
   modelValue: toRef(props, "modelValue"),
   multiple: toRef(props, "multiple"),
   search: toRef(state, "search"),
+  color: toRef(props, 'color'),
   focusedItemValue,
   onSelectValue,
 });
