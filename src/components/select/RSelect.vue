@@ -58,7 +58,6 @@ type Props = {
   isNested?: boolean
   disabled?: boolean
   label?: string
-  requiredText?: boolean
   keepOpenAfterSelection?: boolean,
   color?: string
 }
@@ -76,7 +75,6 @@ const props = withDefaults(
   defineProps<Props>(),
   {
     searchable: false,
-    requiredText: false,
     keepOpenAfterSelection: false,
     placeholder: ''
   }
@@ -132,14 +130,13 @@ const toggleOpen = () => {
   if (state.active) {
     close();
   } else {
-    rInput.value.inputRef.focus({preventScroll: true});
     open();
   }
 };
-const open = (e?: any) => {
-  if (state.active) return
+const open = () => {
   state.active = true;
   nextTick(() => {
+    rInput.value.inputRef.focus({preventScroll: true});
     const sameWidth: Modifier<'sameWidth', {}> = {
       name: "sameWidth",
       enabled: true,
@@ -163,7 +160,7 @@ const close = () => {
   state.active = false;
   state.search = "";
   state.focusedItem = -1;
-  rInput.value.inputRef.blur()
+  rInput.value.inputRef.blur({preventScroll: true})
 };
 const clickOutside = {
   handler: close,
