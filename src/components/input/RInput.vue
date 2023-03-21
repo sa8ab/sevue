@@ -1,12 +1,16 @@
 <template>
   <div
-    :class="['r-input', { focused: state.focused, disabled, iconAfter, sharp, error }]"
+    :class="[
+      'r-input',
+      containerClass,
+      { focused: state.focused, disabled, iconAfter, sharp, error },
+    ]"
     :style="{ '--r-prm': color }"
   >
-    <label>
+    <label @click.self.prevent="onLabelClick">
       <span class="label" v-if="label">{{ label }}</span>
-      <div class="input-container">
-        <div class="icon-container" v-if="$slots.icon || icon">
+      <div class="input-container" ref="inputContainerRef">
+        <div class="icon-container" v-if="$slots.icon || icon" @click="iconClick">
           <slot name="icon">
             <i v-if="icon" :class="['icon', sevue?.iconPrefix, icon]"></i>
           </slot>
@@ -19,6 +23,7 @@
           @focus="state.focused = true"
           @blur="state.focused = false"
           @input="onInput"
+          ref="inputRef"
         />
       </div>
 
@@ -32,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, reactive, toRef } from "vue";
+import { inject, reactive, toRef, ref } from "vue";
 import { sevueKey } from "@/injectionKeys";
 import HeightTransition from "../HeightTransition.vue";
 import useColor from "@/composables/useColor";
@@ -53,15 +58,24 @@ const props = defineProps<{
   color?: string;
   disabled?: boolean;
   error?: boolean;
+  containerClass?: string;
 }>();
-const emit = defineEmits(["update:modelValue"]);
-const color = useColor(toRef(props, 'color'))
+const emit = defineEmits(["update:modelValue", "onLabelClick", "iconClick"]);
+const color = useColor(toRef(props, "color"));
 const state = reactive({
   focused: false,
 });
+const inputRef = ref();
+const inputContainerRef = ref();
 
 const onInput = (e: Event) => {
   emit("update:modelValue", (<HTMLInputElement>e.target).value);
+};
+const onLabelClick = (e: Event) => {
+  emit("onLabelClick", e);
+};
+const iconClick = (e: Event) => {
+  emit("iconClick", e);
 };
 // listeners() {
 //   return {
@@ -79,6 +93,10 @@ const onInput = (e: Event) => {
 //     },
 //   };
 // },
+defineExpose({
+  inputRef,
+  inputContainerRef,
+});
 </script>
 
 <style lang="scss">

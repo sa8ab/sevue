@@ -1,12 +1,12 @@
 <template>
   <div class="r-select" v-click-outside="clickOutside" tabindex="-1">
-    <div :class="['trigger', { focused: state.active, disabled }]" @click="open">
-      <label for="" class="label">
+    <div :class="['trigger', { disabled }]">
+      <!-- <label for="" class="label" v-if="label">
         {{ label }}
         <span class="required-text" v-if="requiredText"> &nbsp;( required ) </span>
-      </label>
-      <div class="input-container" ref="toggle">
-        <input
+      </label> -->
+      <!-- <div class="input-container" ref="toggle"> -->
+      <!-- <input
           :class="['input', { noInput: !searchable, isAnyItemSelected }]"
           v-model="state.search"
           :placeholder="inputPlaceholder"
@@ -17,11 +17,37 @@
           @keydown.arrow-down.stop.prevent="onArrowDown"
           @keydown.arrow-up.stop.prevent="onArrowUp"
           @keydown.enter.stop.prevent="onEnter"
-        />
-        <div :class="['dropdown-icon']" @click.stop="toggleOpen" v-ripple>
+        /> -->
+      <!-- <div :class="['dropdown-icon']" @click.stop="toggleOpen" v-ripple>
           <i :class="['bx bx-chevron-down', { rotate: state.active }]"></i>
-        </div>
-      </div>
+        </div> -->
+      <!-- </div> -->
+      <RInput
+        containerClass="r-input-container"
+        :class="['input', { noInput: !searchable, isAnyItemSelected }]"
+        v-model="state.search"
+        :placeholder="inputPlaceholder"
+        :readOnly="!searchable"
+        :label="label"
+        ref="rInput"
+        iconAfter
+        @focus.self="open"
+        @keyup.tab="open"
+        @keyup.esc="close"
+        @keydown.arrow-down.stop.prevent="onArrowDown"
+        @keydown.arrow-up.stop.prevent="onArrowUp"
+        @keydown.enter.stop.prevent="onEnter"
+      >
+        <template #icon>
+          <span
+            :class="['dropdown-icon', { rotate: state.active }]"
+            @click.prevent="toggleOpen"
+            v-ripple
+          >
+            <i :class="['bx bx-chevron-down']"></i>
+          </span>
+        </template>
+      </RInput>
     </div>
     <Teleport to="body">
       <transition name="fade-move" @after-leave="onAfterLeave">
@@ -82,7 +108,7 @@ const state = reactive<State>({
   popper: undefined,
   options: [],
 });
-const inputRef = ref();
+const rInput = ref();
 const dropdown = ref();
 const toggle = ref();
 
@@ -124,13 +150,15 @@ const toggleOpen = () => {
   if (state.active) {
     close();
   } else {
-    open();
+    rInput.value.inputRef.focus();
+    // open();
   }
 };
-const open = () => {
-  console.log('open');
+const open = (e?: any) => {
+  console.log(e);
+  if(state.active) return
   state.active = true;
-  inputRef.value.focus();
+  // rInput.value.inputRef.focus();
   nextTick(() => {
     const sameWidth: Modifier<'sameWidth', {}> = {
       name: "sameWidth",
@@ -144,7 +172,7 @@ const open = () => {
         state.elements.popper.style.width = `${(state.elements.reference as HTMLElement).offsetWidth}px`;
       },
     };
-    state.popper = createPopper(toggle.value, dropdown.value, {
+    state.popper = createPopper(rInput.value.inputContainerRef, dropdown.value, {
       placement: "bottom",
       modifiers: [sameWidth],
     });
@@ -156,6 +184,7 @@ const close = () => {
   state.active = false;
   state.search = "";
   state.focusedItem = -1;
+  rInput.value.inputRef.blur()
   console.log('close');
 
 };
@@ -269,106 +298,50 @@ provide(RSelectKey, {
 });
 </script>
 
-<style scoped lang="scss">
-.trigger {
-  color: color(text);
-  &:hover {
-    .input-container {
-      box-shadow: var(--border-active);
+<style scoped lang="scss"></style>
+<style lang="scss">
+.r-select {
+  .dropdown-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform $duration;
+    &.rotate {
+      transform: rotate(180deg);
     }
   }
-  &.focused {
-    .icon,
-    .label {
-      color: color();
+  .input {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .isAnyItemSelected {
+    &::placeholder {
+      color: color(text);
     }
-    .input-container {
-      box-shadow: 0 0 0 1px color();
+  }
+  .trigger {
+    &.disabled {
+      opacity: 0.8;
+      pointer-events: none;
     }
   }
-
-  &.disabled {
-    opacity: 0.8;
-    pointer-events: none;
+  .icon-container {
+    padding: 0px !important;
   }
-}
-
-.input-container {
-  background: color(b1);
-  border-radius: $radius;
-  display: flex;
-  align-items: center;
-  box-shadow: var(--border);
-  transition: box-shadow $duration;
-  overflow: hidden;
-}
-
-.label,
-.description {
-  padding: 2px;
-  display: flex;
-  font-size: $fsmall;
-  opacity: var(--info-alpha);
-  transition: color $duration;
-}
-
-.required-text {
-  font-size: $fsmall;
-  opacity: 0.8;
-}
-
-.title {
-  display: flex;
-  align-items: center;
-}
-
-.input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  font-size: 1rem;
-  font-family: inherit;
-  color: color(text);
-  padding: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.dropdown-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  overflow: hidden;
-  cursor: pointer;
-  transition: color $duration;
-  .bx {
-    transition: all $duration;
-  }
-
-  .rotate {
-    transform: rotate(180deg);
-  }
-}
-
-.isAnyItemSelected {
-  &::placeholder {
-    color: color(text);
+  .noInput {
+    cursor: pointer;
   }
 }
 
 .noOptions {
   padding: $p2;
 }
-
-.noInput {
-  cursor: pointer;
-}
-</style>
-<style lang="scss">
 .dropdown-container {
   z-index: 100;
 }
