@@ -20,7 +20,7 @@
     <RCheckbox v-model="x" :color="checkboxColor">Checkbox</RCheckbox>
     <RButton @click="checkboxColor = 'yellow'">Change Color {{ checkboxColor }}</RButton>
     <div class="select-n-input">
-      <RSelect v-model="selected">
+      <RSelect v-model="selected" label="how">
         <ROption value="x" text="xc"></ROption>
       </RSelect>
       <RInput icon="bx-user" />
@@ -90,5 +90,6 @@ body {
 }
 .select-n-input {
   display: flex;
+  align-items: center;
 }
 </style>
