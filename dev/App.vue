@@ -16,6 +16,9 @@
     </RTab>
     <RCheckbox v-model="x" :color="checkboxColor">Checkbox</RCheckbox>
     <RButton @click="checkboxColor = 'yellow'">Change Color {{ checkboxColor }}</RButton>
+    <RSelect v-model="selected">
+      <ROption value="id" text="hey" />
+    </RSelect>
   </div>
 </template>
 
@@ -32,6 +35,7 @@ const items = ref([
   { value: "10", text: "hey there" },
   { value: "20", text: "some text" },
 ]);
+const selected = ref()
 const click = () => {
   document.body.classList.toggle("dark");
 };
