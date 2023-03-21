@@ -2,7 +2,7 @@
   <div class="app">
     <RButton @click="click" disabled> toggle dark </RButton>
     <RButton @click="click"> toggle dark </RButton>
-      <RSelect v-model="selected">
+      <RSelect v-model="selected" message="some message">
         <ROption value="x" text="xc"></ROption>
       </RSelect>
     <RButton @click="loader" textStyle flat> Loader </RButton>

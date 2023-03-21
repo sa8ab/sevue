@@ -10,6 +10,8 @@
         :label="label"
         :disabled="disabled"
         ref="rInput"
+        :message="message"
+        :error="error"
         iconAfter
         @labelClick="open"
         @keyup.tab="open"
@@ -59,7 +61,9 @@ type Props = {
   disabled?: boolean
   label?: string
   keepOpenAfterSelection?: boolean,
-  color?: string
+  color?: string,
+  error?: boolean
+  message?: string
 }
 type Option = { value: string | number, text?: string, disabled?: boolean }
 type State = {
