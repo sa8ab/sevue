@@ -1,27 +1,6 @@
 <template>
   <div class="r-select" v-click-outside="clickOutside" :style="{ '--r-prm': color }">
     <div :class="['trigger', { disabled }]">
-      <!-- <label for="" class="label" v-if="label">
-        {{ label }}
-        <span class="required-text" v-if="requiredText"> &nbsp;( required ) </span>
-      </label> -->
-      <!-- <div class="input-container" ref="toggle"> -->
-      <!-- <input
-          :class="['input', { noInput: !searchable, isAnyItemSelected }]"
-          v-model="state.search"
-          :placeholder="inputPlaceholder"
-          :readOnly="!searchable"
-          ref="inputRef"
-          @keyup.tab="open"
-          @keyup.esc="close"
-          @keydown.arrow-down.stop.prevent="onArrowDown"
-          @keydown.arrow-up.stop.prevent="onArrowUp"
-          @keydown.enter.stop.prevent="onEnter"
-        /> -->
-      <!-- <div :class="['dropdown-icon']" @click.stop="toggleOpen" v-ripple>
-          <i :class="['bx bx-chevron-down', { rotate: state.active }]"></i>
-        </div> -->
-      <!-- </div> -->
       <RInput
         containerClass="r-input-container"
         :class="['input', { noInput: !searchable, isAnyItemSelected }]"
