@@ -16,7 +16,7 @@ import { inject, computed } from "vue";
 
 const tab = inject("tab") as any;
 const props = defineProps<{
-  title?: string;
+  title: string;
   icon?: string;
   disabled?: boolean;
 }>();

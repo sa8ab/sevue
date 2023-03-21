@@ -13,7 +13,7 @@ export default defineAppConfig({
       exclude: [],
     },
     header: {
-      logo: true,
+      logo: false,
     },
     footer: {
       iconLinks: [
