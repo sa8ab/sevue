@@ -16,19 +16,6 @@
     </RTab>
     <RCheckbox v-model="x" :color="checkboxColor">Checkbox</RCheckbox>
     <RButton @click="checkboxColor = 'yellow'">Change Color {{ checkboxColor }}</RButton>
-    <div class="select-n-input">
-      <RSelect v-model="selected" color="red">
-        <RSelectGroup title="g title">
-          <ROption value="id" text="hey" />
-          <ROption value="id4" text="hey4" />
-          <ROption value="id6" text="hey6" />
-        </RSelectGroup>
-        <RSelectGroup title="g title 2">
-          <ROption value="id2" text="hey 2" color="#2313fa" />
-        </RSelectGroup>
-      </RSelect>
-      <RInput v-model="selected" class="someclass" ref="iref" icon="bx-user"></RInput>
-    </div>
   </div>
 </template>
 
@@ -38,15 +25,15 @@ import { LoadingKey, useLoading } from "../src/main";
 
 const loading = useLoading();
 
-const iref = ref()
+const iref = ref();
 const active = ref([0, 50]);
 const x = ref(true);
-const checkboxColor = ref('green');
+const checkboxColor = ref("green");
 const items = ref([
   { value: "10", text: "hey there" },
   { value: "20", text: "some text" },
 ]);
-const selected = ref('')
+const selected = ref("");
 const click = () => {
   document.body.classList.toggle("dark");
 };
@@ -61,7 +48,7 @@ onMounted(() => {
   setTimeout(() => {
     console.log(iref.value.inputRef);
   }, 1);
-  
+
   document.body.classList.add("dark");
 });
 </script>
@@ -89,7 +76,7 @@ body {
 .loader-container {
   position: relative;
 }
-.select-n-input{
+.select-n-input {
   display: flex;
 }
 </style>

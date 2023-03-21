@@ -138,7 +138,7 @@ const toggleOpen = () => {
   }
 };
 const open = (e?: any) => {
-  if(state.active) return
+  if (state.active) return
   state.active = true;
   nextTick(() => {
     const sameWidth: Modifier<'sameWidth', {}> = {
@@ -160,7 +160,7 @@ const open = (e?: any) => {
   });
 };
 const close = () => {
-  if(!state.active) return
+  if (!state.active) return
   state.active = false;
   state.search = "";
   state.focusedItem = -1;
@@ -184,7 +184,12 @@ const setChildren = (defSlot: VNode[]) => {
         tempOptions.push(node.props as any);
       } else if (typeof node.children === "object" && node.children) {
         // @ts-ignore
-        checkItem(node.children.default() as VNode[]);
+        if(node.children.default) {
+          // @ts-ignore
+          checkItem(node.children.default() as VNode[])
+        } else {
+          checkItem(node.children as VNode[]);
+        }
       }
     });
   };
@@ -292,29 +297,35 @@ provide(RSelectKey, {
     overflow: hidden;
     cursor: pointer;
     transition: transform $duration;
+
     &.rotate {
       transform: rotate(180deg);
     }
   }
+
   .input {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
   .isAnyItemSelected {
     &::placeholder {
       color: color(text);
     }
   }
+
   .trigger {
     &.disabled {
       opacity: 0.8;
       pointer-events: none;
     }
   }
+
   .icon-container {
     padding: 0px !important;
   }
+
   .noInput {
     cursor: pointer;
   }
@@ -323,6 +334,7 @@ provide(RSelectKey, {
 .noOptions {
   padding: $p2;
 }
+
 .dropdown-container {
   z-index: 100;
 }

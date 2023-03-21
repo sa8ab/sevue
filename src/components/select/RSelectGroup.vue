@@ -9,6 +9,9 @@
 import { RSelectKey } from '@/injectionKeys';
 import { computed, inject } from "vue";
 const select = inject(RSelectKey);
+defineOptions({
+  isSelectGroup: true,
+});
 defineProps<{
   title?: string
 }>()
