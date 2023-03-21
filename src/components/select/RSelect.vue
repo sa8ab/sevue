@@ -1,5 +1,5 @@
 <template>
-  <div class="r-select" v-click-outside="clickOutside" tabindex="-1" :style="{'--r-prm': color}">
+  <div class="r-select" v-click-outside="clickOutside" :style="{ '--r-prm': color }">
     <div :class="['trigger', { disabled }]">
       <!-- <label for="" class="label" v-if="label">
         {{ label }}
@@ -29,6 +29,7 @@
         :placeholder="inputPlaceholder"
         :readOnly="!searchable"
         :label="label"
+        :disabled="disabled"
         ref="rInput"
         iconAfter
         @focus.self="open"
@@ -208,7 +209,7 @@ const setChildren = (defSlot: VNode[]) => {
       }
     });
   };
-  
+
   checkItem(defSlot);
   state.options = tempOptions;
 };
