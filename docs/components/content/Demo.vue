@@ -37,9 +37,9 @@ const active = ref(false)
   flex-direction: column;
   border-radius: 8px;
   transition: box-shadow 0.3s;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 1px rgba(var(--r-border-color), var(--border-alpha));
   &.active {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 4px rgba(var(--r-border-color), var(--border-active-alpha))
   }
 }
 .view {
