@@ -8,7 +8,7 @@
       <div class="input-container">
         <div class="icon-container" v-if="$slots.icon || icon">
           <slot name="icon">
-            <i v-if="icon" :class="['icon', sevue?.iconPrefix, ...icon]"></i>
+            <i v-if="icon" :class="['icon', sevue?.iconPrefix, icon]"></i>
           </slot>
         </div>
         <input

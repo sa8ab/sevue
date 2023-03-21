@@ -4,3 +4,15 @@
     margin: 0 !important;
   }
 }
+.doc-input {
+  width: 100%;
+  max-width: 320px;
+  .r-input {
+    width: 100%;
+  }
+}
+.input-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
