@@ -1,12 +1,16 @@
 <template>
-  <div class="doc-input">
+  <div class="input-items">
     <RSelect v-model="selected" placeholder="Select An Option">
       <ROption v-for="{ name, id } in items" :value="id" :text="name" />
     </RSelect>
+    <div>
+      <RButton>hey</RButton>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+
 const items = ref([
   { name: "Vue", id: 1 },
   { name: "React", id: 2 },
@@ -17,4 +21,3 @@ const items = ref([
 const selected = ref();
 </script>
 
-<style scoped lang="scss"></style>

@@ -105,7 +105,7 @@ defineExpose({
     border: none;
     background: transparent;
     font-size: 1rem;
-    padding: 6px;
+    padding: $bp;
     font-family: inherit;
     width: 100%;
     color: inherit;
