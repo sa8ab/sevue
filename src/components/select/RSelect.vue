@@ -11,7 +11,8 @@
         :disabled="disabled"
         ref="rInput"
         iconAfter
-        @focus.self="open"
+        @containerClick="onInputClick"
+        @iconClick.stop.prevent="toggleOpen"
         @keyup.tab="open"
         @keyup.esc="close"
         @keydown.arrow-down.stop.prevent="onArrowDown"
@@ -21,7 +22,6 @@
         <template #icon>
           <span
             :class="['dropdown-icon', { rotate: state.active }]"
-            @click.prevent="toggleOpen"
             v-ripple
           >
             <i :class="['bx bx-chevron-down']"></i>
@@ -120,7 +120,6 @@ const onSelectValue = ({ event, activate }: { event: string | number, activate: 
   }
   if (!props.keepOpenAfterSelection) {
 
-    console.log('no open after selection');
     state.search = "";
     // in order to focus on the laters selected item
     // this.focusedItem = this.options.findIndex(({ value }) => value === event);
@@ -129,12 +128,15 @@ const onSelectValue = ({ event, activate }: { event: string | number, activate: 
 };
 
 // open/close dropdown
+const onInputClick = () => {
+  open()
+}
 const toggleOpen = () => {
   if (state.active) {
     close();
   } else {
-    rInput.value.inputRef.focus();
-    // open();
+    rInput.value.inputRef.focus({preventScroll: true});
+    open();
   }
 };
 const open = (e?: any) => {

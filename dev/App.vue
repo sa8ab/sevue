@@ -2,6 +2,9 @@
   <div class="app">
     <RButton @click="click" disabled> toggle dark </RButton>
     <RButton @click="click"> toggle dark </RButton>
+      <RSelect v-model="selected">
+        <ROption value="x" text="xc"></ROption>
+      </RSelect>
     <RButton @click="loader" textStyle flat> Loader </RButton>
     <RTab bordered class="tabbar" :initialActiveTab="1">
       <RTabItem title="some title" :disabled="true"> hi </RTabItem>
@@ -23,6 +26,11 @@
       <RInput icon="bx-user" />
       <RInput icon="bx-user" iconAfter />
     </div>
+    <div style="height: 1000px;"></div>
+      <RSelect v-model="selected">
+        <ROption value="x" text="xc"></ROption>
+      </RSelect>
+    <div style="height: 1000px;"></div>
   </div>
 </template>
 
@@ -52,9 +60,6 @@ const loader = () => {
 };
 
 onMounted(() => {
-  setTimeout(() => {
-    console.log(iref.value.inputRef);
-  }, 1);
 
   document.body.classList.add("dark");
 });

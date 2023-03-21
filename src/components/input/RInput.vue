@@ -6,8 +6,9 @@
       { focused: state.focused, disabled, iconAfter, sharp, error, hasIcon },
     ]"
     :style="{ '--r-prm': color }"
+    @click="containerClick"
   >
-    <label @click.self.prevent="onLabelClick">
+    <label >
       <span class="label" v-if="label">{{ label }}</span>
       <div class="input-container" ref="inputContainerRef">
         <div class="icon-container" v-if="hasIcon" @click="iconClick">
@@ -60,7 +61,7 @@ const props = defineProps<{
   error?: boolean;
   containerClass?: string;
 }>();
-const emit = defineEmits(["update:modelValue", "onLabelClick", "iconClick"]);
+const emit = defineEmits(["update:modelValue", "containerClick", "iconClick"]);
 const color = useColor(toRef(props, "color"));
 const state = reactive({
   focused: false,
@@ -74,8 +75,8 @@ const hasIcon = computed(() => slots.icon || props.icon)
 const onInput = (e: Event) => {
   emit("update:modelValue", (<HTMLInputElement>e.target).value);
 };
-const onLabelClick = (e: Event) => {
-  emit("onLabelClick", e);
+const containerClick = (e: Event) => {
+  emit("containerClick", e);
 };
 const iconClick = (e: Event) => {
   emit("iconClick", e);

@@ -1,9 +1,6 @@
 <template>
-  <div class="doc-items two">
-    <RSelect v-model="selected" placeholder="Select An Option" label="Demo">
-      <ROption v-for="{ name, id } in items" :value="id" :text="name" />
-    </RSelect>
-    <RSelect v-model="selected" placeholder="Select An Option" label="Searchable" searchable>
+  <div class="doc-item two">
+    <RSelect v-model="selected" placeholder="Placeholder" >
       <ROption v-for="{ name, id } in items" :value="id" :text="name" />
     </RSelect>
   </div>
