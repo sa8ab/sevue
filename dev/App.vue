@@ -16,6 +16,13 @@
     </RTab>
     <RCheckbox v-model="x" :color="checkboxColor">Checkbox</RCheckbox>
     <RButton @click="checkboxColor = 'yellow'">Change Color {{ checkboxColor }}</RButton>
+    <div class="select-n-input">
+      <RSelect v-model="selected">
+        <ROption value="x" text="xc"></ROption>
+      </RSelect>
+      <RInput icon="bx-user" />
+      <RInput icon="bx-user" iconAfter />
+    </div>
   </div>
 </template>
 

@@ -141,7 +141,7 @@ button {
 }
 
 .r-button {
-  padding: 8px 12px;
+  padding: $bp;
   border-radius: $radius;
   color: color();
   background: color(prm, var(--light-alpha));

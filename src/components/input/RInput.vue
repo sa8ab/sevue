@@ -3,14 +3,14 @@
     :class="[
       'r-input',
       containerClass,
-      { focused: state.focused, disabled, iconAfter, sharp, error },
+      { focused: state.focused, disabled, iconAfter, sharp, error, hasIcon },
     ]"
     :style="{ '--r-prm': color }"
   >
     <label @click.self.prevent="onLabelClick">
       <span class="label" v-if="label">{{ label }}</span>
       <div class="input-container" ref="inputContainerRef">
-        <div class="icon-container" v-if="$slots.icon || icon" @click="iconClick">
+        <div class="icon-container" v-if="hasIcon" @click="iconClick">
           <slot name="icon">
             <i v-if="icon" :class="['icon', sevue?.iconPrefix, icon]"></i>
           </slot>
@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, reactive, toRef, ref } from "vue";
+import { inject, reactive, toRef, ref, useSlots, computed } from "vue";
 import { sevueKey } from "@/injectionKeys";
 import HeightTransition from "../HeightTransition.vue";
 import useColor from "@/composables/useColor";
@@ -67,6 +67,9 @@ const state = reactive({
 });
 const inputRef = ref();
 const inputContainerRef = ref();
+const slots = useSlots()
+
+const hasIcon = computed(() => slots.icon || props.icon)
 
 const onInput = (e: Event) => {
   emit("update:modelValue", (<HTMLInputElement>e.target).value);
@@ -105,7 +108,7 @@ defineExpose({
     border: none;
     background: transparent;
     font-size: 1rem;
-    padding: $bp;
+    padding: $p2;
     font-family: inherit;
     width: 100%;
     color: inherit;
@@ -149,8 +152,16 @@ defineExpose({
   }
 
   .icon-container {
-    padding: 6px;
+    padding: $p2;
+    display: flex;
+    padding-right: 0;
     transition: color $duration;
+  }
+  &.iconAfter {
+    .icon-container{
+      padding-right: $p2;
+      padding-left: 0;
+    }
   }
 
   &.focused {
