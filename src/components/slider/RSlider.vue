@@ -5,25 +5,12 @@
       <div class="ticks" v-if="ticks">
         <RSliderTick class="tick" v-for="tick in ticksList" :key="tick.value" v-bind="tick" />
       </div>
-      <Dot
-        ref="dotOne"
-        :dotVal="state.value1"
-        v-bind="$props"
-        @update="onValueOneUpdate"
-        @setIsDragging="setIsDragging"
-        class="dot-1"
-      >
+      <Dot ref="dotOne" :dotVal="state.value1" v-bind="$props" @update="onValueOneUpdate" @setIsDragging="setIsDragging"
+        class="dot-1">
         <slot name="tooltip" :value="state.value1"></slot>
       </Dot>
-      <Dot
-        v-if="isRange"
-        ref="dotTwo"
-        :dotVal="state.value2"
-        v-bind="$props"
-        @update="onValueTwoUpdate"
-        @setIsDragging="setIsDragging"
-        class="dot-2"
-      >
+      <Dot v-if="isRange" ref="dotTwo" :dotVal="state.value2" v-bind="$props" @update="onValueTwoUpdate"
+        @setIsDragging="setIsDragging" class="dot-2">
         <slot name="tooltip" :value="state.value2"></slot>
       </Dot>
     </div>
@@ -155,23 +142,24 @@ const ticksList = computed(() => {
   }
   return list;
 });
-const progressStyle= computed(() => {
+const progressStyle = computed(() => {
   const { min, max } = props;
   const { value1, value2 } = state;
   const _isRange = isRange.value;
   return (_isRange
     ? {
-        width: `${(Math.abs(value1 - value2) / (max - min)) * 100}%`,
-        left: `${((Math.min(value1, value2) - min) / (max - min)) * 100}%`,
-        transition: !state.isDragging && state.transition,
-      }
+      width: `${(Math.abs(value1 - value2) / (max - min)) * 100}%`,
+      left: `${((Math.min(value1, value2) - min) / (max - min)) * 100}%`,
+      transition: !state.isDragging && state.transition,
+    }
     : {
-        width: `${((value1 - min) / (max - min)) * 100}%`,
-        transition: !state.isDragging && state.transition,
-      }) as StyleValue
+      width: `${((value1 - min) / (max - min)) * 100}%`,
+      transition: !state.isDragging && state.transition,
+    }) as StyleValue
 });
 
 watch(() => props.modelValue, setValues);
+// FIX INITIAL VALUE
 onBeforeMount(() => {
   setValues();
 });
@@ -197,6 +185,7 @@ provide('slider', {
   width: 100%;
   user-select: none;
   padding: $p2 0;
+
   .bar {
     // background: color("b2");
     background: color(hover);
@@ -206,6 +195,7 @@ provide('slider', {
     cursor: pointer;
     border-radius: 8px;
   }
+
   .progress {
     position: absolute;
     top: 0;
@@ -217,9 +207,11 @@ provide('slider', {
     border-radius: 8px;
     z-index: 2;
   }
+
   .ticks {
     pointer-events: none;
   }
+
   &.tickLabels {
     padding-bottom: 24px;
   }
