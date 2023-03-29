@@ -28,3 +28,8 @@
 *[class*="r-"] {
   text-decoration: none;
 }
+
+.r-popup-footer {
+  padding: $p2;
+  box-shadow: 0 0 4px rgba(var(--r-shadow-color), var(--r-shadow-alpha));
+}

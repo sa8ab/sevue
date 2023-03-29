@@ -40,7 +40,7 @@ const onClose = () => {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .r-popup {
   position: fixed;
   top: 0;
