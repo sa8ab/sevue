@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts" setup>
-import { RSelectKey } from '@/injectionKeys';
+import { rSelectKey } from '@/injectionKeys';
 import { computed, inject } from "vue";
-const select = inject(RSelectKey);
+const select = inject(rSelectKey);
 defineOptions({
   isSelectGroup: true,
 });

@@ -3,7 +3,7 @@ import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 import DefineOptions from "unplugin-vue-define-options/vite";
 import vue from "@vitejs/plugin-vue";
-import typescript2 from "rollup-plugin-typescript2";
+import dts from "vite-plugin-dts";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,28 +11,13 @@ export default defineConfig({
     vue(),
     DefineOptions(),
     {
-      ...typescript2({
-        check: false,
-        include: [
-          "src/components/**/*.vue",
-          "src/components/*.vue",
-          "src/composables/**",
-          "src/directives/**",
-          "src/main.ts",
-          "src/utils/**",
-        ],
-        tsconfigOverride: {
-          compilerOptions: {
-            outDir: "dist",
-            sourceMap: true,
-            declaration: true,
-            declarationMap: true,
-          },
-        },
-        exclude: ["vite.config.ts"],
+      ...dts({
+        skipDiagnostics: false,
+        entryRoot: './src',
+        copyDtsFiles: true
       }),
       name: "build-only",
-      apply: "build", // or 'serve'
+      apply: "build",
     },
   ],
   build: {
@@ -62,3 +47,13 @@ export default defineConfig({
     },
   },
 });
+
+
+// tsconfigOverride: {
+//   compilerOptions: {
+//     outDir: "dist",
+//     sourceMap: true,
+//     declaration: true,
+//     declarationMap: true,
+//   },
+// },
