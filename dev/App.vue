@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <RButton @click="click" disabled> toggle dark </RButton>
+    <!-- <RButton @click="click" disabled> toggle dark </RButton>
     <RButton @click="click"> toggle dark </RButton>
       <RSelect v-model="selected" message="some message">
         <ROption value="x" text="xc"></ROption>
@@ -25,20 +25,20 @@
       </RSelect>
       <RInput icon="bx-user" />
       <RInput icon="bx-user" iconAfter />
-    </div>
-    <div style="height: 1000px;"></div>
-      <RSelect v-model="selected">
-        <ROption value="x" text="xc"></ROption>
-      </RSelect>
-    <div style="height: 1000px;"></div>
+    </div> -->
+    <RButton @blur="onEvent">Test button</RButton>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, inject } from "vue";
-import { LoadingKey, useLoading } from "../src/main";
+import { useLoading } from "../src/main";
 
 const loading = useLoading();
+
+const onEvent = (e) => {
+  console.log('on Event', e);
+}
 
 const iref = ref();
 const active = ref([0, 50]);
@@ -77,9 +77,11 @@ onMounted(() => {
   margin: auto;
   padding: 8px;
 }
+
 .tabbar {
   width: 100%;
 }
+
 body {
   background: color(b1);
   color: color(text);
@@ -88,8 +90,8 @@ body {
 .loader-container {
   position: relative;
 }
+
 .select-n-input {
   display: flex;
   align-items: center;
-}
-</style>
+}</style>

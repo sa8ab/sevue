@@ -1,12 +1,6 @@
 <template>
-  <component
-    :is="renderComponent"
-    @keyup.tab="focused = true"
-    @blur="focused = false"
-    :disabled="disabled"
-    :to="to"
-    :href="href"
-    :class="[
+  <component :is="renderComponent" @keyup.tab="focused = true" @blur="focused = false" :disabled="disabled" :to="to"
+    :href="href" :class="[
       'r-button',
       {
         flat,
@@ -19,17 +13,12 @@
         icon,
         round,
         iconOnly,
-        iconOnlyAlt,
-        iconLarge,
         iconAfter,
         noPadding,
         focused,
         colorInherit,
       },
-    ]"
-    :style="{ '--r-prm': color, '--r-text': textColor }"
-    v-ripple
-  >
+    ]" :style="{ '--r-prm': color, '--r-text': textColor }" v-ripple>
     <div class="inner">
       <slot name="icon">
         <i :class="['icon bx', icon]" v-if="icon"></i>
@@ -41,94 +30,60 @@
 </template>
 
 <script lang="ts" setup>
-// import { NuxtLink } from "#components";
+/* TODO:
+fix routing
+dynamic icon slot & detect iconOnly
+*/
 import useColor from "@/composables/useColor";
 import { useSlots, ref, computed, toRef } from "vue";
 
-const props = defineProps({
-  to: {
-    type: String,
-    default: undefined,
-  },
-  href: {
-    type: String,
-    default: undefined,
-  },
-  flat: {
-    default: false,
-    type: Boolean,
-  },
-  bordered: {
-    default: false,
-    type: Boolean,
-  },
-  fill: {
-    default: false,
-    type: Boolean,
-  },
-  link: {
-    default: false,
-    type: Boolean,
-  },
-  cancel: {
-    default: false,
-    type: Boolean,
-  },
-  color: {
-    default: "",
-    type: String,
-  },
+
+export interface Props {
+  flat?: boolean
+  bordered?: boolean
+  fill?: boolean
+  link?: boolean // FIXME:
+  cancel?: boolean
+  color?: string,
   // TEXTCOLOR ONLY WORKS IN FILL STYLE
-  textColor: {
-    default: "",
-    type: String,
-  },
-  textStyle: {
-    default: false,
-    type: Boolean,
-  },
-  round: {
-    default: false,
-    type: Boolean,
-  },
-  disabled: {
-    default: false,
-    type: Boolean,
-  },
-  icon: {
-    default: "",
-    type: String,
-  },
-  iconOnly: {
-    default: false,
-    type: Boolean,
-  },
-  iconOnlyAlt: {
-    default: false,
-    type: Boolean,
-  },
-  iconLarge: {
-    default: false,
-    type: Boolean,
-  },
-  iconAfter: {
-    default: false,
-    type: Boolean,
-  },
-  colorInherit: {
-    default: false,
-    type: Boolean,
-  },
-});
+  textColor?: string
+  textStyle?: boolean
+  round?: boolean
+  disabled?: boolean
+  icon?: string
+  iconOnly?: boolean
+  iconAfter?: boolean
+  colorInherit?: boolean
+  to?: string,
+  href?: string
+}
+// interface LinkProps extends BaseProps {
+//   to?: string,
+//   href?: never
+// }
+// interface AnchorProps extends BaseProps {
+//   to?: never,
+//   href?: string
+// }
+// type Props = LinkProps | AnchorProps
+const props = withDefaults(
+  defineProps<Props>(),
+  {}
+)
 const color = useColor(toRef(props, 'color'))
 const textColor = useColor(toRef(props, 'textColor'))
 const slots = useSlots();
 
 const focused = ref(false);
 
-const isLink = computed(() => !!props.to || !!props.href);
-const renderComponent = computed(() => (isLink.value ? "NuxtLink" : "button"));
-const noPadding = computed(() => slots.icon && (props.iconOnly || props.iconOnlyAlt));
+const isRouterLink = computed(() => !!props.to);
+const isAnchorElement = computed(() => !!props.href);
+const renderComponent = computed(() => {
+  if (isRouterLink.value) return 'router-link'
+  if (isAnchorElement.value) return 'a'
+  return 'button'
+});
+const noPadding = computed(() => slots.icon && props.iconOnly);
 </script>
 
 <style scoped lang="scss">
@@ -160,10 +115,6 @@ button {
 
 .icon-space {
   width: $p2;
-}
-
-.iconLarge .bx {
-  font-size: 1.5rem;
 }
 
 .r-button.bordered {
@@ -220,6 +171,7 @@ button {
 .r-button.textStyle {
   background: transparent;
   color: inherit;
+
   &:hover {
     background: color(hover, var(--hover-alpha));
   }
@@ -232,8 +184,7 @@ button {
     }
   }
 
-  &.iconOnly,
-  &.iconOnlyAlt {
+  &.iconOnly {
     width: 32px;
     height: 32px;
 
@@ -252,16 +203,13 @@ button {
   &.noPadding {
     padding: 0;
   }
-
-  &.iconOnlyAlt {
-    width: 36px;
-    height: 36px;
-  }
 }
+
 // Specials
 .r-button.textStyle.disabled {
   color: color(disabled);
 }
+
 .r-button.fill.disabled {
   opacity: var(--disabled-alpha);
 }

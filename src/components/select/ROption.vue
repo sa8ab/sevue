@@ -1,12 +1,6 @@
 <template>
-  <div
-    :class="['r-option r', { active: isActive, focused, disabled }]"
-    @click="onSelectValue"
-    v-if="visible"
-    v-ripple
-    tabindex="-1"
-    :style="{'--r-prm': color}"
-  >
+  <div :class="['r-option r', { active: isActive, focused, disabled }]" @click="onSelectValue" v-if="visible" v-ripple
+    tabindex="-1" :style="{ '--r-prm': color }">
     <div class="padding">
       <slot> {{ text }}</slot>
     </div>
@@ -15,14 +9,14 @@
 
 <script setup lang="ts">
 import { computed, inject, toRef } from "vue";
-import { RSelectKey } from "@/injectionKeys";
+import { rSelectKey } from "@/injectionKeys";
 import { isArray } from "@vue/shared";
 import useColor from "@/composables/useColor";
 
 defineOptions({
   isOption: true,
 });
-const select = inject(RSelectKey);
+const select = inject(rSelectKey);
 const props = defineProps({
   text: {
     default: "",

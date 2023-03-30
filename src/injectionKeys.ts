@@ -8,7 +8,7 @@ export const sevueKey = Symbol() as InjectionKey<{
   setDark: (dark: boolean) => void;
 }>;
 
-export const RSelectKey = Symbol() as InjectionKey<{
+export const rSelectKey = Symbol() as InjectionKey<{
   modelValue: Ref<string | number | (string | number)[]>;
   multiple: Ref<boolean>;
   search: Ref<string>;
@@ -19,4 +19,4 @@ export const RSelectKey = Symbol() as InjectionKey<{
   onSelectValue: (...args: any) => void;
 }>;
 
-export const LoadingKey = Symbol() as InjectionKey<(options?: LoadingOptions) => () => {}>;
+export const loadingKey = Symbol() as InjectionKey<(options?: LoadingOptions) => () => {}>;

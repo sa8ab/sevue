@@ -1,7 +1,7 @@
 import type { App } from "vue";
 
 // components
-import RButton from "./components/button";
+import RButton, { type Props as RButtonProps } from "./components/button";
 import { RSelect, ROption, RSelectGroup } from "./components/select";
 import notificationFactory from "./components/notification";
 import RInput from "./components/input";
@@ -21,7 +21,7 @@ import useNotification from "./composables/useNotification";
 import useLoading from "./composables/useLoading";
 
 import { getColor, setDark, setOptions } from "./utils";
-import { LoadingKey, notificationKey, sevueKey } from "./injectionKeys";
+import { loadingKey, notificationKey, sevueKey } from "./injectionKeys";
 
 // styles
 import "./styles/index.scss";
@@ -74,12 +74,17 @@ export default {
       setDark,
     });
     app.provide(notificationKey, notificationFactory(app));
-    app.provide(LoadingKey, loadingFactory(app));
+    app.provide(loadingKey, loadingFactory(app));
   },
 };
+// components & composables
 export { RButton, useNotification, useLoading };
+
 // inject keys
-export { notificationKey, sevueKey, LoadingKey };
+export { notificationKey, sevueKey, loadingKey };
+
+// types
+export { RButtonProps }
 
 declare module "vue" {
   interface ComponentCustomProperties {
