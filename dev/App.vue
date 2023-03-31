@@ -26,8 +26,7 @@
       <RInput icon="bx-user" />
       <RInput icon="bx-user" iconAfter />
     </div> -->
-    <RButton @click="onEvent" color="red" textColor="green">Test button</RButton>
-    <RButton @click="notif.close()" color="red" textColor="green">Close Notification</RButton>
+    <RButton @click="onEvent" color="red">Test button</RButton>
   </div>
 </template>
 
