@@ -5,12 +5,10 @@ const useColor = (color: Ref<string | undefined>) => {
 
   const result = ref<string | undefined>()
 
-  onBeforeMount(() => {
-    result.value = getColor(color.value)
-  })
-
   watch(color, (newColor) => {
     result.value = getColor(newColor)
+  }, {
+    immediate: true
   })
 
   return result

@@ -26,7 +26,7 @@
       <RInput icon="bx-user" />
       <RInput icon="bx-user" iconAfter />
     </div> -->
-    <RButton @blur="onEvent">Test button</RButton>
+    <RButton @blur="onEvent" color="red" textColor="green">Test button</RButton>
   </div>
 </template>
 
