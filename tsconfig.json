@@ -8,7 +8,6 @@
     },
     "types": ["unplugin-vue-define-options/macros-global"]
   },
-
   "references": [
     {
       "path": "./tsconfig.node.json"

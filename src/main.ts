@@ -91,3 +91,9 @@ declare module "vue" {
     $r: any
   }
 }
+
+
+/* 
+TODO: 
+create component resolver for unplugin
+*/
