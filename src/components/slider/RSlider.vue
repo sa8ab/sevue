@@ -22,19 +22,20 @@ import useColor from "@/composables/useColor";
 import { computed, onBeforeMount, provide, reactive, watch, ref, type StyleValue, toRef } from "vue";
 import Dot from "./RSliderDot.vue";
 import RSliderTick from "./RSliderTick.vue";
+export interface Props {
+  modelValue: number | Array<number>;
+  min?: number;
+  max?: number;
+  step?: number;
+  precision?: number;
+  tooltip?: boolean;
+  alwaysTooltip?: boolean;
+  color?: string;
+  ticks?: boolean;
+  tickLabels?: boolean;
+}
 const props = withDefaults(
-  defineProps<{
-    modelValue: number | Array<number>;
-    min?: number;
-    max?: number;
-    step?: number;
-    precision?: number;
-    tooltip?: boolean;
-    alwaysTooltip?: boolean;
-    color?: string;
-    ticks?: boolean;
-    tickLabels?: boolean;
-  }>(),
+  defineProps<Props>(),
   {
     min: 0,
     max: 100,

@@ -1,2 +1,3 @@
-import RPopup from "./RPopup.vue";
+import RPopup, { type Props } from "./RPopup.vue";
+export { Props }
 export default RPopup;

@@ -1,12 +1,9 @@
 <template>
-  <div
-    :class="[
-      'r-input',
-      containerClass,
-      { focused: state.focused, disabled, iconAfter, sharp, error, hasIcon },
-    ]"
-    :style="{ '--r-prm': color }"
-  >
+  <div :class="[
+    'r-input',
+    containerClass,
+    { focused: state.focused, disabled, iconAfter, sharp, error, hasIcon },
+  ]" :style="{ '--r-prm': color }">
     <span class="label" v-if="label">{{ label }}</span>
     <div class="input-container" ref="inputContainerRef">
       <label class="label-element" @click="labelClick">
@@ -15,16 +12,8 @@
             <i v-if="icon" :class="['icon', sevue?.iconPrefix, icon]"></i>
           </slot>
         </div>
-        <input
-          :placeholder="placeholder"
-          :value="modelValue"
-          :disabled="disabled"
-          v-bind="$attrs"
-          @focus="state.focused = true"
-          @blur="state.focused = false"
-          @input="onInput"
-          ref="inputRef"
-        />
+        <input :placeholder="placeholder" :value="modelValue" :disabled="disabled" v-bind="$attrs"
+          @focus="state.focused = true" @blur="state.focused = false" @input="onInput" ref="inputRef" />
       </label>
       <slot name="after"></slot>
     </div>
@@ -42,13 +31,7 @@ import { inject, reactive, toRef, ref, useSlots, computed } from "vue";
 import { sevueKey } from "@/injectionKeys";
 import HeightTransition from "../HeightTransition.vue";
 import useColor from "@/composables/useColor";
-
-const sevue = inject(sevueKey);
-
-defineOptions({
-  inheritAttrs: false,
-});
-const props = defineProps<{
+export interface Props {
   modelValue?: string;
   label?: string;
   icon?: string;
@@ -60,7 +43,16 @@ const props = defineProps<{
   disabled?: boolean;
   error?: boolean;
   containerClass?: string;
-}>();
+}
+
+const sevue = inject(sevueKey);
+
+defineOptions({
+  inheritAttrs: false,
+});
+
+
+const props = defineProps<Props>();
 const emit = defineEmits(["update:modelValue", "labelClick", "iconClick"]);
 const color = useColor(toRef(props, "color"));
 const state = reactive({
@@ -147,10 +139,12 @@ defineExpose({
     transition: box-shadow $duration;
     overflow: hidden;
     box-shadow: var(--border);
+
     &:hover {
       box-shadow: var(--border-active);
     }
   }
+
   .label-element {
     display: flex;
     align-items: center;
@@ -162,6 +156,7 @@ defineExpose({
     padding-right: 0;
     transition: color $duration;
   }
+
   &.iconAfter {
     .icon-container {
       padding-right: $p2;
@@ -170,6 +165,7 @@ defineExpose({
   }
 
   &.focused {
+
     .icon-container,
     .label {
       color: color();
@@ -196,6 +192,7 @@ defineExpose({
     --r-prm: var(--r-red);
     --border: 0 0 0 1px rgba(var(--r-red), 1);
     --border-active: 0 0 0 1px rgba(var(--r-red), var(--border-active-alpha));
+
     .label {
       color: color(red);
     }

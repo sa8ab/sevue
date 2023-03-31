@@ -21,16 +21,17 @@
 </template>
 
 <script setup lang="ts">
-defineOptions({
-  inheritAttrs: false,
-});
-const emit = defineEmits(["update:active", "close"]);
-const props = defineProps<{
+export interface Props {
   active: boolean;
   title?: string;
   noClose?: boolean;
   fullWidth?: boolean;
-}>();
+}
+defineOptions({
+  inheritAttrs: false,
+});
+const emit = defineEmits(["update:active", "close"]);
+const props = defineProps<Props>();
 
 const onClose = () => {
   if (!props.noClose) {

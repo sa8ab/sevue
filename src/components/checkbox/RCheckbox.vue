@@ -1,15 +1,6 @@
 <template>
-  <label
-    :class="['r-cb', { isChecked }]"
-    :style="{ '--r-prm': color, '--r-text': iconColor }"
-  >
-    <input
-      type="checkbox"
-      :value="val"
-      v-model="model"
-      :trueValue="trueValue"
-      :falseValue="falseValue"
-    />
+  <label :class="['r-cb', { isChecked }]" :style="{ '--r-prm': color, '--r-text': iconColor }">
+    <input type="checkbox" :value="val" v-model="model" :trueValue="trueValue" :falseValue="falseValue" />
     <div class="check-container">
       <CheckIcon class="icon" />
       <div class="background"></div>
@@ -23,15 +14,18 @@ import { isArray } from "@vue/shared";
 import { computed, toRef } from "vue";
 import CheckIcon from "@/components/icons/Check.vue";
 import useColor from "@/composables/useColor";
+
+export interface Props {
+  modelValue: string | number | boolean | any[];
+  val?: string | number | any[];
+  color?: string;
+  iconColor?: string;
+  trueValue?: any;
+  falseValue?: any;
+}
+
 const props = withDefaults(
-  defineProps<{
-    modelValue: string | number | boolean | any[];
-    val?: string | number | any[];
-    color?: string;
-    iconColor?: string;
-    trueValue?: any;
-    falseValue?: any;
-  }>(),
+  defineProps<Props>(),
   {
     trueValue: true,
     falseValue: false,
@@ -75,11 +69,13 @@ const isChecked = computed(() => {
   display: flex;
   align-items: center;
   gap: $p;
+
   &:hover {
     .check-container {
       background: color(hover, var(--hover-alpha));
     }
   }
+
   input {
     opacity: 0.5;
     position: absolute;
@@ -90,6 +86,7 @@ const isChecked = computed(() => {
     z-index: 0;
     // visibility: hidden;
   }
+
   .check-container {
     width: 26px;
     height: 26px;
@@ -102,6 +99,7 @@ const isChecked = computed(() => {
     border: 2px solid color(hover, var(--hover-alpha));
     transition: all $duration;
   }
+
   .background {
     position: absolute;
     top: 0;
@@ -114,6 +112,7 @@ const isChecked = computed(() => {
     transition: all $duration;
     border-radius: 50%;
   }
+
   .icon {
     position: relative;
     z-index: 2;
@@ -122,19 +121,23 @@ const isChecked = computed(() => {
     transition-delay: math.div($duration, 2);
     color: color(text);
   }
+
   &.isChecked {
     &:hover {
       .check-container {
         box-shadow: 0 2px 8px color();
       }
     }
+
     .check-container {
       border-color: color();
     }
+
     .background {
       transform: translateY(0);
       border-radius: 0;
     }
+
     .icon {
       transform: scale(1);
     }

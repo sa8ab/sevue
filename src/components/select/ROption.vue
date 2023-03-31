@@ -12,25 +12,25 @@ import { computed, inject, toRef } from "vue";
 import { rSelectKey } from "@/injectionKeys";
 import { isArray } from "@vue/shared";
 import useColor from "@/composables/useColor";
+export interface Props {
+  text?: string
+  value: number | string
+  disabled?: boolean
+  color?: string
+}
 
+const props = withDefaults(
+  defineProps<Props>(),
+  {
+    text: '',
+    value: 0,
+    disabled: false,
+  }
+)
 defineOptions({
   isOption: true,
 });
 const select = inject(rSelectKey);
-const props = defineProps({
-  text: {
-    default: "",
-    type: String,
-  },
-  value: {
-    default: 0,
-    type: [Number, String],
-  },
-  disabled: { default: false, type: Boolean },
-  color: {
-    type: String
-  }
-});
 const color = useColor(props.color ? toRef(props, 'color') : toRef(select!, 'color'))
 const onSelectValue = () => {
   select!.onSelectValue({

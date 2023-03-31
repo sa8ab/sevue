@@ -1,4 +1,6 @@
-import RSelect from "./RSelect.vue";
-import ROption from "./ROption.vue";
+import RSelect, { type Props as RSelectProps } from "./RSelect.vue";
+import ROption, { type Props as ROptionProps } from "./ROption.vue";
 import RSelectGroup from "./RSelectGroup.vue";
+
+export { RSelectProps, ROptionProps }
 export { RSelect, ROption, RSelectGroup };

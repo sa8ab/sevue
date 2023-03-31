@@ -1,15 +1,8 @@
 import type { App } from "vue";
 
 // components
-import RButton, { type Props as RButtonProps } from "./components/button";
-import { RSelect, ROption, RSelectGroup } from "./components/select";
 import notificationFactory from "./components/notification";
-import RInput from "./components/input";
-import RPopup from "./components/popup";
-import RCheckbox from "./components/checkbox";
-import RPagination from "./components/pagination";
-import RSlider from "./components/slider";
-import { RTab, RTabItem } from "./components/tabs";
+import { RButton, RSelect, ROption, RSelectGroup, RInput, RPopup, RCheckbox, RPagination, RSlider, RTab, RTabItem } from './components'
 
 // directives
 import ripple from "./directives/ripple";
@@ -19,8 +12,9 @@ import appendToBody from "./directives/appendToBody";
 // composables
 import useNotification from "./composables/useNotification";
 import useLoading from "./composables/useLoading";
+import useSevue from "./composables/useSevue";
 
-import { getColor, setDark, setOptions } from "./utils";
+import { setDark, setOptions } from "./utils";
 import { loadingKey, notificationKey, sevueKey } from "./injectionKeys";
 
 // styles
@@ -60,40 +54,66 @@ export default {
     app.directive("append-to-body", appendToBody);
 
     // instance
+    // @ts-ignore
     app.config.globalProperties.$r = {};
     app.config.globalProperties.$r.iconPrefix = options.iconPrefix;
-    app.config.globalProperties.$r.getColor = getColor;
     app.config.globalProperties.$r.setDark = setDark;
     app.config.globalProperties.$r.notification = notificationFactory(app);
     app.config.globalProperties.$r.loading = loadingFactory(app);
-    // app.config.globalProperties.$r.loading = loading;
 
     app.provide(sevueKey, {
       iconPrefix: options.iconPrefix as string,
-      getColor,
       setDark,
     });
     app.provide(notificationKey, notificationFactory(app));
     app.provide(loadingKey, loadingFactory(app));
   },
 };
+
 // components & composables
-export { RButton, useNotification, useLoading };
+export { RButton, useNotification, useLoading, useSevue };
 
 // inject keys
 export { notificationKey, sevueKey, loadingKey };
 
 // types
-export { RButtonProps }
+export type { RButtonProps, RCheckboxProps, RInputProps, RPaginationProps, RPopupProps, RSelectProps, ROptionProps, RSliderProps, RTabProps } from './components'
+export type { Colors, LoadingOptions, NotificationOptions, Sevue, SevueOptions } from './types'
 
+
+// Global Types Definitions
+import '@vue/runtime-core'
 declare module "vue" {
-  interface ComponentCustomProperties {
-    $r: any
+  export interface ComponentCustomProperties {
+    $r: {
+      iconPrefix: string | undefined,
+      setDark: (dark: boolean) => void,
+      notification: ReturnType<typeof notificationFactory>,
+      loading: ReturnType<typeof loadingFactory>
+    }
   }
 }
-
-
-/* 
-TODO: 
-create component resolver for unplugin
-*/
+declare module '@vue/runtime-core' {
+  export interface GlobalComponents {
+    Check: typeof import('./../src/components/icons/Check.vue')['default']
+    ChevronLeft: typeof import('./../src/components/icons/ChevronLeft.vue')['default']
+    ChevronRight: typeof import('./../src/components/icons/ChevronRight.vue')['default']
+    HeightTransition: typeof import('./../src/components/HeightTransition.vue')['default']
+    Notification: typeof import('./../src/components/notification/Notification.vue')['default']
+    NotificationContainer: typeof import('./../src/components/notification/NotificationContainer.vue')['default']
+    RButton: typeof import('./../src/components/button/RButton.vue')['default']
+    RCheckbox: typeof import('./../src/components/checkbox/RCheckbox.vue')['default']
+    RInput: typeof import('./../src/components/input/RInput.vue')['default']
+    RLoading: typeof import('./../src/components/loading/RLoading.vue')['default']
+    ROption: typeof import('./../src/components/select/ROption.vue')['default']
+    RPagination: typeof import('./../src/components/pagination/RPagination.vue')['default']
+    RPopup: typeof import('./../src/components/popup/RPopup.vue')['default']
+    RSelect: typeof import('./../src/components/select/RSelect.vue')['default']
+    RSelectGroup: typeof import('./../src/components/select/RSelectGroup.vue')['default']
+    RSlider: typeof import('./../src/components/slider/RSlider.vue')['default']
+    RSliderDot: typeof import('./../src/components/slider/RSliderDot.vue')['default']
+    RSliderTick: typeof import('./../src/components/slider/RSliderTick.vue')['default']
+    RTab: typeof import('./../src/components/tabs/RTab.vue')['default']
+    RTabItem: typeof import('./../src/components/tabs/RTabItem.vue')['default']
+  }
+}

@@ -34,7 +34,7 @@ import { isArray } from "@vue/shared";
 import { rSelectKey } from '@/injectionKeys'
 import { nextTick, computed, onBeforeUnmount, onMounted, provide, reactive, ref, toRef, useSlots, watch, type VNode } from "vue";
 import useColor from "@/composables/useColor";
-type Props = {
+export type Props = {
   searchable?: boolean
   multiple?: boolean
   modelValue: Array<number | string> | number | string,

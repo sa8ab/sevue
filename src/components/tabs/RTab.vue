@@ -33,6 +33,17 @@
 <script setup lang="ts">
 import useColor from "@/composables/useColor";
 import { nextTick, onMounted, reactive, ref, toRef, computed, useSlots, watch, type VNode, provide } from "vue";
+
+export interface Props {
+  fit?: boolean;
+  bordered?: boolean;
+  iconOnly?: boolean;
+  scrollable?: boolean;
+  moverFull?: boolean;
+  color?: string;
+  initialActiveTab?: number
+}
+
 type State = {
   activeTab: string
   height: string | number
@@ -48,15 +59,7 @@ type Tab = {
   disabled?: boolean
 }
 const props = withDefaults(
-  defineProps<{
-    fit?: boolean;
-    bordered?: boolean;
-    iconOnly?: boolean;
-    scrollable?: boolean;
-    moverFull?: boolean;
-    color?: string;
-    initialActiveTab?: number
-  }>(),
+  defineProps<Props>(),
   {}
 );
 const emit = defineEmits(["tabChange"]);

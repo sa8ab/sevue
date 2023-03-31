@@ -68,22 +68,22 @@ import ChevronRight from "../icons/ChevronRight.vue";
 import ChevronLeft from "../icons/ChevronLeft.vue";
 import { computed, watch, toRef } from "vue";
 import useColor from "@/composables/useColor";
-
+export interface Props {
+  color?: string;
+  activeTextColor?: string;
+  count: number;
+  sideRange?: number;
+  mainRange?: number;
+  modelValue: number;
+  bordered?: boolean;
+  buttonProps?: any;
+  disabled?: boolean;
+  noNavigation?: boolean;
+  compact?: boolean;
+  activeShadow?: boolean;
+}
 const props = withDefaults(
-  defineProps<{
-    color?: string;
-    activeTextColor?: string;
-    count: number;
-    sideRange?: number;
-    mainRange?: number;
-    modelValue: number;
-    bordered?: boolean;
-    buttonProps?: any;
-    disabled?: boolean;
-    noNavigation?: boolean;
-    compact?: boolean;
-    activeShadow?: boolean;
-  }>(),
+  defineProps<Props>(),
   {
     activeTextColor: "#fff",
     sideRange: 2,
