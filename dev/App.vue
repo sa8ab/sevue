@@ -26,18 +26,24 @@
       <RInput icon="bx-user" />
       <RInput icon="bx-user" iconAfter />
     </div> -->
-    <RButton @blur="onEvent" color="red" textColor="green">Test button</RButton>
+    <RButton @click="onEvent" color="red" textColor="green">Test button</RButton>
+    <RButton @click="notif.close()" color="red" textColor="green">Close Notification</RButton>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, inject } from "vue";
-import { useLoading } from "../src/main";
+import { useLoading, useNotification } from "../src/main";
+const notification = useNotification()
 
 const loading = useLoading();
 
-const onEvent = (e) => {
-  console.log('on Event', e);
+const notif = ref(undefined)
+const onEvent = () => {
+  notif.value = notification({
+    text: 'test notification',
+    duration: 10000
+  })
 }
 
 const iref = ref();

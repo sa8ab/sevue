@@ -20,25 +20,33 @@ const notificationFactory = (app: App) => {
     const container = document.querySelector(`.r-notifications-container.${propsData.placement}`);
 
     if (container) {
-      const { element } = mounter(Notification, {
+      const { element, vNode } = mounter(Notification, {
         props: propsData,
         app: _app,
       });
       container[appendName](element);
+
+      return {
+        close: vNode.component?.exposed?.close
+      }
     } else {
-      const { el: mountedContainer } = mounter(NotificationContainer, {
+      const { elementChild } = mounter(NotificationContainer, {
         props: propsData,
         app: _app,
       });
 
-      document.body.append(mountedContainer);
+      document.body.append(elementChild);
 
-      const { element } = mounter(Notification, {
+      const { element, vNode } = mounter(Notification, {
         props: propsData,
         app: _app,
       });
 
-      mountedContainer[appendName](element);
+      elementChild[appendName](element);
+
+      return {
+        close: vNode.component?.exposed?.close
+      }
     }
   };
 };

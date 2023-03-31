@@ -24,9 +24,9 @@ const mounter = (
   const destroy = () => {
     if (element) render(null, element);
   };
-  const el = element.children[0];
+  const elementChild = element.children[0];
 
-  return { vNode, destroy, element, el };
+  return { vNode, destroy, element, elementChild };
 };
 
 // export const mounterFactory = (app: App) => {

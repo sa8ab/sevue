@@ -20,26 +20,39 @@
 <script setup lang="ts">
 import { getColor } from '@/utils';
 import { nextTick, onMounted, reactive } from 'vue';
+export interface Props {
+  title?: string,
+  text?: string,
+  color?: string,
+  textColor?: string,
+  duration?: number
+}
+const props = withDefaults(
+  defineProps<Props>(),
+  {
+    textColor: '#fff',
+    duration: 4000
+  }
+)
 
-const props = defineProps({
-  title: { default: "", type: String },
-  text: { default: "", type: String },
-  color: { default: "", type: String },
-  textColor: { default: "#fff", type: String },
-  duration: { default: 4000, type: Number },
-});
-const state = reactive<{ parentDiv: HTMLElement | null; active: Boolean }>({
+const state = reactive<{ parentDiv: HTMLElement | null; active: Boolean, timeout?: number }>({
   active: false,
   parentDiv: null,
+  timeout: 0
 });
+
 onMounted(() => {
-  nextTick(() => {
-    state.active = true;
-    setTimeout(() => {
-      state.active = false;
-    }, props.duration);
-  });
+  state.active = true;
+  state.timeout = setTimeout(() => {
+    state.active = false;
+  }, props.duration);
 });
+const close = () => {
+  if (state.active) {
+    state.active = false
+    clearTimeout(state.timeout)
+  }
+}
 const beforeEnter = (el: HTMLElement) => {
   el.style.height = "0";
 };
@@ -55,6 +68,10 @@ const leave = (el: HTMLElement) => {
 const afterLeave = (el: HTMLElement) => {
   state.parentDiv?.remove();
 };
+
+defineExpose({
+  close
+})
 </script>
 
 <style lang="scss">
