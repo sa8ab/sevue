@@ -2,6 +2,7 @@ import type { App } from "vue";
 
 // components
 import notificationFactory from "./components/notification";
+import loadingFactory from "./components/loading";
 import { RButton, RSelect, ROption, RSelectGroup, RInput, RPopup, RCheckbox, RPagination, RSlider, RTab, RTabItem } from './components'
 
 // directives
@@ -21,7 +22,6 @@ import { loadingKey, notificationKey, sevueKey } from "./injectionKeys";
 import "./styles/index.scss";
 
 import type { SevueOptions } from "./types";
-import loadingFactory from "./components/loading";
 
 const defaultOptions: SevueOptions = {
   ripple: true,
