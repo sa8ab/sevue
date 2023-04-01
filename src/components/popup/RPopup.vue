@@ -51,7 +51,7 @@ const onClose = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: $p2;
+  padding: var(--r-space-2);
   z-index: 80;
   &-underlay {
     position: fixed;
@@ -65,7 +65,7 @@ const onClose = () => {
   &-inner {
     position: relative;
     background: white;
-    border-radius: $radius;
+    border-radius: var(--r-radius);
     overflow: hidden;
     width: 100%;
     max-width: 600px;
@@ -83,7 +83,7 @@ const onClose = () => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: $p2;
+    padding: var(--r-space-2);
     font-size: 1.2rem;
     font-weight: bold;
     // box-shadow: $shadow2;
@@ -93,7 +93,7 @@ const onClose = () => {
     // height: 100%;
     flex: 1;
     overflow: auto;
-    padding: $p2;
+    padding: var(--r-space-2);
   }
   &-enter-from,
   &-leave-to {
@@ -102,7 +102,7 @@ const onClose = () => {
   }
   &-enter-active,
   &-leave-active {
-    transition: all math.div($duration, 2);
+    transition: all calc(var(--r-duration) / 2);
   }
 }
 </style>

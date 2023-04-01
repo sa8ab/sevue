@@ -88,7 +88,7 @@ defineExpose({
   }
   &-enter-active,
   &-leave-active {
-    transition: all $duration;
+    transition: all var(--r-duration);
   }
   .text {
     padding-top: 12px;

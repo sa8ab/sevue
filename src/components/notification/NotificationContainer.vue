@@ -32,7 +32,7 @@ const renderPlacement = computed(() => {
   max-width: 300px;
   display: flex;
   flex-direction: column;
-  padding: $p2;
+  padding: var(--r-space-2);
   &.has-top {
     top: 0;
   }

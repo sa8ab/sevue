@@ -22,7 +22,7 @@ const visible = computed(() => select?.search)
 <style lang="scss">
 .r-select-group {
   .title {
-    padding: $p;
+    padding: var(--r-space-1);
     font-weight: 500;
   }
 }

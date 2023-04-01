@@ -28,6 +28,7 @@
     </div> -->
     <RButton @click="onEvent" color="red">Test button</RButton>
     <RInput></RInput>
+    <RPopup v-model:active="x">zxczxc</RPopup>
   </div>
 </template>
 
@@ -40,9 +41,10 @@ const loading = useLoading();
 
 const notif = ref(undefined)
 const onEvent = () => {
-  notif.value = notification({
-    text: 'test notification',
-  })
+  // notif.value = notification({
+  //   text: 'test notification',
+  // })
+  x.value = true
 }
 
 const iref = ref();

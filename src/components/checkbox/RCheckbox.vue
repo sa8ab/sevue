@@ -68,7 +68,7 @@ const isChecked = computed(() => {
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: $p;
+  gap: var(--r-space-1);
 
   &:hover {
     .check-container {
@@ -94,10 +94,10 @@ const isChecked = computed(() => {
     align-items: center;
     justify-content: center;
     position: relative;
-    border-radius: $radius;
+    border-radius: var(--r-radius);
     overflow: hidden;
     border: 2px solid color(hover, var(--hover-alpha));
-    transition: all $duration;
+    transition: all var(--r-duration);
   }
 
   .background {
@@ -109,7 +109,7 @@ const isChecked = computed(() => {
     background: color();
     z-index: -1;
     transform: translateY(100%);
-    transition: all $duration;
+    transition: all var(--r-duration);
     border-radius: 50%;
   }
 
@@ -117,8 +117,8 @@ const isChecked = computed(() => {
     position: relative;
     z-index: 2;
     transform: scale(0);
-    transition: transform math.div($duration, 2);
-    transition-delay: math.div($duration, 2);
+    transition: transform calc(var(--r-duration) / 2);
+    transition-delay: calc(var(--r-duration) / 2);
     color: color(text);
   }
 

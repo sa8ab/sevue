@@ -278,7 +278,7 @@ provide(rSelectKey, {
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
-    transition: transform $duration;
+    transition: transform var(--r-duration);
 
     &.rotate {
       transform: rotate(180deg);
@@ -314,7 +314,7 @@ provide(rSelectKey, {
 }
 
 .noOptions {
-  padding: $p2;
+  padding: var(--r-space-2);
 }
 
 .dropdown-container {
@@ -323,7 +323,7 @@ provide(rSelectKey, {
 
 .select-dropdown {
   background: color(b2);
-  border-radius: $radius;
+  border-radius: var(--r-radius);
   max-height: 240px;
   overflow: hidden;
   overflow-y: auto;
@@ -337,10 +337,10 @@ provide(rSelectKey, {
   &-enter-active,
   &-leave-active {
     .select-dropdown {
-      transition: all math.div($duration, 1.5);
+      transition: all calc(var(--r-duration) / 1.5);
     }
 
-    transition: opacity math.div($duration, 1.5);
+    transition: opacity calc(var(--r-duration) / 1.5);
   }
 
   &-enter-from,

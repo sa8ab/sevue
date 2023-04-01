@@ -88,7 +88,7 @@ const containerStyle = computed(() => {
     height: 16px;
     background: white;
     box-shadow: 0 0 10px rgba(black, 0.2);
-    transition: all $duration;
+    transition: all var(--r-duration);
     border-radius: 50%;
     &:hover {
       transform: scale(1.2);
@@ -106,14 +106,14 @@ const containerStyle = computed(() => {
     transform: translate(-50%, -100%) scale(0);
     background: color();
     pointer-events: none;
-    border-radius: $radius;
-    padding: $p $p2;
+    border-radius: var(--r-radius);
+    padding: var(--r-space-1) var(--r-space-2);
     user-select: none;
     opacity: 0;
-    transition: all math.div($duration, 2);
+    transition: all calc(var(--r-duration) / 2);
     transform-origin: bottom;
     color: white;
-    font-size: $fsmall;
+    font-size: var(--r-font-small);
     box-shadow: var(--shadow);
   }
   &.active {

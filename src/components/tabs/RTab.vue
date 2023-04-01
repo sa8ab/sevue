@@ -153,8 +153,8 @@ $duration: $duration * 1.5;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: $p;
-    padding: $bp;
+    gap: var(--r-space-1);
+    padding: var(--r-normal-padding);
     border-radius: 0;
 
     .title {
@@ -235,7 +235,7 @@ $duration: $duration * 1.5;
 }
 
 .r-tab-item {
-  padding: $p2;
+  padding: var(--r-space-2);
 }
 
 .forward {

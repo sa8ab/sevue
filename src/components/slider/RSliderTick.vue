@@ -40,7 +40,7 @@ const hidden = computed(() => {
     position: absolute;
     top: 12px;
     opacity: 0.8;
-    font-size: $fsmall * 0.8;
+    font-size: var(--r-font-xsmall);
   }
 }
 </style>

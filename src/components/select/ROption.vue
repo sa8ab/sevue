@@ -60,9 +60,9 @@ const isActive = computed(() => {
 .r-option {
   color: color(text);
   width: 100%;
-  font-size: $fsmall;
+  font-size: var(--r-font-small);
   min-height: 100%;
-  margin-bottom: math.div($p, 2);
+  margin-bottom: calc(var(--r-space-1) / 2);
   padding: 0;
 
   .padding {

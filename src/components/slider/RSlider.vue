@@ -185,7 +185,7 @@ provide('slider', {
 .r-slider {
   width: 100%;
   user-select: none;
-  padding: $p2 0;
+  padding: var(--r-space-2) 0;
 
   .bar {
     // background: color("b2");

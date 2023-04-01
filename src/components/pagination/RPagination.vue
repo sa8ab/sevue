@@ -180,15 +180,15 @@ watch(
   display: grid;
   grid-template-columns: auto auto auto;
   justify-content: center;
-  gap: $p;
+  gap: var(--r-space-1);
   &-main {
     display: flex;
     align-items: center;
-    gap: $p;
+    gap: var(--r-space-1);
     flex-wrap: wrap;
   }
   &-item {
-    padding: 0 $p2 !important;
+    padding: 0 var(--r-space-2) !important;
     height: 32px;
     min-width: 32px;
     &.active {
