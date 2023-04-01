@@ -2,25 +2,23 @@
   <div class="container">
 
     <div class="doc-items">
-      <RButton @click="load()">Show Loading</RButton>
-      <RButton @click="load(loadingTarget)">Load On Element</RButton>
-    </div>
-    <div class="target" ref="loadingTarget">
-      Loading Target
+      <RButton @click="load({ color: '#fff', background: '#EE5A24' })" color="#EE5A24" fill>#EE5A24 Backround</RButton>
+      <RButton @click="load({ color: '#fff', background: '#B53471' })" color="#B53471" fill>
+        #B53471 Loading
+      </RButton>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useLoading } from 'sevue'
+import { LoadingOptions, useLoading } from 'sevue'
 
 const loading = useLoading()
-const loadingTarget = ref<HTMLElement | undefined>()
-
-const load = (target?: HTMLElement) => {
+const load = ({ color, background }: Partial<LoadingOptions>) => {
   const instance = loading({
     text: `Nothing is being loaded`,
-    target,
+    color,
+    background
   })
   setTimeout(() => {
     instance.close()

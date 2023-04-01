@@ -148,7 +148,7 @@ button {
 
 .r-button.fill {
   background: color();
-  color: color(text);
+  color: color(text-color);
 
   &:hover {
     background: color(color, 0.8);
