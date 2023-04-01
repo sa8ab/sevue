@@ -101,7 +101,7 @@ defineExpose({
     border: none;
     background: transparent;
     font-size: 1rem;
-    padding: $p2;
+    padding: var(--r-normal-padding);
     font-family: inherit;
     width: 100%;
     color: inherit;
@@ -114,8 +114,8 @@ defineExpose({
   .label,
   .message {
     display: flex;
-    font-size: $fsmall;
-    transition: all $duration;
+    font-size: var(--r-font-small);
+    transition: all var(--r-duration);
   }
 
   .label {
@@ -134,9 +134,9 @@ defineExpose({
     background: color(b1);
     display: flex;
     align-items: center;
-    gap: $p;
+    gap: var(--r-space-1);
     border-radius: var(--r-radius);
-    transition: box-shadow $duration;
+    transition: box-shadow var(--r-duration);
     overflow: hidden;
     box-shadow: var(--border);
 
@@ -151,15 +151,15 @@ defineExpose({
   }
 
   .icon-container {
-    padding: $p2;
+    padding: var(--r-space-2);
     display: flex;
     padding-right: 0;
-    transition: color $duration;
+    transition: color var(--duration);
   }
 
   &.iconAfter {
     .icon-container {
-      padding-right: $p2;
+      padding-right: var(--r-space-2);
       padding-left: 0;
     }
   }
@@ -190,8 +190,8 @@ defineExpose({
 
   &.error {
     --r-prm: var(--r-red);
-    --border: 0 0 0 1px rgba(var(--r-red), 1);
-    --border-active: 0 0 0 1px rgba(var(--r-red), var(--border-active-alpha));
+    --border: 0 0 0 var(--r-border-width) rgba(var(--r-red), 1);
+    --border-active: 0 0 0 var(--r-border-width) rgba(var(--r-red), var(--border-active-alpha));
 
     .label {
       color: color(red);

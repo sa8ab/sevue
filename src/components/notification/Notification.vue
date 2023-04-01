@@ -78,15 +78,15 @@ defineExpose({
 .r-notification {
   color: color(text);
   width: 100%;
-  border-radius: $radius2;
+  border-radius: var(--r-radius);
   transition: transform $duration, height $duration;
   overflow: hidden;
 
   .notification-inner {
     box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
     background: color(prm);
-    padding: $p4;
-    border-radius: $radius2;
+    padding: var(--r-space-3);
+    border-radius: var(--r-radius);
     display: flex;
     align-items: flex-start;
     flex-direction: column;

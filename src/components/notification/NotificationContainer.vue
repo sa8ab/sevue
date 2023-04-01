@@ -56,7 +56,7 @@ const renderPlacement = computed(() => {
     width: 100%;
     .r-notification,
     .inner {
-      border-radius: $radius2 !important;
+      border-radius: var(--r-radius) !important;
     }
   }
 }

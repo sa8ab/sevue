@@ -27,6 +27,7 @@
       <RInput icon="bx-user" iconAfter />
     </div> -->
     <RButton @click="onEvent" color="red">Test button</RButton>
+    <RInput></RInput>
   </div>
 </template>
 
@@ -41,7 +42,6 @@ const notif = ref(undefined)
 const onEvent = () => {
   notif.value = notification({
     text: 'test notification',
-    duration: 10000
   })
 }
 

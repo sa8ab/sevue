@@ -96,8 +96,8 @@ button {
 }
 
 .r-button {
-  padding: $bp;
-  border-radius: $radius;
+  padding: var(--r-normal-padding);
+  border-radius: var(--r-radius);
   color: color();
   background: color(prm, var(--light-alpha));
   transition: all 0.3s;
@@ -114,7 +114,7 @@ button {
 }
 
 .icon-space {
-  width: $p2;
+  width: var(--r-normal-padding);
 }
 
 .r-button.bordered {
@@ -215,6 +215,6 @@ button {
 }
 
 .focused {
-  box-shadow: 0px 0px 0px math.div($p, 2) color(prm);
+  box-shadow: 0px 0px 0px calc(var(--r-space-1) / 2) color(prm);
 }
 </style>
