@@ -1,6 +1,6 @@
 <template>
-  <label :class="['r-cb', { isChecked }]" :style="{ '--r-prm': color, '--r-text': iconColor }">
-    <input type="checkbox" :value="val" v-model="model" :trueValue="trueValue" :falseValue="falseValue" />
+  <label :class="['r-cb', containerClass, { isChecked }]" :style="{ '--r-prm': color, '--r-text': iconColor }">
+    <input type="checkbox" :value="val" v-model="model" :trueValue="trueValue" :falseValue="falseValue" v-bind="$attrs" />
     <div class="check-container">
       <CheckIcon class="icon" />
       <div class="background"></div>
@@ -22,7 +22,12 @@ export interface Props {
   iconColor?: string;
   trueValue?: any;
   falseValue?: any;
+  containerClass: string
 }
+
+defineOptions({
+  inheritAttrs: false
+})
 
 const props = withDefaults(
   defineProps<Props>(),
@@ -47,14 +52,9 @@ const model = computed({
     return props.modelValue;
   },
 });
+// TODO: use native way
 const isChecked = computed(() => {
   if (isArray(props.modelValue)) {
-    // if (typeof this.val === "object") {
-    //   return !!this.value.find((item) => {
-    //     console.log(JSON.stringify(item) == JSON.stringify(this.value));
-    //     return JSON.stringify(item) == JSON.stringify(this.value);
-    //   });
-    // }
     return props.modelValue.includes(props.val);
   }
   return props.modelValue === props.trueValue;

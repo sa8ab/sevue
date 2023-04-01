@@ -1,5 +1,9 @@
 <template>
-  <component :is="renderComponent" @keyup.tab="focused = true" @blur="focused = false" :disabled="disabled" :to="to"
+  <component
+    :is="renderComponent"
+    @keyup.tab="focused = true"
+    @blur="focused = false"
+    :disabled="disabled" :to="to"
     :href="href" :class="[
       'r-button',
       {
@@ -18,7 +22,9 @@
         focused,
         colorInherit,
       },
-    ]" :style="{ '--r-prm': color, '--r-text': textColor }" v-ripple>
+    ]"
+    :style="{ '--r-prm': color, '--r-text': textColor }"
+    v-ripple>
     <div class="inner">
       <slot name="icon">
         <i :class="['icon bx', icon]" v-if="icon"></i>

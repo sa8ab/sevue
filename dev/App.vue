@@ -20,15 +20,17 @@
     <RCheckbox v-model="x" :color="checkboxColor">Checkbox</RCheckbox>
     <RButton @click="checkboxColor = 'yellow'">Change Color {{ checkboxColor }}</RButton>
     <div class="select-n-input">
-      <RSelect v-model="selected" label="how">
-        <ROption value="x" text="xc"></ROption>
-      </RSelect>
+
       <RInput icon="bx-user" />
       <RInput icon="bx-user" iconAfter />
     </div> -->
     <RButton @click="onEvent" color="red">Test button</RButton>
     <RInput></RInput>
     <RPopup v-model:active="x">zxczxc</RPopup>
+    <RSelect v-model="selected" label="how"
+      searchable>
+      <ROption value="x" text="xc"></ROption>
+    </RSelect>
   </div>
 </template>
 
@@ -46,10 +48,13 @@ const onEvent = () => {
   // })
   x.value = true
 }
+const onSelectInput = () => {
+  console.log('hey');
 
+}
 const iref = ref();
 const active = ref([0, 50]);
-const x = ref(true);
+const x = ref(false);
 const checkboxColor = ref("green");
 const items = ref([
   { value: "10", text: "hey there" },
@@ -58,12 +63,6 @@ const items = ref([
 const selected = ref("");
 const click = () => {
   document.body.classList.toggle("dark");
-};
-const loader = () => {
-  const close = loading();
-  setTimeout(() => {
-    close();
-  }, 1000);
 };
 
 onMounted(() => {

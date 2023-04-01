@@ -3,7 +3,8 @@
     'r-input',
     containerClass,
     { focused: state.focused, disabled, iconAfter, sharp, error, hasIcon },
-  ]" :style="{ '--r-prm': color }">
+  ]"
+    :style="{ '--r-prm': color }">
     <span class="label" v-if="label">{{ label }}</span>
     <div class="input-container" ref="inputContainerRef">
       <label class="label-element" @click="labelClick">

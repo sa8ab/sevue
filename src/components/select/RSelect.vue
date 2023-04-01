@@ -1,11 +1,25 @@
 <template>
   <div class="r-select" v-click-outside="clickOutside" :style="{ '--r-prm': color }">
     <div :class="['trigger', { disabled }]">
-      <RInput containerClass="r-input-container" :class="['input', { noInput: !searchable, isAnyItemSelected }]"
-        v-model="state.search" :placeholder="inputPlaceholder" :readOnly="!searchable" :label="label" :disabled="disabled"
-        ref="rInput" :message="message" :error="error" iconAfter @labelClick="open" @keyup.tab="open" @keyup.esc="close"
-        @keydown.arrow-down.stop.prevent="onArrowDown" @keydown.arrow-up.stop.prevent="onArrowUp"
-        @keydown.enter.stop.prevent="onEnter">
+      <RInput
+        containerClass="r-input-container"
+        :class="['input', { noInput: !searchable, isAnyItemSelected }]"
+        v-model="state.search"
+        :placeholder="inputPlaceholder"
+        :readOnly="!searchable"
+        :label="label"
+        :disabled="disabled"
+        ref="rInput"
+        :message="message"
+        :error="error"
+        iconAfter
+        @labelClick="open"
+        @keyup.tab="open"
+        @keyup.esc="close"
+        @keydown.arrow-down.stop.prevent="onArrowDown"
+        @keydown.arrow-up.stop.prevent="onArrowUp"
+        @keydown.enter.stop.prevent="onEnter"
+        v-bind="inputProps">
         <template #after>
           <span @click.prevent="toggleOpen" :class="['dropdown-icon', { rotate: state.active }]" v-ripple>
             <i :class="['bx bx-chevron-down']"></i>
@@ -39,13 +53,13 @@ export type Props = {
   multiple?: boolean
   modelValue: Array<number | string> | number | string,
   placeholder?: string
-  isNested?: boolean
   disabled?: boolean
   label?: string
   keepOpenAfterSelection?: boolean,
   color?: string,
   error?: boolean
-  message?: string
+  message?: string,
+  inputProps?: any
 }
 type Option = { value: string | number, text?: string, disabled?: boolean }
 type State = {
@@ -65,7 +79,7 @@ const props = withDefaults(
     placeholder: ''
   }
 )
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "open", "close"]);
 const color = useColor(toRef(props, 'color'))
 const state = reactive<State>({
   search: "",
@@ -140,6 +154,7 @@ const open = () => {
       modifiers: [sameWidth],
     });
   });
+  emit('open')
 };
 const close = () => {
   if (!state.active) return
@@ -147,6 +162,7 @@ const close = () => {
   state.search = "";
   state.focusedItem = -1;
   rInput.value.inputRef.blur({ preventScroll: true })
+  emit("close")
 };
 const clickOutside = {
   handler: close,
