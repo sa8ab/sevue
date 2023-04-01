@@ -334,6 +334,7 @@ provide(rSelectKey, {
 }
 
 .dropdown-container {
+  position: absolute;
   z-index: 100;
 }
 
