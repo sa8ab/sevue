@@ -1,9 +1,9 @@
 import { notificationKey } from "@/injectionKeys";
 import { inject } from "vue";
-import type { NotificationOptions } from "@/types";
+import type { NotificationOptions, Notification } from "@/types";
 
 const useNotification = () => {
-  const notification = inject(notificationKey) as (options: NotificationOptions) => void;
+  const notification = inject(notificationKey) as (options: NotificationOptions) => Notification;
   return notification;
 };
 

@@ -78,7 +78,7 @@ export { notificationKey, sevueKey, loadingKey };
 
 // types
 export type { RButtonProps, RCheckboxProps, RInputProps, RPaginationProps, RPopupProps, RSelectProps, ROptionProps, RSliderProps, RTabProps } from './components'
-export type { Colors, LoadingOptions, NotificationOptions, Sevue, SevueOptions } from './types'
+export type { Colors, LoadingOptions, NotificationOptions, Notification, Sevue, SevueOptions } from './types'
 
 
 // Global Types Definitions

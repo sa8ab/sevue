@@ -2,14 +2,14 @@ import Notification from "./Notification.vue";
 import NotificationContainer from "./NotificationContainer.vue";
 import mounter from "@/utils/mountComponent";
 import type { App } from "vue";
-import type { NotificationOptions } from "@/types";
+import type { Notification as NotificationType, NotificationOptions } from "@/types";
 
 const notificationFactory = (app: App) => {
   const defaultProps = {
     placement: "bottom-right",
   };
   const _app = app;
-  return (data: NotificationOptions) => {
+  return (data: NotificationOptions): NotificationType => {
     const propsData = {
       ...defaultProps,
       ...data,

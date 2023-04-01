@@ -1,8 +1,8 @@
 <template>
   <transition :name="`move`" @beforeEnter="beforeEnter" @enter="enter" @leave="leave" @afterLeave="afterLeave">
     <div v-if="state.active" class="r-notification" :style="{
-      '--r-color': color,
-      '--r-text-color': textColor,
+      '--r-color': color || 'var(--r-prm)',
+      '--r-text-color': textColor || 'var(--r-text)',
     }">
       <div class="notification-inner">
         <div class="title" v-if="title">{{ title }}</div>
@@ -31,7 +31,6 @@ const props = withDefaults(
   defineProps<Props>(),
   {
     textColor: '#fff',
-    color: 'var(--prm)',
     duration: 4000
   }
 )
@@ -87,7 +86,7 @@ defineExpose({
 
   .notification-inner {
     box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
-    background: color(color);
+    background: color();
     padding: var(--r-space-3);
     border-radius: var(--r-radius);
     display: flex;

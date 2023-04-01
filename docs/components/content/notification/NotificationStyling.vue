@@ -1,7 +1,7 @@
 <template>
   <div class="doc-items">
-    <RButton @click="runNotification({ color: 'red' })">Red Notification</RButton>
-    <RButton @click="runNotification({ color: 'var(--r-text)', textColor: '#e34af0' })">White notification
+    <RButton @click="runNotification({ color: 'green' })">Green Notification</RButton>
+    <RButton @click="runNotification({ color: 'var(--r-text)', textColor: 'var(--r-b1)' })">Inverted color notification
     </RButton>
   </div>
 </template>
@@ -16,9 +16,14 @@ const runNotification = ({ color, textColor }: { color: string, textColor?: stri
     title: "TITLE",
     color,
     textColor,
-    duration: 10000
   })
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.doc-items {
+  display: flex;
+  gap: var(--r-space-1);
+  flex-wrap: wrap;
+}
+</style>

@@ -33,6 +33,9 @@ export interface NotificationOptions {
   textColor?: string;
   duration?: number;
 }
+export interface Notification {
+  close: () => void;
+}
 
 export type LoadingOptions = {
   text?: string;

@@ -1,7 +1,7 @@
 import type { InjectionKey, Ref, ComputedRef } from "vue";
-import type { LoadingOptions, NotificationOptions } from "@/types";
+import type { LoadingOptions, NotificationOptions, Notification } from "@/types";
 
-export const notificationKey = Symbol() as InjectionKey<(options: NotificationOptions) => void>;
+export const notificationKey = Symbol() as InjectionKey<(options: NotificationOptions) => Notification>;
 export const sevueKey = Symbol() as InjectionKey<{
   iconPrefix: string;
   setDark: (dark: boolean) => void;
