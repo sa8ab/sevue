@@ -167,7 +167,7 @@ button {
 }
 
 .r-button.cancel {
-  --r-color: var(--r-disabled);
+  --r-color: var(--r-disabled) !important;
 }
 
 .r-button.colorInherit {
