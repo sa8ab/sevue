@@ -1,5 +1,5 @@
 import type { InjectionKey, Ref, ComputedRef } from "vue";
-import type { LoadingOptions, NotificationOptions, Notification } from "@/types";
+import type { LoadingOptions, NotificationOptions, Notification, Loading } from "@/types";
 
 export const notificationKey = Symbol() as InjectionKey<(options: NotificationOptions) => Notification>;
 export const sevueKey = Symbol() as InjectionKey<{
@@ -18,4 +18,4 @@ export const rSelectKey = Symbol() as InjectionKey<{
   onSelectValue: (...args: any) => void;
 }>;
 
-export const loadingKey = Symbol() as InjectionKey<(options?: LoadingOptions) => () => {}>;
+export const loadingKey = Symbol() as InjectionKey<(options?: LoadingOptions) => Loading>;

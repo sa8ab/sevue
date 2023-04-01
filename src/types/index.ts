@@ -44,3 +44,6 @@ export type LoadingOptions = {
   scale?: number;
   target?: string | HTMLElement;
 };
+export interface Loading {
+  close: () => void;
+}

@@ -1,11 +1,11 @@
 import Loading from "./RLoading.vue";
 import mounter from "@/utils/mountComponent";
 import type { App } from "vue";
-import type { LoadingOptions } from "@/types";
+import type { LoadingOptions, Loading as LoadingType } from "@/types";
 
 const loadingFactory = (app: App) => {
   const _app = app;
-  return (data: LoadingOptions = {}) => {
+  return (data: LoadingOptions = {}): LoadingType => {
     let target;
     if (typeof data.target === "string") {
       target = document.querySelector(data.target);
@@ -20,7 +20,10 @@ const loadingFactory = (app: App) => {
       app: _app,
     });
     target?.append(element);
-    return vNode.component?.exposed?.close;
+
+    return {
+      close: vNode.component?.exposed?.close
+    }
   };
 };
 

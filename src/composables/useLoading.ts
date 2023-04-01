@@ -1,9 +1,9 @@
 import { loadingKey } from "@/injectionKeys";
-import type { LoadingOptions } from "@/types";
+import type { LoadingOptions, Loading } from "@/types";
 import { inject } from "vue";
 
 const useLoading = () => {
-  return inject(loadingKey) as (params?: LoadingOptions) => () => {};
+  return inject(loadingKey) as (params?: LoadingOptions) => Loading;
 };
 
 export default useLoading;
