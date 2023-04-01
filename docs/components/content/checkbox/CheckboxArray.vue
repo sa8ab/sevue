@@ -1,6 +1,6 @@
 <template>
   <div class="doc-items four">
-    <RCheckbox v-model="state" v-for="{ name, id } in items" :val="id" >{{ name }}</RCheckbox>
+    <RCheckbox v-model="state" v-for="{ name, id } in items" :value="id">{{ name }}</RCheckbox>
     <pre>Selected: {{ state }}</pre>
   </div>
 </template>

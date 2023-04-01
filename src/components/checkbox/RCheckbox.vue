@@ -2,29 +2,35 @@
   <label
     :class="['r-cb', containerClass, { isChecked }]"
     :style="{ '--r-color': color || 'var(--r-prm)', '--r-text-color': iconColor || 'var(--r-text)' }">
-    <input type="checkbox" :value="val" v-model="model" :trueValue="trueValue" :falseValue="falseValue" v-bind="$attrs" />
+    <input
+      type="checkbox"
+      :value="value"
+      v-model="model"
+      :trueValue="trueValue"
+      :falseValue="falseValue"
+      v-bind="$attrs" />
     <div class="check-container">
       <CheckIcon class="icon" />
       <div class="background"></div>
     </div>
+    {{ isChecked }}
     <slot />
   </label>
 </template>
 
 <script setup lang="ts">
-import { isArray } from "@vue/shared";
 import { computed, toRef } from "vue";
 import CheckIcon from "@/components/icons/Check.vue";
 import useColor from "@/composables/useColor";
 
 export interface Props {
   modelValue: string | number | boolean | any[];
-  val?: string | number | any[];
+  value?: string | number | Record<string, any>;
   color?: string;
   iconColor?: string;
   trueValue?: any;
   falseValue?: any;
-  containerClass: string
+  containerClass?: string
 }
 
 defineOptions({
@@ -54,10 +60,9 @@ const model = computed({
     return props.modelValue;
   },
 });
-// TODO: use native way
 const isChecked = computed(() => {
-  if (isArray(props.modelValue)) {
-    return props.modelValue.includes(props.val);
+  if (Array.isArray(props.modelValue)) {
+    return props.modelValue.includes(props.value);
   }
   return props.modelValue === props.trueValue;
 });
