@@ -1,5 +1,5 @@
 <template>
-  <div class="r-select" v-click-outside="clickOutside" :style="{ '--r-prm': color }">
+  <div class="r-select" v-click-outside="clickOutside" :style="{ '--r-color': color || 'var(--r-prm)' }">
     <div :class="['trigger', { disabled }]">
       <RInput
         containerClass="r-input-container"

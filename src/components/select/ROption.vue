@@ -1,6 +1,6 @@
 <template>
   <div :class="['r-option r', { active: isActive, focused, disabled }]" @click="onSelectValue" v-if="visible" v-ripple
-    tabindex="-1" :style="{ '--r-prm': color }">
+    tabindex="-1" :style="{ '--r-color': color || 'var(--r-prm)' }">
     <div class="padding">
       <slot> {{ text }}</slot>
     </div>
@@ -79,7 +79,7 @@ const isActive = computed(() => {
 
   &.focused {
     background: color(hover, var(--hover-alpha));
-    outline: 1px dashed color(prm);
+    outline: 1px dashed color();
   }
 
   &.disabled {
@@ -89,7 +89,7 @@ const isActive = computed(() => {
 }
 
 .active {
-  color: color(prm);
-  background: color(prm, var(--light-alpha)) !important;
+  color: color();
+  background: color(color, var(--light-alpha)) !important;
 }
 </style>

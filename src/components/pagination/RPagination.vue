@@ -2,17 +2,17 @@
   <div
     :class="['r-pagination notRTL', { bordered, disabled, compact, activeShadow }]"
     :style="{
-      '--r-prm': color,
+      '--r-color': color || 'var(--r-prm)',
       '--r-active-text-color': activeTextColor,
-    }"
-  >
+    }">
     <RButton
       class="r-pagination-item r-pagination-navigation prev"
       @click="decrease"
       v-bind="buttonProps"
-      v-if="!noNavigation"
-    >
-      <slot name="prev"><ChevronLeft /></slot>
+      v-if="!noNavigation">
+      <slot name="prev">
+        <ChevronLeft />
+      </slot>
     </RButton>
     <div class="r-pagination-main">
       <template v-for="(item, i) in items">
@@ -21,8 +21,7 @@
           :key="i"
           @click="setValue(item as number)"
           v-bind="buttonProps"
-          v-if="item !== 'blank'"
-        >
+          v-if="item !== 'blank'">
           {{ item }}
         </RButton>
         <RButton
@@ -30,8 +29,7 @@
           iconOnly
           v-bind="buttonProps"
           class="r-pagination-item r-pagination-item-blank"
-          v-else
-        >
+          v-else>
           ...
         </RButton>
       </template>
@@ -40,9 +38,10 @@
       class="r-pagination-item r-pagination-navigation next"
       @click="increase"
       v-bind="buttonProps"
-      v-if="!noNavigation"
-    >
-      <slot name="next"><ChevronRight /></slot>
+      v-if="!noNavigation">
+      <slot name="next">
+        <ChevronRight />
+      </slot>
     </RButton>
     <!-- <div class="r-pagination-compact-navigation" v-if="compact">
     </div> -->
@@ -138,7 +137,7 @@ const items = computed(() => {
   if (shouldCreateSpaceOnRight.value) {
     toReturn.splice(toReturn.length - props.sideRange, 0, "blank");
   }
-  initialItems.forEach(() => {});
+  initialItems.forEach(() => { });
   return toReturn;
 });
 
@@ -181,49 +180,59 @@ watch(
   grid-template-columns: auto auto auto;
   justify-content: center;
   gap: var(--r-space-1);
+
   &-main {
     display: flex;
     align-items: center;
     gap: var(--r-space-1);
     flex-wrap: wrap;
   }
+
   &-item {
     padding: 0 var(--r-space-2) !important;
     height: 32px;
     min-width: 32px;
+
     &.active {
       background: color() !important;
       color: color("active-text-color") !important;
     }
   }
+
   &-navigation {
     height: 100%;
     min-height: 32px;
   }
+
   &-item-blank {
     pointer-events: none !important;
     padding: 0 !important;
   }
+
   &.bordered {
     .r-pagination-item {
       box-shadow: var(--border);
     }
   }
+
   &.disabled {
     opacity: 0.6;
     pointer-events: none;
   }
+
   &.compact {
     grid-template-columns: auto auto;
+
     .r-pagination-main {
       grid-column: 1 / 3;
     }
+
     .prev {
       grid-row: 2 / 3;
     }
   }
+
   &.activeShadow .active {
     box-shadow: 0 0 8px -2px color() !important;
   }
-}
-</style>
+}</style>

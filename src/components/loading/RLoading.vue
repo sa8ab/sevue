@@ -4,11 +4,10 @@
       v-if="state.active"
       :class="['r-loading', { hasTarget: !!target }]"
       :style="{
-        '--r-prm': getColor(color),
-        '--r-b1': getColor(background),
+        '--r-color': getColor(color) || 'var(--r-prm)',
+        '--r-component-background': getColor(background) || 'var(--r-b1)',
       }"
-      ref="component"
-    >
+      ref="component">
       <div class="r-loading-inner">
         <div class="r-loading-spinner" :style="{ transform: `scale(${scale})` }">
           <div class="r-loading-spinner__1"></div>
@@ -61,9 +60,10 @@ defineExpose({
 .r-loading-target {
   position: relative;
 }
+
 .r-loading {
-  color: color("text");
-  background: color("b1", 0.6);
+  color: color(textColor);
+  background: color(component-background, 0.6);
   width: 100%;
   height: 100%;
   position: fixed;
@@ -73,26 +73,32 @@ defineExpose({
   align-items: center;
   justify-content: center;
   z-index: 80;
+
   &-inner {
     color: color();
     display: flex;
     align-items: center;
     flex-direction: column;
   }
+
   &.hasTarget {
     position: absolute;
   }
+
   &-enter-from,
   &-leave-to {
     opacity: 0;
   }
+
   &-enter-active,
   &-leave-active {
     transition: all var(--r-duration);
   }
+
   .text {
     padding-top: 12px;
   }
+
   &-spinner {
     border-radius: 50%;
     display: flex;
@@ -101,6 +107,7 @@ defineExpose({
     width: 40px;
     height: 40px;
     position: relative;
+
     &__1 {
       position: absolute;
       width: 100%;
@@ -113,6 +120,7 @@ defineExpose({
       animation: rotate 0.8s ease infinite;
       top: 0px;
     }
+
     &__2 {
       top: 0px;
       position: absolute;
@@ -127,10 +135,12 @@ defineExpose({
       opacity: 0.2;
     }
   }
+
   @keyframes rotate {
     0% {
       transform: rotate(0deg);
     }
+
     100% {
       transform: rotate(360deg);
     }

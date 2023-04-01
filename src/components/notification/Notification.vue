@@ -1,8 +1,8 @@
 <template>
   <transition :name="`move`" @beforeEnter="beforeEnter" @enter="enter" @leave="leave" @afterLeave="afterLeave">
     <div v-if="state.active" class="r-notification" :style="{
-      '--r-prm': getColor(color),
-      '--r-text': getColor(textColor),
+      '--r-color': color,
+      '--r-text-color': textColor,
     }">
       <div class="notification-inner">
         <div class="title" v-if="title">{{ title }}</div>
@@ -18,8 +18,8 @@
 </template>
 
 <script setup lang="ts">
-import { getColor } from '@/utils';
-import { nextTick, onMounted, reactive } from 'vue';
+import useColor from '@/composables/useColor';
+import { nextTick, onMounted, reactive, toRef } from 'vue';
 export interface Props {
   title?: string,
   text?: string,
@@ -31,9 +31,12 @@ const props = withDefaults(
   defineProps<Props>(),
   {
     textColor: '#fff',
+    color: 'var(--prm)',
     duration: 4000
   }
 )
+const color = useColor(toRef(props, 'color'))
+const textColor = useColor(toRef(props, 'textColor'))
 
 const state = reactive<{ parentDiv: HTMLElement | null; active: Boolean, timeout?: number }>({
   active: false,
@@ -76,7 +79,7 @@ defineExpose({
 
 <style lang="scss">
 .r-notification {
-  color: color(text);
+  color: color(text-color);
   width: 100%;
   border-radius: var(--r-radius);
   transition: transform $duration, height $duration;
@@ -84,7 +87,7 @@ defineExpose({
 
   .notification-inner {
     box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
-    background: color(prm);
+    background: color(color);
     padding: var(--r-space-3);
     border-radius: var(--r-radius);
     display: flex;

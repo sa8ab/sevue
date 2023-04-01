@@ -27,11 +27,11 @@ type NotificationPlacement =
   | "bottom-left";
 export interface NotificationOptions {
   placement?: NotificationPlacement;
-  title?: String;
-  text: String;
-  color?: String;
-  textColor?: String;
-  duration?: Number;
+  title?: string;
+  text: string;
+  color?: string;
+  textColor?: string;
+  duration?: number;
 }
 
 export type LoadingOptions = {

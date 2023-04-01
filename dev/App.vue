@@ -25,6 +25,7 @@
       <RInput icon="bx-user" iconAfter />
     </div> -->
     <RButton @click="onEvent" color="red">Test button</RButton>
+    <RButton @click="onEvent">Test button</RButton>
     <RInput></RInput>
     <RSlider v-model="value" :min="0" :max="10" tooltip ticks />
   </div>
@@ -32,8 +33,15 @@
 
 <script setup lang="ts">
 import { ref, onMounted, inject } from "vue";
+import { useNotification } from '../src/main'
+const n = useNotification()
 const value = ref(4)
 const onEvent = () => {
+  n({
+    color: 'var(--r-text)',
+    textColor: '#4e3f1a',
+    text: 'zxc',
+  })
 }
 const iref = ref();
 const active = ref([0, 50]);

@@ -23,7 +23,7 @@
         colorInherit,
       },
     ]"
-    :style="{ '--r-prm': color, '--r-text': textColor }"
+    :style="{ '--r-color': color || 'var(--r-prm)', '--r-text-color': textColor || 'var(--r-text)' }"
     v-ripple>
     <div class="inner">
       <slot name="icon">
@@ -105,13 +105,13 @@ button {
   padding: var(--r-normal-padding);
   border-radius: var(--r-radius);
   color: color();
-  background: color(prm, var(--light-alpha));
+  background: color(color, var(--light-alpha));
   transition: all 0.3s;
   display: inline-block;
   user-select: none;
 
   &:hover {
-    background: color(prm, var(--hover-alpha));
+    background: color(color, var(--hover-alpha));
   }
 }
 
@@ -124,7 +124,7 @@ button {
 }
 
 .r-button.bordered {
-  border: 1px solid color(prm, 0.8);
+  border: 1px solid color(color, 0.8);
 }
 
 .r-button.disabled {
@@ -142,7 +142,7 @@ button {
   background: transparent;
 
   &:hover {
-    background: color(prm, var(--hover-alpha));
+    background: color(color, var(--hover-alpha));
   }
 }
 
@@ -151,7 +151,7 @@ button {
   color: color(text);
 
   &:hover {
-    background: color(prm, 0.8);
+    background: color(color, 0.8);
   }
 }
 
@@ -167,7 +167,7 @@ button {
 }
 
 .r-button.cancel {
-  --r-prm: var(--r-disabled);
+  --r-color: var(--r-disabled);
 }
 
 .r-button.colorInherit {
@@ -221,6 +221,6 @@ button {
 }
 
 .focused {
-  box-shadow: 0px 0px 0px calc(var(--r-space-1) / 2) color(prm);
+  box-shadow: 0px 0px 0px calc(var(--r-space-1) / 2) color();
 }
 </style>

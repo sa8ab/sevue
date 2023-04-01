@@ -1,5 +1,7 @@
 <template>
-  <label :class="['r-cb', containerClass, { isChecked }]" :style="{ '--r-prm': color, '--r-text': iconColor }">
+  <label
+    :class="['r-cb', containerClass, { isChecked }]"
+    :style="{ '--r-color': color || 'var(--r-prm)', '--r-text-color': iconColor || 'var(--r-text)' }">
     <input type="checkbox" :value="val" v-model="model" :trueValue="trueValue" :falseValue="falseValue" v-bind="$attrs" />
     <div class="check-container">
       <CheckIcon class="icon" />

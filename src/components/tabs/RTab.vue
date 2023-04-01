@@ -1,8 +1,7 @@
 <template>
   <div
     :class="['r-tab', { fit, bordered, iconOnly, scrollable, moverFull }]"
-    :style="{ '--r-prm': color }"
-  >
+    :style="{ '--r-color': color || 'var(--r-prm)' }">
     <!-- tabbar -->
     <div class="tabbar" ref="tabbar">
       <div
@@ -12,8 +11,7 @@
         :icon="icon"
         ref="tabBarItems"
         @click="setActiveTab(title)"
-        v-ripple
-      >
+        v-ripple>
         <slot :name="`icon-${i}`">
           <i :class="['bx', icon]" v-if="icon"></i>
         </slot>
@@ -144,11 +142,13 @@ $duration: $duration * 1.5;
 
 .r-tab {
   min-width: 100%;
+
   .tabbar {
     display: flex;
     position: relative;
     overflow: hidden;
   }
+
   .tab-button {
     display: flex;
     align-items: center;
@@ -162,28 +162,32 @@ $duration: $duration * 1.5;
     }
 
     &.tabactive {
-      color: color(prm);
-      background: color(prm, var(--light-alpha));
+      color: color();
+      background: color(color, var(--light-alpha));
     }
+
     &.disabled {
       color: color(disabled);
       pointer-events: none;
     }
   }
+
   .mover {
     position: absolute;
     bottom: 0;
     height: 2px;
     border-radius: 2px;
-    background: color(prm);
+    background: color(color);
     transition: width $duration, left $duration;
   }
+
   .tabs-container {
     border-radius: var(--r-radius);
     overflow: hidden;
     position: relative;
     transition: all $duration;
   }
+
   &.fit {
     .tab-button {
       flex: 1;

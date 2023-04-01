@@ -1,5 +1,5 @@
 <template>
-  <div :class="['r-slider', { tickLabels }]" :style="{ '--rgb-prm': color }">
+  <div :class="['r-slider', { tickLabels }]" :style="{ '--r-color': color || 'var(--r-prm)' }">
     <div class="bar" ref="slider" @click="onSliderClick">
       <div class="progress" :style="progressStyle"></div>
       <div class="ticks" v-if="ticks">
