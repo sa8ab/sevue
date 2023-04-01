@@ -26,31 +26,14 @@
     </div> -->
     <RButton @click="onEvent" color="red">Test button</RButton>
     <RInput></RInput>
-    <RPopup v-model:active="x">zxczxc</RPopup>
-    <RSelect v-model="selected" label="how"
-      searchable>
-      <ROption value="x" text="xc"></ROption>
-    </RSelect>
+    <RSlider v-model="value" :min="0" :max="10" tooltip ticks />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, inject } from "vue";
-import { useLoading, useNotification } from "../src/main";
-const notification = useNotification()
-
-const loading = useLoading();
-
-const notif = ref(undefined)
+const value = ref(4)
 const onEvent = () => {
-  // notif.value = notification({
-  //   text: 'test notification',
-  // })
-  x.value = true
-}
-const onSelectInput = () => {
-  console.log('hey');
-
 }
 const iref = ref();
 const active = ref([0, 50]);

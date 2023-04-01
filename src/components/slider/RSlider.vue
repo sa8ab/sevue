@@ -159,11 +159,7 @@ const progressStyle = computed(() => {
     }) as StyleValue
 });
 
-watch(() => props.modelValue, setValues);
-// FIX INITIAL VALUE
-onBeforeMount(() => {
-  setValues();
-});
+watch(() => props.modelValue, setValues, { immediate: true });
 // export default {
 //   provide() {
 //     return {
