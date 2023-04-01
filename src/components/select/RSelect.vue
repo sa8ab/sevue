@@ -28,7 +28,7 @@
       </RInput>
     </div>
     <Teleport to="body">
-      <transition name="fade-move" @after-leave="onAfterLeave">
+      <Transition name="fade-move" @after-leave="onAfterLeave">
         <div v-if="state.active" class="dropdown-container" ref="dropdown">
           <div class="select-dropdown">
             <div class="noOptions" v-if="noOptions">
@@ -37,7 +37,7 @@
             <slot />
           </div>
         </div>
-      </transition>
+      </Transition>
     </Teleport>
   </div>
 </template>
@@ -79,7 +79,7 @@ const props = withDefaults(
     placeholder: ''
   }
 )
-const emit = defineEmits(["update:modelValue", "open", "close"]);
+const emit = defineEmits(["update:modelValue", "open", "close", "afterTransitionEnd"]);
 const color = useColor(toRef(props, 'color'))
 const state = reactive<State>({
   search: "",
@@ -102,6 +102,7 @@ onBeforeUnmount(() => {
 });
 const onAfterLeave = () => {
   state.popper?.destroy();
+  emit('afterTransitionEnd')
 };
 
 const onSelectValue = ({ event, activate }: { event: string | number, activate: boolean }) => {
@@ -161,7 +162,7 @@ const close = () => {
   state.active = false;
   state.search = "";
   state.focusedItem = -1;
-  rInput.value.inputRef.blur({ preventScroll: true })
+  rInput.value.inputRef.blur()
   emit("close")
 };
 const clickOutside = {
