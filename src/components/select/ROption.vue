@@ -39,7 +39,7 @@ const onSelectValue = () => {
   });
 };
 const visible = computed(() => {
-  return props.text.toLowerCase().includes(select!.search.value.toLowerCase());
+  return !!select!.customSearch ? true : props.text.toLowerCase().includes(select!.search.value.toLowerCase());
 });
 const focused = computed(() => {
   if (select!.focusedItemValue.value) {

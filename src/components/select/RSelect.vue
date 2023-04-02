@@ -19,6 +19,7 @@
         @keydown.arrow-down.stop.prevent="onArrowDown"
         @keydown.arrow-up.stop.prevent="onArrowUp"
         @keydown.enter.stop.prevent="onEnter"
+        @input="onInputChange"
         v-bind="inputProps">
         <template #after>
           <span @click.prevent="toggleOpen" :class="['dropdown-icon', { rotate: state.active }]" v-ripple>
@@ -65,12 +66,15 @@ export type Props = {
   placeholder?: string
   disabled?: boolean
   label?: string
-  keepOpenAfterSelection?: boolean,
-  color?: string,
+  keepOpenAfterSelection?: boolean
+  color?: string
   error?: boolean
-  message?: string,
-  inputProps?: any,
-  renderPlaceholder?: (parameter: Option | Option[]) => string
+  message?: string
+  inputProps?: any
+  noDropdownOnEmptySearch?: boolean
+  loading?: boolean
+  renderPlaceholder?: (parameter: Option | Option[]) => string,
+  customSearch?: (parameter: string) => void
 }
 export type Option = { value: string | number, text?: string, disabled?: boolean }
 type State = {
@@ -87,13 +91,14 @@ const props = withDefaults(
     searchable: false,
     keepOpenAfterSelection: false,
     placeholder: '',
+    noDropdownOnEmptySearch: false,
     renderPlaceholder: (option: Option | Option[]) => {
       if (Array.isArray(option)) return `${option.length} selected`
       else return `${option.text}`
     }
   }
 )
-const emit = defineEmits(["update:modelValue", "open", "close", "afterTransitionEnd"]);
+const emit = defineEmits(["update:modelValue", "open", "close", "afterTransitionEnd", 'search']);
 const color = useColor(toRef(props, 'color'))
 const state = reactive<State>({
   search: "",
@@ -149,6 +154,8 @@ const toggleOpen = () => {
   }
 };
 const open = () => {
+  console.log('OPEN CALL')
+  if (state.active || !canOpenDropdown.value) return
   state.active = true;
   nextTick(() => {
     rInput.value.inputRef.focus({ preventScroll: true });
@@ -171,12 +178,12 @@ const open = () => {
   });
   emit('open')
 };
-const close = () => {
+const close = (resetSearch: boolean = true, blur: boolean = true) => {
   if (!state.active) return
   state.active = false;
-  state.search = "";
+  if (resetSearch) state.search = "";
   state.focusedItem = -1;
-  rInput.value.inputRef.blur()
+  if (blur) rInput.value.inputRef.blur()
   emit("close")
 };
 const clickOutside = {
@@ -186,6 +193,10 @@ const clickOutside = {
     return !contains
   }
 }
+const canOpenDropdown = computed<boolean>(() => {
+  if (props.noDropdownOnEmptySearch && !state.search) return false
+  return true
+})
 
 // Options
 const { default: defaultSlot } = useSlots();
@@ -301,16 +312,26 @@ const onSelectedItemClick = (item: Option) => {
 
 // Search
 const visibleItems = computed(() => {
-  return state.options.filter(({ text }) => {
+  return props.customSearch ? state.options : state.options.filter(({ text }) => {
     return text?.toLowerCase().includes(state.search.toLowerCase());
   });
 });
+const onInputChange = (e: InputEvent) => {
+  emit('search', e)
+  props.customSearch?.((e.target as HTMLInputElement).value)
+  props.customSearch && state.popper?.update()
+}
+watch(() => state.search, (search) => {
+  if (state.active && props.noDropdownOnEmptySearch && !search) close(false, false)
+  else if (!state.active) open()
+})
 
 provide(rSelectKey, {
   modelValue: toRef(props, "modelValue"),
   multiple: toRef(props, "multiple"),
   search: toRef(state, "search"),
   color: toRef(props, 'color'),
+  customSearch: props.customSearch,
   focusedItemValue,
   onSelectValue,
 });
