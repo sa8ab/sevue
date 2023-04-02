@@ -1,8 +1,8 @@
 <template>
   <div class="items">
     <RouterLink to="/select" class="item" v-ripple>Select</RouterLink>
-    <RouterLink to="/select" class="item" v-ripple>x</RouterLink>
-    <RouterLink to="/select" class="item" v-ripple>x</RouterLink>
+    <RouterLink to="/pagination" class="item" v-ripple>Pagination</RouterLink>
+    <RouterLink to="/checkbox" class="item" v-ripple>Checkbox</RouterLink>
   </div>
 </template>
 
@@ -13,6 +13,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--r-space-2);
+  padding: var(--r-space-2);
 
   .item {
     box-shadow: 0 0 0 1px rgba(var(--r-border-color), var(--border-alpha));

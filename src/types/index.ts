@@ -1,3 +1,5 @@
+export type Picked<T, K extends keyof T> = T[K]
+
 export type Sevue = {
   iconPrefix: string;
   getColor: (color?: string) => string | undefined;

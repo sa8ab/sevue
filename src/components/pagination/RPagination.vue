@@ -63,8 +63,8 @@
 
 <script setup lang="ts">
 import RButton from "../button/RButton.vue";
-import ChevronRight from "../icons/ChevronRight.vue";
-import ChevronLeft from "../icons/ChevronLeft.vue";
+import ChevronRight from "../icons/ChevronRight.svg";
+import ChevronLeft from "../icons/ChevronLeft.svg";
 import { computed, watch, toRef } from "vue";
 import useColor from "@/composables/useColor";
 export interface Props {
@@ -235,4 +235,5 @@ watch(
   &.activeShadow .active {
     box-shadow: 0 0 8px -2px color() !important;
   }
-}</style>
+}
+</style>

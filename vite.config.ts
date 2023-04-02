@@ -6,12 +6,14 @@ import DefineOptions from "unplugin-vue-define-options/vite";
 import Components from 'unplugin-vue-components/vite'
 import vue from "@vitejs/plugin-vue";
 import dts from "vite-plugin-dts";
+import ViteSVGLoader from 'vite-svg-loader'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     DefineOptions(),
+    ViteSVGLoader(),
     {
       ...Components({
         dts: './dist/components.d.ts',
@@ -60,4 +62,7 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    port: 4000
+  }
 });

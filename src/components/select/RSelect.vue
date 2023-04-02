@@ -22,10 +22,11 @@
         v-bind="inputProps">
         <template #after>
           <span @click.prevent="toggleOpen" :class="['dropdown-icon', { rotate: state.active }]" v-ripple>
-            <i :class="['bx bx-chevron-down']"></i>
+            <ChevronDown />
           </span>
         </template>
       </RInput>
+      <SelectedItems :items="selectedItems" v-if="Array.isArray(selectedItems)" @itemClick="onSelectedItemClick" />
     </div>
     <Teleport to="body">
       <Transition name="fade-move" @after-leave="onAfterLeave">
@@ -43,11 +44,20 @@
 </template>
 
 <script setup lang="ts">
+/*
+TODO:
+custom search,
+remote items
+*/
 import { createPopper, type Instance, type Modifier } from "@popperjs/core";
 import { isArray } from "@vue/shared";
 import { rSelectKey } from '@/injectionKeys'
 import { nextTick, computed, onBeforeUnmount, onMounted, provide, reactive, ref, toRef, useSlots, watch, type VNode } from "vue";
 import useColor from "@/composables/useColor";
+import SelectedItems from "./SelectedItems.vue";
+import { ChevronDown } from '../icons'
+import type { Picked } from "@/types";
+
 export type Props = {
   searchable?: boolean
   multiple?: boolean
@@ -59,9 +69,10 @@ export type Props = {
   color?: string,
   error?: boolean
   message?: string,
-  inputProps?: any
+  inputProps?: any,
+  renderPlaceholder?: (parameter: Option | Option[]) => string
 }
-type Option = { value: string | number, text?: string, disabled?: boolean }
+export type Option = { value: string | number, text?: string, disabled?: boolean }
 type State = {
   search: string
   active: boolean
@@ -70,13 +81,16 @@ type State = {
   popper?: Instance
   options: Option[]
 }
-type Picked<T, K extends keyof T> = T[K]
 const props = withDefaults(
   defineProps<Props>(),
   {
     searchable: false,
     keepOpenAfterSelection: false,
-    placeholder: ''
+    placeholder: '',
+    renderPlaceholder: (option: Option | Option[]) => {
+      if (Array.isArray(option)) return `${option.length} selected`
+      else return `${option.text}`
+    }
   }
 )
 const emit = defineEmits(["update:modelValue", "open", "close", "afterTransitionEnd"]);
@@ -250,21 +264,40 @@ const isItemFocusable = computed(() => {
 
 // Selected Items
 const selectedItems = computed(() => {
-  return state.options.filter(({ value }) => {
-    if (props.multiple && isArray(props.modelValue)) {
-      return props.modelValue.find((x) => x === value);
-    } else {
-      return value == props.modelValue;
-    }
-  });
+  let items: Array<Option> | Option = []
+  if (Array.isArray(props.modelValue)) {
+    props.modelValue.forEach((value) => {
+      const foundOption = state.options.find(({ value: optionValue }: Option) => optionValue === value)
+      if (foundOption) (items as Option[]).push(foundOption)
+    })
+  } else {
+    const foundOption = state.options.find(({ value: optionValue }) => optionValue === props.modelValue)
+    if (foundOption) items = foundOption
+  }
+  return items
 });
 const isAnyItemSelected = computed(() => {
-  return selectedItems.value.length;
+  if (Array.isArray(selectedItems.value)) {
+    return !!selectedItems.value.length
+  } else {
+    return !!selectedItems.value
+  }
 });
 const inputPlaceholder = computed<string>(() => {
-  const selectedValueTexts = selectedItems.value.map(({ text }) => text).join('');
-  return selectedValueTexts.length ? selectedValueTexts : props.placeholder;
+  // const selectedValueTexts = selectedItems.value.map(({ text }) => text).join(', ');
+  // return selectedValueTexts.length ? selectedValueTexts : props.placeholder;
+  if (isAnyItemSelected.value) {
+    return props.renderPlaceholder(selectedItems.value)
+  }
+  return props.placeholder
 });
+
+const onSelectedItemClick = (item: Option) => {
+  onSelectValue({
+    event: item.value,
+    activate: false
+  })
+}
 
 // Search
 const visibleItems = computed(() => {
@@ -290,12 +323,17 @@ provide(rSelectKey, {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
+    width: 28px;
+    height: 28px;
     transition: transform var(--r-duration);
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
 
     &.rotate {
       transform: rotate(180deg);

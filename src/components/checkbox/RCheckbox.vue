@@ -10,7 +10,7 @@
       :falseValue="falseValue"
       v-bind="$attrs" />
     <div class="check-container">
-      <CheckIcon class="icon" />
+      <IconCheck class="icon" />
       <div class="background"></div>
     </div>
     {{ isChecked }}
@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { computed, toRef } from "vue";
-import CheckIcon from "@/components/icons/Check.vue";
+import { Check as IconCheck } from "@/components/icons";
 import useColor from "@/composables/useColor";
 
 export interface Props {
