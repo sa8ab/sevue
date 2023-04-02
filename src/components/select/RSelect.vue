@@ -22,7 +22,10 @@
         @input="onInputChange"
         v-bind="inputProps">
         <template #after>
-          <span @click.prevent="toggleOpen" :class="['dropdown-icon', { rotate: state.active }]" v-ripple>
+          <div class="loading-container" v-if="loading">
+            <LoadingSpinner width="24" />
+          </div>
+          <span @click.prevent="toggleOpen" :class="['dropdown-icon', { rotate: state.active }]" v-ripple v-else>
             <ChevronDown />
           </span>
         </template>
@@ -56,6 +59,7 @@ import { rSelectKey } from '@/injectionKeys'
 import { nextTick, computed, onBeforeUnmount, onMounted, provide, reactive, ref, toRef, useSlots, watch, type VNode } from "vue";
 import useColor from "@/composables/useColor";
 import SelectedItems from "./SelectedItems.vue";
+import LoadingSpinner from '../LoadingSpinner.vue'
 import { ChevronDown } from '../icons'
 import type { Picked } from "@/types";
 
@@ -94,7 +98,7 @@ const props = withDefaults(
     noDropdownOnEmptySearch: false,
     renderPlaceholder: (option: Option | Option[]) => {
       if (Array.isArray(option)) return `${option.length} selected`
-      else return `${option.text}`
+      else return option.text || ''
     }
   }
 )
@@ -154,7 +158,6 @@ const toggleOpen = () => {
   }
 };
 const open = () => {
-  console.log('OPEN CALL')
   if (state.active || !canOpenDropdown.value) return
   state.active = true;
   nextTick(() => {
@@ -274,6 +277,7 @@ const isItemFocusable = computed(() => {
 });
 
 // Selected Items
+// TODO: Make it a function so when options are lost it keeps items
 const selectedItems = computed(() => {
   let items: Array<Option> | Option = []
   if (Array.isArray(props.modelValue)) {
@@ -323,7 +327,9 @@ const onInputChange = (e: InputEvent) => {
 }
 watch(() => state.search, (search) => {
   if (state.active && props.noDropdownOnEmptySearch && !search) close(false, false)
-  else if (!state.active) open()
+  else if (!state.active && !!search) {
+    open()
+  }
 })
 
 provide(rSelectKey, {
@@ -359,6 +365,10 @@ provide(rSelectKey, {
     &.rotate {
       transform: rotate(180deg);
     }
+  }
+
+  .loading-container {
+    padding: 0 var(--r-space-1);
   }
 
   .input {

@@ -25,6 +25,7 @@
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue-macros/volar": "^0.9.4",
     "@vue/tsconfig": "^0.1.3",
+    "axios": "^1.3.4",
     "boxicons": "^2.1.4",
     "install": "^0.13.0",
     "npm": "^9.6.3",

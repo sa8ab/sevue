@@ -9,39 +9,43 @@
       </RSelect>
       <RSelect
         v-model="customSelected"
-        placeholder="Filter by age"
+        placeholder="Remote Items"
         :customSearch="customSearch"
         searchable
-        multiple
-        noDropdownOnEmptySearch>
-        <ROption v-for="item in filteredItems" :value="item.id" :text="`${item.name}`"></ROption>
+        :loading="loading"
+        :renderPlaceholder="renderPlaceholder">
+        <ROption v-for="item in items" :value="item.id">
+          {{ item.title }}
+        </ROption>
       </RSelect>
+      <RButton @click="items = []">Empty list</RButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+// @ts-ignore
+import axios from 'axios'
 import { ref } from 'vue';
 
 const selected = ref('')
 const singleSelected = ref([])
-const items = ref([
-  { name: 'Josef', id: 1, age: 30 },
-  { name: 'UnJosef', id: 2, age: 34 },
-  { name: 'Peter', id: 3, age: 35 },
-  { name: 'Stewie', id: 4, age: 38 },
-  { name: 'John', id: 5, age: 29 },
-])
+const items = ref([])
 
+const loading = ref(false)
 
 const customSelected = ref('')
 const search = ref('')
-const filteredItems = computed(() => {
-  return items.value.filter(({ name }) => `${name}`.includes(search.value))
-})
-const customSearch = (e) => {
-  search.value = e
+const customSearch = async (e) => {
+  loading.value = true
+  const { data } = await axios.get(`https://dummyjson.com/products/search?q=${e}`)
+  loading.value = false
+  console.log(data)
+  items.value = data.products
+}
+const renderPlaceholder = (option) => {
+  console.log(option);
+  return `${option.value}`
 }
 </script>
 
@@ -49,6 +53,7 @@ const customSearch = (e) => {
 <style lang="scss" scoped>
 .container {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--r-space-2);
 }
 </style>
