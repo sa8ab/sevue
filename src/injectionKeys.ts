@@ -9,7 +9,7 @@ export const sevueKey = Symbol() as InjectionKey<{
 
 export const rSelectKey = Symbol() as InjectionKey<{
   modelValue: Ref<string | number | (string | number)[]>;
-  multiple: Ref<boolean>;
+  multiple: Ref<boolean | undefined>;
   search: Ref<string>;
   color: Ref<string | undefined>;
   customSearch: ((parameter: string) => void) | undefined

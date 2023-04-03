@@ -37,10 +37,10 @@ const props = withDefaults(
 const color = useColor(toRef(props, 'color'))
 const textColor = useColor(toRef(props, 'textColor'))
 
-const state = reactive<{ parentDiv: HTMLElement | null; active: Boolean, timeout?: number }>({
+const state = reactive<{ parentDiv: HTMLElement | null; active: Boolean, timeout?: NodeJS.Timeout }>({
   active: false,
   parentDiv: null,
-  timeout: 0
+  timeout: undefined
 });
 
 onMounted(() => {

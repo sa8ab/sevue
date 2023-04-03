@@ -1,9 +1,8 @@
-// @ts-nocheck
-import Check from './Check.svg?component'
-import ChevronDown from './ChevronDown.svg?component'
-import ChevronLeft from './ChevronLeft.svg?component'
-import ChevronRight from './ChevronRight.svg?component'
-import Close from './Close.svg?component'
+import Check from './check.svg?component'
+import ChevronDown from './chevron-down.svg?component'
+import ChevronLeft from './chevron-left.svg?component'
+import ChevronRight from './chevron-right.svg?component'
+import Close from './close.svg?component'
 
 export {
   Check,
