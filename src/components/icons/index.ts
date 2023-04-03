@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Check from './check.svg?component'
 import ChevronDown from './chevron-down.svg?component'
 import ChevronLeft from './chevron-left.svg?component'
