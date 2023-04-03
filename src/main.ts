@@ -71,7 +71,7 @@ export default {
 };
 
 // components & composables
-export { RButton, useNotification, useLoading, useSevue };
+export { RButton, RSelect, useNotification, useLoading, useSevue };
 
 // inject keys
 export { notificationKey, sevueKey, loadingKey };
@@ -95,9 +95,6 @@ declare module "vue" {
 }
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Check: typeof import('./../src/components/icons/Check.vue')['default']
-    ChevronLeft: typeof import('./../src/components/icons/ChevronLeft.vue')['default']
-    ChevronRight: typeof import('./../src/components/icons/ChevronRight.vue')['default']
     HeightTransition: typeof import('./../src/components/HeightTransition.vue')['default']
     Notification: typeof import('./../src/components/notification/Notification.vue')['default']
     NotificationContainer: typeof import('./../src/components/notification/NotificationContainer.vue')['default']

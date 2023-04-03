@@ -1,5 +1,5 @@
 import type { App } from "vue";
-import type { SevueOptions } from "../types";
+import type { SevueOptions, ArrayElement } from "../types";
 
 export const setOptions = (vue: App, options: SevueOptions) => {
   const colors = options.colors || {};
@@ -59,3 +59,12 @@ export const getColor = (color: string = ""): string | undefined => {
     return undefined
   }
 };
+
+// @ts
+export const uniqueArray = <T>(array: Array<T>, key: (parameter: Array<T>[0]) => keyof ArrayElement<T>) => {
+  let seen = new Set();
+  return array.filter(item => {
+    let k = key(item);
+    return seen.has(k) ? false : seen.add(k);
+  });
+}

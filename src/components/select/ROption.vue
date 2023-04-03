@@ -17,6 +17,7 @@ export interface Props {
   value: number | string
   disabled?: boolean
   color?: string
+  context?: Record<string, any>
 }
 
 const props = withDefaults(

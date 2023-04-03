@@ -1,24 +1,28 @@
 <template>
   <div class="center-it">
     <div class="container">
-      <RSelect v-model="singleSelected" placeholder="Select Something" searchable>
-        <ROption v-for="x in 100" :value="x" :text="`item #${x}`"></ROption>
-      </RSelect>
-      <RSelect v-model="selected" placeholder="Select Something" searchable multiple>
-        <ROption v-for="x in 100" :value="x" :text="`item #${x}`"></ROption>
-      </RSelect>
       <RSelect
         v-model="customSelected"
         placeholder="Remote Items"
         :customSearch="customSearch"
         searchable
         :loading="loading"
-        :renderPlaceholder="renderPlaceholder">
-        <ROption v-for="item in items" :value="item.id">
-          {{ item.title }}
+        :renderPlaceholder="renderPlaceholder"
+        multiple
+        ref="selectRef"
+        noDropdownOnEmptySearch>
+        <ROption v-for="item in items" :value="item.id" :context="item">
+          {{ item.title }} - {{ item.id }}
         </ROption>
+        <template #selectedItem="{ context }">
+          <div class="selected-item">
+            <img :src="context.thumbnail" alt="">
+            <span>{{ context.title }}</span>
+          </div>
+        </template>
       </RSelect>
       <RButton @click="items = []">Empty list</RButton>
+      <RButton @click="items = items.filter((_, index) => index !== 3)">Remove some item</RButton>
     </div>
   </div>
 </template>
@@ -26,26 +30,24 @@
 <script setup lang="ts">
 // @ts-ignore
 import axios from 'axios'
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { RSelect } from '../../src/main'
 
-const selected = ref('')
-const singleSelected = ref([])
 const items = ref([])
 
 const loading = ref(false)
+const selectRef = ref<InstanceType<typeof RSelect> | undefined>()
 
-const customSelected = ref('')
-const search = ref('')
+const customSelected = ref([])
 const customSearch = async (e) => {
   loading.value = true
   const { data } = await axios.get(`https://dummyjson.com/products/search?q=${e}`)
   loading.value = false
-  console.log(data)
   items.value = data.products
 }
+
 const renderPlaceholder = (option) => {
-  console.log(option);
-  return `${option.value}`
+  return `${option.length} items selected`
 }
 </script>
 
@@ -55,5 +57,14 @@ const renderPlaceholder = (option) => {
   display: flex;
   flex-wrap: wrap;
   gap: var(--r-space-2);
+}
+
+.selected-item {
+  display: flex;
+  gap: var(--r-space-1);
+
+  img {
+    width: 24px
+  }
 }
 </style>

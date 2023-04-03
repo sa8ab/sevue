@@ -1,8 +1,10 @@
 <template>
-  <div class="r-selected-items">
+  <div class="r-selected-items" v-if="items?.length">
     <!-- TODO: replace with tag component -->
     <RButton class="r-selected-item" v-for="item in items" @click="onItemClick(item)" iconAfter textStyle>
-      <div class="r-selected-item-text">{{ item.text }}</div>
+      <slot v-bind="item">
+        <div class="r-selected-item-text">{{ item.text }}</div>
+      </slot>
       <template #icon>
         <IconClose class="r-selected-item-close" />
       </template>
@@ -12,7 +14,7 @@
 
 <script setup lang="ts">
 import { Close as IconClose } from '../icons'
-import type { Option } from './RSelect.vue'
+import type { Props as Option } from './ROption.vue'
 export interface Props {
   items?: Option[]
 }

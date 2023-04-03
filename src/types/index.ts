@@ -1,4 +1,5 @@
 export type Picked<T, K extends keyof T> = T[K]
+export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never
 
 export type Sevue = {
   iconPrefix: string;

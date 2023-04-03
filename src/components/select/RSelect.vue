@@ -30,7 +30,15 @@
           </span>
         </template>
       </RInput>
-      <SelectedItems :items="selectedItems" v-if="Array.isArray(selectedItems)" @itemClick="onSelectedItemClick" />
+      <SelectedItems
+        :items="state.selectedItems"
+        v-if="Array.isArray(state.selectedItems)"
+        @itemClick="onSelectedItemClick">
+
+        <template #default="item">
+          <slot name="selectedItem" v-bind="item"></slot>
+        </template>
+      </SelectedItems>
     </div>
     <Teleport to="body">
       <Transition name="fade-move" @after-leave="onAfterLeave">
@@ -62,6 +70,8 @@ import SelectedItems from "./SelectedItems.vue";
 import LoadingSpinner from '../LoadingSpinner.vue'
 import { ChevronDown } from '../icons'
 import type { Picked } from "@/types";
+import { uniqueArray } from "@/utils";
+import type { Props as Option } from './ROption.vue'
 
 export type Props = {
   searchable?: boolean
@@ -80,7 +90,6 @@ export type Props = {
   renderPlaceholder?: (parameter: Option | Option[]) => string,
   customSearch?: (parameter: string) => void
 }
-export type Option = { value: string | number, text?: string, disabled?: boolean }
 type State = {
   search: string
   active: boolean
@@ -88,6 +97,7 @@ type State = {
   focusedItem: number
   popper?: Instance
   options: Option[]
+  selectedItems: Option | Option[]
 }
 const props = withDefaults(
   defineProps<Props>(),
@@ -111,6 +121,7 @@ const state = reactive<State>({
   focusedItem: -1,
   popper: undefined,
   options: [],
+  selectedItems: []
 });
 const rInput = ref();
 const dropdown = ref();
@@ -277,32 +288,39 @@ const isItemFocusable = computed(() => {
 });
 
 // Selected Items
-// TODO: Make it a function so when options are lost it keeps items
-const selectedItems = computed(() => {
-  let items: Array<Option> | Option = []
+const setSelectedItems = (options: Option[]) => {
+  let items: Array<Option> | Option = [...state.selectedItems as Option[]]
   if (Array.isArray(props.modelValue)) {
     props.modelValue.forEach((value) => {
-      const foundOption = state.options.find(({ value: optionValue }: Option) => optionValue === value)
+      const foundOption = options.find(({ value: optionValue }: Option) => optionValue === value)
       if (foundOption) (items as Option[]).push(foundOption)
     })
+    // remove duplicated items from previous selections ( takes first ones )
+    items = uniqueArray<Option>(items, (item) => item.value)
+    // to remove if there was any items deleted from modelValue
+    items = items.filter(({ value: itemValue }) => !!(props.modelValue as Array<string | number>).find((modelValue) => modelValue === itemValue))
   } else {
-    const foundOption = state.options.find(({ value: optionValue }) => optionValue === props.modelValue)
+    const foundOption = options.find(({ value: optionValue }) => optionValue === props.modelValue)
     if (foundOption) items = foundOption
   }
-  return items
-});
+  state.selectedItems = items
+}
+watch([() => props.modelValue, () => state.options], () => {
+  setSelectedItems(state.options)
+}, { immediate: true })
+
 const isAnyItemSelected = computed(() => {
-  if (Array.isArray(selectedItems.value)) {
-    return !!selectedItems.value.length
+  if (Array.isArray(state.selectedItems)) {
+    return !!state.selectedItems.length
   } else {
-    return !!selectedItems.value
+    return !!state.selectedItems
   }
 });
 const inputPlaceholder = computed<string>(() => {
-  // const selectedValueTexts = selectedItems.value.map(({ text }) => text).join(', ');
+  // const selectedValueTexts = state.selectedItems.map(({ text }) => text).join(', ');
   // return selectedValueTexts.length ? selectedValueTexts : props.placeholder;
   if (isAnyItemSelected.value) {
-    return props.renderPlaceholder(selectedItems.value)
+    return props.renderPlaceholder(state.selectedItems)
   }
   return props.placeholder
 });
@@ -341,6 +359,9 @@ provide(rSelectKey, {
   focusedItemValue,
   onSelectValue,
 });
+defineExpose({
+  setSelectedItems
+})
 </script>
 
 <style scoped lang="scss"></style>
@@ -368,6 +389,7 @@ provide(rSelectKey, {
   }
 
   .loading-container {
+    width: 28px;
     padding: 0 var(--r-space-1);
   }
 
