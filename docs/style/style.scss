@@ -17,17 +17,17 @@
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
-.doc-items.two{
+.doc-items.two {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
-.doc-items.three{
+.doc-items.three {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 8px;
 }
-.doc-items.four{
+.doc-items.four {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 8px;
@@ -39,4 +39,8 @@
   .r-input {
     width: 100%;
   }
+}
+
+.alert .prose-code code {
+  --elements-state-warning-backgroundColor-secondary: transparent;
 }
