@@ -4,13 +4,9 @@
       <RSelect
         v-model="customSelected"
         placeholder="Remote Items"
-        :customSearch="customSearch"
-        searchable
         :loading="loading"
         :renderPlaceholder="renderPlaceholder"
-        multiple
-        ref="selectRef"
-        noDropdownOnEmptySearch>
+        ref="selectRef">
         <ROption v-for="item in items" :value="item.id" :context="item">
           {{ item.title }} - {{ item.id }}
         </ROption>
@@ -38,16 +34,18 @@ const items = ref([])
 const loading = ref(false)
 const selectRef = ref<InstanceType<typeof RSelect> | undefined>()
 
-const customSelected = ref([])
-const customSearch = async (e) => {
+onMounted(async () => {
   loading.value = true
-  const { data } = await axios.get(`https://dummyjson.com/products/search?q=${e}`)
+  const { data } = await axios.get(`https://dummyjson.com/products`)
   loading.value = false
   items.value = data.products
+})
+const customSelected = ref('')
+const customSearch = async (e) => {
 }
 
 const renderPlaceholder = (option) => {
-  return `${option.length} items selected`
+  return `${option.context.title}`
 }
 </script>
 

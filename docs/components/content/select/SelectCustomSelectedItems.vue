@@ -1,0 +1,67 @@
+<template>
+  <div class="doc-item">
+    <RSelect v-model="selectedMultiple"
+      multiple
+      placeholder="Select Items"
+      :renderPlaceholder="renderPlaceholder"
+      label="Custom Selected Items">
+      <ROption v-for="{ name, flag, id } in items" :value="id" :context="{ name, flag }">
+        <div class="custom-option">
+          <img :src="flag">
+          <span>{{ name }}</span>
+        </div>
+      </ROption>
+      <template #selectedItem="{ context }">
+        <div class="selected-item">
+          <img :src="context.flag">
+          <span>{{ context.name }}</span>
+        </div>
+      </template>
+    </RSelect>
+  </div>
+</template>
+
+<script lang="ts" setup>
+
+const items = ref([
+  { name: "Germany", id: 1, flag: 'https://flagsapi.com/DE/flat/64.png' },
+  { name: "Italy", id: 2, flag: 'https://flagsapi.com/IT/flat/64.png' },
+  { name: "United Kingdom", id: 3, flag: 'https://flagsapi.com/GB/flat/64.png' },
+  { name: "France", id: 4, flag: 'https://flagsapi.com/FR/flat/64.png' },
+  { name: "Greece", id: 5, flag: 'https://flagsapi.com/GR/flat/64.png' },
+]);
+const selectedMultiple = ref([]);
+
+const renderPlaceholder = (options: any) => {
+  return `${options.length} items selected`
+}
+</script>
+
+<style scoped lang="scss">
+.custom-option {
+  display: flex;
+  align-items: center;
+  gap: var(--r-space-1);
+
+  img {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    overflow: hidden;
+  }
+}
+
+.selected-item {
+  display: flex;
+  align-items: center;
+  gap: var(--r-space-1);
+
+  img {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    overflow: hidden;
+  }
+}
+</style>
+

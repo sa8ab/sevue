@@ -1,6 +1,6 @@
 <template>
   <div class="doc-item">
-    <RSelect v-model="selected" multiple keepOpenAfterSelection>
+    <RSelect v-model="selected" multiple keepOpenAfterSelection placeholder="Multiple Select">
       <ROption v-for="{ name, id } in items" :value="id" :text="name" />
     </RSelect>
   </div>

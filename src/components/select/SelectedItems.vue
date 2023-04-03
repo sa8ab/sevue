@@ -1,7 +1,8 @@
 <template>
   <div class="r-selected-items" v-if="items?.length">
     <!-- TODO: replace with tag component -->
-    <RButton class="r-selected-item" v-for="item in items" @click="onItemClick(item)" iconAfter textStyle>
+    <RButton class="r-selected-item" v-for="item in items" :key="item.value" @click="onItemClick(item)" iconAfter
+      textStyle>
       <slot v-bind="item">
         <div class="r-selected-item-text">{{ item.text }}</div>
       </slot>

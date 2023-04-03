@@ -69,8 +69,8 @@ import useColor from "@/composables/useColor";
 import SelectedItems from "./SelectedItems.vue";
 import LoadingSpinner from '../LoadingSpinner.vue'
 import { ChevronDown } from '../icons'
-import type { Picked } from "@/types";
 import { uniqueArray } from "@/utils";
+import type { Picked } from "@/types";
 import type { Props as Option } from './ROption.vue'
 
 export type Props = {
@@ -90,6 +90,7 @@ export type Props = {
   renderPlaceholder?: (parameter: Option | Option[]) => string,
   customSearch?: (parameter: string) => void
 }
+
 type State = {
   search: string
   active: boolean
@@ -289,14 +290,14 @@ const isItemFocusable = computed(() => {
 
 // Selected Items
 const setSelectedItems = (options: Option[]) => {
-  let items: Array<Option> | Option = [...state.selectedItems as Option[]]
+  let items: Array<Option> | Option = state.selectedItems
   if (Array.isArray(props.modelValue)) {
     props.modelValue.forEach((value) => {
       const foundOption = options.find(({ value: optionValue }: Option) => optionValue === value)
       if (foundOption) (items as Option[]).push(foundOption)
     })
     // remove duplicated items from previous selections ( takes first ones )
-    items = uniqueArray<Option>(items, (item) => item.value)
+    items = uniqueArray<Option>(items as Option[], (item) => item.value)
     // to remove if there was any items deleted from modelValue
     items = items.filter(({ value: itemValue }) => !!(props.modelValue as Array<string | number>).find((modelValue) => modelValue === itemValue))
   } else {
@@ -335,7 +336,7 @@ const onSelectedItemClick = (item: Option) => {
 // Search
 const visibleItems = computed(() => {
   return props.customSearch ? state.options : state.options.filter(({ text }) => {
-    return text?.toLowerCase().includes(state.search.toLowerCase());
+    return text ? text.toLowerCase().includes(state.search.toLowerCase()) : true
   });
 });
 const onInputChange = (e: InputEvent) => {
