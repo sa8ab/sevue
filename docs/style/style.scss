@@ -44,3 +44,10 @@
 .alert .prose-code code {
   --elements-state-warning-backgroundColor-secondary: transparent;
 }
+
+@media only screen and (max-width: 800px) {
+  .doc-items,
+  .input-items {
+    grid-template-columns: 1fr !important;
+  }
+}

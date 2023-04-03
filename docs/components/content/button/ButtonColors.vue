@@ -13,5 +13,6 @@
 .items {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 </style>

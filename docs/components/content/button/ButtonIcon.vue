@@ -12,8 +12,9 @@
 </template>
 
 <style scoped lang="scss">
-.items{
+.items {
   display: flex;
   gap: var(--space-1);
+  flex-wrap: wrap;
 }
 </style>
