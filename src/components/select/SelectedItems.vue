@@ -7,15 +7,15 @@
         <div class="r-selected-item-text">{{ item.text }}</div>
       </slot>
       <template #icon>
-        <IconClose class="r-selected-item-close" />
+        <SevueIcon name="close" class="r-selected-item-close" />
       </template>
     </RButton>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Close as IconClose } from '../icons'
 import type { Props as Option } from './ROption.vue'
+import SevueIcon from '@/components/icons/SevueIcon.vue'
 export interface Props {
   items?: Option[]
 }

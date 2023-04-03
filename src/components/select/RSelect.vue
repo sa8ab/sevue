@@ -26,7 +26,7 @@
             <LoadingSpinner width="24" />
           </div>
           <span @click.prevent="toggleOpen" :class="['dropdown-icon', { rotate: state.active }]" v-ripple v-else>
-            <ChevronDown />
+            <SevueIcon name="chevron-down" />
           </span>
         </template>
       </RInput>
@@ -68,8 +68,8 @@ import { nextTick, computed, onBeforeUnmount, onMounted, provide, reactive, ref,
 import useColor from "@/composables/useColor";
 import SelectedItems from "./SelectedItems.vue";
 import LoadingSpinner from '../LoadingSpinner.vue'
-import { ChevronDown } from '../icons'
 import { uniqueArray } from "@/utils";
+import SevueIcon from '@/components/icons/SevueIcon.vue'
 import type { Picked } from "@/types";
 import type { Props as Option } from './ROption.vue'
 

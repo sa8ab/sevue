@@ -13,7 +13,9 @@ export default defineConfig({
   plugins: [
     vue(),
     DefineOptions(),
-    ViteSVGLoader(),
+    ViteSVGLoader({
+      defaultImport: "component"
+    }),
     {
       ...Components({
         dts: './dist/components.d.ts',

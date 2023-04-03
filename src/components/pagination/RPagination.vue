@@ -11,7 +11,7 @@
       v-bind="buttonProps"
       v-if="!noNavigation">
       <slot name="prev">
-        <ChevronLeft />
+        <SevueIcon name="chevron-left" />
       </slot>
     </RButton>
     <div class="r-pagination-main">
@@ -40,7 +40,7 @@
       v-bind="buttonProps"
       v-if="!noNavigation">
       <slot name="next">
-        <ChevronRight />
+        <SevueIcon name="chevron-right" />
       </slot>
     </RButton>
     <!-- <div class="r-pagination-compact-navigation" v-if="compact">
@@ -63,9 +63,9 @@
 
 <script setup lang="ts">
 import RButton from "../button/RButton.vue";
-import { ChevronLeft, ChevronRight } from "../icons";
 import { computed, watch, toRef } from "vue";
 import useColor from "@/composables/useColor";
+import SevueIcon from '@/components/icons/SevueIcon.vue'
 export interface Props {
   color?: string;
   activeTextColor?: string;
