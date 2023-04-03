@@ -56,11 +56,6 @@
 </template>
 
 <script setup lang="ts">
-/*
-TODO:
-custom search,
-remote items
-*/
 import { createPopper, type Instance, type Modifier } from "@popperjs/core";
 import { isArray } from "@vue/shared";
 import { rSelectKey } from '@/injectionKeys'
