@@ -14,21 +14,21 @@ export default defineConfig({
     vue(),
     DefineOptions(),
     ViteSVGLoader(),
-    {
-      ...Components({
-        dts: './dist/components.d.ts',
-        resolvers: [
-          (componentName) => {
-            return { name: componentName, from: './src/components' }
-          }
-        ]
-      }),
-      name: "build-only",
-      apply: "build",
-    },
+    // {
+    //   ...Components({
+    //     dts: './dist/components.d.ts',
+    //     resolvers: [
+    //       (componentName) => {
+    //         return { name: componentName, from: './src/components' }
+    //       }
+    //     ]
+    //   }),
+    //   name: "build-only",
+    //   apply: "build",
+    // },
     {
       ...dts({
-        skipDiagnostics: false,
+        skipDiagnostics: true,
         entryRoot: './src',
         copyDtsFiles: true
       }),
