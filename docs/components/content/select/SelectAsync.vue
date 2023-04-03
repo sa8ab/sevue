@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import axios from 'axios'
+import axios from "axios"
 
 interface State {
   users: { firstName: string, lastName: string, id: number }[]
