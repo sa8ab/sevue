@@ -28,7 +28,7 @@ export default defineConfig({
     },
     {
       ...dts({
-        skipDiagnostics: false,
+        skipDiagnostics: true,
         entryRoot: './src',
         copyDtsFiles: true
       }),
