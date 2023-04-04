@@ -116,6 +116,7 @@ const isChecked = computed(() => {
     transform: translateY(100%);
     transition: all var(--r-duration);
     border-radius: 50%;
+    opacity: 0;
   }
 
   .icon {
@@ -140,6 +141,7 @@ const isChecked = computed(() => {
 
     .background {
       transform: translateY(0);
+      opacity: 1;
       border-radius: 0;
     }
 
