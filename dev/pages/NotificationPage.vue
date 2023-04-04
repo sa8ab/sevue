@@ -11,6 +11,7 @@ const notification = useNotification()
 const notify = () => {
   notification({
     text: 'some textsome textsome textsome textsome textsome textsome textsome text',
+    color: 'red'
   })
 }
 </script>

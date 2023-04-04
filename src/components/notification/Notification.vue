@@ -12,7 +12,7 @@
       <div class="notification-inner">
         <div class="title" v-if="title">{{ title }}</div>
         <div class="text">{{ text }}</div>
-        <RButton @click="close" class="close" iconOnly round fill v-if="!noCloseButton">
+        <RButton @click="close" class="close" iconOnly round v-if="!noCloseButton" fill textStyle>
           <SevueIcon name="close" />
         </RButton>
       </div>

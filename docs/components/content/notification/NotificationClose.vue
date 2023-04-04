@@ -1,7 +1,7 @@
 <template>
   <div class="doc-items">
-    <RButton @click="open">Open Notification</RButton>
-    <RButton @click="close">Close Last Notification</RButton>
+    <RButton @click="open" :disabled="!!noti">Show Notification</RButton>
+    <RButton @click="close" :disabled="!noti">Close Notification</RButton>
   </div>
 </template>
 
@@ -9,12 +9,14 @@
 import { useNotification, Notification } from 'sevue'
 const notification = useNotification()
 
-const noti = ref<Notification>()
+const noti = ref<Notification | undefined>(undefined)
 
 const open = () => {
   noti.value = notification({
     color: 'red',
-    text: 'Hey ZXC'
+    text: 'Hey ZXC',
+    onClose: () => noti.value = undefined,
+    duration: -1
   })
 }
 
