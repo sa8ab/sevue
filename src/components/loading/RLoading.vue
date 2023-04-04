@@ -10,11 +10,13 @@
       ref="component">
       <!-- TODO: Custom spinner -->
       <div class="r-loading-inner">
-        <div class="r-loading-spinner" :style="{ transform: `scale(${scale})` }">
-          <div class="r-loading-spinner__1"></div>
-          <div class="r-loading-spinner__2"></div>
-        </div>
-        <div class="text" v-if="text">{{ text }}</div>
+        <VNodeRenderer :param="spinner">
+          <div class="r-loading-spinner" :style="{ transform: `scale(${scale})` }">
+            <div class="r-loading-spinner__1"></div>
+            <div class="r-loading-spinner__2"></div>
+          </div>
+        </VNodeRenderer>
+        <VNodeRenderer :param="text" v-if="text" class="text" />
       </div>
     </div>
   </transition>
@@ -22,15 +24,18 @@
 
 <script setup lang="ts">
 import { getColor } from "@/utils";
-import { nextTick, onMounted, reactive, ref } from "vue";
+import { nextTick, onMounted, reactive, ref, } from "vue";
+import VNodeRenderer from "../VNodeRenderer.vue";
+import type { VNode } from 'vue'
 
 const props = withDefaults(
   defineProps<{
-    text?: string;
+    text?: String | VNode;
     color?: string;
     background?: string;
     scale?: string | number;
     target?: HTMLElement;
+    spinner?: VNode
   }>(),
   {}
 );

@@ -46,11 +46,12 @@ export interface Notification {
 }
 
 export type LoadingOptions = {
-  text?: string;
+  text?: VNode | string;
   color?: string;
   background?: string;
-  scale?: number;
-  target?: string | HTMLElement;
+  scale?: string | number;
+  target?: HTMLElement;
+  spinner?: VNode
 };
 export interface Loading {
   close: () => void;

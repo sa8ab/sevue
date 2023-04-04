@@ -4,6 +4,7 @@ import SelectPage from "./pages/SelectPage.vue";
 import PaginationPage from "./pages/PaginationPage.vue";
 import CheckboxPage from "./pages/CheckboxPage.vue";
 import NotificationPage from "./pages/NotificationPage.vue";
+import LoadingPage from "./pages/LoadingPage.vue";
 
 
 const routes = [
@@ -12,6 +13,7 @@ const routes = [
   { path: '/pagination', component: PaginationPage },
   { path: '/checkbox', component: CheckboxPage },
   { path: '/notification', component: NotificationPage },
+  { path: '/loading', component: LoadingPage },
 ]
 
 export default createRouter({

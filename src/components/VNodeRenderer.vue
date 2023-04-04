@@ -1,6 +1,8 @@
 <template>
   <component :is="() => param" v-if="isVNode(param)"></component>
-  <div v-bind="$attrs" v-else>{{ param }}</div>
+  <slot v-else>
+    <div v-bind="$attrs">{{ param }}</div>
+  </slot>
 </template>
 
 <script setup lang="ts">

@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import useColor from '@/composables/useColor';
 import { useTimer } from '@/main';
-import { isVNode, onMounted, reactive, toRef, type VNode } from 'vue';
+import { onMounted, reactive, toRef, type VNode } from 'vue';
 import SevueIcon from '../icons/SevueIcon.vue';
 import VNodeRenderer from '../VNodeRenderer.vue';
 export interface Props {

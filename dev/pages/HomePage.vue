@@ -4,6 +4,7 @@
     <RouterLink to="/pagination" class="item" v-ripple>Pagination</RouterLink>
     <RouterLink to="/checkbox" class="item" v-ripple>Checkbox</RouterLink>
     <RouterLink to="/notification" class="item" v-ripple>Notification</RouterLink>
+    <RouterLink to="/loading" class="item" v-ripple>Loading</RouterLink>
   </div>
 </template>
 
