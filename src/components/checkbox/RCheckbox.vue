@@ -125,7 +125,7 @@ const isChecked = computed(() => {
     transform: scale(0);
     transition: transform calc(var(--r-duration) / 2);
     transition-delay: calc(var(--r-duration) / 2);
-    color: color(text);
+    color: color(text-color);
   }
 
   &.isChecked {
