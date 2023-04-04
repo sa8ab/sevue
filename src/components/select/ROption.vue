@@ -58,7 +58,7 @@ const isActive = computed(() => {
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .r-option {
   color: color(text);
   width: 100%;
@@ -88,10 +88,10 @@ const isActive = computed(() => {
     opacity: 0.6;
     pointer-events: none;
   }
-}
 
-.active {
-  color: color();
-  background: color(color, var(--light-alpha)) !important;
+  &.active {
+    color: color();
+    background: color(color, var(--light-alpha)) !important;
+  }
 }
 </style>

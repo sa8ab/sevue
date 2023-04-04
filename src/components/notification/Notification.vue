@@ -13,7 +13,9 @@
         <VNodeRenderer class="title" :param="title" v-if="title" />
         <VNodeRenderer class="text" :param="text" v-if="text" />
         <RButton @click="close" class="close" iconOnly round v-if="!noCloseButton" fill textStyle>
-          <SevueIcon name="close" />
+          <template #icon>
+            <SevueIcon name="close" />
+          </template>
         </RButton>
       </div>
     </div>

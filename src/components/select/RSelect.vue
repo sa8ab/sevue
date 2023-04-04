@@ -42,8 +42,8 @@
     </div>
     <Teleport to="body">
       <Transition name="fade-move" @after-leave="onAfterLeave">
-        <div v-if="state.active" class="dropdown-container" ref="dropdown">
-          <div class="select-dropdown">
+        <div v-if="state.active" class="r-select-dropdown-container" ref="dropdown">
+          <div class="r-select-dropdown">
             <div class="noOptions" v-if="noOptions">
               <slot name="noItems" class="noOptions"> No Options Available </slot>
             </div>
@@ -360,7 +360,6 @@ defineExpose({
 })
 </script>
 
-<style scoped lang="scss"></style>
 <style lang="scss">
 .r-select {
   .dropdown-icon {
@@ -415,18 +414,18 @@ defineExpose({
   .noInput {
     cursor: pointer;
   }
+
+  .noOptions {
+    padding: var(--r-space-2);
+  }
 }
 
-.noOptions {
-  padding: var(--r-space-2);
-}
-
-.dropdown-container {
+.r-select-dropdown-container {
   position: absolute;
   z-index: 100;
 }
 
-.select-dropdown {
+.r-select-dropdown {
   background: color(b2);
   border-radius: var(--r-radius);
   max-height: 240px;
@@ -441,7 +440,7 @@ defineExpose({
 
   &-enter-active,
   &-leave-active {
-    .select-dropdown {
+    .r-select-dropdown {
       transition: all calc(var(--r-duration) / 1.5);
     }
 
@@ -450,7 +449,7 @@ defineExpose({
 
   &-enter-from,
   &-leave-to {
-    .select-dropdown {
+    .r-select-dropdown {
       opacity: 0;
       transform: translateY(8px);
     }

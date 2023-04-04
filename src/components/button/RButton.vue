@@ -91,7 +91,7 @@ const renderComponent = computed(() => {
   if (isAnchorElement.value) return 'a'
   return 'button'
 });
-const noPadding = computed(() => slots.icon || props.iconOnly);
+const noPadding = computed(() => slots.icon && props.iconOnly);
 </script>
 
 <style lang="scss">
@@ -121,8 +121,8 @@ button {
   border-radius: 50%;
 }
 
-.icon-space {
-  width: var(--r-normal-padding);
+.r-button .icon-space {
+  width: var(--r-space-2);
 }
 
 .r-button.bordered {
@@ -222,7 +222,7 @@ button {
   opacity: var(--disabled-alpha);
 }
 
-.focused {
+.r-button.focused {
   box-shadow: 0px 0px 0px calc(var(--r-space-1) / 2) color();
 }
 </style>
