@@ -1,3 +1,5 @@
+import type { VNode } from "vue";
+
 export type Picked<T, K extends keyof T> = T[K]
 export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never
 
@@ -30,12 +32,12 @@ type NotificationPlacement =
   | "bottom-left";
 export interface NotificationOptions {
   placement?: NotificationPlacement;
-  title?: string;
-  text: string;
-  color?: string;
-  textColor?: string;
-  duration?: number;
-  pauseOnHover?: boolean;
+  title?: string | VNode,
+  text?: string | VNode,
+  color?: string,
+  textColor?: string,
+  duration?: number
+  pauseOnHover?: boolean
   noCloseButton?: boolean
   onClose?: () => void
 }

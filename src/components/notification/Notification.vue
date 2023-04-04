@@ -10,8 +10,8 @@
       }">
 
       <div class="notification-inner">
-        <div class="title" v-if="title">{{ title }}</div>
-        <div class="text">{{ text }}</div>
+        <VNodeRenderer class="title" :param="title" v-if="title" />
+        <VNodeRenderer class="text" :param="text" v-if="text" />
         <RButton @click="close" class="close" iconOnly round v-if="!noCloseButton" fill textStyle>
           <SevueIcon name="close" />
         </RButton>
@@ -23,11 +23,12 @@
 <script setup lang="ts">
 import useColor from '@/composables/useColor';
 import { useTimer } from '@/main';
-import { nextTick, onMounted, reactive, toRef } from 'vue';
+import { isVNode, onMounted, reactive, toRef, type VNode } from 'vue';
 import SevueIcon from '../icons/SevueIcon.vue';
+import VNodeRenderer from '../VNodeRenderer.vue';
 export interface Props {
-  title?: string,
-  text?: string,
+  title?: String | VNode,
+  text?: String | VNode,
   color?: string,
   textColor?: string,
   duration?: number

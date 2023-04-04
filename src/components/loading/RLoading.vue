@@ -8,6 +8,7 @@
         '--r-component-background': getColor(background) || 'var(--r-b1)',
       }"
       ref="component">
+      <!-- TODO: Custom spinner -->
       <div class="r-loading-inner">
         <div class="r-loading-spinner" :style="{ transform: `scale(${scale})` }">
           <div class="r-loading-spinner__1"></div>
