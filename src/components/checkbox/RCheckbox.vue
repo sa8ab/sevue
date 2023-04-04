@@ -83,19 +83,18 @@ const isChecked = computed(() => {
   }
 
   input {
-    opacity: 0.5;
+    opacity: 0;
     position: absolute;
     top: 0;
     left: 0;
     width: 1px;
     height: 1px;
     z-index: 0;
-    // visibility: hidden;
   }
 
   .check-container {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
