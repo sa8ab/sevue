@@ -130,7 +130,7 @@ const isChecked = computed(() => {
   &.isChecked {
     &:hover {
       .check-container {
-        box-shadow: 0 2px 8px color();
+        box-shadow: 0 2px 10px -4px color();
       }
     }
 
