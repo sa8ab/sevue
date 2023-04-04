@@ -13,7 +13,6 @@
       <SevueIcon name="check" class="icon" />
       <div class="background"></div>
     </div>
-    {{ isChecked }}
     <slot />
   </label>
 </template>
