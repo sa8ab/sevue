@@ -3,6 +3,7 @@
     <RouterLink to="/select" class="item" v-ripple>Select</RouterLink>
     <RouterLink to="/pagination" class="item" v-ripple>Pagination</RouterLink>
     <RouterLink to="/checkbox" class="item" v-ripple>Checkbox</RouterLink>
+    <RouterLink to="/notification" class="item" v-ripple>Notification</RouterLink>
   </div>
 </template>
 

@@ -14,6 +14,7 @@ import appendToBody from "./directives/appendToBody";
 import useNotification from "./composables/useNotification";
 import useLoading from "./composables/useLoading";
 import useSevue from "./composables/useSevue";
+import useTimer from './composables/useTimer'
 
 import { setDark, setOptions } from "./utils";
 import { loadingKey, notificationKey, sevueKey } from "./injectionKeys";
@@ -71,7 +72,7 @@ export default {
 };
 
 // components & composables
-export { RButton, RSelect, useNotification, useLoading, useSevue };
+export { RButton, RSelect, useNotification, useLoading, useSevue, useTimer };
 
 // inject keys
 export { notificationKey, sevueKey, loadingKey };

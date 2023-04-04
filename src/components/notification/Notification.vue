@@ -1,16 +1,19 @@
 <template>
   <transition :name="`move`" @beforeEnter="beforeEnter" @enter="enter" @leave="leave" @afterLeave="afterLeave">
-    <div v-if="state.active" class="r-notification" :style="{
-      '--r-color': color || 'var(--r-prm)',
-      '--r-text-color': textColor || 'var(--r-text)',
-    }">
+    <div
+      v-if="state.active"
+      @mouseenter="onPause"
+      @mouseleave="onStart"
+      class="r-notification" :style="{
+        '--r-color': color || 'var(--r-prm)',
+        '--r-text-color': textColor || 'var(--r-text)',
+      }">
+
       <div class="notification-inner">
         <div class="title" v-if="title">{{ title }}</div>
-        <p class="text">{{ text }}</p>
-        <RButton @click="state.active = false" class="close" iconOnly round flat>
-          <template #icon>
-            <!-- <CloseIcon :color="textColor" /> -->
-          </template>
+        <div class="text">{{ text }}</div>
+        <RButton @click="close" class="close" iconOnly round fill v-if="!noCloseButton">
+          <SevueIcon name="close" />
         </RButton>
       </div>
     </div>
@@ -19,13 +22,18 @@
 
 <script setup lang="ts">
 import useColor from '@/composables/useColor';
+import { useTimer } from '@/main';
 import { nextTick, onMounted, reactive, toRef } from 'vue';
+import SevueIcon from '../icons/SevueIcon.vue';
 export interface Props {
   title?: string,
   text?: string,
   color?: string,
   textColor?: string,
   duration?: number
+  pauseOnHover?: boolean
+  noCloseButton?: boolean
+  onClose?: () => void
 }
 const props = withDefaults(
   defineProps<Props>(),
@@ -37,6 +45,8 @@ const props = withDefaults(
 const color = useColor(toRef(props, 'color'))
 const textColor = useColor(toRef(props, 'textColor'))
 
+const timer = useTimer(() => close(), props.duration)
+
 const state = reactive<{ parentDiv: HTMLElement | null; active: Boolean, timeout?: NodeJS.Timeout }>({
   active: false,
   parentDiv: null,
@@ -45,14 +55,23 @@ const state = reactive<{ parentDiv: HTMLElement | null; active: Boolean, timeout
 
 onMounted(() => {
   state.active = true;
-  state.timeout = setTimeout(() => {
-    state.active = false;
-  }, props.duration);
+  if (props.duration > 0) {
+    timer.start()
+  }
 });
+
+const onPause = () => {
+  if (props.pauseOnHover && props.duration > 0) timer.pause()
+}
+const onStart = () => {
+  if (props.pauseOnHover && props.duration > 0) timer.start()
+}
+
 const close = () => {
   if (state.active) {
     state.active = false
-    clearTimeout(state.timeout)
+    timer.destroy()
+    props.onClose?.()
   }
 }
 const beforeEnter = (el: HTMLElement) => {
@@ -107,6 +126,13 @@ defineExpose({
       position: absolute;
       top: 0;
       right: 0;
+      width: 24px;
+      height: 24px;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
     }
   }
 

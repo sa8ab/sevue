@@ -42,8 +42,8 @@ methods: {
 
 You can change the placement of the notification using `placement` property. Available values are:
 
-- buttom-left <badge>default</badge>
-- buttom-right
+- buttom-left 
+- buttom-right <badge>default</badge>
 - top-left
 - top-right
 - bottom

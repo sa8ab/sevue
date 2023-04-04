@@ -89,10 +89,10 @@ const renderComponent = computed(() => {
   if (isAnchorElement.value) return 'a'
   return 'button'
 });
-const noPadding = computed(() => slots.icon && props.iconOnly);
+const noPadding = computed(() => slots.icon || props.iconOnly);
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 button {
   border: none;
   color: inherit;

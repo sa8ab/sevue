@@ -35,6 +35,9 @@ export interface NotificationOptions {
   color?: string;
   textColor?: string;
   duration?: number;
+  pauseOnHover?: boolean;
+  noCloseButton?: boolean
+  onClose?: () => void
 }
 export interface Notification {
   close: () => void;
