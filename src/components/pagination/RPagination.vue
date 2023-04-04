@@ -201,6 +201,11 @@ watch(
   &-navigation {
     height: 100%;
     min-height: 32px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
 
   &-item-blank {
