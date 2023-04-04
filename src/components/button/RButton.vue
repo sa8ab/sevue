@@ -27,7 +27,7 @@
     v-ripple>
     <div class="inner">
       <slot name="icon">
-        <i :class="['icon bx', icon]" v-if="icon"></i>
+        <i :class="['icon', iconPrefix, icon]" v-if="icon"></i>
       </slot>
       <div class="icon-space" v-if="icon || $slots.icon"></div>
       <slot></slot>
@@ -41,8 +41,8 @@ fix routing
 dynamic icon slot & detect iconOnly
 */
 import useColor from "@/composables/useColor";
+import { useSevue } from "@/main";
 import { useSlots, ref, computed, toRef } from "vue";
-
 
 export interface Props {
   flat?: boolean
@@ -63,6 +63,8 @@ export interface Props {
   to?: string,
   href?: string
 }
+
+const { iconPrefix } = useSevue()
 // interface LinkProps extends BaseProps {
 //   to?: string,
 //   href?: never

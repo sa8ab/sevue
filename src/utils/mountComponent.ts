@@ -5,6 +5,7 @@ type Params = {
   props?: Record<string, unknown>;
   children?: unknown;
   element?: HTMLElement;
+  elementClass?: string;
   app?: App;
 };
 const mounter = (
@@ -13,12 +14,15 @@ const mounter = (
     props, // props of the component
     children, // children of the component
     element = document.createElement("div"), // where to mount
+    elementClass,
     app,
   }: Params = {}
 ) => {
   const vNode = createVNode(component, props, children);
 
   if (app) vNode.appContext = app._context;
+
+  if (elementClass) element.classList.add(elementClass)
   render(vNode, element);
 
   const destroy = () => {

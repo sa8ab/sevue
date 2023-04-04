@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { LoadingOptions, useLoading } from 'sevue'
 
-const loading = useLoading()
+const { loading } = useLoading()
 const load = ({ color, background }: Partial<LoadingOptions>) => {
   const instance = loading({
     text: `Nothing is being loaded`,

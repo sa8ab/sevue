@@ -13,7 +13,7 @@
         @click="setActiveTab(title)"
         v-ripple>
         <slot :name="`icon-${i}`">
-          <i :class="['bx', icon]" v-if="icon"></i>
+          <i :class="[iconPrefix, icon]" v-if="icon"></i>
         </slot>
         <span class="title" v-if="!iconOnly">
           {{ title }}
@@ -30,6 +30,7 @@
 
 <script setup lang="ts">
 import useColor from "@/composables/useColor";
+import { useSevue } from "@/main";
 import { nextTick, onMounted, reactive, ref, toRef, computed, useSlots, watch, type VNode, provide } from "vue";
 
 export interface Props {
@@ -62,6 +63,7 @@ const props = withDefaults(
 );
 const emit = defineEmits(["tabChange"]);
 const color = useColor(toRef(props, 'color'))
+const { iconPrefix } = useSevue()
 const state = reactive<State>({
   activeTab: "",
   height: "auto",

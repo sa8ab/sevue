@@ -2,10 +2,11 @@
   <transition name="r-loading">
     <div
       v-if="state.active"
-      :class="['r-loading', { hasTarget: !!target }]"
+      :class="['r-loading', containerClass, { hasTarget: !!target }]"
       :style="{
         '--r-color': getColor(color) || 'var(--r-prm)',
         '--r-component-background': getColor(background) || 'var(--r-b1)',
+        ...containerStyle
       }"
       ref="component">
       <!-- TODO: Custom spinner -->
@@ -26,16 +27,18 @@
 import { getColor } from "@/utils";
 import { nextTick, onMounted, reactive, ref, } from "vue";
 import VNodeRenderer from "../VNodeRenderer.vue";
-import type { VNode } from 'vue'
+import type { VNode, CSSProperties } from 'vue'
 
 const props = withDefaults(
   defineProps<{
     text?: String | VNode;
     color?: string;
     background?: string;
-    scale?: string | number;
+    scale?: number;
     target?: HTMLElement;
-    spinner?: VNode
+    spinner?: VNode;
+    containerClass?: string
+    containerStyle?: CSSProperties
   }>(),
   {}
 );

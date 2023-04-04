@@ -12,6 +12,7 @@ import { computed, inject, toRef } from "vue";
 import { rSelectKey } from "@/injectionKeys";
 import { isArray } from "@vue/shared";
 import useColor from "@/composables/useColor";
+import type { SelectInject } from "@/types";
 export interface Props {
   text?: string
   value: number | string
@@ -31,25 +32,25 @@ const props = withDefaults(
 defineOptions({
   isOption: true,
 });
-const select = inject(rSelectKey);
+const select = inject(rSelectKey) as SelectInject;
 const color = useColor(props.color ? toRef(props, 'color') : toRef(select!, 'color'))
 const onSelectValue = () => {
-  select!.onSelectValue({
+  select.onSelectValue({
     event: props.value,
     activate: isActive.value ? false : true,
   });
 };
 const visible = computed(() => {
-  return !!select!.customSearch ? true : props.text.toLowerCase().includes(select!.search.value.toLowerCase());
+  return !!select.customSearch ? true : props.text.toLowerCase().includes(select.search.value.toLowerCase());
 });
 const focused = computed(() => {
   if (select!.focusedItemValue.value) {
-    return props.value === select!.focusedItemValue.value.value;
+    return props.value === select.focusedItemValue.value.value;
   }
 });
 const isActive = computed(() => {
-  const value = select!.modelValue.value;
-  if (select!.multiple.value && isArray(value)) {
+  const value = select.modelValue.value;
+  if (select.multiple.value && isArray(value)) {
     return !!value.find((x: any) => x === props.value);
   } else {
     return value == props.value;

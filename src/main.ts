@@ -32,9 +32,9 @@ const defaultOptions: SevueOptions = {
 };
 
 export default {
-  install: (app: App, userOptions: SevueOptions) => {
+  install: (app: App, userOptions: SevueOptions = {}) => {
     const options = { ...defaultOptions, ...userOptions };
-    setOptions(app, options);
+    setOptions(options);
 
     // components
     app.component("RButton", RButton);
@@ -50,7 +50,7 @@ export default {
     app.component("RTabItem", RTabItem);
 
     // directives
-    app.directive("ripple", ripple);
+    app.directive("ripple", options.ripple ? ripple : {});
     app.directive("click-outside", clickOutside);
     app.directive("append-to-body", appendToBody);
 
@@ -79,7 +79,7 @@ export { notificationKey, sevueKey, loadingKey };
 
 // types
 export type { RButtonProps, RCheckboxProps, RInputProps, RPaginationProps, RPopupProps, RSelectProps, ROptionProps, RSliderProps, RTabProps } from './components'
-export type { Colors, LoadingOptions, Loading, NotificationOptions, Notification, Sevue, SevueOptions } from './types'
+export type { Colors, LoadingOptions, Loading, NotificationOptions, Notification, Sevue, SevueOptions, LoadingInject, NotificationInject, SelectInject } from './types'
 
 
 // Global Types Definitions

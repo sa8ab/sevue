@@ -1,25 +1,40 @@
 <template>
   <div class="center-it">
-    <RButton @click="load">Load</RButton>
+    <RButton @click="load" icon="x">Load</RButton>
+    <RButton @click="loading({
+      target: target
+    })">Load</RButton>
+    <div class="target r-loading-target" ref="target">
+      <div>sdfds</div>
+      <div class="zxczxcs">d</div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { h, ref } from 'vue'
+import { ref } from 'vue'
 import { useLoading } from '../../src/main';
 
-const loading = useLoading()
+const { loading, close } = useLoading()
+const target = ref()
 const instance = ref()
 const load = () => {
   instance.value = loading({
-    text: h('div', undefined, 'Some random text'),
-    spinner: h('div', undefined, 'hey')
+    color: 'yellow'
   })
-  setTimeout(() => {
-    instance.value.close()
-  }, 1000);
+  setTimeout(() => close(), 2000)
 }
 </script>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.target {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  background: color(b2);
+  border-radius: var(--r-radius);
+}
+</style>

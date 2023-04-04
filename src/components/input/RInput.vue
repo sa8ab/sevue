@@ -10,7 +10,7 @@
       <label class="label-element" @click="labelClick">
         <div class="icon-container" v-if="hasIcon" @click="iconClick">
           <slot name="icon">
-            <i v-if="icon" :class="['icon', sevue?.iconPrefix, icon]"></i>
+            <i v-if="icon" :class="['icon', iconPrefix, icon]"></i>
           </slot>
         </div>
         <input :placeholder="placeholder" :value="modelValue" :disabled="disabled" v-bind="$attrs"
@@ -28,10 +28,10 @@
 </template>
 
 <script setup lang="ts">
-import { inject, reactive, toRef, ref, useSlots, computed } from "vue";
-import { sevueKey } from "@/injectionKeys";
+import { reactive, toRef, ref, useSlots, computed } from "vue";
 import HeightTransition from "../HeightTransition.vue";
 import useColor from "@/composables/useColor";
+import { useSevue } from "@/main";
 export interface Props {
   modelValue?: string;
   label?: string;
@@ -46,7 +46,7 @@ export interface Props {
   containerClass?: string;
 }
 
-const sevue = inject(sevueKey);
+const { iconPrefix } = useSevue()
 
 defineOptions({
   inheritAttrs: false,

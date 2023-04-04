@@ -1,7 +1,7 @@
 import type { App } from "vue";
 import type { SevueOptions, ArrayElement } from "../types";
 
-export const setOptions = (vue: App, options: SevueOptions) => {
+export const setOptions = (options: SevueOptions) => {
   const colors = options.colors || {};
   const dark = options.dark;
   setDark(dark);

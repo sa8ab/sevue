@@ -7,6 +7,6 @@ import "boxicons/css/boxicons.min.css";
 import router from "./router";
 
 const app = createApp(App);
-app.use(Sevue, {});
+app.use(Sevue);
 app.use(router)
 app.mount("#app");

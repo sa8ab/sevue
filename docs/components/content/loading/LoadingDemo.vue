@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { useLoading } from 'sevue'
 
-const loading = useLoading()
+const { loading } = useLoading()
 const loadingTarget = ref<HTMLElement | undefined>()
 
 const load = (target?: HTMLElement) => {
