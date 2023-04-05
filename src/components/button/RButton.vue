@@ -98,7 +98,7 @@ const isAnchorElement = computed(() => !!props.href);
 const renderComponent = computed(() => {
   if (props.tag) return props.tag
   // @ts-ignore
-  if (isRouterLink.value) return isNuxt ? props.defineNuxtLink({}) || defineNuxtLink({}) : 'router-link'
+  if (isRouterLink.value) return isNuxt ? props.defineNuxtLink?.({}) || defineNuxtLink({}) : 'router-link'
   if (isAnchorElement.value) return 'a'
   return 'button'
 });
