@@ -69,10 +69,9 @@ export interface Props {
   to?: string
   href?: string
   tag?: any
-  defineNuxtLink?: any
 }
 
-const { iconPrefix, isNuxt } = useSevue()
+const { iconPrefix, nuxtOptions } = useSevue()
 // interface LinkProps extends BaseProps {
 //   to?: string,
 //   href?: never
@@ -97,8 +96,7 @@ const isRouterLink = computed(() => !!props.to);
 const isAnchorElement = computed(() => !!props.href);
 const renderComponent = computed(() => {
   if (props.tag) return props.tag
-  // @ts-ignore
-  if (isRouterLink.value) return isNuxt ? props.defineNuxtLink?.({}) || defineNuxtLink({}) : 'router-link'
+  if (isRouterLink.value) return nuxtOptions.isNuxt && nuxtOptions.NuxtLink ? nuxtOptions.NuxtLink : 'router-link'
   if (isAnchorElement.value) return 'a'
   return 'button'
 });

@@ -29,7 +29,10 @@ const defaultOptions: SevueOptions = {
   iconPrefix: "bx",
   colors: {},
   dark: false,
-  isNuxt: false
+  nuxtOptions: {
+    isNuxt: false,
+    NuxtLink: undefined
+  }
 };
 
 export default {
@@ -65,7 +68,7 @@ export default {
 
     app.provide(sevueKey, {
       iconPrefix: options.iconPrefix as string,
-      isNuxt: !!options.isNuxt,
+      nuxtOptions: options.nuxtOptions!,
       setDark,
     });
     app.provide(notificationKey, notificationFactory(app));
