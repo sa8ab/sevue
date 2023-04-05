@@ -47,7 +47,9 @@ import Vue from "vue";
 import Sevue from "sevue";
 import "sevue/dist/sevue.css";
 
-Vue.use(Sevue);
+Vue.use(Sevue, {
+  isNuxt: true
+});
 ```
 
 Add the plugin in `plugins` section of `nuxt.config.js`

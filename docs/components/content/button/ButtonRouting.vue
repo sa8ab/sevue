@@ -4,9 +4,11 @@
     <RButton href="/">Anchor Tag</RButton>
   </div>
 </template>
+<script setup lang="ts">
+</script>
 
 <style scoped lang="scss">
-.items{
+.items {
   display: flex;
   gap: var(--space-1);
 }

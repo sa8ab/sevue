@@ -3,8 +3,14 @@
     :is="renderComponent"
     @keyup.tab="focused = true"
     @blur="focused = false"
-    :disabled="disabled" :to="to"
-    :href="href" :class="[
+    :disabled="disabled"
+    v-bind="
+      isRouterLink ? {
+        to
+      } : {
+        href
+      }"
+    :class="[
       'r-button',
       {
         flat,
@@ -43,7 +49,6 @@ dynamic icon slot & detect iconOnly
 import useColor from "@/composables/useColor";
 import { useSevue } from "@/main";
 import { useSlots, ref, computed, toRef } from "vue";
-import type { VueElement } from "vue";
 
 export interface Props {
   flat?: boolean
@@ -61,9 +66,10 @@ export interface Props {
   iconOnly?: boolean
   iconAfter?: boolean
   colorInherit?: boolean
-  to?: string,
-  href?: string,
-  tag?: VueElement | String
+  to?: string
+  href?: string
+  tag?: any
+  defineNuxtLink?: any
 }
 
 const { iconPrefix, isNuxt } = useSevue()
@@ -86,11 +92,13 @@ const slots = useSlots();
 
 const focused = ref(false);
 
+
 const isRouterLink = computed(() => !!props.to);
 const isAnchorElement = computed(() => !!props.href);
 const renderComponent = computed(() => {
   if (props.tag) return props.tag
-  if (isRouterLink.value) return isNuxt ? 'nuxt-link' : 'router-link'
+  // @ts-ignore
+  if (isRouterLink.value) return isNuxt ? props.defineNuxtLink({}) || defineNuxtLink({}) : 'router-link'
   if (isAnchorElement.value) return 'a'
   return 'button'
 });
