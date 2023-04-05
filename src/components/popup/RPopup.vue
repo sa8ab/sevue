@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
-    <transition name="r-popup">
-      <div class="r-popup" v-if="active">
+    <transition name="r-popup" v-bind="transitionProps">
+      <div class="r-popup" v-if="active" v-bind="$attrs">
         <div class="r-popup-underlay" @click="onClose"></div>
         <div :class="['r-popup-inner', { fullWidth }]">
           <div class="r-popup-header">
@@ -26,6 +26,7 @@ export interface Props {
   title?: string;
   noClose?: boolean;
   fullWidth?: boolean;
+  transitionProps?: Record<string, any>;
 }
 defineOptions({
   inheritAttrs: false,
@@ -53,6 +54,7 @@ const onClose = () => {
   align-items: center;
   padding: var(--r-space-2);
   z-index: 80;
+
   &-underlay {
     position: fixed;
     top: 0;
@@ -62,6 +64,7 @@ const onClose = () => {
     background: rgba(black, var(--popup-underlay-opacity));
     z-index: 2;
   }
+
   &-inner {
     position: relative;
     background: white;
@@ -75,10 +78,12 @@ const onClose = () => {
     z-index: 4;
     box-shadow: var(--shadow);
     background: color(b2);
+
     &.fullWidth {
       max-width: 1200px;
     }
   }
+
   &-header {
     display: flex;
     justify-content: space-between;
@@ -89,17 +94,20 @@ const onClose = () => {
     // box-shadow: $shadow2;
     border-bottom: 1px solid color(text, 0.1);
   }
+
   &-content {
     // height: 100%;
     flex: 1;
     overflow: auto;
     padding: var(--r-space-2);
   }
+
   &-enter-from,
   &-leave-to {
     opacity: 0;
     transform: scale(1.06);
   }
+
   &-enter-active,
   &-leave-active {
     transition: all calc(var(--r-duration) / 2);

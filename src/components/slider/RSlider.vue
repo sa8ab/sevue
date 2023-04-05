@@ -19,11 +19,11 @@
 
 <script setup lang="ts">
 import useColor from "@/composables/useColor";
-import { computed, onBeforeMount, provide, reactive, watch, ref, type StyleValue, toRef } from "vue";
+import { computed, provide, reactive, watch, ref, type StyleValue, toRef } from "vue";
 import Dot from "./RSliderDot.vue";
 import RSliderTick from "./RSliderTick.vue";
 export interface Props {
-  modelValue: number | Array<number>;
+  modelValue: number | [number, number];
   min?: number;
   max?: number;
   step?: number;
