@@ -7,6 +7,7 @@ export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never
 export type Sevue = {
   iconPrefix: string;
   setDark: (dark: boolean) => void;
+  isNuxt: boolean
 };
 
 export type Colors = {
@@ -21,6 +22,7 @@ export interface SevueOptions {
   iconPrefix?: string;
   colors?: Colors;
   dark?: boolean;
+  isNuxt?: boolean;
 }
 
 type NotificationPlacement =

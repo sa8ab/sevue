@@ -43,6 +43,7 @@ dynamic icon slot & detect iconOnly
 import useColor from "@/composables/useColor";
 import { useSevue } from "@/main";
 import { useSlots, ref, computed, toRef } from "vue";
+import type { VueElement } from "vue";
 
 export interface Props {
   flat?: boolean
@@ -61,10 +62,11 @@ export interface Props {
   iconAfter?: boolean
   colorInherit?: boolean
   to?: string,
-  href?: string
+  href?: string,
+  tag?: VueElement | String
 }
 
-const { iconPrefix } = useSevue()
+const { iconPrefix, isNuxt } = useSevue()
 // interface LinkProps extends BaseProps {
 //   to?: string,
 //   href?: never
@@ -87,10 +89,12 @@ const focused = ref(false);
 const isRouterLink = computed(() => !!props.to);
 const isAnchorElement = computed(() => !!props.href);
 const renderComponent = computed(() => {
-  if (isRouterLink.value) return 'router-link'
+  if (props.tag) return props.tag
+  if (isRouterLink.value) return isNuxt ? 'nuxt-link' : 'router-link'
   if (isAnchorElement.value) return 'a'
   return 'button'
 });
+
 const noPadding = computed(() => slots.icon && props.iconOnly);
 </script>
 
@@ -99,7 +103,6 @@ button {
   border: none;
   color: inherit;
   font-size: 1rem;
-  cursor: pointer;
   font-family: inherit;
 }
 
@@ -111,6 +114,7 @@ button {
   transition: all 0.3s;
   display: inline-block;
   user-select: none;
+  cursor: pointer;
 
   &:hover {
     background: color(color, var(--hover-alpha));

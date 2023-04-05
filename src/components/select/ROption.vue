@@ -68,7 +68,7 @@ const isActive = computed(() => {
   padding: 0;
 
   .padding {
-    padding: $bp;
+    padding: var(--r-normal-padding);
   }
 
   &:hover {
@@ -81,7 +81,7 @@ const isActive = computed(() => {
 
   &.focused {
     background: color(hover, var(--hover-alpha));
-    outline: 1px dashed color();
+    box-shadow: 0 0 0 1px color();
   }
 
   &.disabled {

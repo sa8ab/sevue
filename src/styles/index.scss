@@ -9,20 +9,13 @@
 }
 
 .r {
-  padding: $bp;
   border-radius: var(--r-radius);
   cursor: pointer;
   user-select: none;
-  transition: all $duration;
+  transition: all var(--r-duration);
   &:hover {
     background: color(hover, var(--hover-alpha));
   }
-}
-.delete {
-  color: color(red) !important;
-}
-.red {
-  color: color(red) !important;
 }
 
 *[class*="r-"] {

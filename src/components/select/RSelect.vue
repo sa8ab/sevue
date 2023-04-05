@@ -369,8 +369,8 @@ defineExpose({
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     transition: transform var(--r-duration);
 
     svg {
@@ -384,7 +384,7 @@ defineExpose({
   }
 
   .loading-container {
-    width: 28px;
+    width: 32px;
     padding: 0 var(--r-space-1);
   }
 
@@ -414,15 +414,16 @@ defineExpose({
   .noInput {
     cursor: pointer;
   }
-
-  .noOptions {
-    padding: var(--r-space-2);
-  }
 }
 
 .r-select-dropdown-container {
   position: absolute;
   z-index: 100;
+
+  .noOptions {
+    padding: var(--r-normal-padding);
+    text-align: center;
+  }
 }
 
 .r-select-dropdown {

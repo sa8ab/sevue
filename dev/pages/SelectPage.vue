@@ -19,6 +19,7 @@
       </RSelect>
       <RButton @click="items = []">Empty list</RButton>
       <RButton @click="items = items.filter((_, index) => index !== 3)">Remove some item</RButton>
+      <RButton @click="loading = !loading">toggle loading</RButton>
     </div>
   </div>
 </template>
