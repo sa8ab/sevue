@@ -50,7 +50,6 @@ type State = {
   moverWidth: string
   moverLeft: string
   children: VNode[]
-  isInit: boolean
 }
 type Tab = {
   title: string,
@@ -71,7 +70,6 @@ const state = reactive<State>({
   moverWidth: '0',
   moverLeft: '0',
   children: [],
-  isInit: true,
 });
 const tabBarItems = ref<HTMLElement[]>([]);
 const tabbar = ref();
@@ -79,14 +77,12 @@ const tabbar = ref();
 const { default: defaultSlot } = useSlots();
 
 onMounted(() => {
-  state.children = defaultSlot!();
-  nextTick(() => {
-    setActiveTab(tabs.value[props.initialActiveTab ?? 0]?.title);
-  });
+  setActiveTab(tabs.value[props.initialActiveTab ?? 0]?.title);
 });
 watch(
   () => defaultSlot!(),
-  (defSlot) => (state.children = defSlot)
+  (defSlot) => (state.children = defSlot),
+  { immediate: true }
 );
 const tabs = computed<Tab[]>(() => state.children.map(({ props }) => <Tab>props));
 
@@ -96,13 +92,7 @@ const setActiveTab = (tab: string) => {
 
   if (oldTabIndex < newTabIndex) state.direction = 'forward';
   else state.direction = 'backward';
-  setTimeout(
-    () => {
-      setMoverStyle({ index: newTabIndex });
-      state.isInit = false;
-    },
-    state.isInit ? 200 : 0
-  );
+  setMoverStyle({ index: newTabIndex });
   nextTick(() => {
     state.activeTab = tab;
     emit("tabChange", { title: tab, index: newTabIndex });
@@ -110,7 +100,7 @@ const setActiveTab = (tab: string) => {
 };
 
 const setMoverStyle = ({ index }: { index: number }) => {
-  const { width } = tabBarItems.value[index].getBoundingClientRect();
+  const { width } = tabBarItems.value[index]?.getBoundingClientRect();
   const newTabBarItemOffset = tabBarItems.value[index].offsetLeft;
   state.moverWidth = `${width}px`;
   state.moverLeft = `${newTabBarItemOffset}px`;
@@ -130,7 +120,11 @@ const setHeight = (height: number | string) => {
 provide('tab', {
   setHeight,
   activeTab: toRef(state, 'activeTab'),
-  direction: toRef(state, 'direction')
+  direction: toRef(state, 'direction'),
+})
+
+defineExpose({
+  setActiveTab,
 })
 // provide() {
 //   return {
