@@ -89,7 +89,14 @@ export default {
 };
 
 // composables
-export { useNotification, useLoading, useSevue, useTimer, notificationFactory };
+export {
+  useNotification,
+  useLoading,
+  useSevue,
+  useTimer,
+  notificationFactory,
+  loadingFactory,
+};
 
 export {
   RButton,
