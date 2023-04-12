@@ -154,22 +154,22 @@ declare module "vue" {
 }
 declare module "@vue/runtime-core" {
   export interface GlobalComponents {
-    HeightTransition: typeof import("./../src/components/HeightTransition.vue")["default"];
-    Notification: typeof import("./../src/components/notification/Notification.vue")["default"];
-    NotificationContainer: typeof import("./../src/components/notification/NotificationContainer.vue")["default"];
-    RButton: typeof import("./../src/components/button/RButton.vue")["default"];
-    RCheckbox: typeof import("./../src/components/checkbox/RCheckbox.vue")["default"];
-    RInput: typeof import("./../src/components/input/RInput.vue")["default"];
-    RLoading: typeof import("./../src/components/loading/RLoading.vue")["default"];
-    ROption: typeof import("./../src/components/select/ROption.vue")["default"];
-    RPagination: typeof import("./../src/components/pagination/RPagination.vue")["default"];
-    RPopup: typeof import("./../src/components/popup/RPopup.vue")["default"];
-    RSelect: typeof import("./../src/components/select/RSelect.vue")["default"];
-    RSelectGroup: typeof import("./../src/components/select/RSelectGroup.vue")["default"];
-    RSlider: typeof import("./../src/components/slider/RSlider.vue")["default"];
-    RSliderDot: typeof import("./../src/components/slider/RSliderDot.vue")["default"];
-    RSliderTick: typeof import("./../src/components/slider/RSliderTick.vue")["default"];
-    RTab: typeof import("./../src/components/tabs/RTab.vue")["default"];
-    RTabItem: typeof import("./../src/components/tabs/RTabItem.vue")["default"];
+    HeightTransition: typeof import("./components/HeightTransition.vue")["default"];
+    Notification: typeof import("./components/notification/Notification.vue")["default"];
+    NotificationContainer: typeof import("./components/notification/NotificationContainer.vue")["default"];
+    RButton: typeof import("./components/button/RButton.vue")["default"];
+    RCheckbox: typeof import("./components/checkbox/RCheckbox.vue")["default"];
+    RInput: typeof import("./components/input/RInput.vue")["default"];
+    RLoading: typeof import("./components/loading/RLoading.vue")["default"];
+    ROption: typeof import("./components/select/ROption.vue")["default"];
+    RPagination: typeof import("./components/pagination/RPagination.vue")["default"];
+    RPopup: typeof import("./components/popup/RPopup.vue")["default"];
+    RSelect: typeof import("./components/select/RSelect.vue")["default"];
+    RSelectGroup: typeof import("./components/select/RSelectGroup.vue")["default"];
+    RSlider: typeof import("./components/slider/RSlider.vue")["default"];
+    RSliderDot: typeof import("./components/slider/RSliderDot.vue")["default"];
+    RSliderTick: typeof import("./components/slider/RSliderTick.vue")["default"];
+    RTab: typeof import("./components/tabs/RTab.vue")["default"];
+    RTabItem: typeof import("./components/tabs/RTabItem.vue")["default"];
   }
 }

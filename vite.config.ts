@@ -3,10 +3,10 @@ import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 // @ts-ignore
 import DefineOptions from "unplugin-vue-define-options/vite";
-import Components from 'unplugin-vue-components/vite'
+import Components from "unplugin-vue-components/vite";
 import vue from "@vitejs/plugin-vue";
 import dts from "vite-plugin-dts";
-import ViteSVGLoader from 'vite-svg-loader'
+import ViteSVGLoader from "vite-svg-loader";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,16 +14,16 @@ export default defineConfig({
     vue(),
     DefineOptions(),
     ViteSVGLoader({
-      defaultImport: "component"
+      defaultImport: "component",
     }),
     {
       ...Components({
-        dts: './dist/components.d.ts',
+        dts: true,
         resolvers: [
           (componentName) => {
-            return { name: componentName, from: './src/components' }
-          }
-        ]
+            return { name: componentName, from: "./src/components" };
+          },
+        ],
       }),
       name: "build-only",
       apply: "build",
@@ -31,8 +31,8 @@ export default defineConfig({
     {
       ...dts({
         skipDiagnostics: false,
-        entryRoot: './src',
-        copyDtsFiles: true
+        entryRoot: "./src",
+        copyDtsFiles: true,
       }),
       name: "build-only",
       apply: "build",
@@ -65,6 +65,6 @@ export default defineConfig({
     },
   },
   server: {
-    port: 4000
-  }
+    port: 4000,
+  },
 });

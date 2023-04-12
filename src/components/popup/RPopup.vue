@@ -6,7 +6,7 @@
         <div :class="['r-popup-inner', { fullWidth }]">
           <div class="r-popup-header">
             <div class="r-popup-title">{{ title }}</div>
-            <RButton @click="onClose" textStyle iconOnly iconLarge v-if="!noClose">
+            <RButton @click="onClose" textStyle iconOnly v-if="!noClose">
               <i class="bx bx-x"></i>
             </RButton>
           </div>
