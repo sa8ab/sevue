@@ -1,15 +1,20 @@
 <template>
   <div
-    :class="['r-pagination notRTL', { bordered, disabled, compact, activeShadow }]"
+    :class="[
+      'r-pagination notRTL',
+      { bordered, disabled, compact, activeShadow },
+    ]"
     :style="{
       '--r-color': color || 'var(--r-prm)',
       '--r-active-text-color': activeTextColor,
-    }">
+    }"
+  >
     <RButton
       class="r-pagination-item r-pagination-navigation prev"
       @click="decrease"
       v-bind="buttonProps"
-      v-if="!noNavigation">
+      v-if="!noNavigation"
+    >
       <slot name="prev">
         <SevueIcon name="chevron-left" />
       </slot>
@@ -21,7 +26,8 @@
           :key="i"
           @click="setValue(item as number)"
           v-bind="buttonProps"
-          v-if="item !== 'blank'">
+          v-if="item !== 'blank'"
+        >
           {{ item }}
         </RButton>
         <RButton
@@ -29,7 +35,8 @@
           iconOnly
           v-bind="buttonProps"
           class="r-pagination-item r-pagination-item-blank"
-          v-else>
+          v-else
+        >
           ...
         </RButton>
       </template>
@@ -38,7 +45,8 @@
       class="r-pagination-item r-pagination-navigation next"
       @click="increase"
       v-bind="buttonProps"
-      v-if="!noNavigation">
+      v-if="!noNavigation"
+    >
       <slot name="next">
         <SevueIcon name="chevron-right" />
       </slot>
@@ -65,7 +73,7 @@
 import RButton from "../button/RButton.vue";
 import { computed, watch, toRef } from "vue";
 import useColor from "@/composables/useColor";
-import SevueIcon from '@/components/icons/SevueIcon.vue'
+import SevueIcon from "@/components/icons/SevueIcon.vue";
 export interface Props {
   color?: string;
   activeTextColor?: string;
@@ -81,23 +89,20 @@ export interface Props {
   activeShadow?: boolean;
   [x: string | number | symbol]: any;
 }
-const props = withDefaults(
-  defineProps<Props>(),
-  {
-    activeTextColor: "#fff",
-    sideRange: 2,
-    mainRange: 1,
-    modelValue: 1,
-    buttonProps: { textStyle: true, flat: true },
-    disabled: false,
-    noNavigation: false,
-    compact: false,
-    activeShadow: true,
-  }
-);
+const props = withDefaults(defineProps<Props>(), {
+  activeTextColor: "#fff",
+  sideRange: 2,
+  mainRange: 1,
+  modelValue: 1,
+  buttonProps: { textStyle: true, flat: true },
+  disabled: false,
+  noNavigation: false,
+  compact: false,
+  activeShadow: true,
+});
 const emit = defineEmits(["update:modelValue"]);
-const color = useColor(toRef(props, 'color'))
-const activeTextColor = useColor(toRef(props, 'activeTextColor'))
+const color = useColor(toRef(props, "color"));
+const activeTextColor = useColor(toRef(props, "activeTextColor"));
 
 const setValue = (val: number) => {
   emit("update:modelValue", val);
@@ -113,7 +118,9 @@ const increase = () => {
 };
 
 const items = computed(() => {
-  const initialItems: Array<string | number> = [...Array(props.count).keys()].map((x) => x + 1);
+  const initialItems: Array<string | number> = [
+    ...Array(props.count).keys(),
+  ].map((x) => x + 1);
   const toReturn = initialItems.filter((item) => {
     let isRemovedFromLeft;
     let isRemovedFromRight;
@@ -137,7 +144,7 @@ const items = computed(() => {
   if (shouldCreateSpaceOnRight.value) {
     toReturn.splice(toReturn.length - props.sideRange, 0, "blank");
   }
-  initialItems.forEach(() => { });
+  initialItems.forEach(() => {});
   return toReturn;
 });
 
@@ -156,14 +163,14 @@ const shouldCreateSpaceOnRight = computed(() => {
   return props.modelValue + props.mainRange < props.count - props.sideRange - 1;
 });
 
-watch(
-  () => props.modelValue,
-  (val) => {
-    if (val > props.count) {
-      emit("update:modelValue", props.count);
-    }
-  }
-);
+// watch(
+//   () => props.modelValue,
+//   (val) => {
+//     if (val > props.count) {
+//       emit("update:modelValue", props.count);
+//     }
+//   }
+// );
 watch(
   () => props.count,
   (c) => {
