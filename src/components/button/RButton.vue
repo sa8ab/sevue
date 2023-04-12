@@ -73,7 +73,7 @@ export interface Props {
   iconOnly?: boolean;
   iconAfter?: boolean;
   colorInherit?: boolean;
-  to?: string;
+  to?: any;
   href?: string;
   tag?: any;
   [x: string | number | symbol]: any;
