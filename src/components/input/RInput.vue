@@ -54,6 +54,7 @@ export interface Props {
   disabled?: boolean;
   error?: boolean;
   containerClass?: string;
+  [x: string | number | symbol]: any;
 }
 
 const { iconPrefix } = useSevue();

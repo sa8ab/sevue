@@ -41,6 +41,7 @@ export interface Props {
   moverFull?: boolean;
   color?: string;
   initialActiveTab?: number
+  [x: string | number | symbol]: any;
 }
 
 type State = {

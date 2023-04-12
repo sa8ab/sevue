@@ -6,17 +6,18 @@
 </template>
 
 <script lang="ts" setup>
-import { rSelectKey } from '@/injectionKeys';
+import { rSelectKey } from "@/injectionKeys";
 import { computed, inject } from "vue";
 const select = inject(rSelectKey);
 defineOptions({
   isSelectGroup: true,
 });
 defineProps<{
-  title?: string
-}>()
+  title?: string;
+  [x: string | number | symbol]: any;
+}>();
 
-const visible = computed(() => select?.search)
+const visible = computed(() => select?.search);
 </script>
 
 <style lang="scss">

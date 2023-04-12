@@ -19,6 +19,7 @@ const props = defineProps<{
   title: string;
   icon?: string;
   disabled?: boolean;
+  [x: string | number | symbol]: any;
 }>();
 
 const enter = (el: HTMLElement) => {

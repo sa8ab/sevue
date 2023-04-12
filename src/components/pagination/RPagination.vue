@@ -79,6 +79,7 @@ export interface Props {
   noNavigation?: boolean;
   compact?: boolean;
   activeShadow?: boolean;
+  [x: string | number | symbol]: any;
 }
 const props = withDefaults(
   defineProps<Props>(),

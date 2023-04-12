@@ -27,6 +27,7 @@ export interface Props {
   noClose?: boolean;
   fullWidth?: boolean;
   transitionProps?: Record<string, any>;
+  [x: string | number | symbol]: any;
 }
 defineOptions({
   inheritAttrs: false,

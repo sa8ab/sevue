@@ -1,14 +1,19 @@
 <template>
   <label
     :class="['r-cb', containerClass, { isChecked }]"
-    :style="{ '--r-color': color || 'var(--r-prm)', '--r-text-color': iconColor || 'var(--r-text)' }">
+    :style="{
+      '--r-color': color || 'var(--r-prm)',
+      '--r-text-color': iconColor || 'var(--r-text)',
+    }"
+  >
     <input
       type="checkbox"
       :value="value"
       v-model="model"
       :trueValue="trueValue"
       :falseValue="falseValue"
-      v-bind="$attrs" />
+      v-bind="$attrs"
+    />
     <div class="check-container">
       <SevueIcon name="check" class="icon" />
       <div class="background"></div>
@@ -19,7 +24,7 @@
 
 <script setup lang="ts">
 import { computed, toRef } from "vue";
-import SevueIcon from '@/components/icons/SevueIcon.vue'
+import SevueIcon from "@/components/icons/SevueIcon.vue";
 import useColor from "@/composables/useColor";
 
 export interface Props {
@@ -29,25 +34,23 @@ export interface Props {
   iconColor?: string;
   trueValue?: any;
   falseValue?: any;
-  containerClass?: string
+  containerClass?: string;
+  [x: string | number | symbol]: any;
 }
 
 defineOptions({
-  inheritAttrs: false
-})
+  inheritAttrs: false,
+});
 
-const props = withDefaults(
-  defineProps<Props>(),
-  {
-    trueValue: true,
-    falseValue: false,
-    iconColor: "#fff",
-  }
-);
+const props = withDefaults(defineProps<Props>(), {
+  trueValue: true,
+  falseValue: false,
+  iconColor: "#fff",
+});
 const emit = defineEmits(["update:modelValue"]);
 
-const color = useColor(toRef(props, 'color'))
-const iconColor = useColor(toRef(props, 'iconColor'))
+const color = useColor(toRef(props, "color"));
+const iconColor = useColor(toRef(props, "iconColor"));
 // const onInput = (e: Event) => {
 //   emit("update:modelValue", (<HTMLInputElement>e.target).value);
 // };

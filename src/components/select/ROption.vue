@@ -1,6 +1,12 @@
 <template>
-  <div :class="['r-option r', { active: isActive, focused, disabled }]" @click="onSelectValue" v-if="visible" v-ripple
-    tabindex="-1" :style="{ '--r-color': color || 'var(--r-prm)' }">
+  <div
+    :class="['r-option r', { active: isActive, focused, disabled }]"
+    @click="onSelectValue"
+    v-if="visible"
+    v-ripple
+    tabindex="-1"
+    :style="{ '--r-color': color || 'var(--r-prm)' }"
+  >
     <div class="padding">
       <slot> {{ text }}</slot>
     </div>
@@ -14,26 +20,26 @@ import { isArray } from "@vue/shared";
 import useColor from "@/composables/useColor";
 import type { SelectInject } from "@/types";
 export interface Props {
-  text?: string
-  value: number | string
-  disabled?: boolean
-  color?: string
-  context?: Record<string, any>
+  text?: string;
+  value: number | string;
+  disabled?: boolean;
+  color?: string;
+  context?: Record<string, any>;
+  [x: string | number | symbol]: any;
 }
 
-const props = withDefaults(
-  defineProps<Props>(),
-  {
-    text: '',
-    value: 0,
-    disabled: false,
-  }
-)
+const props = withDefaults(defineProps<Props>(), {
+  text: "",
+  value: 0,
+  disabled: false,
+});
 defineOptions({
   isOption: true,
 });
 const select = inject(rSelectKey) as SelectInject;
-const color = useColor(props.color ? toRef(props, 'color') : toRef(select!, 'color'))
+const color = useColor(
+  props.color ? toRef(props, "color") : toRef(select!, "color")
+);
 const onSelectValue = () => {
   select.onSelectValue({
     event: props.value,
@@ -41,7 +47,9 @@ const onSelectValue = () => {
   });
 };
 const visible = computed(() => {
-  return !!select.customSearch ? true : props.text.toLowerCase().includes(select.search.value.toLowerCase());
+  return !!select.customSearch
+    ? true
+    : props.text.toLowerCase().includes(select.search.value.toLowerCase());
 });
 const focused = computed(() => {
   if (select!.focusedItemValue.value) {

@@ -33,6 +33,7 @@ export interface Props {
   color?: string;
   ticks?: boolean;
   tickLabels?: boolean;
+  [x: string | number | symbol]: any;
 }
 const props = withDefaults(
   defineProps<Props>(),

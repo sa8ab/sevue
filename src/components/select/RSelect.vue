@@ -84,6 +84,7 @@ export type Props = {
   loading?: boolean
   renderPlaceholder?: (parameter: Option | Option[]) => string,
   customSearch?: (parameter: string) => void
+  [x: string | number | symbol]: any;
 }
 
 type State = {
