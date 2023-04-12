@@ -5,11 +5,14 @@
     @blur="focused = false"
     :disabled="disabled"
     v-bind="
-      isRouterLink ? {
-        to
-      } : {
-        href
-      }"
+      isRouterLink
+        ? {
+            to,
+          }
+        : {
+            href,
+          }
+    "
     :class="[
       'r-button',
       {
@@ -29,8 +32,12 @@
         colorInherit,
       },
     ]"
-    :style="{ '--r-color': color || 'var(--r-prm)', '--r-text-color': textColor || 'var(--r-text)' }"
-    v-ripple>
+    :style="{
+      '--r-color': color || 'var(--r-prm)',
+      '--r-text-color': textColor || 'var(--r-text)',
+    }"
+    v-ripple
+  >
     <div class="inner">
       <slot name="icon">
         <i :class="['icon', iconPrefix, icon]" v-if="icon"></i>
@@ -48,30 +55,30 @@ dynamic icon slot & detect iconOnly
 */
 import useColor from "@/composables/useColor";
 import { useSevue } from "@/main";
-import { useSlots, ref, computed, toRef } from "vue";
+import { useSlots, ref, computed, toRef, h } from "vue";
 
 export interface Props {
-  flat?: boolean
-  bordered?: boolean
-  fill?: boolean
-  link?: boolean // FIXME:
-  cancel?: boolean
-  color?: string,
+  flat?: boolean;
+  bordered?: boolean;
+  fill?: boolean;
+  link?: boolean; // FIXME:
+  cancel?: boolean;
+  color?: string;
   // TEXTCOLOR ONLY WORKS IN FILL STYLE
-  textColor?: string
-  textStyle?: boolean
-  round?: boolean
-  disabled?: boolean
-  icon?: string
-  iconOnly?: boolean
-  iconAfter?: boolean
-  colorInherit?: boolean
-  to?: string
-  href?: string
-  tag?: any
+  textColor?: string;
+  textStyle?: boolean;
+  round?: boolean;
+  disabled?: boolean;
+  icon?: string;
+  iconOnly?: boolean;
+  iconAfter?: boolean;
+  colorInherit?: boolean;
+  to?: string;
+  href?: string;
+  tag?: any;
 }
 
-const { iconPrefix, nuxtOptions } = useSevue()
+const { iconPrefix, nuxtOptions } = useSevue();
 // interface LinkProps extends BaseProps {
 //   to?: string,
 //   href?: never
@@ -81,24 +88,26 @@ const { iconPrefix, nuxtOptions } = useSevue()
 //   href?: string
 // }
 // type Props = LinkProps | AnchorProps
-const props = withDefaults(
-  defineProps<Props>(),
-  {}
-)
-const color = useColor(toRef(props, 'color'))
-const textColor = useColor(toRef(props, 'textColor'))
+const props = withDefaults(defineProps<Props>(), {});
+const color = useColor(toRef(props, "color"));
+const textColor = useColor(toRef(props, "textColor"));
 const slots = useSlots();
 
 const focused = ref(false);
 
-
 const isRouterLink = computed(() => !!props.to);
 const isAnchorElement = computed(() => !!props.href);
 const renderComponent = computed(() => {
-  if (props.tag) return props.tag
-  if (isRouterLink.value) return nuxtOptions.isNuxt && nuxtOptions.NuxtLink ? nuxtOptions.NuxtLink : 'router-link'
-  if (isAnchorElement.value) return 'a'
-  return 'button'
+  if (props.tag) return props.tag;
+  if (isRouterLink.value) {
+    if (nuxtOptions.isNuxt && nuxtOptions.NuxtLink) {
+      return nuxtOptions.NuxtLink;
+    } else {
+      return "router-link";
+    }
+  }
+  if (isAnchorElement.value) return "a";
+  return "button";
 });
 
 const noPadding = computed(() => slots.icon && props.iconOnly);

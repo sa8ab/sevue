@@ -1,10 +1,12 @@
 <template>
-  <div :class="[
-    'r-input',
-    containerClass,
-    { focused: state.focused, disabled, iconAfter, sharp, error, hasIcon },
-  ]"
-    :style="{ '--r-color': color || 'var(--r-prm)' }">
+  <div
+    :class="[
+      'r-input',
+      containerClass,
+      { focused: state.focused, disabled, iconAfter, sharp, error, hasIcon },
+    ]"
+    :style="{ '--r-color': color || 'var(--r-prm)' }"
+  >
     <span class="label" v-if="label">{{ label }}</span>
     <div class="input-container" ref="inputContainerRef">
       <label class="label-element" @click="labelClick">
@@ -13,8 +15,16 @@
             <i v-if="icon" :class="['icon', iconPrefix, icon]"></i>
           </slot>
         </div>
-        <input :placeholder="placeholder" :value="modelValue" :disabled="disabled" v-bind="$attrs"
-          @focus="state.focused = true" @blur="state.focused = false" @input="onInput" ref="inputRef" />
+        <input
+          :placeholder="placeholder"
+          :value="modelValue"
+          :disabled="disabled"
+          v-bind="$attrs"
+          @focus="state.focused = true"
+          @blur="state.focused = false"
+          @input="onInput"
+          ref="inputRef"
+        />
       </label>
       <slot name="after"></slot>
     </div>
@@ -46,12 +56,11 @@ export interface Props {
   containerClass?: string;
 }
 
-const { iconPrefix } = useSevue()
+const { iconPrefix } = useSevue();
 
 defineOptions({
   inheritAttrs: false,
 });
-
 
 const props = defineProps<Props>();
 const emit = defineEmits(["update:modelValue", "labelClick", "iconClick"]);
@@ -166,7 +175,6 @@ defineExpose({
   }
 
   &.focused {
-
     .icon-container,
     .label {
       color: color();
@@ -192,7 +200,8 @@ defineExpose({
   &.error {
     --r-color: var(--r-red) !important;
     --border: 0 0 0 var(--r-border-width) rgba(var(--r-red), 1);
-    --border-active: 0 0 0 var(--r-border-width) rgba(var(--r-red), var(--border-active-alpha));
+    --border-active: 0 0 0 var(--r-border-width)
+      rgba(var(--r-red), var(--border-active-alpha));
 
     .label {
       color: color(red);
