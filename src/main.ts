@@ -88,17 +88,22 @@ export default {
   },
 };
 
-// components & composables
+// composables
+export { useNotification, useLoading, useSevue, useTimer, notificationFactory };
+
 export {
   RButton,
+  RCheckbox,
+  RInput,
+  ROption,
+  RPagination,
+  RPopup,
   RSelect,
-  useNotification,
-  useLoading,
-  useSevue,
-  useTimer,
-  notificationFactory,
-  loadingFactory,
-};
+  RSelectGroup,
+  RSlider,
+  RTab,
+  RTabItem,
+} from "./components";
 
 // inject keys
 export { notificationKey, sevueKey, loadingKey };
