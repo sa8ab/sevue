@@ -5,14 +5,14 @@
         v-model="customSelected"
         placeholder="Items"
         multiple
-        :items="filteredItems"
         searchable
         :customSearch="customSearch"
         :loading="loading"
+        :items="filteredItems"
         keepOpenAfterSelection
       >
-        <template #default="{ optimizedItems }">
-          <ROption v-for="item in optimizedItems" :value="item.value" :text="item.text"> </ROption>
+        <template #default="slotProps">
+          <ROption v-for="item in slotProps.optimizedItems" :value="item.value" :text="item.text"> </ROption>
         </template>
       </RSelect>
       <RButton @click="items = []">Empty list</RButton>
@@ -32,7 +32,7 @@ const searchTerm = ref("");
 const loading = ref(false);
 
 const items = ref(
-  Array.from({ length: 1000 }, (_, i) => {
+  Array.from({ length: 100 }, (_, i) => {
     return {
       text: `parent ${i}`,
       value: i,

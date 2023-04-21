@@ -1,10 +1,6 @@
 <template>
   <div
-    :class="[
-      'r-input',
-      containerClass,
-      { focused: state.focused, disabled, iconAfter, sharp, error, hasIcon },
-    ]"
+    :class="['r-input', containerClass, { focused: state.focused, disabled, iconAfter, sharp, error, hasIcon }]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
   >
     <span class="label" v-if="label">{{ label }}</span>
@@ -43,7 +39,7 @@ import HeightTransition from "../HeightTransition.vue";
 import useColor from "@/composables/useColor";
 import { useSevue } from "@/main";
 export interface Props {
-  modelValue?: string | number | null;
+  modelValue?: string | number;
   label?: string;
   icon?: string;
   placeholder?: string;
@@ -201,8 +197,7 @@ defineExpose({
   &.error {
     --r-color: var(--r-red) !important;
     --border: 0 0 0 var(--r-border-width) rgba(var(--r-red), 1);
-    --border-active: 0 0 0 var(--r-border-width)
-      rgba(var(--r-red), var(--border-active-alpha));
+    --border-active: 0 0 0 var(--r-border-width) rgba(var(--r-red), var(--border-active-alpha));
 
     .label {
       color: color(red);

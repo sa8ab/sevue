@@ -65,7 +65,6 @@ import SevueIcon from "@/components/icons/SevueIcon.vue";
 import type { Picked } from "@/types";
 import type { Props as Option } from "./ROption.vue";
 
-type Item = Option;
 export type Props = {
   searchable?: boolean;
   multiple?: boolean;
@@ -87,7 +86,7 @@ export type Props = {
   perPage?: number;
   renderPlaceholder?: (parameter: Option | Option[]) => string;
   customSearch?: (parameter: string) => void;
-  itemExtractor?: (arg0: any) => Item;
+  itemExtractor?: (arg0: any) => Option;
 };
 
 type State = {
