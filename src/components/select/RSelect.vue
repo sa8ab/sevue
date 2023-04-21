@@ -244,9 +244,9 @@ const setChildren = (defSlot: VNode[]) => {
 };
 
 const setOptionsFromItems = (items: Array<any> = []) => {
-  let tempOptions: Array<Option & { group: any }> = [];
+  let tempOptions: Array<Option & { R_SELECT_GROUP: any }> = [];
 
-  const checkItem = (innerItems: Array<any>, group?: any) => {
+  const checkItem = (innerItems: Array<any>, R_SELECT_GROUP?: any) => {
     innerItems.forEach((item) => {
       if (item[props.itemsKey]) {
         // has nested items
@@ -254,7 +254,7 @@ const setOptionsFromItems = (items: Array<any> = []) => {
         checkItem(nestedItems, parent);
         return;
       } else {
-        tempOptions.push({ ...((props.itemExtractor?.(item) ?? item) as Option), group });
+        tempOptions.push({ ...((props.itemExtractor?.(item) ?? item) as Option), R_SELECT_GROUP });
       }
     });
   };
@@ -401,7 +401,7 @@ const onDropdownScroll = (e: Event) => {
   if (shouldLoadNewItems) state.page++;
 };
 
-const groupByParent = (items: Array<Option & { group?: any }>) => {
+const groupByParent = (items: Array<Option & { R_SELECT_GROUP?: any }>) => {
   const itemsKey = props.itemsKey;
   const groupIdentifier = props.groupIdentifier;
   // TODO: typings based on user given generic type
@@ -410,11 +410,11 @@ const groupByParent = (items: Array<Option & { group?: any }>) => {
   } = {};
 
   items.forEach((item) => {
-    const { group, ...rest } = item;
-    const { [groupIdentifier]: indentifierValue } = group;
+    const { R_SELECT_GROUP, ...rest } = item;
+    const { [groupIdentifier]: indentifierValue } = R_SELECT_GROUP;
 
     if (!groups[indentifierValue]) {
-      groups[indentifierValue] = { ...group, [itemsKey]: [] };
+      groups[indentifierValue] = { ...R_SELECT_GROUP, [itemsKey]: [] };
     }
     groups[indentifierValue][itemsKey].push(rest);
   });
@@ -427,7 +427,7 @@ const optimizedItems = computed(() => {
     return i < state.page * props.perPage;
   });
 
-  if (!(rawList[0] as Option & { group?: any })?.group) return rawList;
+  if (!(rawList[0] as Option & { R_SELECT_GROUP?: any })?.R_SELECT_GROUP) return rawList;
   else return groupByParent(rawList);
 });
 
