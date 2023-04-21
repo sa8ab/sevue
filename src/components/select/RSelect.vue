@@ -20,7 +20,8 @@
         @keydown.arrow-up.stop.prevent="onArrowUp"
         @keydown.enter.stop.prevent="onEnter"
         @input="onInputChange"
-        v-bind="inputProps">
+        v-bind="inputProps"
+      >
         <template #after>
           <div class="loading-container" v-if="loading">
             <LoadingSpinner width="24" />
@@ -30,11 +31,7 @@
           </span>
         </template>
       </RInput>
-      <SelectedItems
-        :items="state.selectedItems"
-        v-if="Array.isArray(state.selectedItems)"
-        @itemClick="onSelectedItemClick">
-
+      <SelectedItems :items="state.selectedItems" v-if="Array.isArray(state.selectedItems)" @itemClick="onSelectedItemClick">
         <template #default="item">
           <slot name="selectedItem" v-bind="item"></slot>
         </template>
@@ -43,11 +40,11 @@
     <Teleport to="body">
       <Transition name="fade-move" @after-leave="onAfterLeave">
         <div v-if="state.active" class="r-select-dropdown-container" ref="dropdown">
-          <div class="r-select-dropdown">
+          <div class="r-select-dropdown" @scroll="onDropdownScroll">
             <div class="noOptions" v-if="noOptions">
               <slot name="noItems" class="noOptions"> No Options Available </slot>
             </div>
-            <slot />
+            <slot :optimizedItems="optimizedItems" />
           </div>
         </div>
       </Transition>
@@ -58,59 +55,67 @@
 <script setup lang="ts">
 import { createPopper, type Instance, type Modifier } from "@popperjs/core";
 import { isArray } from "@vue/shared";
-import { rSelectKey } from '@/injectionKeys'
+import { rSelectKey } from "@/injectionKeys";
 import { nextTick, computed, onBeforeUnmount, onMounted, provide, reactive, ref, toRef, useSlots, watch, type VNode } from "vue";
 import useColor from "@/composables/useColor";
 import SelectedItems from "./SelectedItems.vue";
-import LoadingSpinner from '../LoadingSpinner.vue'
+import LoadingSpinner from "../LoadingSpinner.vue";
 import { uniqueArray } from "@/utils";
-import SevueIcon from '@/components/icons/SevueIcon.vue'
+import SevueIcon from "@/components/icons/SevueIcon.vue";
 import type { Picked } from "@/types";
-import type { Props as Option } from './ROption.vue'
+import type { Props as Option } from "./ROption.vue";
 
+type Item = Option;
 export type Props = {
-  searchable?: boolean
-  multiple?: boolean
-  modelValue: Array<number | string> | number | string,
-  placeholder?: string
-  disabled?: boolean
-  label?: string
-  keepOpenAfterSelection?: boolean
-  color?: string
-  error?: boolean
-  message?: string
-  inputProps?: any
-  noDropdownOnEmptySearch?: boolean
-  loading?: boolean
-  renderPlaceholder?: (parameter: Option | Option[]) => string,
-  customSearch?: (parameter: string) => void
-  [x: string | number | symbol]: any;
-}
+  searchable?: boolean;
+  multiple?: boolean;
+  modelValue: Array<number | string> | number | string;
+  placeholder?: string;
+  disabled?: boolean;
+  label?: string;
+  keepOpenAfterSelection?: boolean;
+  color?: string;
+  error?: boolean;
+  message?: string;
+  inputProps?: any;
+  noDropdownOnEmptySearch?: boolean;
+  loading?: boolean;
+  items?: Array<any>;
+  itemsKey?: string;
+  groupIdentifier?: string;
+  paginationOffset?: number;
+  perPage?: number;
+  renderPlaceholder?: (parameter: Option | Option[]) => string;
+  customSearch?: (parameter: string) => void;
+  itemExtractor?: (arg0: any) => Item;
+};
 
 type State = {
-  search: string
-  active: boolean
-  focused: boolean
-  focusedItem: number
-  popper?: Instance
-  options: Option[]
-  selectedItems: Option | Option[]
-}
-const props = withDefaults(
-  defineProps<Props>(),
-  {
-    searchable: false,
-    keepOpenAfterSelection: false,
-    placeholder: '',
-    noDropdownOnEmptySearch: false,
-    renderPlaceholder: (option: Option | Option[]) => {
-      if (Array.isArray(option)) return `${option.length} selected`
-      else return option.text || ''
-    }
-  }
-)
-const emit = defineEmits(["update:modelValue", "open", "close", "afterTransitionEnd", 'search']);
-const color = useColor(toRef(props, 'color'))
+  search: string;
+  active: boolean;
+  focused: boolean;
+  focusedItem: number;
+  popper?: Instance;
+  options: Option[];
+  selectedItems: Option | Option[];
+  page: number;
+};
+const props = withDefaults(defineProps<Props>(), {
+  searchable: false,
+  keepOpenAfterSelection: false,
+  placeholder: "",
+  noDropdownOnEmptySearch: false,
+  paginationOffset: 40,
+  itemsKey: "items",
+  groupIdentifier: "id",
+  perPage: 10,
+  renderPlaceholder: (option: Option | Option[]) => {
+    if (Array.isArray(option)) return `${option.length} selected`;
+    else return option.text || "";
+  },
+});
+const emit = defineEmits(["update:modelValue", "open", "close", "afterTransitionEnd", "search"]);
+const color = useColor(toRef(props, "color"));
 const state = reactive<State>({
   search: "",
   active: false,
@@ -118,14 +123,15 @@ const state = reactive<State>({
   focusedItem: -1,
   popper: undefined,
   options: [],
-  selectedItems: []
+  selectedItems: [],
+  page: 1,
 });
 const rInput = ref();
 const dropdown = ref();
 const toggle = ref();
 
 // cycle
-onMounted(() => setChildren(defaultSlot!()));
+onMounted(() => !areOptionsProvided.value && setChildren(defaultSlot!()));
 onBeforeUnmount(() => {
   if (state.active) {
     state.active = false;
@@ -133,15 +139,15 @@ onBeforeUnmount(() => {
 });
 const onAfterLeave = () => {
   state.popper?.destroy();
-  emit('afterTransitionEnd')
+  emit("afterTransitionEnd");
 };
 
-const onSelectValue = ({ event, activate }: { event: string | number, activate: boolean }) => {
+const onSelectValue = ({ event, activate }: { event: string | number; activate: boolean }) => {
   if (props.multiple) {
     if (activate) {
-      emit("update:modelValue", [...<Array<Number>>props.modelValue, event]);
+      emit("update:modelValue", [...(<Array<Number>>props.modelValue), event]);
     } else {
-      let val = [...<Array<Number>>props.modelValue];
+      let val = [...(<Array<Number>>props.modelValue)];
       val = val.filter((x) => x !== event);
       emit("update:modelValue", val);
     }
@@ -149,8 +155,8 @@ const onSelectValue = ({ event, activate }: { event: string | number, activate: 
     emit("update:modelValue", event);
   }
   if (!props.keepOpenAfterSelection) {
-
     state.search = "";
+    props.customSearch?.("");
     // in order to focus on the laters selected item
     // this.focusedItem = this.options.findIndex(({ value }) => value === event);
     close();
@@ -166,11 +172,11 @@ const toggleOpen = () => {
   }
 };
 const open = () => {
-  if (state.active || !canOpenDropdown.value) return
+  if (state.active || !canOpenDropdown.value) return;
   state.active = true;
   nextTick(() => {
     rInput.value.inputRef.focus({ preventScroll: true });
-    const sameWidth: Modifier<'sameWidth', {}> = {
+    const sameWidth: Modifier<"sameWidth", {}> = {
       name: "sameWidth",
       enabled: true,
       phase: "beforeWrite",
@@ -187,32 +193,36 @@ const open = () => {
       modifiers: [sameWidth],
     });
   });
-  emit('open')
+  emit("open");
 };
 const close = (resetSearch: boolean = true, blur: boolean = true) => {
-  if (!state.active) return
+  if (!state.active) return;
   state.active = false;
   if (resetSearch) state.search = "";
   state.focusedItem = -1;
-  if (blur) rInput.value.inputRef.blur()
-  emit("close")
+  if (blur) rInput.value.inputRef.blur();
+  state.page = 1;
+  emit("close");
 };
 const clickOutside = {
   handler: close,
   middleware: (e: Event) => {
-    const contains = dropdown.value?.contains(e.target)
-    return !contains
-  }
-}
+    const contains = dropdown.value?.contains(e.target);
+    return !contains;
+  },
+};
 const canOpenDropdown = computed<boolean>(() => {
-  if (props.noDropdownOnEmptySearch && !state.search) return false
-  return true
-})
+  if (props.noDropdownOnEmptySearch && !state.search) return false;
+  return true;
+});
 
 // Options
+
+const areOptionsProvided = computed(() => !!props.items);
+
 const { default: defaultSlot } = useSlots();
 const setChildren = (defSlot: VNode[]) => {
-  const tempOptions: Picked<State, 'options'> = [];
+  const tempOptions: Picked<State, "options"> = [];
   const checkItem = (nodes: VNode[]) => {
     nodes.forEach((node) => {
       if ((node.type as any).isOption) {
@@ -221,7 +231,7 @@ const setChildren = (defSlot: VNode[]) => {
         // @ts-ignore
         if (node.children.default) {
           // @ts-ignore
-          checkItem(node.children.default() as VNode[])
+          checkItem(node.children.default() as VNode[]);
         } else {
           checkItem(node.children as VNode[]);
         }
@@ -232,10 +242,39 @@ const setChildren = (defSlot: VNode[]) => {
   checkItem(defSlot);
   state.options = tempOptions;
 };
-watch(
-  () => defaultSlot!(),
-  (defSlot) => setChildren(defSlot)
-);
+
+const setOptionsFromItems = (items: Array<any> = []) => {
+  let tempOptions: Array<Option & { group: any }> = [];
+
+  const checkItem = (innerItems: Array<any>, group?: any) => {
+    innerItems.forEach((item) => {
+      if (item[props.itemsKey]) {
+        // has nested items
+        const { [props.itemsKey]: nestedItems, ...parent } = item;
+        checkItem(nestedItems, parent);
+        return;
+      } else {
+        tempOptions.push({ ...((props.itemExtractor?.(item) ?? item) as Option), group });
+      }
+    });
+  };
+
+  checkItem(items);
+  state.options = tempOptions;
+};
+
+if (!areOptionsProvided.value) {
+  watch(
+    () => defaultSlot!(),
+    (defSlot) => setChildren(defSlot)
+  );
+} else {
+  watch(
+    () => props.items,
+    (items) => setOptionsFromItems(items),
+    { immediate: true }
+  );
+}
 const noOptions = computed(() => {
   return !visibleItems.value.length;
 });
@@ -264,9 +303,7 @@ function onEnter() {
   if (!focusedItemValue.value) return;
   let isValueActive = true;
   if (props.multiple && isArray(props.modelValue)) {
-    isValueActive = !!props.modelValue.find(
-      (value) => value === focusedItemValue.value!.value
-    );
+    isValueActive = !!props.modelValue.find((value) => value === focusedItemValue.value!.value);
   }
   onSelectValue({
     event: focusedItemValue.value.value,
@@ -278,87 +315,134 @@ const focusedItemValue = computed(() => {
   return state.options[state.focusedItem];
 });
 const isItemFocusable = computed(() => {
-  const item = visibleItems.value.find(
-    ({ value }) => focusedItemValue.value?.value === value
-  );
+  const item = visibleItems.value.find(({ value }) => focusedItemValue.value?.value === value);
   return item && !item.disabled;
 });
 
 // Selected Items
 const setSelectedItems = (options: Option[]) => {
-  let items: Array<Option> | Option = state.selectedItems
+  let items: Array<Option> | Option = state.selectedItems;
   if (Array.isArray(props.modelValue)) {
     props.modelValue.forEach((value) => {
-      const foundOption = options.find(({ value: optionValue }: Option) => optionValue === value)
-      if (foundOption) (items as Option[]).push(foundOption)
-    })
+      const foundOption = options.find(({ value: optionValue }: Option) => optionValue === value);
+      if (foundOption) (items as Option[]).push(foundOption);
+    });
     // remove duplicated items from previous selections ( takes first ones )
-    items = uniqueArray<Option>(items as Option[], (item) => item.value)
+    items = uniqueArray<Option>(items as Option[], (item) => item.value);
     // to remove if there was any items deleted from modelValue
-    items = items.filter(({ value: itemValue }) => !!(props.modelValue as Array<string | number>).find((modelValue) => modelValue === itemValue))
+    items = items.filter(
+      ({ value: itemValue }) => !!(props.modelValue as Array<string | number>).find((modelValue) => modelValue === itemValue)
+    );
   } else {
-    const foundOption = options.find(({ value: optionValue }) => optionValue === props.modelValue)
-    if (foundOption) items = foundOption
+    const foundOption = options.find(({ value: optionValue }) => optionValue === props.modelValue);
+    if (foundOption) items = foundOption;
   }
-  state.selectedItems = items
-}
-watch([() => props.modelValue, () => state.options], () => {
-  setSelectedItems(state.options)
-}, { immediate: true })
+  state.selectedItems = items;
+};
+watch(
+  [() => props.modelValue, () => state.options],
+  () => {
+    setSelectedItems(state.options);
+  },
+  { immediate: true }
+);
 
 const isAnyItemSelected = computed(() => {
   if (Array.isArray(state.selectedItems)) {
-    return !!state.selectedItems.length
+    return !!state.selectedItems.length;
   } else {
-    return !!state.selectedItems
+    return !!state.selectedItems;
   }
 });
 const inputPlaceholder = computed<string>(() => {
   // const selectedValueTexts = state.selectedItems.map(({ text }) => text).join(', ');
   // return selectedValueTexts.length ? selectedValueTexts : props.placeholder;
   if (isAnyItemSelected.value) {
-    return props.renderPlaceholder(state.selectedItems)
+    return props.renderPlaceholder(state.selectedItems);
   }
-  return props.placeholder
+  return props.placeholder;
 });
 
 const onSelectedItemClick = (item: Option) => {
   onSelectValue({
     event: item.value,
-    activate: false
-  })
-}
+    activate: false,
+  });
+};
 
 // Search
 const visibleItems = computed(() => {
-  return props.customSearch ? state.options : state.options.filter(({ text }) => {
-    return text ? text.toLowerCase().includes(state.search.toLowerCase()) : true
-  });
+  return props.customSearch
+    ? state.options
+    : state.options.filter(({ text }) => {
+        return text ? text.toLowerCase().includes(state.search.toLowerCase()) : true;
+      });
 });
 const onInputChange = (e: InputEvent) => {
-  emit('search', e)
-  props.customSearch?.((e.target as HTMLInputElement).value)
-  props.customSearch && state.popper?.update()
-}
-watch(() => state.search, (search) => {
-  if (state.active && props.noDropdownOnEmptySearch && !search) close(false, false)
-  else if (!state.active && !!search) {
-    open()
+  emit("search", e);
+  props.customSearch?.((e.target as HTMLInputElement).value);
+  props.customSearch && state.popper?.update();
+};
+watch(
+  () => state.search,
+  (search) => {
+    if (state.active && props.noDropdownOnEmptySearch && !search) close(false, false);
+    else if (!state.active && !!search) {
+      open();
+    }
   }
-})
+);
+
+// optimize
+const onDropdownScroll = (e: Event) => {
+  if (visibleItems.value.length < state.page * props.perPage) return; // no more items
+  const { scrollHeight, scrollTop, clientHeight } = <HTMLElement>e.target;
+  const shouldLoadNewItems = scrollTop + clientHeight > scrollHeight - props.paginationOffset;
+  if (shouldLoadNewItems) state.page++;
+};
+
+const groupByParent = (items: Array<Option & { group?: any }>) => {
+  const itemsKey = props.itemsKey;
+  const groupIdentifier = props.groupIdentifier;
+  // TODO: typings based on user given generic type
+  const groups: {
+    [arg0: string | number]: any;
+  } = {};
+
+  items.forEach((item) => {
+    const { group, ...rest } = item;
+    const { [groupIdentifier]: indentifierValue } = group;
+
+    if (!groups[indentifierValue]) {
+      groups[indentifierValue] = { ...group, [itemsKey]: [] };
+    }
+    groups[indentifierValue][itemsKey].push(rest);
+  });
+
+  return Object.values(groups);
+};
+
+const optimizedItems = computed(() => {
+  const rawList = visibleItems.value.filter((_, i) => {
+    return i < state.page * props.perPage;
+  });
+
+  if (!(rawList[0] as Option & { group?: any })?.group) return rawList;
+  else return groupByParent(rawList);
+});
 
 provide(rSelectKey, {
   modelValue: toRef(props, "modelValue"),
   multiple: toRef(props, "multiple"),
   search: toRef(state, "search"),
-  color: toRef(props, 'color'),
+  color: toRef(props, "color"),
   customSearch: props.customSearch,
   focusedItemValue,
   onSelectValue,
 });
 defineExpose({
-  setSelectedItems
-})
+  setSelectedItems,
+});
 </script>
 
 <style lang="scss">
@@ -439,7 +523,6 @@ defineExpose({
 }
 
 .fade-move {
-
   &-enter-active,
   &-leave-active {
     .r-select-dropdown {

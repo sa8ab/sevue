@@ -3,53 +3,66 @@
     <div class="container">
       <RSelect
         v-model="customSelected"
-        placeholder="Remote Items"
+        placeholder="Items"
+        multiple
+        :items="filteredItems"
+        searchable
+        :customSearch="customSearch"
         :loading="loading"
-        :renderPlaceholder="renderPlaceholder"
-        ref="selectRef">
-        <ROption v-for="item in items" :value="item.id" :context="item">
-          {{ item.title }} - {{ item.id }}
-        </ROption>
-        <template #selectedItem="{ context }">
-          <div class="selected-item">
-            <img :src="context.thumbnail" alt="">
-            <span>{{ context.title }}</span>
-          </div>
+        keepOpenAfterSelection
+      >
+        <template #default="{ optimizedItems }">
+          <ROption v-for="item in optimizedItems" :value="item.value" :text="item.text"> </ROption>
         </template>
       </RSelect>
       <RButton @click="items = []">Empty list</RButton>
-      <RButton @click="items = items.filter((_, index) => index !== 3)">Remove some item</RButton>
-      <RButton @click="loading = !loading">toggle loading</RButton>
+      <RButton @click="items = items.filter((_, index) => index !== 3)"> Remove some item </RButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-// @ts-ignore
-import axios from 'axios'
-import { onMounted, ref } from 'vue';
-import { RSelect } from '../../src/main'
+import axios from "axios";
+import { ref } from "vue";
+import { RSelect } from "../../src/main";
+import { computed } from "vue";
+import { onMounted } from "vue";
 
-const items = ref([])
+const searchTerm = ref("");
+const loading = ref(false);
 
-const loading = ref(false)
-const selectRef = ref<InstanceType<typeof RSelect> | undefined>()
+const items = ref(
+  Array.from({ length: 1000 }, (_, i) => {
+    return {
+      text: `parent ${i}`,
+      value: i,
+    };
+  })
+);
 
-onMounted(async () => {
-  loading.value = true
-  const { data } = await axios.get(`https://dummyjson.com/products`)
-  loading.value = false
-  items.value = data.products
-})
-const customSelected = ref('')
-const customSearch = async (e) => {
-}
+const customSelected = ref([]);
 
-const renderPlaceholder = (option) => {
-  return `${option.context.title}`
-}
+const filteredItems = computed(() => {
+  return items.value.filter(({ text }) => {
+    return text.includes(searchTerm.value);
+  });
+});
+
+const customSearch = (param: string) => {
+  console.log("customsearh called", param);
+
+  searchTerm.value = param;
+};
+
+// onMounted(async () => {
+//   loading.value = true;
+//   const { data } = await axios.get(`https://dummyjson.com/products`);
+//   loading.value = false;
+//   console.log(data.products);
+
+//   items.value = data.products;
+// });
 </script>
-
 
 <style lang="scss" scoped>
 .container {
@@ -63,7 +76,7 @@ const renderPlaceholder = (option) => {
   gap: var(--r-space-1);
 
   img {
-    width: 24px
+    width: 24px;
   }
 }
 </style>

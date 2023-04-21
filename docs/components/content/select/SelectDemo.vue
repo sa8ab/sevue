@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts" setup>
-
 const items = ref([
   { name: "Vue", id: 1 },
   { name: "React", id: 2 },
@@ -20,4 +19,3 @@ const items = ref([
 ]);
 const selected = ref();
 </script>
-
