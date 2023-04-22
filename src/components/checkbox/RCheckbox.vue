@@ -1,6 +1,6 @@
 <template>
   <label
-    :class="['r-cb', containerClass, { isChecked, disabled }]"
+    :class="['r-cb', containerClass, { isChecked, disabled, focused }]"
     :style="{
       '--r-color': color || 'var(--r-prm)',
       '--r-text-color': iconColor || 'var(--r-text)',
@@ -12,8 +12,11 @@
       v-model="model"
       :trueValue="trueValue"
       :falseValue="falseValue"
-      v-bind="$attrs"
       :disabled="disabled"
+      @keyup.tab="onFocus"
+      @blur="onBlur"
+      v-bind="$attrs"
+      ref="inputRef"
     />
     <div class="check-container">
       <SevueIcon name="check" class="icon" />
@@ -24,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from "vue";
+import { computed, toRef, ref } from "vue";
 import SevueIcon from "@/components/icons/SevueIcon.vue";
 import useColor from "@/composables/useColor";
 
@@ -53,9 +56,17 @@ const emit = defineEmits(["update:modelValue"]);
 
 const color = useColor(toRef(props, "color"));
 const iconColor = useColor(toRef(props, "iconColor"));
-// const onInput = (e: Event) => {
-//   emit("update:modelValue", (<HTMLInputElement>e.target).value);
-// };
+const inputRef = ref<HTMLInputElement | undefined>();
+const focused = ref(false);
+
+const onFocus = () => {
+  console.log("focued");
+  focused.value = true;
+};
+const onBlur = () => {
+  console.log("focued");
+  focused.value = false;
+};
 const model = computed({
   set(e) {
     emit("update:modelValue", e);
@@ -69,6 +80,10 @@ const isChecked = computed(() => {
     return props.modelValue.includes(props.value);
   }
   return props.modelValue === props.trueValue;
+});
+
+defineExpose({
+  inputRef,
 });
 </script>
 
@@ -161,6 +176,10 @@ const isChecked = computed(() => {
     pointer-events: none;
     opacity: var(--r-disabled-alpha);
     --r-color: var(--r-disabled) !important;
+  }
+  &.focused {
+    box-shadow: var(--r-focused-box-shadow-specs) color();
+    border-radius: var(--r-radius);
   }
 }
 </style>
