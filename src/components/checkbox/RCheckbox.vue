@@ -1,12 +1,20 @@
 <template>
   <label
-    :class="['r-cb', containerClass, { isChecked }]"
+    :class="['r-cb', containerClass, { isChecked, disabled }]"
     :style="{
       '--r-color': color || 'var(--r-prm)',
       '--r-text-color': iconColor || 'var(--r-text)',
     }"
   >
-    <input type="checkbox" :value="value" v-model="model" :trueValue="trueValue" :falseValue="falseValue" v-bind="$attrs" />
+    <input
+      type="checkbox"
+      :value="value"
+      v-model="model"
+      :trueValue="trueValue"
+      :falseValue="falseValue"
+      v-bind="$attrs"
+      :disabled="disabled"
+    />
     <div class="check-container">
       <SevueIcon name="check" class="icon" />
       <div class="background"></div>
@@ -28,6 +36,7 @@ export interface Props {
   trueValue?: any;
   falseValue?: any;
   containerClass?: string;
+  disabled?: boolean;
   [x: string | number | symbol]: any;
 }
 
@@ -71,6 +80,7 @@ const isChecked = computed(() => {
   display: flex;
   align-items: center;
   gap: var(--r-space-1);
+  color: color(text-color);
 
   &:hover {
     .check-container {
@@ -146,6 +156,11 @@ const isChecked = computed(() => {
       transform: scale(1);
       opacity: 1;
     }
+  }
+  &.disabled {
+    pointer-events: none;
+    opacity: var(--r-disabled-alpha);
+    --r-color: var(--r-disabled) !important;
   }
 }
 </style>

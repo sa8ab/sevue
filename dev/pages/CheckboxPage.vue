@@ -1,5 +1,6 @@
 <template>
   <div class="center-it">
+    <RCheckbox v-model="checked" disabled>Checkbox</RCheckbox>
     <RCheckbox v-model="checked">Checkbox</RCheckbox>
   </div>
 </template>
