@@ -192,6 +192,7 @@ const open = () => {
       modifiers: [sameWidth],
     });
   });
+  console.log("OPEN CALL");
   emit("open");
 };
 const close = (resetSearch: boolean = true, blur: boolean = true) => {
@@ -441,6 +442,9 @@ provide(rSelectKey, {
 });
 defineExpose({
   setSelectedItems,
+  rInput,
+  open,
+  close,
 });
 </script>
 

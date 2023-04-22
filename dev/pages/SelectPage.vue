@@ -10,9 +10,17 @@
         :loading="loading"
         :items="filteredItems"
         keepOpenAfterSelection
+        ref="selectRef"
       >
         <template #default="slotProps">
-          <ROption v-for="item in slotProps.optimizedItems" :value="item.value" :text="item.text"> </ROption>
+          <ROption
+            v-for="item in slotProps.optimizedItems"
+            :value="item.value"
+            :text="item.text"
+            :disabled="item.disabled"
+            :color="item.itemColor"
+          >
+          </ROption>
         </template>
       </RSelect>
       <RButton @click="items = []">Empty list</RButton>
@@ -30,12 +38,15 @@ import { onMounted } from "vue";
 
 const searchTerm = ref("");
 const loading = ref(false);
+const selectRef = ref<InstanceType<typeof RSelect> | undefined>();
 
 const items = ref(
   Array.from({ length: 100 }, (_, i) => {
     return {
       text: `parent ${i}`,
       value: i,
+      disabled: i % 3 == 0,
+      itemColor: i % 2 == 0 ? "red" : "yellow",
     };
   })
 );
@@ -53,6 +64,12 @@ const customSearch = (param: string) => {
 
   searchTerm.value = param;
 };
+
+onMounted(() =>
+  setTimeout(() => {
+    selectRef.value.open();
+  }, 1000)
+);
 
 // onMounted(async () => {
 //   loading.value = true;
