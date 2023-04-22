@@ -60,11 +60,9 @@ const inputRef = ref<HTMLInputElement | undefined>();
 const focused = ref(false);
 
 const onFocus = () => {
-  console.log("focued");
   focused.value = true;
 };
 const onBlur = () => {
-  console.log("focued");
   focused.value = false;
 };
 const model = computed({
