@@ -6,14 +6,7 @@
       '--r-text-color': iconColor || 'var(--r-text)',
     }"
   >
-    <input
-      type="checkbox"
-      :value="value"
-      v-model="model"
-      :trueValue="trueValue"
-      :falseValue="falseValue"
-      v-bind="$attrs"
-    />
+    <input type="checkbox" :value="value" v-model="model" :trueValue="trueValue" :falseValue="falseValue" v-bind="$attrs" />
     <div class="check-container">
       <SevueIcon name="check" class="icon" />
       <div class="background"></div>
@@ -125,9 +118,10 @@ const isChecked = computed(() => {
   .icon {
     position: relative;
     z-index: 2;
-    transform: scale(0);
-    transition: transform calc(var(--r-duration) / 2);
-    transition-delay: calc(var(--r-duration) / 2);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all calc(var(--r-duration));
+    // transition-delay: calc(var(--r-duration) / 2);
     color: color(text-color);
   }
 
@@ -150,6 +144,7 @@ const isChecked = computed(() => {
 
     .icon {
       transform: scale(1);
+      opacity: 1;
     }
   }
 }
