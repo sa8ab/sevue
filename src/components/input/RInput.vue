@@ -5,22 +5,26 @@
   >
     <span class="label" v-if="label">{{ label }}</span>
     <div class="input-container" ref="inputContainerRef">
+      <slot name="before"></slot>
       <label class="label-element" @click="labelClick">
         <div class="icon-container" v-if="hasIcon" @click="iconClick">
           <slot name="icon">
             <i v-if="icon" :class="['icon', iconPrefix, icon]"></i>
           </slot>
         </div>
-        <input
-          :placeholder="placeholder"
-          :value="modelValue"
-          :disabled="disabled"
-          v-bind="$attrs"
-          @focus="state.focused = true"
-          @blur="state.focused = false"
-          @input="onInput"
-          ref="inputRef"
-        />
+        <slot name="input" :state="state">
+          <component
+            :is="textarea ? 'textarea' : 'input'"
+            :placeholder="placeholder"
+            :value="modelValue"
+            :disabled="disabled"
+            @focus="state.focused = true"
+            @blur="state.focused = false"
+            @input="onInput"
+            v-bind="$attrs"
+            ref="inputRef"
+          />
+        </slot>
       </label>
       <slot name="after"></slot>
     </div>
@@ -50,7 +54,7 @@ export interface Props {
   disabled?: boolean;
   error?: boolean;
   containerClass?: string;
-  [x: string | number | symbol]: any;
+  textarea?: boolean;
 }
 
 const { iconPrefix } = useSevue();
@@ -80,22 +84,6 @@ const labelClick = (e: Event) => {
 const iconClick = (e: Event) => {
   emit("iconClick", e);
 };
-// listeners() {
-//   return {
-//     ...this.$listeners,
-//     input: (e) => {
-//       this.$emit("input", e.target.value);
-//     },
-//     focus: (e) => {
-//       this.focused = true;
-//       this.$emit("focus", e);
-//     },
-//     blur: (e) => {
-//       this.focused = false;
-//       this.$emit("blur", e);
-//     },
-//   };
-// },
 defineExpose({
   inputRef,
   inputContainerRef,
@@ -104,14 +92,19 @@ defineExpose({
 
 <style lang="scss">
 .r-input {
-  input {
+  input,
+  textarea {
     border: none;
     background: transparent;
     font-size: 1rem;
-    padding: var(--r-normal-padding);
+    padding: var(--r-space-2);
     font-family: inherit;
     width: 100%;
     color: inherit;
+    @extend .scroll-bar;
+  }
+  input {
+    height: var(--r-element-min-height);
   }
 
   label {
@@ -140,8 +133,8 @@ defineExpose({
   .input-container {
     background: color(b1);
     display: flex;
-    align-items: center;
-    gap: var(--r-space-1);
+    // align-items: center;
+    // gap: var(--r-space-1);
     border-radius: var(--r-radius);
     transition: box-shadow var(--r-duration);
     overflow: hidden;

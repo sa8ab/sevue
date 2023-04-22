@@ -1,20 +1,12 @@
 <template>
   <div
-    :class="[
-      'r-pagination notRTL',
-      { bordered, disabled, compact, activeShadow },
-    ]"
+    :class="['r-pagination notRTL', { bordered, disabled, compact, activeShadow }]"
     :style="{
       '--r-color': color || 'var(--r-prm)',
       '--r-active-text-color': activeTextColor,
     }"
   >
-    <RButton
-      class="r-pagination-item r-pagination-navigation prev"
-      @click="decrease"
-      v-bind="buttonProps"
-      v-if="!noNavigation"
-    >
+    <RButton class="r-pagination-item r-pagination-navigation prev" @click="decrease" v-bind="buttonProps" v-if="!noNavigation">
       <slot name="prev">
         <SevueIcon name="chevron-left" />
       </slot>
@@ -30,23 +22,10 @@
         >
           {{ item }}
         </RButton>
-        <RButton
-          :key="i + 'blank'"
-          iconOnly
-          v-bind="buttonProps"
-          class="r-pagination-item r-pagination-item-blank"
-          v-else
-        >
-          ...
-        </RButton>
+        <RButton :key="i + 'blank'" iconOnly v-bind="buttonProps" class="r-pagination-item r-pagination-item-blank" v-else> ... </RButton>
       </template>
     </div>
-    <RButton
-      class="r-pagination-item r-pagination-navigation next"
-      @click="increase"
-      v-bind="buttonProps"
-      v-if="!noNavigation"
-    >
+    <RButton class="r-pagination-item r-pagination-navigation next" @click="increase" v-bind="buttonProps" v-if="!noNavigation">
       <slot name="next">
         <SevueIcon name="chevron-right" />
       </slot>
@@ -118,9 +97,7 @@ const increase = () => {
 };
 
 const items = computed(() => {
-  const initialItems: Array<string | number> = [
-    ...Array(props.count).keys(),
-  ].map((x) => x + 1);
+  const initialItems: Array<string | number> = [...Array(props.count).keys()].map((x) => x + 1);
   const toReturn = initialItems.filter((item) => {
     let isRemovedFromLeft;
     let isRemovedFromRight;
@@ -196,9 +173,9 @@ watch(
   }
 
   &-item {
-    padding: 0 var(--r-space-2) !important;
-    height: 32px;
-    min-width: 32px;
+    // padding: 0 var(--r-space-2) !important;
+    // height: 32px;
+    // min-width: 32px;
 
     &.active {
       background: color() !important;
@@ -207,8 +184,10 @@ watch(
   }
 
   &-navigation {
-    height: 100%;
-    min-height: 32px;
+    // height: 100%;
+    min-height: var(--r-element-min-height);
+    padding: var(--r-space-1);
+    align-items: center;
 
     svg {
       width: 24px;
@@ -218,7 +197,7 @@ watch(
 
   &-item-blank {
     pointer-events: none !important;
-    padding: 0 !important;
+    // padding: 0 !important;
   }
 
   &.bordered {

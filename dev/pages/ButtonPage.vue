@@ -1,6 +1,9 @@
 <template>
   <div class="center-it">
-    <RButton :to="'/button'">Button</RButton>
+    <div class="items">
+      <RButton :to="'/button'">Button</RButton>
+      <RButton iconOnly icon="bx-x" />
+    </div>
   </div>
 </template>
 
@@ -14,5 +17,9 @@ const value = ref("");
 .center-it {
   max-width: 400px;
   margin: auto;
+}
+.items {
+  display: flex;
+  align-items: center;
 }
 </style>

@@ -6,19 +6,18 @@
 </template>
 
 <script setup lang="ts">
-import { h } from 'vue'
-import { useNotification } from '../../src/main';
+import { h } from "vue";
+import { useNotification } from "../../src/main";
 
-const notification = useNotification()
+const notification = useNotification();
 const notify = () => {
   notification({
-    title: h('p', null, 'hey'),
-    text: 'some textsome textsome textsome textsome textsome textsome textsome text',
-    color: 'var(--r-b1)',
-    duration: -1
-  })
-}
+    title: h("p", null, "Hey"),
+    text: "some textsome textsome textsome textsome textsome textsome textsome text",
+    color: "var(--r-b2)",
+    duration: -1,
+  });
+};
 </script>
-
 
 <style lang="scss" scoped></style>

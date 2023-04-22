@@ -4,11 +4,12 @@
       v-if="state.active"
       @mouseenter="onPause"
       @mouseleave="onStart"
-      class="r-notification" :style="{
+      class="r-notification"
+      :style="{
         '--r-color': color || 'var(--r-prm)',
         '--r-text-color': textColor || 'var(--r-text)',
-      }">
-
+      }"
+    >
       <div class="notification-inner">
         <VNodeRenderer class="title" :param="title" v-if="title" />
         <VNodeRenderer class="text" :param="text" v-if="text" />
@@ -23,60 +24,57 @@
 </template>
 
 <script setup lang="ts">
-import useColor from '@/composables/useColor';
-import { useTimer } from '@/main';
-import { onMounted, reactive, toRef, type VNode } from 'vue';
-import SevueIcon from '../icons/SevueIcon.vue';
-import VNodeRenderer from '../VNodeRenderer.vue';
+import useColor from "@/composables/useColor";
+import { useTimer } from "@/main";
+import { onMounted, reactive, toRef, type VNode } from "vue";
+import SevueIcon from "../icons/SevueIcon.vue";
+import VNodeRenderer from "../VNodeRenderer.vue";
 export interface Props {
-  title?: String | VNode,
-  text?: String | VNode,
-  color?: string,
-  textColor?: string,
-  duration?: number
-  pauseOnHover?: boolean
-  noCloseButton?: boolean
-  onClose?: () => void
+  title?: String | VNode;
+  text?: String | VNode;
+  color?: string;
+  textColor?: string;
+  duration?: number;
+  pauseOnHover?: boolean;
+  noCloseButton?: boolean;
+  onClose?: () => void;
 }
-const props = withDefaults(
-  defineProps<Props>(),
-  {
-    textColor: '#fff',
-    duration: 4000
-  }
-)
-const color = useColor(toRef(props, 'color'))
-const textColor = useColor(toRef(props, 'textColor'))
+const props = withDefaults(defineProps<Props>(), {
+  textColor: "#fff",
+  duration: 4000,
+});
+const color = useColor(toRef(props, "color"));
+const textColor = useColor(toRef(props, "textColor"));
 
-const timer = useTimer(() => close(), props.duration)
+const timer = useTimer(() => close(), props.duration);
 
-const state = reactive<{ parentDiv: HTMLElement | null; active: Boolean, timeout?: NodeJS.Timeout }>({
+const state = reactive<{ parentDiv: HTMLElement | null; active: Boolean; timeout?: NodeJS.Timeout }>({
   active: false,
   parentDiv: null,
-  timeout: undefined
+  timeout: undefined,
 });
 
 onMounted(() => {
   state.active = true;
   if (props.duration > 0) {
-    timer.start()
+    timer.start();
   }
 });
 
 const onPause = () => {
-  if (props.pauseOnHover && props.duration > 0) timer.pause()
-}
+  if (props.pauseOnHover && props.duration > 0) timer.pause();
+};
 const onStart = () => {
-  if (props.pauseOnHover && props.duration > 0) timer.start()
-}
+  if (props.pauseOnHover && props.duration > 0) timer.start();
+};
 
 const close = () => {
   if (state.active) {
-    state.active = false
-    timer.destroy()
-    props.onClose?.()
+    state.active = false;
+    timer.destroy();
+    props.onClose?.();
   }
-}
+};
 const beforeEnter = (el: HTMLElement) => {
   el.style.height = "0";
 };
@@ -94,8 +92,8 @@ const afterLeave = (el: HTMLElement) => {
 };
 
 defineExpose({
-  close
-})
+  close,
+});
 </script>
 
 <style lang="scss">
@@ -104,10 +102,10 @@ defineExpose({
   width: 100%;
   border-radius: var(--r-radius);
   transition: transform $duration, height $duration;
-  overflow: hidden;
+  // overflow: hidden;
 
   .notification-inner {
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 24px -8px color(shadow-color, var(--r-shadow-alpha));
     background: color();
     padding: var(--r-space-3);
     border-radius: var(--r-radius);
@@ -129,8 +127,7 @@ defineExpose({
       position: absolute;
       top: 0;
       right: 0;
-      width: 24px;
-      height: 24px;
+      padding: 2px;
 
       svg {
         width: 20px;
@@ -189,7 +186,6 @@ defineExpose({
 //   }
 // }
 .move {
-
   &-enter-to,
   &-leave-from {
     .notification-inner {
@@ -208,7 +204,6 @@ defineExpose({
 }
 
 .has-left .move {
-
   &-enter-from,
   &-leave-to {
     .notification-inner {
@@ -218,7 +213,6 @@ defineExpose({
 }
 
 .has-right .move {
-
   &-enter-from,
   &-leave-to {
     .notification-inner {

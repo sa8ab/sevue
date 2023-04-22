@@ -23,13 +23,12 @@
         cancel: cancel || disabled,
         disabled,
         textStyle,
-        icon,
         round,
         iconOnly,
         iconAfter,
-        noPadding,
         focused,
         colorInherit,
+        hasIcon: $slots.icon || props.icon,
       },
     ]"
     :style="{
@@ -42,7 +41,6 @@
       <slot name="icon">
         <i :class="['icon', iconPrefix, icon]" v-if="icon"></i>
       </slot>
-      <div class="icon-space" v-if="icon || $slots.icon"></div>
       <slot></slot>
     </div>
   </component>
@@ -110,8 +108,6 @@ const renderComponent = computed(() => {
   if (isAnchorElement.value) return "a";
   return "button";
 });
-
-const noPadding = computed(() => slots.icon && props.iconOnly);
 </script>
 
 <style lang="scss">
@@ -128,9 +124,11 @@ button {
   color: color();
   background: color(color, var(--light-alpha));
   transition: all 0.3s;
-  display: inline-block;
+  display: inline-flex;
   user-select: none;
   cursor: pointer;
+  // min-height: var(--r-element-min-height);
+  line-height: 1;
 
   &:hover {
     background: color(color, var(--hover-alpha));
@@ -158,6 +156,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: var(--r-space-1);
 }
 
 .r-button.flat {
@@ -213,12 +212,7 @@ button {
   }
 
   &.iconOnly {
-    width: 32px;
-    height: 32px;
-
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
+    padding: var(--r-space-2);
     .icon {
       margin: 0;
     }
@@ -228,9 +222,9 @@ button {
     }
   }
 
-  &.noPadding {
-    padding: 0;
-  }
+  // &.noPadding {
+  //   padding: 0;
+  // }
 }
 
 // Specials

@@ -472,6 +472,10 @@ defineExpose({
     padding: 0 var(--r-space-1);
   }
 
+  .r-input-container .input-container {
+    align-items: center;
+  }
+
   .input {
     white-space: nowrap;
     overflow: hidden;
