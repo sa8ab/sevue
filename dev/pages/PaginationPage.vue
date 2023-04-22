@@ -1,16 +1,15 @@
 <template>
   <div class="center-it">
     <div class="container">
-      <RPagination :count="10" v-model="page" />
+      <RPagination :count="10" v-model="page" compact />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
 
-const page = ref(2)
+const page = ref(2);
 </script>
-
 
 <style lang="scss" scoped></style>

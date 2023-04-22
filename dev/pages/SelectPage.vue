@@ -22,8 +22,17 @@
           >
           </ROption>
         </template>
+        <!-- <template #before> before </template>
+        <template #toggleIcon="{ toggleOpen, active }">
+          <RButton :icon="`bx-${active ? 'up' : 'down'}-arrow-alt`" flat color="red" iconOnly @click="toggleOpen" />
+        </template>
+        <template #loadingSpinner="{ loading }">
+          <LoadingSpinner width="24" v-if="loading" />
+        </template> -->
+        <!-- <template #inputIcon>ic</template> -->
       </RSelect>
       <RButton @click="items = []">Empty list</RButton>
+      <RButton @click="loading = !loading">Toggle Loading</RButton>
       <RButton @click="items = items.filter((_, index) => index !== 3)"> Remove some item </RButton>
     </div>
   </div>
@@ -35,6 +44,7 @@ import { ref } from "vue";
 import { RSelect } from "../../src/main";
 import { computed } from "vue";
 import { onMounted } from "vue";
+import LoadingSpinner from "../../src/components/LoadingSpinner.vue";
 
 const searchTerm = ref("");
 const loading = ref(false);

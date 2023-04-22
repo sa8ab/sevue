@@ -23,12 +23,22 @@
         v-bind="inputProps"
       >
         <template #after>
-          <div class="loading-container" v-if="loading">
-            <LoadingSpinner width="24" />
-          </div>
-          <span @click.prevent="toggleOpen" :class="['dropdown-icon', { rotate: state.active }]" v-ripple v-else>
-            <SevueIcon name="chevron-down" />
-          </span>
+          <slot name="loadingSpinner" :loading="loading">
+            <div class="loading-container" v-if="loading">
+              <LoadingSpinner width="24" />
+            </div>
+          </slot>
+          <slot name="toggleIcon" :toggleOpen="toggleOpen" :active="state.active" :loading="loading">
+            <span @click.prevent="toggleOpen" :class="['dropdown-icon', { rotate: state.active }]" v-ripple v-if="!loading">
+              <SevueIcon name="chevron-down" />
+            </span>
+          </slot>
+        </template>
+        <template #before>
+          <slot name="before" />
+        </template>
+        <template #icon>
+          <slot name="inputIcon" />
         </template>
       </RInput>
       <SelectedItems :items="state.selectedItems" v-if="Array.isArray(state.selectedItems)" @itemClick="onSelectedItemClick">

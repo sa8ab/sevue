@@ -66,7 +66,6 @@ export interface Props {
   noNavigation?: boolean;
   compact?: boolean;
   activeShadow?: boolean;
-  [x: string | number | symbol]: any;
 }
 const props = withDefaults(defineProps<Props>(), {
   activeTextColor: "#fff",
@@ -188,6 +187,7 @@ watch(
     min-height: var(--r-element-min-height);
     padding: var(--r-space-1);
     align-items: center;
+    justify-content: center;
 
     svg {
       width: 24px;
