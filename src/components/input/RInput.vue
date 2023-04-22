@@ -14,7 +14,7 @@
         </div>
         <slot name="input" :state="state">
           <component
-            :is="textarea ? 'textarea' : 'input'"
+            :is="tag ? tag : 'input'"
             :placeholder="placeholder"
             :value="modelValue"
             :disabled="disabled"
@@ -54,7 +54,7 @@ export interface Props {
   disabled?: boolean;
   error?: boolean;
   containerClass?: string;
-  textarea?: boolean;
+  tag?: any;
 }
 
 const { iconPrefix } = useSevue();

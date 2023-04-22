@@ -7,17 +7,18 @@
         </div>
       </template>
     </RInput>
+    <RInput tag="textarea" v-model="value" placeholder="some placeholder" @input="onInput"></RInput>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, h } from "vue";
 import { RInput } from "../../src/components";
 
-const value = ref("");
+const value = ref("sdds");
 
-const vFocus = {
-  mounted: (el) => console.log(el),
+const onInput = (e) => {
+  console.log(e);
 };
 </script>
 
