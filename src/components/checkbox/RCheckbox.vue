@@ -22,7 +22,9 @@
       <SevueIcon name="check" class="icon" />
       <div class="background"></div>
     </div>
-    <slot />
+    <div class="slot">
+      <slot />
+    </div>
   </label>
 </template>
 
@@ -146,6 +148,9 @@ defineExpose({
     transition: all calc(var(--r-duration));
     // transition-delay: calc(var(--r-duration) / 2);
     color: color(text-color);
+  }
+  .slot {
+    flex: 1;
   }
 
   &.isChecked {
