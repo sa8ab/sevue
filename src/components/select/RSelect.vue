@@ -587,6 +587,7 @@ defineExpose({
       background: color(hover, var(--hover-alpha));
     }
   }
+
   .new-option-separator {
     padding: 2px 0;
     border-bottom: 1px solid color(border-color, var(--border-alpha));
