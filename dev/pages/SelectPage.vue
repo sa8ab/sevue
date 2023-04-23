@@ -14,7 +14,7 @@
       </RSelect>
 
       <RSelect v-model="selected" placeholder="Select City" searchable>
-        <RSelectGroup v-for="{ title, cities } in gItems" :title="title" keepTitleOnSearch>
+        <RSelectGroup v-for="{ title, cities } in gItems" :title="title">
           <ROption v-for="{ name, id } in cities" :value="id" :text="name" />
         </RSelectGroup>
       </RSelect>
