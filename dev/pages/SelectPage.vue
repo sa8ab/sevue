@@ -76,6 +76,7 @@ const onNewOption = ({ newOption, isAlreadyInOptions, isAlreadyInValue }) => {
   if (!isAlreadyInValue) {
     customSelected.value = [...customSelected.value, newOption];
   }
+
   // nextTick(() => {
   //   selectRef.value.setSelectedItems([
   //     {
