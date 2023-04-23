@@ -6,30 +6,26 @@
         placeholder="Items"
         multiple
         searchable
-        :customSearch="customSearch"
         :loading="loading"
-        :items="filteredItems"
-        keepOpenAfterSelection
+        :items="items"
+        canCreateOption
+        @newOption="onNewOption"
         ref="selectRef"
+        noDropdown
       >
         <template #default="slotProps">
-          <ROption
-            v-for="item in slotProps.optimizedItems"
-            :value="item.value"
-            :text="item.text"
-            :disabled="item.disabled"
-            :color="item.itemColor"
-          >
-          </ROption>
+          <ROption v-for="item in slotProps.optimizedItems" :value="item.value" :text="item.text"> </ROption>
         </template>
-        <!-- <template #before> before </template>
-        <template #toggleIcon="{ toggleOpen, active }">
-          <RButton :icon="`bx-${active ? 'up' : 'down'}-arrow-alt`" flat color="red" iconOnly @click="toggleOpen" />
-        </template>
-        <template #loadingSpinner="{ loading }">
-          <LoadingSpinner width="24" v-if="loading" />
-        </template> -->
-        <!-- <template #inputIcon>ic</template> -->
+      </RSelect>
+      <RSelect
+        v-model="singleSelected"
+        placeholder="single item"
+        searchable
+        canCreateOption
+        @newOption="onNewSingleOption"
+        ref="singleSelectRef"
+      >
+        <ROption v-for="item in items2" :value="item.value" :text="item.text"> </ROption>
       </RSelect>
       <RButton @click="items = []">Empty list</RButton>
       <RButton @click="loading = !loading">Toggle Loading</RButton>
@@ -44,24 +40,16 @@ import { ref } from "vue";
 import { RSelect } from "../../src/main";
 import { computed } from "vue";
 import { onMounted } from "vue";
-import LoadingSpinner from "../../src/components/LoadingSpinner.vue";
+import { nextTick } from "vue";
 
 const searchTerm = ref("");
 const loading = ref(false);
-const selectRef = ref<InstanceType<typeof RSelect> | undefined>();
 
-const items = ref(
-  Array.from({ length: 100 }, (_, i) => {
-    return {
-      text: `parent ${i}`,
-      value: i,
-      disabled: i % 3 == 0,
-      itemColor: i % 2 == 0 ? "red" : "yellow",
-    };
-  })
-);
+const items = ref([]);
+const items2 = ref([]);
 
 const customSelected = ref([]);
+const singleSelected = ref("");
 
 const filteredItems = computed(() => {
   return items.value.filter(({ text }) => {
@@ -69,17 +57,29 @@ const filteredItems = computed(() => {
   });
 });
 
-const customSearch = (param: string) => {
-  console.log("customsearh called", param);
+const selectRef = ref();
+const singleSelectRef = ref();
 
+const customSearch = (param: string) => {
   searchTerm.value = param;
 };
 
-onMounted(() =>
-  setTimeout(() => {
-    selectRef.value.open();
-  }, 1000)
-);
+const onNewOption = ({ newOption, isAlreadyInOptions, isAlreadyInValue }) => {
+  if (!isAlreadyInValue) {
+    customSelected.value = [...customSelected.value, newOption];
+  }
+  items.value.push({
+    value: newOption,
+    text: newOption,
+  });
+};
+const onNewSingleOption = ({ newOption, isAlreadyInOptions, isAlreadyInValue }) => {
+  singleSelected.value = newOption;
+  items2.value.push({
+    value: newOption,
+    text: newOption,
+  });
+};
 
 // onMounted(async () => {
 //   loading.value = true;

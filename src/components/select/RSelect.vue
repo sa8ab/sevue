@@ -51,9 +51,10 @@
       <Transition name="fade-move" @after-leave="onAfterLeave">
         <div v-if="state.active" class="r-select-dropdown-container" ref="dropdown">
           <div class="r-select-dropdown" @scroll="onDropdownScroll">
-            <div class="noOptions" v-if="noOptions">
+            <div class="noOptions" v-if="noOptions && !canCreateOption">
               <slot name="noItems" class="noOptions"> No Options Available </slot>
             </div>
+            <div class="new-item" v-if="canCreateOption">{{ state.search }}</div>
             <slot :optimizedItems="optimizedItems" />
           </div>
         </div>
@@ -87,6 +88,7 @@ export type Props = {
   error?: boolean;
   message?: string;
   inputProps?: any;
+  noDropdown?: boolean;
   noDropdownOnEmptySearch?: boolean;
   loading?: boolean;
   items?: Array<any>;
@@ -94,6 +96,7 @@ export type Props = {
   groupIdentifier?: string;
   paginationOffset?: number;
   perPage?: number;
+  canCreateOption?: boolean;
   renderPlaceholder?: (parameter: Option | Option[]) => string;
   customSearch?: (parameter: string) => void;
   itemExtractor?: (arg0: any) => Option;
@@ -123,7 +126,22 @@ const props = withDefaults(defineProps<Props>(), {
     else return option.text || "";
   },
 });
-const emit = defineEmits(["update:modelValue", "open", "close", "afterTransitionEnd", "search"]);
+// const emit = defineEmits(["update:modelValue", "open", "close", "afterTransitionEnd", "search", "newOption"]);
+const emit = defineEmits<{
+  (e: "update:modelValue", arg0: any): void;
+  (e: "open"): void;
+  (e: "close"): void;
+  (e: "afterTransitionEnd"): void;
+  (e: "search", arg0: string): void;
+  (
+    e: "newOption",
+    arg0: {
+      newOption: string;
+      isAlreadyInValue: boolean;
+      isAlreadyInOptions: boolean;
+    }
+  ): void;
+}>();
 const color = useColor(toRef(props, "color"));
 const state = reactive<State>({
   search: "",
@@ -164,8 +182,7 @@ const onSelectValue = ({ event, activate }: { event: string | number; activate: 
     emit("update:modelValue", event);
   }
   if (!props.keepOpenAfterSelection) {
-    state.search = "";
-    props.customSearch?.("");
+    resetSearch();
     // in order to focus on the laters selected item
     // this.focusedItem = this.options.findIndex(({ value }) => value === event);
     close();
@@ -204,10 +221,10 @@ const open = () => {
   });
   emit("open");
 };
-const close = (resetSearch: boolean = true, blur: boolean = true) => {
+const close = (resetSearchValue: boolean = true, blur: boolean = true) => {
   if (!state.active) return;
   state.active = false;
-  if (resetSearch) state.search = "";
+  if (resetSearchValue) resetSearch();
   state.focusedItem = -1;
   if (blur) rInput.value.inputRef.blur();
   state.page = 1;
@@ -221,7 +238,7 @@ const clickOutside = {
   },
 };
 const canOpenDropdown = computed<boolean>(() => {
-  if (props.noDropdownOnEmptySearch && !state.search) return false;
+  if ((props.noDropdownOnEmptySearch && !state.search) || props.noDropdown) return false;
   return true;
 });
 
@@ -281,7 +298,7 @@ if (!areOptionsProvided.value) {
   watch(
     () => props.items,
     (items) => setOptionsFromItems(items),
-    { immediate: true }
+    { immediate: true, deep: true }
   );
 }
 const noOptions = computed(() => {
@@ -290,6 +307,7 @@ const noOptions = computed(() => {
 
 // Items Focus
 function onArrowDown() {
+  if (props.noDropdown) return;
   if (noOptions.value) return;
   if (state.focusedItem < state.options.length - 1) state.focusedItem++;
   else state.focusedItem = 0;
@@ -298,17 +316,30 @@ function onArrowDown() {
   }
 }
 function onArrowUp() {
+  if (props.noDropdown) return;
   if (noOptions.value) return;
   if (state.focusedItem > 0) {
     state.focusedItem--;
-  } else if (state.focusedItem === 0) {
+  } else if (state.focusedItem === 0 || state.focusedItem < 0) {
     state.focusedItem = state.options.length - 1;
   }
   if (!isItemFocusable.value) {
     onArrowUp();
   }
 }
+
 function onEnter() {
+  if (props.canCreateOption && !focusedItemValue.value && !!state.search) {
+    const isAlreadyInValue = Array.isArray(props.modelValue) && props.modelValue.find((item) => item == state.search);
+    const isAlreadyInOptions = state.options.find(({ value }) => value == state.search);
+    emit("newOption", {
+      newOption: state.search,
+      isAlreadyInValue: Boolean(isAlreadyInValue),
+      isAlreadyInOptions: Boolean(isAlreadyInOptions),
+    });
+    resetSearch();
+    return;
+  }
   if (!focusedItemValue.value) return;
   let isValueActive = true;
   if (props.multiple && isArray(props.modelValue)) {
@@ -330,6 +361,8 @@ const isItemFocusable = computed(() => {
 
 // Selected Items
 const setSelectedItems = (options: Option[]) => {
+  console.log("setSelectedItems", options, props.modelValue);
+
   let items: Array<Option> | Option = state.selectedItems;
   if (Array.isArray(props.modelValue)) {
     props.modelValue.forEach((value) => {
@@ -388,8 +421,9 @@ const visibleItems = computed(() => {
       });
 });
 const onInputChange = (e: InputEvent) => {
-  emit("search", e);
-  props.customSearch?.((e.target as HTMLInputElement).value);
+  const value = (e.target as HTMLInputElement).value;
+  emit("search", value);
+  props.customSearch?.(value);
   props.customSearch && state.popper?.update();
 };
 watch(
@@ -401,6 +435,12 @@ watch(
     }
   }
 );
+const resetSearch = () => {
+  if (state.search === "") return;
+  props.customSearch?.("");
+  emit("search", "");
+  state.search = "";
+};
 
 // optimize
 const onDropdownScroll = (e: Event) => {
@@ -454,6 +494,7 @@ defineExpose({
   rInput,
   open,
   close,
+  resetSearch,
 });
 </script>
 
