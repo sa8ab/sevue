@@ -1,6 +1,6 @@
 <template>
   <div class="doc-item two">
-    <RSelect v-model="selected" placeholder="Select City">
+    <RSelect v-model="selected" placeholder="Select City" searchable>
       <RSelectGroup v-for="{ title, cities } in items" :title="title">
         <ROption v-for="{ name, id } in cities" :value="id" :text="name" />
       </RSelectGroup>

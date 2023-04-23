@@ -1,23 +1,29 @@
 <template>
   <div class="r-select-group">
-    <p class="title" v-if="visible">{{ title }}</p>
+    <slot name="header">
+      <p class="title" v-if="titleVisible">{{ title }}</p>
+    </slot>
     <slot></slot>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { rSelectKey } from "@/injectionKeys";
-import { computed, inject } from "vue";
+import { ref, inject, computed } from "vue";
 const select = inject(rSelectKey);
 defineOptions({
   isSelectGroup: true,
 });
-defineProps<{
+const props = defineProps<{
   title?: string;
-  [x: string | number | symbol]: any;
+  keepTitleOnSearch?: boolean;
 }>();
 
-const visible = computed(() => select?.search);
+const titleVisible = computed(() => {
+  if (props.keepTitleOnSearch) return true;
+  else if (!select?.search.value) return true;
+  else return false;
+});
 </script>
 
 <style lang="scss">

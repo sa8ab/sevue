@@ -67,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { createPopper, type Instance, type Modifier } from "@popperjs/core";
+import { createPopper, type Instance, type Modifier, type Options as PopperOptions } from "@popperjs/core";
 import { isArray } from "@vue/shared";
 import { rSelectKey } from "@/injectionKeys";
 import { nextTick, computed, onBeforeUnmount, onMounted, provide, reactive, ref, toRef, useSlots, watch, type VNode } from "vue";
@@ -100,6 +100,7 @@ export type Props = {
   paginationOffset?: number;
   perPage?: number;
   canCreateOption?: boolean;
+  popperOptions?: PopperOptions;
   renderPlaceholder?: (parameter: Option | Option[]) => string;
   customSearch?: (parameter: string) => void;
   itemExtractor?: (arg0: any) => Option;
@@ -226,6 +227,7 @@ const open = () => {
     state.popper = createPopper(rInput.value.inputContainerRef, dropdown.value, {
       placement: "bottom",
       modifiers: [sameWidth],
+      ...props.popperOptions,
     });
   });
   emit("open");

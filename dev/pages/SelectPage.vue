@@ -9,9 +9,14 @@
         :loading="loading"
         canCreateOption
         @newOption="onNewOption"
-        ref="selectRef"
         :items="items"
       >
+      </RSelect>
+
+      <RSelect v-model="selected" placeholder="Select City" searchable>
+        <RSelectGroup v-for="{ title, cities } in gItems" :title="title" keepTitleOnSearch>
+          <ROption v-for="{ name, id } in cities" :value="id" :text="name" />
+        </RSelectGroup>
       </RSelect>
 
       <RButton @click="items = []">Empty list</RButton>
@@ -29,10 +34,32 @@ import { computed } from "vue";
 import { onMounted } from "vue";
 import { nextTick } from "vue";
 
+const gItems = ref([
+  {
+    title: "UK",
+    cities: [
+      { name: "London", id: 1 },
+      { name: "Bristol", id: 2 },
+    ],
+  },
+  {
+    title: "Russia",
+    cities: [
+      { name: "Moscow", id: 3 },
+      { name: "Saint Petersburg", id: 4 },
+      { name: "Novosibirsk", id: 5 },
+    ],
+  },
+]);
+const selected = ref("");
+
 const searchTerm = ref("");
 const loading = ref(false);
 
-const items = ref([]);
+const items = ref([
+  { text: "zxzxc", value: "zxczxc" },
+  { text: "123", value: "123" },
+]);
 const items2 = ref([]);
 
 const customSelected = ref([]);
