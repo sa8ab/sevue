@@ -396,7 +396,7 @@ watch(
   () => {
     setSelectedItems(state.options);
   },
-  { immediate: true }
+  { immediate: true, deep: true }
 );
 
 const isAnyItemSelected = computed(() => {

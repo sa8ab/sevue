@@ -75,6 +75,7 @@ const onNewOption2 = ({ newOption, isAlreadyInValue, isAlreadyInOptions }: NewOp
       value: newOption,
     });
   }
+  console.log(newOption, isAlreadyInValue, isAlreadyInOptions);
 };
 </script>
 

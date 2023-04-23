@@ -51,7 +51,7 @@ const searchTerm = ref("");
 const loading = ref(false);
 
 const items = ref([
-  { text: "zxzxc", value: "zxczxc" },
+  { text: "zxzxc", value: "zxzxc" },
   { text: "123", value: "123" },
 ]);
 const items2 = ref([]);
@@ -84,10 +84,14 @@ const onNewOption = ({ newOption, isAlreadyInOptions, isAlreadyInValue }) => {
   //     },
   //   ]);
   // });
-  items.value.push({
-    value: newOption,
-    text: newOption,
-  });
+  if (!isAlreadyInOptions) {
+    items.value.push({
+      value: newOption,
+      text: newOption,
+    });
+  }
+
+  console.log({ newOption, isAlreadyInOptions, isAlreadyInValue });
 };
 const onNewSingleOption = ({ newOption, isAlreadyInOptions, isAlreadyInValue }) => {
   singleSelected.value = newOption;
