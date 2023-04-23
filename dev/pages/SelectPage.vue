@@ -9,14 +9,8 @@
         :loading="loading"
         canCreateOption
         @newOption="onNewOption"
-        :items="items"
       >
-      </RSelect>
-
-      <RSelect v-model="selected" placeholder="Select City" searchable>
-        <RSelectGroup v-for="{ title, cities } in gItems" :title="title">
-          <ROption v-for="{ name, id } in cities" :value="id" :text="name" />
-        </RSelectGroup>
+        <ROption v-for="item in items" :value="item.value" :text="item.text" />
       </RSelect>
 
       <RButton @click="items = []">Empty list</RButton>

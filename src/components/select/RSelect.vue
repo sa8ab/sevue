@@ -364,7 +364,7 @@ function onEnter() {
 }
 const focusedItemValue = computed(() => {
   if (state.focusedItem < 0) return undefined;
-  return state.options[state.focusedItem];
+  return visibleItems.value[state.focusedItem];
 });
 const isItemFocusable = computed(() => {
   const item = visibleItems.value.find(({ value }) => focusedItemValue.value?.value === value);
