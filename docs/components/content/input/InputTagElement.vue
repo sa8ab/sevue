@@ -1,7 +1,7 @@
 <template>
   <div class="doc-item">
     <RInput v-model="value" label="Textarea" tag="textarea" />
-    <RInput v-model="value" label="Will focus 1 second after mounting" :tag="InputWithDirective" />
+    <RInput v-model="value" label="value is initally set by directive" :tag="InputWithDirective" />
   </div>
 </template>
 

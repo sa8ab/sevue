@@ -4,10 +4,8 @@
 
 <script setup lang="ts">
 const vFocus = {
-  mounted: (el: HTMLElement) => {
-    setTimeout(() => {
-      el.focus();
-    }, 1000);
+  mounted: (el: HTMLInputElement) => {
+    el.value = "set by directive";
   },
 };
 </script>

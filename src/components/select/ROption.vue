@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['r-option r', { active: isActive, focused, disabled }]"
+    :class="['r-option', { active: isActive, focused, disabled }]"
     @click="onSelectValue"
     v-if="visible"
     v-ripple
@@ -69,6 +69,9 @@ const isActive = computed(() => {
   min-height: 100%;
   margin-bottom: calc(var(--r-space-1) / 2);
   padding: 0;
+  transition: background var(--r-duration);
+  border-radius: var(--r-radius);
+  cursor: pointer;
 
   .padding {
     padding: var(--r-normal-padding);

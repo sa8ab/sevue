@@ -55,7 +55,7 @@
               <slot name="noItems" class="noOptions"> No Options Available </slot>
             </div>
             <slot v-if="canCreateOption && state.search" name="newOption" :addNewOption="onEnter" :search="state.search">
-              <div class="new-option r" @click="onEnter">{{ state.search }}</div>
+              <div class="new-option" @click="onEnter">{{ state.search }}</div>
               <div class="new-option-separator"></div>
             </slot>
             <slot :optimizedItems="optimizedItems" />
@@ -580,11 +580,15 @@ defineExpose({
     padding: var(--r-normal-padding);
     font-size: var(--r-font-small);
     color: color(text);
+    transition: background var(--r-duration);
+    border-radius: var(--r-radius);
+    cursor: pointer;
     &:hover {
       background: color(hover, var(--hover-alpha));
     }
   }
   .new-option-separator {
+    padding: 2px 0;
     border-bottom: 1px solid color(border-color, var(--border-alpha));
   }
 }
