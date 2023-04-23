@@ -3,30 +3,17 @@
     <div class="container">
       <RSelect
         v-model="customSelected"
-        placeholder="Items"
+        placeholder="Type and hit enter"
         multiple
         searchable
         :loading="loading"
-        :items="items"
         canCreateOption
         @newOption="onNewOption"
         ref="selectRef"
-        noDropdown
+        :items="items"
       >
-        <template #default="slotProps">
-          <ROption v-for="item in slotProps.optimizedItems" :value="item.value" :text="item.text"> </ROption>
-        </template>
       </RSelect>
-      <RSelect
-        v-model="singleSelected"
-        placeholder="single item"
-        searchable
-        canCreateOption
-        @newOption="onNewSingleOption"
-        ref="singleSelectRef"
-      >
-        <ROption v-for="item in items2" :value="item.value" :text="item.text"> </ROption>
-      </RSelect>
+
       <RButton @click="items = []">Empty list</RButton>
       <RButton @click="loading = !loading">Toggle Loading</RButton>
       <RButton @click="items = items.filter((_, index) => index !== 3)"> Remove some item </RButton>
@@ -68,6 +55,14 @@ const onNewOption = ({ newOption, isAlreadyInOptions, isAlreadyInValue }) => {
   if (!isAlreadyInValue) {
     customSelected.value = [...customSelected.value, newOption];
   }
+  // nextTick(() => {
+  //   selectRef.value.setSelectedItems([
+  //     {
+  //       value: newOption,
+  //       text: newOption,
+  //     },
+  //   ]);
+  // });
   items.value.push({
     value: newOption,
     text: newOption,

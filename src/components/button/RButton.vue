@@ -126,6 +126,7 @@ button {
   transition: all 0.3s;
   display: inline-flex;
   user-select: none;
+  align-items: center;
   cursor: pointer;
   // min-height: var(--r-element-min-height);
   line-height: 1;

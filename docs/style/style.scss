@@ -51,3 +51,7 @@
     grid-template-columns: 1fr !important;
   }
 }
+
+.table-wrapper th:last-child {
+  min-width: 280px;
+}

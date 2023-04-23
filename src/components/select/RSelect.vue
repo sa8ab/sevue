@@ -29,7 +29,7 @@
             </div>
           </slot>
           <slot name="toggleIcon" :toggleOpen="toggleOpen" :active="state.active" :loading="loading">
-            <span @click.prevent="toggleOpen" :class="['dropdown-icon', { rotate: state.active }]" v-ripple v-if="!loading">
+            <span @click.prevent="toggleOpen" :class="['dropdown-icon', { rotate: state.active }]" v-ripple v-if="!loading && !noDropdown">
               <SevueIcon name="chevron-down" />
             </span>
           </slot>
@@ -54,7 +54,10 @@
             <div class="noOptions" v-if="noOptions && !canCreateOption">
               <slot name="noItems" class="noOptions"> No Options Available </slot>
             </div>
-            <div class="new-item" v-if="canCreateOption">{{ state.search }}</div>
+            <slot v-if="canCreateOption && state.search" name="newOption" :addNewOption="onEnter" :search="state.search">
+              <div class="new-option r" @click="onEnter">{{ state.search }}</div>
+              <div class="new-option-separator"></div>
+            </slot>
             <slot :optimizedItems="optimizedItems" />
           </div>
         </div>
@@ -158,7 +161,7 @@ const dropdown = ref();
 const toggle = ref();
 
 // cycle
-onMounted(() => !areOptionsProvided.value && setChildren(defaultSlot!()));
+onMounted(() => !shouldSkipSettingChildren.value && setChildren(defaultSlot!()));
 onBeforeUnmount(() => {
   if (state.active) {
     state.active = false;
@@ -181,12 +184,18 @@ const onSelectValue = ({ event, activate }: { event: string | number; activate: 
   } else {
     emit("update:modelValue", event);
   }
+
+  afterSelectionHook();
+};
+
+const afterSelectionHook = () => {
   if (!props.keepOpenAfterSelection) {
     resetSearch();
     // in order to focus on the laters selected item
     // this.focusedItem = this.options.findIndex(({ value }) => value === event);
     close();
   }
+  state.popper?.update();
 };
 
 // open/close dropdown
@@ -245,6 +254,7 @@ const canOpenDropdown = computed<boolean>(() => {
 // Options
 
 const areOptionsProvided = computed(() => !!props.items);
+const shouldSkipSettingChildren = computed(() => !defaultSlot || areOptionsProvided.value);
 
 const { default: defaultSlot } = useSlots();
 const setChildren = (defSlot: VNode[]) => {
@@ -289,7 +299,7 @@ const setOptionsFromItems = (items: Array<any> = []) => {
   state.options = tempOptions;
 };
 
-if (!areOptionsProvided.value) {
+if (!shouldSkipSettingChildren.value) {
   watch(
     () => defaultSlot!(),
     (defSlot) => setChildren(defSlot)
@@ -337,7 +347,7 @@ function onEnter() {
       isAlreadyInValue: Boolean(isAlreadyInValue),
       isAlreadyInOptions: Boolean(isAlreadyInOptions),
     });
-    resetSearch();
+    afterSelectionHook();
     return;
   }
   if (!focusedItemValue.value) return;
@@ -361,8 +371,6 @@ const isItemFocusable = computed(() => {
 
 // Selected Items
 const setSelectedItems = (options: Option[]) => {
-  console.log("setSelectedItems", options, props.modelValue);
-
   let items: Array<Option> | Option = state.selectedItems;
   if (Array.isArray(props.modelValue)) {
     props.modelValue.forEach((value) => {
@@ -565,6 +573,17 @@ defineExpose({
   .noOptions {
     padding: var(--r-normal-padding);
     text-align: center;
+  }
+  .new-option {
+    padding: var(--r-normal-padding);
+    font-size: var(--r-font-small);
+    color: color(text);
+    &:hover {
+      background: color(hover, var(--hover-alpha));
+    }
+  }
+  .new-option-separator {
+    border-bottom: 1px solid color(border-color, var(--border-alpha));
   }
 }
 
