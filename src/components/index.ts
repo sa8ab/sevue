@@ -6,6 +6,7 @@ import RPopup, { type Props as RPopupProps } from './popup'
 import { RSelect, ROption, RSelectGroup, type ROptionProps, type RSelectProps } from './select'
 import RSlider, { type Props as RSliderProps } from './slider'
 import { RTab, RTabItem, type Props as RTabProps } from './tabs'
+import RRadio, { type Props as RRadioProps } from './radio'
 
 export {
   RButton,
@@ -34,5 +35,8 @@ export {
 
   RTab,
   RTabProps,
-  RTabItem
+  RTabItem,
+
+  RRadio,
+  RRadioProps,
 }

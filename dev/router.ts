@@ -8,6 +8,7 @@ import LoadingPage from "./pages/LoadingPage.vue";
 import TabsPage from "./pages/TabsPage.vue";
 import InputPage from "./pages/InputPage.vue";
 import ButtonPage from "./pages/ButtonPage.vue";
+import RadioPage from "./pages/RadioPage.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -19,6 +20,7 @@ const routes = [
   { path: "/tabs", component: TabsPage },
   { path: "/input", component: InputPage },
   { path: "/button", component: ButtonPage },
+  { path: "/radio", component: RadioPage },
 ];
 
 export default createRouter({

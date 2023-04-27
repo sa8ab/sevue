@@ -1,10 +1,5 @@
 <template>
-  <Transition
-    @enter="enter"
-    @afterEnter="afterEnter"
-    @beforeLeave="beforeLeave"
-    :name="renderTransitionName"
-  >
+  <Transition @enter="enter" @afterEnter="afterEnter" @beforeLeave="beforeLeave" :name="renderTransitionName">
     <div class="r-tab-item" v-if="active">
       <slot></slot>
     </div>
@@ -22,7 +17,7 @@ const props = defineProps<{
   [x: string | number | symbol]: any;
 }>();
 
-const enter = (el: HTMLElement) => {
+const enter = (el: Element) => {
   const { height } = el.getBoundingClientRect();
   setTimeout(() => {
     tab.setHeight(`${height}px`);
@@ -31,7 +26,7 @@ const enter = (el: HTMLElement) => {
 const afterEnter = () => {
   tab.setHeight(`auto`);
 };
-const beforeLeave = (el: HTMLElement) => {
+const beforeLeave = (el: Element) => {
   // because auto to px does not translate
   const { height } = el.getBoundingClientRect();
   tab.setHeight(`${height}px`);

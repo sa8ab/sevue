@@ -15,6 +15,7 @@ import {
   RSlider,
   RTab,
   RTabItem,
+  RRadio,
 } from "./components";
 
 // directives
@@ -64,6 +65,7 @@ export default {
     app.component("RSlider", RSlider);
     app.component("RTab", RTab);
     app.component("RTabItem", RTabItem);
+    app.component("RRadio", RRadio);
 
     // directives
     app.directive("ripple", options.ripple ? ripple : {});
@@ -89,14 +91,7 @@ export default {
 };
 
 // composables
-export {
-  useNotification,
-  useLoading,
-  useSevue,
-  useTimer,
-  notificationFactory,
-  loadingFactory,
-};
+export { useNotification, useLoading, useSevue, useTimer, notificationFactory, loadingFactory };
 
 export {
   RButton,
@@ -110,6 +105,7 @@ export {
   RSlider,
   RTab,
   RTabItem,
+  RRadio,
 } from "./components";
 
 // inject keys
@@ -126,6 +122,7 @@ export type {
   ROptionProps,
   RSliderProps,
   RTabProps,
+  RRadioProps,
 } from "./components";
 export type {
   Colors,
@@ -164,6 +161,7 @@ declare module "@vue/runtime-core" {
     ROption: typeof import("./components/select/ROption.vue")["default"];
     RPagination: typeof import("./components/pagination/RPagination.vue")["default"];
     RPopup: typeof import("./components/popup/RPopup.vue")["default"];
+    RRadio: typeof import("./components/radio/RRadio.vue")["default"];
     RSelect: typeof import("./components/select/RSelect.vue")["default"];
     RSelectGroup: typeof import("./components/select/RSelectGroup.vue")["default"];
     RSlider: typeof import("./components/slider/RSlider.vue")["default"];
