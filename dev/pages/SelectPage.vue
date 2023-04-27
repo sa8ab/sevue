@@ -11,6 +11,10 @@
         @newOption="onNewOption"
       >
         <ROption v-for="item in items" :value="item.value" :text="item.text" />
+        <template #selectedItem="{ remove, text }">
+          <div class="selected-items">{{ text }}</div>
+          <div class="selected-items" @click="remove">remove</div>
+        </template>
       </RSelect>
 
       <RButton @click="items = []">Empty list</RButton>
@@ -72,7 +76,14 @@ const customSearch = (param: string) => {
   searchTerm.value = param;
 };
 
-const onNewOption = ({ newOption, isAlreadyInOptions, isAlreadyInValue }) => {
+const onNewOption = async ({ newOption, isAlreadyInOptions, isAlreadyInValue }) => {
+  loading.value = true;
+  await new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(true);
+    }, 1000);
+  });
+  loading.value = false;
   if (!isAlreadyInValue) {
     customSelected.value = [...customSelected.value, newOption];
   }
@@ -93,6 +104,8 @@ const onNewOption = ({ newOption, isAlreadyInOptions, isAlreadyInValue }) => {
   }
 
   console.log({ newOption, isAlreadyInOptions, isAlreadyInValue });
+
+  return true;
 };
 const onNewSingleOption = ({ newOption, isAlreadyInOptions, isAlreadyInValue }) => {
   singleSelected.value = newOption;

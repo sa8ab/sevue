@@ -42,8 +42,8 @@
         </template>
       </RInput>
       <SelectedItems :items="state.selectedItems" v-if="Array.isArray(state.selectedItems)" @itemClick="onSelectedItemClick">
-        <template #default="item">
-          <slot name="selectedItem" v-bind="item"></slot>
+        <template #default="slotProps">
+          <slot name="selectedItem" v-bind="slotProps"></slot>
         </template>
       </SelectedItems>
     </div>
@@ -104,6 +104,7 @@ export type Props = {
   renderPlaceholder?: (parameter: Option | Option[]) => string;
   customSearch?: (parameter: string) => void;
   itemExtractor?: (arg0: any) => Option;
+  onNewOption?: (arg0: { newOption: string; isAlreadyInValue: boolean; isAlreadyInOptions: boolean }) => Promise<boolean> | boolean;
 };
 
 type State = {
@@ -137,14 +138,6 @@ const emit = defineEmits<{
   (e: "close"): void;
   (e: "afterTransitionEnd"): void;
   (e: "search", arg0: string): void;
-  (
-    e: "newOption",
-    arg0: {
-      newOption: string;
-      isAlreadyInValue: boolean;
-      isAlreadyInOptions: boolean;
-    }
-  ): void;
 }>();
 const color = useColor(toRef(props, "color"));
 const state = reactive<State>({
@@ -340,16 +333,20 @@ function onArrowUp() {
   }
 }
 
+const handleNewOption = async () => {
+  const isAlreadyInValue = Array.isArray(props.modelValue) && props.modelValue.find((item) => item == state.search);
+  const isAlreadyInOptions = state.options.find(({ value }) => value == state.search);
+  const result = await props.onNewOption?.({
+    newOption: state.search,
+    isAlreadyInValue: Boolean(isAlreadyInValue),
+    isAlreadyInOptions: Boolean(isAlreadyInOptions),
+  });
+  if (result) afterSelectionHook();
+};
+
 function onEnter() {
   if (props.canCreateOption && !focusedItemValue.value && !!state.search) {
-    const isAlreadyInValue = Array.isArray(props.modelValue) && props.modelValue.find((item) => item == state.search);
-    const isAlreadyInOptions = state.options.find(({ value }) => value == state.search);
-    emit("newOption", {
-      newOption: state.search,
-      isAlreadyInValue: Boolean(isAlreadyInValue),
-      isAlreadyInOptions: Boolean(isAlreadyInOptions),
-    });
-    afterSelectionHook();
+    handleNewOption();
     return;
   }
   if (!focusedItemValue.value) return;

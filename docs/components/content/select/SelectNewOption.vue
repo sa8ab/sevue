@@ -10,7 +10,7 @@
           multiple
           searchable
           canCreateOption
-          @newOption="onNewOption"
+          :onNewOption="onNewOption"
           ref="selectRef"
           noDropdown
         >
@@ -52,6 +52,7 @@ const onNewOption = ({ newOption, isAlreadyInValue }: NewOption) => {
       },
     ]);
   });
+  return true;
 };
 
 // EXAMPLE 2
@@ -76,6 +77,7 @@ const onNewOption2 = ({ newOption, isAlreadyInValue, isAlreadyInOptions }: NewOp
     });
   }
   console.log(newOption, isAlreadyInValue, isAlreadyInOptions);
+  return true;
 };
 </script>
 

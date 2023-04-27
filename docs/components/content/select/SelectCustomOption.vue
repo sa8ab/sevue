@@ -3,51 +3,54 @@
     <RSelect v-model="selected" placeholder="Custom Option" :renderPlaceholder="renderPlaceholder" label="single item">
       <ROption v-for="{ name, flag, id } in items" :value="id" :context="{ name, flag }">
         <div class="custom-option">
-          <img :src="flag">
+          <img :src="flag" />
           <span>{{ name }}</span>
         </div>
       </ROption>
     </RSelect>
-    <RSelect v-model="selectedMultiple"
+    <RSelect
+      v-model="selectedMultiple"
       multiple
       placeholder="Custom Option"
       :renderPlaceholder="renderMultplePlaceholder"
-      label="multiple item">
+      label="multiple item"
+    >
       <ROption v-for="{ name, flag, id } in items" :value="id" :context="{ name, flag }">
         <div class="custom-option">
-          <img :src="flag">
+          <img :src="flag" />
           <span>{{ name }}</span>
         </div>
       </ROption>
-      <template #selectedItem="{ context }">
-        <div class="selected-item">
-          <img :src="context.flag">
+      <template #selectedItem="{ context, remove }">
+        <RButton class="selected-item" textStyle @click="remove">
+          <img :src="context.flag" />
           <span>{{ context.name }}</span>
-        </div>
+          <i class="bx bx-x"></i>
+        </RButton>
       </template>
     </RSelect>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { ROptionProps } from 'sevue'
+import type { RButton, ROptionProps } from "sevue";
 
 const items = ref([
-  { name: "Germany", id: 1, flag: 'https://flagsapi.com/DE/flat/64.png' },
-  { name: "Italy", id: 2, flag: 'https://flagsapi.com/IT/flat/64.png' },
-  { name: "United Kingdom", id: 3, flag: 'https://flagsapi.com/GB/flat/64.png' },
-  { name: "France", id: 4, flag: 'https://flagsapi.com/FR/flat/64.png' },
-  { name: "Greece", id: 5, flag: 'https://flagsapi.com/GR/flat/64.png' },
+  { name: "Germany", id: 1, flag: "https://www.countryflagicons.com/FLAT/32/DE.png" },
+  { name: "Italy", id: 2, flag: "https://www.countryflagicons.com/FLAT/32/IT.png" },
+  { name: "United Kingdom", id: 3, flag: "https://www.countryflagicons.com/FLAT/32/GB.png" },
+  { name: "France", id: 4, flag: "https://www.countryflagicons.com/FLAT/32/FR.png" },
+  { name: "Greece", id: 5, flag: "https://www.countryflagicons.com/FLAT/32/GR.png" },
 ]);
-const selected = ref('');
+const selected = ref("");
 const selectedMultiple = ref([]);
 
 const renderPlaceholder = (option: ROptionProps) => {
-  return option.context.name
-}
+  return option.context!.name;
+};
 const renderMultplePlaceholder = (options: any) => {
-  return `${options.length} items selected`
-}
+  return `${options.length} items selected`;
+};
 </script>
 
 <style scoped lang="scss">
@@ -68,6 +71,9 @@ const renderMultplePlaceholder = (options: any) => {
   display: flex;
   align-items: center;
   gap: var(--r-space-1);
+  font-size: var(--r-font-small);
+  padding: 4px 8px;
+  border: 1px solid rgba(gray, 0.4);
 
   img {
     width: 14px;
@@ -77,4 +83,3 @@ const renderMultplePlaceholder = (options: any) => {
   }
 }
 </style>
-
