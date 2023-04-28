@@ -127,9 +127,8 @@ button {
   display: inline-flex;
   user-select: none;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
-  // min-height: var(--r-element-min-height);
-  line-height: 1;
 
   &:hover {
     background: color(color, var(--hover-alpha));

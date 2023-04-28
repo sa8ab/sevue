@@ -3,7 +3,13 @@
     <RInput v-model="value" placeholder="input">
       <template #after>
         <div class="after">
-          <RButton iconOnly icon="bx-search"></RButton>
+          <RButton iconOnly>Hey</RButton>
+          <RButton>
+            hi2
+            <template #icon>
+              <i class="bx bx-search"></i>
+            </template>
+          </RButton>
         </div>
       </template>
     </RInput>
