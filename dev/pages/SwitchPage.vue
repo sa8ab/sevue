@@ -16,6 +16,7 @@
     </RSwitch>
     <RSwitch v-model="active" value="3" />
     <RButton @click="active = []">Clean</RButton>
+    <RButton @click="active = ['1', '2', '3']">Fill</RButton>
   </div>
 </template>
 

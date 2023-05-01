@@ -1,10 +1,10 @@
 <template>
   <div
-    :class="['r-switch', { alternative }]"
+    :class="['r-switch', { alternative, disabled }]"
     :style="{ '--r-color': color || 'var(--r-prm)', width: autoWidth ? 'auto' : state.width }"
     ref="switchRef"
   >
-    <input class="r-switch-input" type="checkbox" v-model="model" v-bind="$attrs" ref="inputRef" />
+    <input class="r-switch-input" type="checkbox" v-model="model" :disabled="disabled" v-bind="$attrs" ref="inputRef" />
     <div class="r-switch-background"></div>
     <div class="r-switch-text r-switch-on" ref="onRef">
       <slot name="on">
@@ -30,6 +30,7 @@ export interface Props {
   color?: string;
   autoWidth?: boolean;
   alternative?: boolean;
+  disabled?: boolean;
 }
 
 defineOptions({
@@ -201,6 +202,11 @@ defineExpose({});
     .r-switch-circle {
       background: color(b2);
     }
+  }
+  &.disabled {
+    opacity: var(--r-disabled-alpha);
+    pointer-events: none;
+    --r-color: var(--r-disabled) !important;
   }
 }
 </style>
