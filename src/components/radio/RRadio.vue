@@ -30,7 +30,7 @@ import SevueIcon from "@/components/icons/SevueIcon.vue";
 import useColor from "@/composables/useColor";
 
 export interface Props {
-  modelValue: string | number | boolean;
+  modelValue: string | number | boolean | undefined;
   value?: string | number;
   color?: string;
   containerClass?: string;

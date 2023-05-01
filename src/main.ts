@@ -16,6 +16,7 @@ import {
   RTab,
   RTabItem,
   RRadio,
+  RSwitch,
 } from "./components";
 
 // directives
@@ -66,6 +67,7 @@ export default {
     app.component("RTab", RTab);
     app.component("RTabItem", RTabItem);
     app.component("RRadio", RRadio);
+    app.component("RSwitch", RSwitch);
 
     // directives
     app.directive("ripple", options.ripple ? ripple : {});
@@ -106,6 +108,7 @@ export {
   RTab,
   RTabItem,
   RRadio,
+  RSwitch,
 } from "./components";
 
 // inject keys
@@ -123,6 +126,7 @@ export type {
   RSliderProps,
   RTabProps,
   RRadioProps,
+  RSwitchProps,
 } from "./components";
 export type {
   Colors,
@@ -169,5 +173,6 @@ declare module "@vue/runtime-core" {
     RSliderTick: typeof import("./components/slider/RSliderTick.vue")["default"];
     RTab: typeof import("./components/tabs/RTab.vue")["default"];
     RTabItem: typeof import("./components/tabs/RTabItem.vue")["default"];
+    RSwitch: typeof import("./components/switch/RSwitch.vue")["default"];
   }
 }

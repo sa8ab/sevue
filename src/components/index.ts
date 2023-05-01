@@ -7,6 +7,7 @@ import { RSelect, ROption, RSelectGroup, type ROptionProps, type RSelectProps } 
 import RSlider, { type Props as RSliderProps } from './slider'
 import { RTab, RTabItem, type Props as RTabProps } from './tabs'
 import RRadio, { type Props as RRadioProps } from './radio'
+import RSwitch, { type Props as RSwitchProps } from './switch'
 
 export {
   RButton,
@@ -39,4 +40,7 @@ export {
 
   RRadio,
   RRadioProps,
+
+  RSwitch,
+  RSwitchProps,
 }

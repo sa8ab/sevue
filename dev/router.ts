@@ -9,6 +9,7 @@ import TabsPage from "./pages/TabsPage.vue";
 import InputPage from "./pages/InputPage.vue";
 import ButtonPage from "./pages/ButtonPage.vue";
 import RadioPage from "./pages/RadioPage.vue";
+import SwitchPage from "./pages/SwitchPage.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -21,6 +22,7 @@ const routes = [
   { path: "/input", component: InputPage },
   { path: "/button", component: ButtonPage },
   { path: "/radio", component: RadioPage },
+  { path: "/switch", component: SwitchPage },
 ];
 
 export default createRouter({

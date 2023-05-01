@@ -9,6 +9,7 @@
     <RouterLink to="/input" class="item" v-ripple>Input</RouterLink>
     <RouterLink to="/button" class="item" v-ripple>Button</RouterLink>
     <RouterLink to="/radio" class="item" v-ripple>Radio</RouterLink>
+    <RouterLink to="/switch" class="item" v-ripple>Switch</RouterLink>
   </div>
 </template>
 

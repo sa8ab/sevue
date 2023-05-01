@@ -15,21 +15,21 @@
 defineProps({
   appear: { default: false },
 });
-const beforeEnter = (el: HTMLElement) => {
-  el.style.height = `0`;
+const beforeEnter = (el: Element) => {
+  (<HTMLElement>el).style.height = `0`;
 };
-const enter = (el: HTMLElement) => {
+const enter = (el: Element) => {
   const h = el.scrollHeight;
-  el.style.height = `${h}px`;
+  (<HTMLElement>el).style.height = `${h}px`;
 };
-const afterEnter = (el: HTMLElement) => {
-  el.style.height = `auto`;
+const afterEnter = (el: Element) => {
+  (<HTMLElement>el).style.height = `auto`;
 };
-const leave = (el: HTMLElement) => {
+const leave = (el: Element) => {
   const height = getComputedStyle(el).height;
-  el.style.height = height;
+  (<HTMLElement>el).style.height = height;
   getComputedStyle(el).height;
-  el.style.height = `0`;
+  (<HTMLElement>el).style.height = `0`;
 };
 </script>
 
