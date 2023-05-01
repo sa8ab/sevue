@@ -1,6 +1,6 @@
 <template>
   <div
-    class="r-switch"
+    :class="['r-switch', { alternative }]"
     :style="{ '--r-color': color || 'var(--r-prm)', width: autoWidth ? 'auto' : state.width }"
     ref="switchRef"
   >
@@ -29,6 +29,7 @@ export interface Props {
   modelValue?: boolean | string | number | null | Record<string, any>;
   color?: string;
   autoWidth?: boolean;
+  alternative?: boolean;
 }
 
 defineOptions({
@@ -140,7 +141,7 @@ defineExpose({});
     width: var(--circle-width);
     height: var(--circle-width);
     position: absolute;
-    background-color: color(b1);
+    background: color(b1);
     border-radius: 80px;
     left: var(--padding);
     z-index: 4;
@@ -149,6 +150,7 @@ defineExpose({});
     align-items: center;
     justify-content: center;
     font-size: var(--r-font-small);
+    box-shadow: 0 0 6px -2px color(shadow-color, var(--r-shadow-alpha));
   }
 
   &-input {
@@ -191,6 +193,13 @@ defineExpose({});
     }
     .r-switch-input:checked ~ .r-switch-circle {
       left: calc(100% - var(--circle-width) - var(--padding) - 8px) !important;
+    }
+  }
+
+  &.alternative {
+    background: color(b1);
+    .r-switch-circle {
+      background: color(b2);
     }
   }
 }

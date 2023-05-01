@@ -4,7 +4,7 @@
       <template #on> ON </template>
       <template #off> OFF </template>
     </RSwitch>
-    <RSwitch v-model="active" value="1" color="green">
+    <RSwitch v-model="active" value="1" color="green" alternative>
       Subscribe
       <template #circle>
         <div class="bx bx-envelope"></div>
