@@ -19,7 +19,9 @@
       ref="inputRef"
     />
     <div class="check-container">
-      <SevueIcon name="check" class="icon" />
+      <slot name="icon">
+        <SevueIcon name="check" class="icon" />
+      </slot>
       <div class="background"></div>
     </div>
     <div class="slot">
@@ -95,7 +97,6 @@ defineExpose({
   display: flex;
   align-items: center;
   gap: var(--r-space-1);
-  color: color(text-color);
 
   &:hover {
     .check-container {
@@ -120,10 +121,12 @@ defineExpose({
     align-items: center;
     justify-content: center;
     position: relative;
+    z-index: 2;
     border-radius: var(--r-radius);
     overflow: hidden;
     border: 2px solid color(hover, var(--hover-alpha));
     transition: all var(--r-duration);
+    color: color(text-color);
   }
 
   .background {
@@ -133,7 +136,7 @@ defineExpose({
     width: 100%;
     height: 100%;
     background: color();
-    z-index: -1;
+    z-index: 0;
     transform: translateY(100%);
     transition: all var(--r-duration);
     border-radius: 50%;
