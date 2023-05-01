@@ -28,6 +28,7 @@ declare module '@vue/runtime-core' {
     RSlider: typeof import('./src/components/slider/RSlider.vue')['default']
     RSliderDot: typeof import('./src/components/slider/RSliderDot.vue')['default']
     RSliderTick: typeof import('./src/components/slider/RSliderTick.vue')['default']
+    RSwitch: typeof import('./src/components/switch/RSwitch.vue')['default']
     RTab: typeof import('./src/components/tabs/RTab.vue')['default']
     RTabItem: typeof import('./src/components/tabs/RTabItem.vue')['default']
     SelectedItems: typeof import('./src/components/select/SelectedItems.vue')['default']

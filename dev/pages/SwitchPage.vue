@@ -11,7 +11,7 @@
       </template>
     </RSwitch>
     <RSwitch v-model="active" value="2" color="red">
-      <template #on>Subscribed</template>
+      <template #on>123</template>
       <template #off>Subscribed 123</template>
     </RSwitch>
     <RSwitch v-model="active" value="3" />

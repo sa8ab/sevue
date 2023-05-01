@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['r-switch', { alternative, disabled }]"
+    :class="['r-switch', containerClass, { alternative, disabled }]"
     :style="{ '--r-color': color || 'var(--r-prm)', width: autoWidth ? 'auto' : state.width }"
     ref="switchRef"
   >
@@ -31,6 +31,7 @@ export interface Props {
   autoWidth?: boolean;
   alternative?: boolean;
   disabled?: boolean;
+  containerClass?: string;
 }
 
 defineOptions({
@@ -58,19 +59,16 @@ const switchRef = ref<HTMLDivElement | undefined>();
 
 onMounted(() => {
   // make sure elements are there
+  setTimeout(() => {
+    calulateWidth(inputRef.value?.checked);
+  }, 200);
 });
 
 const calulateWidth = async (checked?: boolean) => {
+  await nextTick();
   const field = checked ? onRef.value : offRef.value;
-  const altField = !checked ? onRef.value : offRef.value;
-
-  if (state.width === "auto") {
-    state.width = `${altField?.getBoundingClientRect().width}px`;
-    console.log("width is auto, setting width to", state.width);
-  }
 
   const { width } = field?.getBoundingClientRect() || {};
-
   state.width = width ? `${width}px` : "auto";
 };
 

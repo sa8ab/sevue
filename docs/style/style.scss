@@ -55,3 +55,10 @@
 .table-wrapper th:last-child {
   min-width: 280px;
 }
+
+.table-wrapper {
+  td:nth-child(2),
+  th:nth-child(2) {
+    color: rgba(230, 126, 34, 1);
+  }
+}
