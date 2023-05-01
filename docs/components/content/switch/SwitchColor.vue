@@ -1,5 +1,5 @@
 <template>
-  <div class="doc-items">
+  <div class="doc-items card">
     <RSwitch v-model="selected1" v-for="color in colors" :color="color"></RSwitch>
   </div>
 </template>

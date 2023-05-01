@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container card">
     <pre>{{ selected }}</pre>
     <div class="doc-items">
       <RSwitch v-model="selected" v-for="item in items" :value="item.value">{{ item.text }}</RSwitch>

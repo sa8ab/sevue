@@ -1,5 +1,5 @@
 <template>
-  <div class="doc-items">
+  <div class="doc-items card">
     <RSwitch v-model="selected1"></RSwitch>
     <RSwitch v-model="selected2" color="green">
       <template #circle> <i class="bx bx-cog"></i> </template>
