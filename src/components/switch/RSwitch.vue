@@ -1,12 +1,20 @@
 <template>
-  <div class="r-switch" :style="{ '--r-color': color || 'var(--r-prm)' }">
-    <input class="r-switch-input" type="checkbox" v-model="model" v-bind="$attrs" @change="onChange" />
+  <div
+    class="r-switch"
+    :style="{ '--r-color': color || 'var(--r-prm)', width: autoWidth ? 'auto' : state.width }"
+    ref="switchRef"
+  >
+    <input class="r-switch-input" type="checkbox" v-model="model" v-bind="$attrs" ref="inputRef" />
     <div class="r-switch-background"></div>
-    <div class="r-switch-text r-switch-on">
-      <slot name="on" />
+    <div class="r-switch-text r-switch-on" ref="onRef">
+      <slot name="on">
+        <slot />
+      </slot>
     </div>
-    <div class="r-switch-text r-switch-off">
-      <slot name="off" />
+    <div class="r-switch-text r-switch-off" ref="offRef">
+      <slot name="off">
+        <slot />
+      </slot>
     </div>
     <div class="r-switch-circle">
       <slot name="circle" />
@@ -15,11 +23,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, toRef, computed } from "vue";
+import { reactive, toRef, computed, ref, watch, nextTick, onMounted } from "vue";
 import useColor from "@/composables/useColor";
 export interface Props {
   modelValue?: boolean | string | number | null | Record<string, any>;
   color?: string;
+  autoWidth?: boolean;
 }
 
 defineOptions({
@@ -31,18 +40,52 @@ const emit = defineEmits(["update:modelValue"]);
 
 const color = useColor(toRef(props, "color"));
 
-const state = reactive({
+type State = {
+  focused: boolean;
+  width?: string;
+};
+const state = reactive<State>({
   focused: false,
+  width: "auto",
 });
 
-const onChange = (e: any) => {
-  console.log(e.target.checked);
+const inputRef = ref<HTMLInputElement | undefined>();
+const onRef = ref<HTMLDivElement | undefined>();
+const offRef = ref<HTMLDivElement | undefined>();
+const switchRef = ref<HTMLDivElement | undefined>();
+
+onMounted(() => {
+  // make sure elements are there
+});
+
+const calulateWidth = async (checked?: boolean) => {
+  const field = checked ? onRef.value : offRef.value;
+  const altField = !checked ? onRef.value : offRef.value;
+
+  if (state.width === "auto") {
+    state.width = `${altField?.getBoundingClientRect().width}px`;
+    console.log("width is auto, setting width to", state.width);
+  }
+
+  const { width } = field?.getBoundingClientRect() || {};
+
+  state.width = width ? `${width}px` : "auto";
 };
 
 const model = computed({
   get: () => props.modelValue,
   set: (e) => emit("update:modelValue", e),
 });
+
+if (!props.autoWidth) {
+  watch(
+    () => props.modelValue,
+    () => {
+      calulateWidth(inputRef.value?.checked);
+    },
+    { flush: "post" }
+  );
+}
 
 defineExpose({});
 </script>
@@ -63,6 +106,7 @@ defineExpose({});
   justify-content: center;
   cursor: pointer;
   overflow: hidden;
+  transition: width var(--duration);
   &-background {
     position: absolute;
     left: -100%;
@@ -80,10 +124,16 @@ defineExpose({});
     padding-left: var(--text-space);
     z-index: 2;
     transition: all var(--duration);
+    white-space: nowrap;
+    user-select: none;
   }
   &-on {
     position: absolute;
     transform: translateX(-100%);
+    left: 0;
+  }
+  &-off {
+    right: 0;
   }
 
   &-circle {
