@@ -44,7 +44,6 @@ export interface Props {
   falseValue?: any;
   containerClass?: string;
   disabled?: boolean;
-  [x: string | number | symbol]: any;
 }
 
 defineOptions({
