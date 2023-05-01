@@ -13,13 +13,18 @@
         </div>
       </template>
     </RInput>
-    <RInput tag="textarea" v-model="value" placeholder="some placeholder" @input="onInput"></RInput>
+    <RInput
+      tag="textarea"
+      v-model="value"
+      placeholder="some placeholder"
+      @input="onInput"
+    ></RInput>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, h } from "vue";
-import { RInput } from "../../src/components";
+import { RInput } from "../../src/main";
 
 const value = ref("sdds");
 
