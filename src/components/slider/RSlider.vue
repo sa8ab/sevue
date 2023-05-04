@@ -36,7 +36,7 @@ import { computed, provide, reactive, watch, ref, type StyleValue, toRef } from 
 import Dot from "./RSliderDot.vue";
 import RSliderTick from "./RSliderTick.vue";
 export interface Props {
-  modelValue: number | [number, number];
+  modelValue?: number | Array<number>;
   min?: number;
   max?: number;
   step?: number;
@@ -66,13 +66,15 @@ const state = reactive({
   isDragging: false,
   transition: `all 0.3s`,
 });
-const slider = ref();
+const slider = ref<HTMLDivElement | undefined>();
 
 const setValues = () => {
   if (isRange.value) {
     const [one, two] = <number[]>props.modelValue;
-    state.value2 = areDotsReversed.value ? one : two;
-    state.value1 = areDotsReversed.value ? two : one;
+    const LOWER = Math.max(one, props.min);
+    const UPPER = Math.min(two, props.max);
+    state.value2 = areDotsReversed.value ? LOWER : UPPER;
+    state.value1 = areDotsReversed.value ? UPPER : LOWER;
   } else {
     state.value1 = <number>props.modelValue;
   }
@@ -108,7 +110,7 @@ const onValueTwoUpdate = (e: Pick<MouseEvent, "clientX">) => {
 
 const getValueFromPosition = ({ position }: { position: number }) => {
   const { min, max, step } = props;
-  const sliderOffsetLeft = slider.value.getBoundingClientRect().left;
+  const sliderOffsetLeft = slider.value?.getBoundingClientRect().left || 0;
   const percent = ((position - sliderOffsetLeft) / sliderWidth()) * 100;
   const raw = percent / step / (100 / (max - min));
   const rounded = Math.round(raw);
@@ -122,7 +124,7 @@ const getPositionFromValue = ({ value }: { value: number }) => {
   return (value / (props.max - props.min)) * 100;
 };
 const sliderWidth = () => {
-  return slider.value.getBoundingClientRect().width;
+  return slider.value?.getBoundingClientRect().width || 0;
 };
 
 const setIsDragging = (e: boolean) => {
@@ -171,7 +173,7 @@ const progressStyle = computed(() => {
   ) as StyleValue;
 });
 
-watch(() => props.modelValue, setValues, { immediate: true });
+watch([() => props.modelValue, () => props.max, () => props.min], setValues, { immediate: true, deep: true });
 // export default {
 //   provide() {
 //     return {

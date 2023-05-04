@@ -1,16 +1,30 @@
 <template>
-  <div class="center-it">hi</div>
+  <div class="center-it">
+    {{ selected }}
+    <div class="container">
+      <RSlider v-model="selected" :min="min" :max="max" ticks />
+    </div>
+    <RButton @click="changeMinMax">Change min and max</RButton>
+    <RButton @click="selected = [1, 100]">Upper value to more than max</RButton>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, h } from "vue";
-import { RInput } from "../../src/main";
+import { ref } from "vue";
 
-const value = ref("sdds");
+const selected = ref([0, 10]);
+const min = ref(0);
+const max = ref(20);
 
-const onInput = (e) => {
-  console.log(e);
+const changeMinMax = () => {
+  max.value = 4;
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.container {
+  max-width: 600px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+</style>
