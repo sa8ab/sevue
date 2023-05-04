@@ -48,6 +48,7 @@ export interface Props {
   tickLabels?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
+  modelValue: 0,
   min: 0,
   max: 100,
   step: 1,
