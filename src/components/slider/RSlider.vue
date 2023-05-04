@@ -5,12 +5,25 @@
       <div class="ticks" v-if="ticks">
         <RSliderTick class="tick" v-for="tick in ticksList" :key="tick.value" v-bind="tick" />
       </div>
-      <Dot ref="dotOne" :dotVal="state.value1" v-bind="$props" @update="onValueOneUpdate" @setIsDragging="setIsDragging"
-        class="dot-1">
+      <Dot
+        ref="dotOne"
+        :dotVal="state.value1"
+        v-bind="$props"
+        @update="onValueOneUpdate"
+        @setIsDragging="setIsDragging"
+        class="dot-1"
+      >
         <slot name="tooltip" :value="state.value1"></slot>
       </Dot>
-      <Dot v-if="isRange" ref="dotTwo" :dotVal="state.value2" v-bind="$props" @update="onValueTwoUpdate"
-        @setIsDragging="setIsDragging" class="dot-2">
+      <Dot
+        v-if="isRange"
+        ref="dotTwo"
+        :dotVal="state.value2"
+        v-bind="$props"
+        @update="onValueTwoUpdate"
+        @setIsDragging="setIsDragging"
+        class="dot-2"
+      >
         <slot name="tooltip" :value="state.value2"></slot>
       </Dot>
     </div>
@@ -33,23 +46,19 @@ export interface Props {
   color?: string;
   ticks?: boolean;
   tickLabels?: boolean;
-  [x: string | number | symbol]: any;
 }
-const props = withDefaults(
-  defineProps<Props>(),
-  {
-    min: 0,
-    max: 100,
-    step: 1,
-    precision: 0,
-    tooltip: false,
-    alwaysTooltip: false,
-    ticks: false,
-    tickLabels: false,
-  }
-);
+const props = withDefaults(defineProps<Props>(), {
+  min: 0,
+  max: 100,
+  step: 1,
+  precision: 0,
+  tooltip: false,
+  alwaysTooltip: false,
+  ticks: false,
+  tickLabels: false,
+});
 const emit = defineEmits(["update:modelValue"]);
-const color = useColor(toRef(props, 'color'))
+const color = useColor(toRef(props, "color"));
 
 const state = reactive({
   value1: 0,
@@ -148,16 +157,18 @@ const progressStyle = computed(() => {
   const { min, max } = props;
   const { value1, value2 } = state;
   const _isRange = isRange.value;
-  return (_isRange
-    ? {
-      width: `${(Math.abs(value1 - value2) / (max - min)) * 100}%`,
-      left: `${((Math.min(value1, value2) - min) / (max - min)) * 100}%`,
-      transition: !state.isDragging && state.transition,
-    }
-    : {
-      width: `${((value1 - min) / (max - min)) * 100}%`,
-      transition: !state.isDragging && state.transition,
-    }) as StyleValue
+  return (
+    _isRange
+      ? {
+          width: `${(Math.abs(value1 - value2) / (max - min)) * 100}%`,
+          left: `${((Math.min(value1, value2) - min) / (max - min)) * 100}%`,
+          transition: !state.isDragging && state.transition,
+        }
+      : {
+          width: `${((value1 - min) / (max - min)) * 100}%`,
+          transition: !state.isDragging && state.transition,
+        }
+  ) as StyleValue;
 });
 
 watch(() => props.modelValue, setValues, { immediate: true });
@@ -169,13 +180,13 @@ watch(() => props.modelValue, setValues, { immediate: true });
 //   },
 //   computed: {},
 // };
-provide('slider', {
-  transition: toRef(state, 'transition'),
-  tickLabels: toRef(props, 'tickLabels'),
-  min: toRef(props, 'min'),
-  max: toRef(props, 'max'),
+provide("slider", {
+  transition: toRef(state, "transition"),
+  tickLabels: toRef(props, "tickLabels"),
+  min: toRef(props, "min"),
+  max: toRef(props, "max"),
   getPositionFromValue,
-})
+});
 </script>
 
 <style lang="scss">
