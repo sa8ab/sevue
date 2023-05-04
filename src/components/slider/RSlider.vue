@@ -72,8 +72,9 @@ const slider = ref<HTMLDivElement | undefined>();
 const setValues = () => {
   if (isRange.value) {
     const [one, two] = <number[]>props.modelValue;
-    const LOWER = Math.max(one, props.min);
-    const UPPER = Math.min(two, props.max);
+    const LOWER = Math.min(Math.max(one, props.min), props.max);
+    const UPPER = Math.max(Math.min(two, props.max), props.min);
+
     state.value2 = areDotsReversed.value ? LOWER : UPPER;
     state.value1 = areDotsReversed.value ? UPPER : LOWER;
   } else {
@@ -114,7 +115,7 @@ const getValueFromPosition = ({ position }: { position: number }) => {
   const sliderOffsetLeft = slider.value?.getBoundingClientRect().left || 0;
   const percent = ((position - sliderOffsetLeft) / sliderWidth()) * 100;
   const raw = percent / step / (100 / (max - min));
-  const rounded = Math.round(raw);
+  const rounded = props.precision ? raw : Math.round(raw);
   const value = parseFloat((rounded * step + min).toFixed(props.precision));
   if (value > max) return max;
   if (value < min) return min;
@@ -122,7 +123,7 @@ const getValueFromPosition = ({ position }: { position: number }) => {
 };
 
 const getPositionFromValue = ({ value }: { value: number }) => {
-  return (value / (props.max - props.min)) * 100;
+  return ((value - props.min) / (props.max - props.min)) * 100;
 };
 const sliderWidth = () => {
   return slider.value?.getBoundingClientRect().width || 0;
@@ -149,9 +150,10 @@ const areDotsReversed = computed(() => {
 const ticksList = computed(() => {
   const list = [];
   const count = (props.max - props.min) / props.step;
-  for (let x = 0; x < count + 1; x++) {
+
+  for (let x = 0; x <= count; x++) {
     list.push({
-      value: x * props.step,
+      value: x * props.step + props.min,
     });
   }
   return list;

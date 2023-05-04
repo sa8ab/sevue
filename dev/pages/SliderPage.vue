@@ -12,8 +12,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const selected = ref([0, 10]);
-const min = ref(0);
+const selected = ref([2, 4]);
+const min = ref(2);
 const max = ref(20);
 
 const changeMinMax = () => {
