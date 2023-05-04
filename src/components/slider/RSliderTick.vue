@@ -1,6 +1,6 @@
 <template>
   <div class="r-slider-tick" :style="renderStyle" v-if="!hidden">
-    <span class="tick-dot"></span>
+    <span class="tick-dot" :style="{ opacity: noDot ? 0 : 1 }"></span>
     <div class="text" v-if="slider.tickLabels">{{ text || value }}</div>
   </div>
 </template>
@@ -15,9 +15,11 @@ const renderStyle = computed(() => {
     left: `${slider.getPositionFromValue({ value: props.value })}%`,
   };
 });
-const hidden = computed(() => {
+const noDot = computed(() => {
   return props.value === slider.min.value || props.value === slider.max.value;
 });
+
+const hidden = computed(() => props.value > slider.max.value || props.value < slider.min.value);
 </script>
 
 <style lang="scss">

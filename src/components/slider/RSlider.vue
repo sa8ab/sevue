@@ -3,7 +3,7 @@
     <div class="bar" ref="slider" @click="onSliderClick">
       <div class="progress" :style="progressStyle"></div>
       <div class="ticks" v-if="ticks">
-        <RSliderTick class="tick" v-for="tick in ticksList" :key="tick.value" v-bind="tick" />
+        <RSliderTick class="tick" v-for="tick in ticksList" v-bind="tick" />
       </div>
       <Dot
         ref="dotOne"
@@ -46,6 +46,7 @@ export interface Props {
   color?: string;
   ticks?: boolean;
   tickLabels?: boolean;
+  customTicks?: Array<{ text: string; value: number }>;
 }
 const props = withDefaults(defineProps<Props>(), {
   modelValue: 0,
@@ -148,6 +149,7 @@ const areDotsReversed = computed(() => {
   return false;
 });
 const ticksList = computed(() => {
+  if (props.customTicks) return props.customTicks;
   const list = [];
   const count = (props.max - props.min) / props.step;
 
