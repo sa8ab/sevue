@@ -108,7 +108,7 @@ import type { Props as Option } from "./ROption.vue";
 export type Props = {
   searchable?: boolean;
   multiple?: boolean;
-  modelValue?: Array<number | string> | number | string;
+  modelValue?: Array<number | string> | number | string | null;
   placeholder?: string;
   disabled?: boolean;
   label?: string;
@@ -199,9 +199,9 @@ const onAfterLeave = () => {
 const onSelectValue = ({ event, activate }: { event: string | number; activate: boolean }) => {
   if (props.multiple) {
     if (activate) {
-      emit("update:modelValue", [...(<Array<Number>>props.modelValue), event]);
+      emit("update:modelValue", [...(props.modelValue as number[]), event]);
     } else {
-      let val = [...(<Array<Number>>props.modelValue)];
+      let val = [...(props.modelValue as number[])];
       val = val.filter((x) => x !== event);
       emit("update:modelValue", val);
     }
@@ -283,7 +283,7 @@ const shouldSkipSettingChildren = computed(() => !defaultSlot || areOptionsProvi
 
 const { default: defaultSlot } = useSlots();
 const setChildren = (defSlot: VNode[]) => {
-  const tempOptions: Picked<State, "options"> = [];
+  const tempOptions: State["options"] = [];
   const checkItem = (nodes: VNode[]) => {
     nodes.forEach((node) => {
       if ((node.type as any).isOption) {
@@ -304,10 +304,10 @@ const setChildren = (defSlot: VNode[]) => {
   state.options = tempOptions;
 };
 
-const setOptionsFromItems = (items: Array<any> = []) => {
-  let tempOptions: Array<Option & { R_SELECT_GROUP: any }> = [];
+const setOptionsFromItems = (items: any[] = []) => {
+  let tempOptions: (Option & { R_SELECT_GROUP: any })[] = [];
 
-  const checkItem = (innerItems: Array<any>, R_SELECT_GROUP?: any) => {
+  const checkItem = (innerItems: any[], R_SELECT_GROUP?: any) => {
     innerItems.forEach((item) => {
       if (item[props.itemsKey]) {
         // has nested items
@@ -400,7 +400,7 @@ const isItemFocusable = computed(() => {
 
 // Selected Items
 const setSelectedItems = (options: Option[]) => {
-  let items: Array<Option> | Option = state.selectedItems;
+  let items: Option[] | Option = state.selectedItems;
   if (Array.isArray(props.modelValue)) {
     props.modelValue.forEach((value) => {
       const foundOption = options.find(({ value: optionValue }: Option) => optionValue === value);
@@ -411,7 +411,7 @@ const setSelectedItems = (options: Option[]) => {
     // to remove if there was any items deleted from modelValue
     items = items.filter(
       ({ value: itemValue }) =>
-        !!(props.modelValue as Array<string | number>).find((modelValue) => modelValue === itemValue)
+        !!(props.modelValue as (string | number)[]).find((modelValue) => modelValue === itemValue)
     );
   } else {
     const foundOption = options.find(({ value: optionValue }) => optionValue === props.modelValue);
@@ -483,7 +483,7 @@ const resetSearch = () => {
 // optimize
 const onDropdownScroll = (e: Event) => {
   if (visibleItems.value.length < state.page * props.perPage) return; // no more items
-  const { scrollHeight, scrollTop, clientHeight } = <HTMLElement>e.target;
+  const { scrollHeight, scrollTop, clientHeight } = e.target as HTMLElement;
   const shouldLoadNewItems = scrollTop + clientHeight > scrollHeight - props.paginationOffset;
   if (shouldLoadNewItems) state.page++;
 };

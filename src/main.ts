@@ -155,7 +155,7 @@ declare module "vue" {
 }
 declare module "@vue/runtime-core" {
   export interface GlobalComponents {
-    HeightTransition: typeof import("./components/HeightTransition.vue")["default"];
+    // HeightTransition: typeof import("./components/HeightTransition.vue")["default"];
     Notification: typeof import("./components/notification/Notification.vue")["default"];
     NotificationContainer: typeof import("./components/notification/NotificationContainer.vue")["default"];
     RButton: typeof import("./components/button/RButton.vue")["default"];

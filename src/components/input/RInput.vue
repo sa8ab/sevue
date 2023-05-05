@@ -43,7 +43,7 @@ import HeightTransition from "../HeightTransition.vue";
 import useColor from "@/composables/useColor";
 import { useSevue } from "@/main";
 export interface Props {
-  modelValue?: string | number;
+  modelValue?: string | number | null;
   label?: string;
   icon?: string;
   placeholder?: string;
@@ -76,7 +76,7 @@ const slots = useSlots();
 const hasIcon = computed(() => slots.icon || props.icon);
 
 const onInput = (e: Event) => {
-  emit("update:modelValue", (<HTMLInputElement>e.target).value);
+  emit("update:modelValue", (e.target as HTMLInputElement).value);
 };
 const labelClick = (e: Event) => {
   emit("labelClick", e);

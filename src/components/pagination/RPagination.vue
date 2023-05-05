@@ -6,7 +6,12 @@
       '--r-active-text-color': activeTextColor,
     }"
   >
-    <RButton class="r-pagination-item r-pagination-navigation prev" @click="decrease" v-bind="buttonProps" v-if="!noNavigation">
+    <RButton
+      class="r-pagination-item r-pagination-navigation prev"
+      @click="decrease"
+      v-bind="buttonProps"
+      v-if="!noNavigation"
+    >
       <slot name="prev">
         <SevueIcon name="chevron-left" />
       </slot>
@@ -22,10 +27,23 @@
         >
           {{ item }}
         </RButton>
-        <RButton :key="i + 'blank'" iconOnly v-bind="buttonProps" class="r-pagination-item r-pagination-item-blank" v-else> ... </RButton>
+        <RButton
+          :key="i + 'blank'"
+          iconOnly
+          v-bind="buttonProps"
+          class="r-pagination-item r-pagination-item-blank"
+          v-else
+        >
+          ...
+        </RButton>
       </template>
     </div>
-    <RButton class="r-pagination-item r-pagination-navigation next" @click="increase" v-bind="buttonProps" v-if="!noNavigation">
+    <RButton
+      class="r-pagination-item r-pagination-navigation next"
+      @click="increase"
+      v-bind="buttonProps"
+      v-if="!noNavigation"
+    >
       <slot name="next">
         <SevueIcon name="chevron-right" />
       </slot>
