@@ -15,6 +15,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { RSlider } from "../../src/main";
 
 const selected = ref([2, 4]);
 const min = ref(2);
