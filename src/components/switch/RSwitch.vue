@@ -99,7 +99,7 @@ defineExpose({});
   min-width: 48px;
   height: 28px;
   border-radius: 80px;
-  background: color(b2);
+  background: color(b1);
   position: relative;
   display: flex;
   align-items: center;
@@ -140,7 +140,7 @@ defineExpose({});
     width: var(--circle-width);
     height: var(--circle-width);
     position: absolute;
-    background: color(b1);
+    background: color(b2);
     border-radius: 80px;
     left: var(--padding);
     z-index: 4;
@@ -196,9 +196,9 @@ defineExpose({});
   }
 
   &.alternative {
-    background: color(b1);
+    background: color(b2);
     .r-switch-circle {
-      background: color(b2);
+      background: color(b1);
     }
   }
   &.disabled {
