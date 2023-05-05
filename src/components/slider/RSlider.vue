@@ -80,14 +80,14 @@ const slider = ref<HTMLDivElement | undefined>();
 
 const setValues = () => {
   if (isRange.value) {
-    const [one, two] = <number[]>props.modelValue;
+    const [one, two] = props.modelValue as number[];
     const LOWER = Math.min(Math.max(one, props.min), props.max);
     const UPPER = Math.max(Math.min(two, props.max), props.min);
 
     state.value2 = areDotsReversed.value ? LOWER : UPPER;
     state.value1 = areDotsReversed.value ? UPPER : LOWER;
   } else {
-    state.value1 = <number>props.modelValue;
+    state.value1 = props.modelValue as number;
   }
 };
 
@@ -101,8 +101,8 @@ const emitChange = () => {
 const onSliderClick = ({ clientX }: MouseEvent) => {
   const value = getValueFromPosition({ position: clientX });
   if (isRange.value) {
-    const diffFirst = Math.abs(value - (<number[]>props.modelValue)[0]);
-    const diffSecond = Math.abs(value - (<number[]>props.modelValue)[1]);
+    const diffFirst = Math.abs(value - (props.modelValue as number[])[0]);
+    const diffSecond = Math.abs(value - (props.modelValue as number[])[1]);
     if (diffFirst < diffSecond) {
       areDotsReversed.value ? onValueTwoUpdate({ clientX }) : onValueOneUpdate({ clientX });
     } else {
