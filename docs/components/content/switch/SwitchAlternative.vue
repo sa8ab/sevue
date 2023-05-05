@@ -24,10 +24,10 @@ const selected = ref(false);
   padding: var(--r-space-2);
   border-radius: var(--r-radius);
   &.normal {
-    background: rgb(var(--r-b1));
+    background: rgb(var(--r-b2));
   }
   &.alternative {
-    background: rgb(var(--r-b2));
+    background: rgb(var(--r-b1));
   }
 }
 </style>

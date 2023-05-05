@@ -1,5 +1,5 @@
 <template>
-  <div class="doc-items card">
+  <div class="doc-items">
     <div class="item">
       Default Slot
       <RSwitch v-model="selected1">Default Slot</RSwitch>
