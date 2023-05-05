@@ -1,6 +1,6 @@
 <template>
   <div class="center-it">
-    <RInput v-model="value" placeholder="input">
+    <RInput v-model="state.model" placeholder="input">
       <template #after>
         <div class="after">
           <RButton iconOnly>Hey</RButton>
@@ -13,20 +13,20 @@
         </div>
       </template>
     </RInput>
-    <RInput
-      tag="textarea"
-      v-model="value"
-      placeholder="some placeholder"
-      @input="onInput"
-    ></RInput>
+    <RInput tag="textarea" v-model="state.model" placeholder="some placeholder" @input="onInput"></RInput>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, h } from "vue";
 import { RInput } from "../../src/main";
+import { reactive } from "vue";
 
-const value = ref("sdds");
+const state = reactive<{
+  model: string;
+}>({
+  model: "",
+});
 
 const onInput = (e) => {
   console.log(e);

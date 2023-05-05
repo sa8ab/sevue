@@ -108,7 +108,7 @@ import type { Props as Option } from "./ROption.vue";
 export type Props = {
   searchable?: boolean;
   multiple?: boolean;
-  modelValue?: Array<number | string> | number | string | null;
+  modelValue?: Array<number | string> | number | string;
   placeholder?: string;
   disabled?: boolean;
   label?: string;

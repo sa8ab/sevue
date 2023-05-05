@@ -2,11 +2,13 @@
   <Teleport :to="teleport">
     <transition name="r-popup" v-bind="transitionProps">
       <div class="r-popup" v-if="active" v-bind="$attrs">
-        <div class="r-popup-underlay" @click="onClose"></div>
+        <div class="r-popup-underlay" @click="onCloseReq"></div>
         <div :class="['r-popup-inner', { fullWidth }]">
           <div class="r-popup-header">
-            <div class="r-popup-title">{{ title }}</div>
-            <RButton @click="onClose" textStyle iconOnly v-if="!noClose">
+            <slot name="header">
+              <div class="r-popup-title">{{ title }}</div>
+            </slot>
+            <RButton @click="onCloseReq" textStyle iconOnly v-if="!noCloseButton">
               <i class="bx bx-x"></i>
             </RButton>
           </div>
@@ -25,9 +27,11 @@ export interface Props {
   active?: boolean;
   title?: string;
   noClose?: boolean;
+  noCloseButton?: boolean;
   fullWidth?: boolean;
   transitionProps?: Record<string, any>;
   teleport?: string;
+  beforeClose?: (arg0: () => void) => any;
 }
 defineOptions({
   inheritAttrs: false,
@@ -38,11 +42,18 @@ const props = withDefaults(defineProps<Props>(), {
   teleport: "body",
 });
 
-const onClose = () => {
-  if (!props.noClose) {
-    emit("close");
-    emit("update:active", false);
+const onCloseReq = () => {
+  if (props.beforeClose) {
+    props.beforeClose(onClose);
+    return;
   }
+  if (props.noClose) return;
+  onClose();
+};
+
+const onClose = () => {
+  emit("close");
+  emit("update:active", false);
 };
 </script>
 
@@ -93,10 +104,12 @@ const onClose = () => {
     justify-content: space-between;
     align-items: center;
     padding: var(--r-space-2);
-    font-size: 1.2rem;
-    font-weight: bold;
     // box-shadow: $shadow2;
     border-bottom: 1px solid color(text, 0.1);
+  }
+  &-title {
+    font-size: var(--r-font-large);
+    font-weight: 500;
   }
 
   &-content {

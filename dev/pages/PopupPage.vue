@@ -4,7 +4,10 @@
       <RButton @click="active = true">Button</RButton>
     </div>
 
-    <RPopup v-model:active="active"> popup content </RPopup>
+    <RPopup v-model:active="active" noCloseButton :beforeClose="onBeforeClose">
+      <template #header> Custom header </template>
+      popup content
+    </RPopup>
   </div>
 </template>
 
@@ -12,6 +15,9 @@
 import { ref } from "vue";
 
 const active = ref(false);
+const onBeforeClose = (done) => {
+  done();
+};
 </script>
 
 <style lang="scss" scoped>
