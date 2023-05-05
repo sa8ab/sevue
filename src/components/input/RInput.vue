@@ -43,7 +43,7 @@ import HeightTransition from "../HeightTransition.vue";
 import useColor from "@/composables/useColor";
 import { useSevue } from "@/main";
 export interface Props {
-  modelValue?: string | number;
+  modelValue?: string | number | null;
   label?: string;
   icon?: string;
   placeholder?: string;

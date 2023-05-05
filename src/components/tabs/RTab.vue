@@ -1,7 +1,8 @@
 <template>
   <div
     :class="['r-tab', { fit, bordered, iconOnly, scrollable, moverFull }]"
-    :style="{ '--r-color': color || 'var(--r-prm)' }">
+    :style="{ '--r-color': color || 'var(--r-prm)' }"
+  >
     <!-- tabbar -->
     <div class="tabbar" ref="tabbar">
       <div
@@ -11,7 +12,8 @@
         :icon="icon"
         ref="tabBarItems"
         @click="setActiveTab(title)"
-        v-ripple>
+        v-ripple
+      >
         <slot :name="`icon-${i}`">
           <i :class="[iconPrefix, icon]" v-if="icon"></i>
         </slot>
@@ -40,36 +42,32 @@ export interface Props {
   scrollable?: boolean;
   moverFull?: boolean;
   color?: string;
-  initialActiveTab?: number
-  [x: string | number | symbol]: any;
+  initialActiveTab?: number;
 }
 
 type State = {
-  activeTab: string
-  height: string | number
-  direction: 'forward' | 'backward'
-  moverWidth: string
-  moverLeft: string
-  children: VNode[]
-}
+  activeTab: string;
+  height: string | number;
+  direction: "forward" | "backward";
+  moverWidth: string;
+  moverLeft: string;
+  children: VNode[];
+};
 type Tab = {
-  title: string,
-  icon?: string,
-  disabled?: boolean
-}
-const props = withDefaults(
-  defineProps<Props>(),
-  {}
-);
+  title: string;
+  icon?: string;
+  disabled?: boolean;
+};
+const props = withDefaults(defineProps<Props>(), {});
 const emit = defineEmits(["tabChange"]);
-const color = useColor(toRef(props, 'color'))
-const { iconPrefix } = useSevue()
+const color = useColor(toRef(props, "color"));
+const { iconPrefix } = useSevue();
 const state = reactive<State>({
   activeTab: "",
   height: "auto",
-  direction: 'forward',
-  moverWidth: '0',
-  moverLeft: '0',
+  direction: "forward",
+  moverWidth: "0",
+  moverLeft: "0",
   children: [],
 });
 const tabBarItems = ref<HTMLElement[]>([]);
@@ -91,8 +89,8 @@ const setActiveTab = (tab: string) => {
   const oldTabIndex = tabs.value.findIndex(({ title }) => state.activeTab === title);
   const newTabIndex = tabs.value.findIndex(({ title }) => tab === title);
 
-  if (oldTabIndex < newTabIndex) state.direction = 'forward';
-  else state.direction = 'backward';
+  if (oldTabIndex < newTabIndex) state.direction = "forward";
+  else state.direction = "backward";
   setMoverStyle({ index: newTabIndex });
   nextTick(() => {
     state.activeTab = tab;
@@ -118,15 +116,15 @@ const setHeight = (height: number | string) => {
   state.height = height;
 };
 
-provide('tab', {
+provide("tab", {
   setHeight,
-  activeTab: toRef(state, 'activeTab'),
-  direction: toRef(state, 'direction'),
-})
+  activeTab: toRef(state, "activeTab"),
+  direction: toRef(state, "direction"),
+});
 
 defineExpose({
   setActiveTab,
-})
+});
 // provide() {
 //   return {
 //     tab: this,

@@ -1,5 +1,5 @@
 <template>
-  <Teleport to="body">
+  <Teleport :to="teleport">
     <transition name="r-popup" v-bind="transitionProps">
       <div class="r-popup" v-if="active" v-bind="$attrs">
         <div class="r-popup-underlay" @click="onClose"></div>
@@ -22,18 +22,21 @@
 
 <script setup lang="ts">
 export interface Props {
-  active: boolean;
+  active?: boolean;
   title?: string;
   noClose?: boolean;
   fullWidth?: boolean;
   transitionProps?: Record<string, any>;
-  [x: string | number | symbol]: any;
+  teleport?: string;
 }
 defineOptions({
   inheritAttrs: false,
 });
 const emit = defineEmits(["update:active", "close"]);
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  active: false,
+  teleport: "body",
+});
 
 const onClose = () => {
   if (!props.noClose) {

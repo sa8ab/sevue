@@ -11,6 +11,7 @@
     <RouterLink to="/radio" class="item" v-ripple>Radio</RouterLink>
     <RouterLink to="/switch" class="item" v-ripple>Switch</RouterLink>
     <RouterLink to="/slider" class="item" v-ripple>Slider</RouterLink>
+    <RouterLink to="/popup" class="item" v-ripple>Popup</RouterLink>
   </div>
 </template>
 

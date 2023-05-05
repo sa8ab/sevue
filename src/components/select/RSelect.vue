@@ -29,7 +29,12 @@
             </div>
           </slot>
           <slot name="toggleIcon" :toggleOpen="toggleOpen" :active="state.active" :loading="loading">
-            <span @click.prevent="toggleOpen" :class="['dropdown-icon', { rotate: state.active }]" v-ripple v-if="!loading && !noDropdown">
+            <span
+              @click.prevent="toggleOpen"
+              :class="['dropdown-icon', { rotate: state.active }]"
+              v-ripple
+              v-if="!loading && !noDropdown"
+            >
               <SevueIcon name="chevron-down" />
             </span>
           </slot>
@@ -41,7 +46,11 @@
           <slot name="inputIcon" />
         </template>
       </RInput>
-      <SelectedItems :items="state.selectedItems" v-if="Array.isArray(state.selectedItems)" @itemClick="onSelectedItemClick">
+      <SelectedItems
+        :items="state.selectedItems"
+        v-if="Array.isArray(state.selectedItems)"
+        @itemClick="onSelectedItemClick"
+      >
         <template #default="slotProps">
           <slot name="selectedItem" v-bind="slotProps"></slot>
         </template>
@@ -54,7 +63,12 @@
             <div class="noOptions" v-if="noOptions && !canCreateOption">
               <slot name="noItems" class="noOptions"> No Options Available </slot>
             </div>
-            <slot v-if="canCreateOption && state.search" name="newOption" :addNewOption="onEnter" :search="state.search">
+            <slot
+              v-if="canCreateOption && state.search"
+              name="newOption"
+              :addNewOption="onEnter"
+              :search="state.search"
+            >
               <div class="new-option" @click="onEnter">{{ state.search }}</div>
               <div class="new-option-separator"></div>
             </slot>
@@ -70,7 +84,19 @@
 import { createPopper, type Instance, type Modifier, type Options as PopperOptions } from "@popperjs/core";
 import { isArray } from "@vue/shared";
 import { rSelectKey } from "@/injectionKeys";
-import { nextTick, computed, onBeforeUnmount, onMounted, provide, reactive, ref, toRef, useSlots, watch, type VNode } from "vue";
+import {
+  nextTick,
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  toRef,
+  useSlots,
+  watch,
+  type VNode,
+} from "vue";
 import useColor from "@/composables/useColor";
 import SelectedItems from "./SelectedItems.vue";
 import LoadingSpinner from "../LoadingSpinner.vue";
@@ -82,7 +108,7 @@ import type { Props as Option } from "./ROption.vue";
 export type Props = {
   searchable?: boolean;
   multiple?: boolean;
-  modelValue: Array<number | string> | number | string;
+  modelValue?: Array<number | string> | number | string | null;
   placeholder?: string;
   disabled?: boolean;
   label?: string;
@@ -104,7 +130,11 @@ export type Props = {
   renderPlaceholder?: (parameter: Option | Option[]) => string;
   customSearch?: (parameter: string) => void;
   itemExtractor?: (arg0: any) => Option;
-  onNewOption?: (arg0: { newOption: string; isAlreadyInValue: boolean; isAlreadyInOptions: boolean }) => Promise<boolean> | boolean;
+  onNewOption?: (arg0: {
+    newOption: string;
+    isAlreadyInValue: boolean;
+    isAlreadyInOptions: boolean;
+  }) => Promise<boolean> | boolean;
 };
 
 type State = {
@@ -380,7 +410,8 @@ const setSelectedItems = (options: Option[]) => {
     items = uniqueArray<Option>(items as Option[], (item) => item.value);
     // to remove if there was any items deleted from modelValue
     items = items.filter(
-      ({ value: itemValue }) => !!(props.modelValue as Array<string | number>).find((modelValue) => modelValue === itemValue)
+      ({ value: itemValue }) =>
+        !!(props.modelValue as Array<string | number>).find((modelValue) => modelValue === itemValue)
     );
   } else {
     const foundOption = options.find(({ value: optionValue }) => optionValue === props.modelValue);

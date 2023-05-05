@@ -74,7 +74,6 @@ export interface Props {
   to?: any;
   href?: string;
   tag?: any;
-  [x: string | number | symbol]: any;
 }
 
 const { iconPrefix, nuxtOptions } = useSevue();

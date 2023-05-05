@@ -39,7 +39,7 @@ import Dot from "./RSliderDot.vue";
 import RSliderTick from "./RSliderTick.vue";
 import { sliderKey } from "@/injectionKeys";
 export interface Props {
-  modelValue?: number | Array<number>;
+  modelValue?: number | Array<number> | null;
   min?: number;
   max?: number;
   step?: number;

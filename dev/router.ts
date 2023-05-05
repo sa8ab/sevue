@@ -11,6 +11,7 @@ import ButtonPage from "./pages/ButtonPage.vue";
 import RadioPage from "./pages/RadioPage.vue";
 import SwitchPage from "./pages/SwitchPage.vue";
 import SliderPage from "./pages/SliderPage.vue";
+import PopupPage from "./pages/PopupPage.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -25,6 +26,7 @@ const routes = [
   { path: "/radio", component: RadioPage },
   { path: "/switch", component: SwitchPage },
   { path: "/slider", component: SliderPage },
+  { path: "/popup", component: PopupPage },
 ];
 
 export default createRouter({
