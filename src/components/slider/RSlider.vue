@@ -1,9 +1,11 @@
 <template>
-  <div :class="['r-slider', { tickLabels }]" :style="{ '--r-color': color || 'var(--r-prm)' }">
+  <div :class="['r-slider', { tickLabels: showTickLabels }]" :style="{ '--r-color': color || 'var(--r-prm)' }">
     <div class="bar" ref="slider" @click="onSliderClick">
       <div class="progress" :style="progressStyle"></div>
-      <div class="ticks" v-if="ticks">
-        <RSliderTick class="tick" v-for="tick in ticksList" v-bind="tick" />
+      <div class="ticks" v-if="ticks || customTicks">
+        <RSliderTick class="tick" v-for="tick in ticksList" v-bind="tick">
+          <slot name="tick" v-bind="tick" />
+        </RSliderTick>
       </div>
       <Dot
         ref="dotOne"
@@ -35,6 +37,7 @@ import useColor from "@/composables/useColor";
 import { computed, provide, reactive, watch, ref, type StyleValue, toRef } from "vue";
 import Dot from "./RSliderDot.vue";
 import RSliderTick from "./RSliderTick.vue";
+import { sliderKey } from "@/injectionKeys";
 export interface Props {
   modelValue?: number | Array<number>;
   min?: number;
@@ -47,6 +50,7 @@ export interface Props {
   ticks?: boolean;
   tickLabels?: boolean;
   customTicks?: Array<{ text: string; value: number }>;
+  hideFirstAndLastTickLabel?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
   modelValue: 0,
@@ -58,8 +62,12 @@ const props = withDefaults(defineProps<Props>(), {
   alwaysTooltip: false,
   ticks: false,
   tickLabels: false,
+  hideFirstAndLastTickLabel: true,
 });
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits<{
+  (e: "update:modelValue", arg0: number | Array<number>): void;
+  (e: "change", arg0: number | Array<number>): void;
+}>();
 const color = useColor(toRef(props, "color"));
 
 const state = reactive({
@@ -86,6 +94,9 @@ const setValues = () => {
 const emitInput = () => {
   emit("update:modelValue", isRange.value ? [minValue.value, maxValue.value] : state.value1);
 };
+const emitChange = () => {
+  emit("change", isRange.value ? [minValue.value, maxValue.value] : state.value1);
+};
 
 const onSliderClick = ({ clientX }: MouseEvent) => {
   const value = getValueFromPosition({ position: clientX });
@@ -97,8 +108,10 @@ const onSliderClick = ({ clientX }: MouseEvent) => {
     } else {
       areDotsReversed.value ? onValueOneUpdate({ clientX }) : onValueTwoUpdate({ clientX });
     }
+    emitChange();
   } else {
     onValueOneUpdate({ clientX });
+    emitChange();
   }
 };
 
@@ -132,6 +145,7 @@ const sliderWidth = () => {
 
 const setIsDragging = (e: boolean) => {
   state.isDragging = e;
+  if (!e) emitChange();
 };
 const isRange = computed(() => {
   return Array.isArray(props.modelValue);
@@ -179,19 +193,15 @@ const progressStyle = computed(() => {
 });
 
 watch([() => props.modelValue, () => props.max, () => props.min], setValues, { immediate: true, deep: true });
-// export default {
-//   provide() {
-//     return {
-//       slider: { ...this, ...this.$props, refs: this.$refs },
-//     };
-//   },
-//   computed: {},
-// };
-provide("slider", {
+
+const showTickLabels = computed(() => props.tickLabels || !!props.customTicks);
+
+provide(sliderKey, {
   transition: toRef(state, "transition"),
-  tickLabels: toRef(props, "tickLabels"),
+  showTickLabels: showTickLabels,
   min: toRef(props, "min"),
   max: toRef(props, "max"),
+  hideFirstAndLastTickLabel: toRef(props, "hideFirstAndLastTickLabel"),
   getPositionFromValue,
 });
 </script>

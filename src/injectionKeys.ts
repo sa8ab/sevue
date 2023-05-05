@@ -1,5 +1,14 @@
 import type { InjectionKey, Ref, ComputedRef } from "vue";
-import type { LoadingOptions, NotificationOptions, Notification, LoadingInject, Sevue, SelectInject, NotificationInject } from "@/types";
+import type {
+  LoadingOptions,
+  NotificationOptions,
+  Notification,
+  LoadingInject,
+  Sevue,
+  SelectInject,
+  NotificationInject,
+  SliderInject,
+} from "@/types";
 
 export const notificationKey = Symbol() as InjectionKey<NotificationInject>;
 
@@ -8,3 +17,5 @@ export const sevueKey = Symbol() as InjectionKey<Sevue>;
 export const rSelectKey = Symbol() as InjectionKey<SelectInject>;
 
 export const loadingKey = Symbol() as InjectionKey<LoadingInject>;
+
+export const sliderKey = Symbol() as InjectionKey<SliderInject>;

@@ -2,7 +2,11 @@
   <div class="center-it">
     {{ selected }}
     <div class="container">
-      <RSlider v-model="selected" :min="min" :max="max" :step="3" ticks :customTicks="customTicks"> </RSlider>
+      <RSlider v-model="selected" :min="min" :max="max" :step="3" ticks :customTicks="customTicks" @change="onChange">
+        <template #tick="{ text }">
+          <div class="custom-tick">{{ text }}</div>
+        </template>
+      </RSlider>
     </div>
     <RButton @click="changeMinMax">Change min and max</RButton>
     <RButton @click="selected = [1, 100]">Upper value to more than max</RButton>
@@ -16,13 +20,19 @@ const selected = ref([2, 4]);
 const min = ref(2);
 const max = ref(20);
 
+const onChange = (e) => console.log(e);
+
 const customTicks = [
+  {
+    value: 4,
+    text: "Four",
+  },
   {
     value: 8,
     text: "Eight",
   },
   {
-    value: 21,
+    value: 20,
     text: "last",
   },
 ];
@@ -37,5 +47,9 @@ const changeMinMax = () => {
   max-width: 600px;
   width: 100%;
   margin-bottom: 20px;
+}
+.custom-tick {
+  display: flex;
+  align-items: flex-end;
 }
 </style>

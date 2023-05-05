@@ -1,25 +1,35 @@
 <template>
   <div class="r-slider-tick" :style="renderStyle" v-if="!hidden">
-    <span class="tick-dot" :style="{ opacity: noDot ? 0 : 1 }"></span>
-    <div class="text" v-if="slider.tickLabels">{{ text || value }}</div>
+    <span class="tick-dot" :style="{ opacity: isFirstOrLast ? 0 : 1 }"></span>
+    <div class="text" v-if="slider.showTickLabels.value">
+      <slot>{{ text || value }}</slot>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { sliderKey } from "@/injectionKeys";
+import type { SliderInject } from "@/types";
 import { inject, computed } from "vue";
 
-const slider = inject("slider") as any;
+const slider = inject(sliderKey) as SliderInject;
+
 const props = defineProps(["value", "text"]);
 const renderStyle = computed(() => {
   return {
     left: `${slider.getPositionFromValue({ value: props.value })}%`,
   };
 });
-const noDot = computed(() => {
+const isFirstOrLast = computed(() => {
   return props.value === slider.min.value || props.value === slider.max.value;
 });
 
-const hidden = computed(() => props.value > slider.max.value || props.value < slider.min.value);
+const hidden = computed(
+  () =>
+    props.value > slider.max.value ||
+    props.value < slider.min.value ||
+    (slider.hideFirstAndLastTickLabel.value && isFirstOrLast.value)
+);
 </script>
 
 <style lang="scss">

@@ -1,16 +1,16 @@
 import type { ComputedRef } from "vue";
 import type { CSSProperties, Ref, VNode } from "vue";
 
-export type Picked<T, K extends keyof T> = T[K]
-export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never
+export type Picked<T, K extends keyof T> = T[K];
+export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
 
 export type Sevue = {
   iconPrefix: string;
   setDark: (dark: boolean) => void;
   nuxtOptions: {
     isNuxt: boolean;
-    NuxtLink?: unknown
-  }
+    NuxtLink?: unknown;
+  };
 };
 
 export type Colors = {
@@ -27,32 +27,26 @@ export interface SevueOptions {
   dark?: boolean;
   nuxtOptions?: {
     isNuxt: boolean;
-    NuxtLink?: unknown
-  }
+    NuxtLink?: unknown;
+  };
 }
 
-type NotificationPlacement =
-  | "top-left"
-  | "top"
-  | "top-right"
-  | "bottom-right"
-  | "bottom"
-  | "bottom-left";
+type NotificationPlacement = "top-left" | "top" | "top-right" | "bottom-right" | "bottom" | "bottom-left";
 export interface NotificationOptions {
-  placement?: NotificationPlacement
-  title?: string | VNode
-  text?: string | VNode
-  color?: string
-  textColor?: string
-  duration?: number
-  pauseOnHover?: boolean
-  noCloseButton?: boolean
-  onClose?: () => void
+  placement?: NotificationPlacement;
+  title?: string | VNode;
+  text?: string | VNode;
+  color?: string;
+  textColor?: string;
+  duration?: number;
+  pauseOnHover?: boolean;
+  noCloseButton?: boolean;
+  onClose?: () => void;
 }
 export interface Notification {
   close: () => void;
 }
-export type NotificationInject = (options: NotificationOptions) => Notification
+export type NotificationInject = (options: NotificationOptions) => Notification;
 
 export type LoadingOptions = {
   text?: VNode | string;
@@ -70,8 +64,8 @@ export interface Loading {
 }
 
 export interface LoadingInject {
-  loading: (options?: LoadingOptions) => Loading
-  close: () => void
+  loading: (options?: LoadingOptions) => Loading;
+  close: () => void;
 }
 
 export interface SelectInject {
@@ -79,9 +73,16 @@ export interface SelectInject {
   multiple: Ref<boolean | undefined>;
   search: Ref<string>;
   color: Ref<string | undefined>;
-  customSearch: ((parameter: string) => void) | undefined
-  focusedItemValue: ComputedRef<
-    { value: string | number; text?: string; disabled?: boolean } | undefined
-  >;
+  customSearch: ((parameter: string) => void) | undefined;
+  focusedItemValue: ComputedRef<{ value: string | number; text?: string; disabled?: boolean } | undefined>;
   onSelectValue: (...args: any) => void;
+}
+
+export interface SliderInject {
+  transition: Ref<string>;
+  showTickLabels: ComputedRef<boolean>;
+  min: Ref<number>;
+  max: Ref<number>;
+  hideFirstAndLastTickLabel: Ref<boolean>;
+  getPositionFromValue: (arg1: { value: number }) => number;
 }

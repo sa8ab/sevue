@@ -20,9 +20,12 @@
 </template>
 
 <script setup lang="ts">
+import { sliderKey } from "@/injectionKeys";
+import type { SliderInject } from "@/types";
 import { inject, reactive, computed } from "vue";
+import type { StyleValue } from "vue";
 
-const slider = inject("slider") as any;
+const slider = inject(sliderKey) as SliderInject;
 const props = defineProps(["min", "max", "value", "step", "dotVal", "tooltip", "alwaysTooltip"]);
 const emit = defineEmits(["setIsDragging", "update"]);
 const state = reactive({
@@ -71,7 +74,7 @@ const containerStyle = computed(() => {
   return {
     left: `${((props.dotVal - props.min) / (props.max - props.min)) * 100}%`,
     transition: !state.isDragging && slider.transition.value,
-  };
+  } as StyleValue;
 });
 </script>
 
