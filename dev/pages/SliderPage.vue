@@ -3,8 +3,8 @@
     {{ selected }}
     <div class="container">
       <RSlider v-model="selected" :min="min" :max="max" :step="3" ticks :customTicks="customTicks" @change="onChange">
-        <template #tick="{ text }">
-          <div class="custom-tick">{{ text }}</div>
+        <template #tick="{ text, hi }">
+          <div class="custom-tick">{{ text }} {{ hi }}</div>
         </template>
       </RSlider>
     </div>
@@ -26,6 +26,7 @@ const customTicks = [
   {
     value: 4,
     text: "Four",
+    hi: "324",
   },
   {
     value: 8,

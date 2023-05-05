@@ -214,7 +214,7 @@ provide(sliderKey, {
 
   .bar {
     // background: color("b2");
-    background: color(hover);
+    background: color(hover, 0.6);
     height: 8px;
     width: 100%;
     position: relative;
