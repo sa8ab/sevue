@@ -1,9 +1,10 @@
 <template>
   <div class="center-it">
     <div class="items">
-      <RButton>Default</RButton>
-      <RButton compact>Small</RButton>
-      <RButton compact iconOnly><i class="bx bx-user"></i></RButton>
+      <!-- <RButton>Default</RButton>
+      <RButton compact color="yellow">Small</RButton>
+      <RButton compact iconOnly color="red"><i class="bx bx-user"></i></RButton> -->
+      <RButton transparent>some transparent button</RButton>
     </div>
   </div>
 </template>

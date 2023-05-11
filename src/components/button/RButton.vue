@@ -29,13 +29,14 @@
         focused,
         colorInherit,
         compact,
+        transparent,
       },
     ]"
     :style="{
       '--r-color': color || 'var(--r-prm)',
       '--r-text-color': textColor || 'var(--r-text)',
     }"
-    v-ripple
+    v-ripple="{ disabled: transparent }"
   >
     <div class="inner">
       <slot name="icon">
@@ -75,6 +76,7 @@ export interface Props {
   href?: string;
   tag?: any;
   compact?: boolean;
+  transparent?: boolean;
 }
 
 const { iconPrefix, nuxtOptions } = useSevue();
@@ -177,13 +179,14 @@ button {
 }
 
 .r-button.link {
-  background: transparent;
-  color: color();
-  padding: 0px 8px;
+  padding: 0px;
+}
 
+.r-button.transparent {
+  background: transparent;
   &:hover {
     background: transparent;
-    opacity: 0.8;
+    color: color(color, 0.8);
   }
 }
 
@@ -201,6 +204,7 @@ button {
 
   &:hover {
     background: color(hover, var(--hover-alpha));
+    color: inherit;
   }
 }
 

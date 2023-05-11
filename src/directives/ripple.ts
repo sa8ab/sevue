@@ -5,7 +5,6 @@
 
 function transform(el: HTMLElement, value: string) {
   el.style["transform"] = value;
-  el.style["webkitTransform"] = value;
 }
 
 function opacity(el: HTMLElement, value: number) {
@@ -22,11 +21,7 @@ function isTouchEvent(e: MouseEvent | TouchEvent): e is TouchEvent {
   return e.constructor.name === "TouchEvent";
 }
 
-const calculate = (
-  e: MouseEvent | TouchEvent,
-  el: HTMLElement,
-  value: RippleOptions = {}
-) => {
+const calculate = (e: MouseEvent | TouchEvent, el: HTMLElement, value: RippleOptions = {}) => {
   const offset = el.getBoundingClientRect();
   const target = isTouchEvent(e) ? e.touches[e.touches.length - 1] : e;
   const localX = target.clientX - offset.left;
@@ -37,9 +32,7 @@ const calculate = (
   if (el._ripple && el._ripple.circle) {
     scale = 0.15;
     radius = el.clientWidth / 2;
-    radius = value.center
-      ? radius
-      : radius + Math.sqrt((localX - radius) ** 2 + (localY - radius) ** 2) / 4;
+    radius = value.center ? radius : radius + Math.sqrt((localX - radius) ** 2 + (localY - radius) ** 2) / 4;
   } else {
     radius = Math.sqrt(el.clientWidth ** 2 + el.clientHeight ** 2) / 2;
   }
@@ -87,10 +80,7 @@ const ripples = {
 
     animation.classList.add("v-ripple__animation--enter");
     animation.classList.add("v-ripple__animation--visible");
-    transform(
-      animation,
-      `translate(${x}, ${y}) scale3d(${scale},${scale},${scale})`
-    );
+    transform(animation, `translate(${x}, ${y}) scale3d(${scale},${scale},${scale})`);
     opacity(animation, 0);
     animation.dataset.activated = String(performance.now());
 
@@ -172,6 +162,8 @@ function rippleHide(e: Event) {
 }
 
 function updateRipple(el: HTMLElement, binding: any, wasEnabled: boolean) {
+  if (binding.value && binding.value.disabled) return;
+
   const enabled = isRippleEnabled(binding.value);
   if (!enabled) {
     ripples.hide(el);
