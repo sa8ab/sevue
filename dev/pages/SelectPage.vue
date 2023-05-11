@@ -21,6 +21,23 @@
       <RButton @click="loading = !loading">Toggle Loading</RButton>
       <RButton @click="items = items.filter((_, index) => index !== 3)"> Remove some item </RButton>
     </div>
+    <div class="container">
+      <RSelect
+        v-model="selected2"
+        placeholder="select2"
+        :items="
+          Array.from({ length: 1000 }, (_, i) => ({
+            value: i + 1,
+            text: `item ${i + 1}`,
+          }))
+        "
+        searchable
+      >
+        <template #default="{ optimizedItems }">
+          <ROption :value="item.value" :text="item.text" v-for="item in optimizedItems" />
+        </template>
+      </RSelect>
+    </div>
   </div>
 </template>
 
@@ -50,6 +67,7 @@ const gItems = ref([
   },
 ]);
 const selected = ref("");
+const selected2 = ref("");
 
 const searchTerm = ref("");
 const loading = ref(false);

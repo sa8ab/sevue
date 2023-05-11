@@ -72,7 +72,9 @@
               <div class="new-option" @click="onEnter">{{ state.search }}</div>
               <div class="new-option-separator"></div>
             </slot>
+            <slot name="dropdownBefore" />
             <slot :optimizedItems="optimizedItems" />
+            <slot name="dropdownAfter" />
           </div>
         </div>
       </Transition>
@@ -81,6 +83,12 @@
 </template>
 
 <script setup lang="ts">
+// TODO:
+// find next focusable item in performant way
+// done: before and after slots
+// Ability to pass custom dropdown
+// preserve last selected item position
+
 import { createPopper, type Instance, type Modifier, type Options as PopperOptions } from "@popperjs/core";
 import { isArray } from "@vue/shared";
 import { rSelectKey } from "@/injectionKeys";
@@ -146,6 +154,7 @@ type State = {
   options: Option[];
   selectedItems: Option | Option[];
   page: number;
+  lastSelectedValue?: string | number | null;
 };
 const props = withDefaults(defineProps<Props>(), {
   searchable: false,
@@ -161,7 +170,6 @@ const props = withDefaults(defineProps<Props>(), {
     else return option.text || "";
   },
 });
-// const emit = defineEmits(["update:modelValue", "open", "close", "afterTransitionEnd", "search", "newOption"]);
 const emit = defineEmits<{
   (e: "update:modelValue", arg0: any): void;
   (e: "open"): void;
@@ -179,6 +187,7 @@ const state = reactive<State>({
   options: [],
   selectedItems: [],
   page: 1,
+  lastSelectedValue: undefined,
 });
 const rInput = ref();
 const dropdown = ref();
@@ -200,6 +209,7 @@ const onSelectValue = ({ event, activate }: { event: string | number; activate: 
   if (props.multiple) {
     if (activate) {
       emit("update:modelValue", [...(props.modelValue as number[]), event]);
+      setLastSelectedValue(event);
     } else {
       let val = [...(props.modelValue as number[])];
       val = val.filter((x) => x !== event);
@@ -207,6 +217,7 @@ const onSelectValue = ({ event, activate }: { event: string | number; activate: 
     }
   } else {
     emit("update:modelValue", event);
+    setLastSelectedValue(event);
   }
 
   afterSelectionHook();
@@ -230,28 +241,27 @@ const toggleOpen = () => {
     open();
   }
 };
-const open = () => {
+const open = async () => {
   if (state.active || !canOpenDropdown.value) return;
   state.active = true;
-  nextTick(() => {
-    rInput.value.inputRef.focus({ preventScroll: true });
-    const sameWidth: Modifier<"sameWidth", {}> = {
-      name: "sameWidth",
-      enabled: true,
-      phase: "beforeWrite",
-      requires: ["computeStyles"],
-      fn: ({ state }) => {
-        state.styles.popper.width = `${state.rects.reference.width}px`;
-      },
-      effect: ({ state }) => {
-        state.elements.popper.style.width = `${(state.elements.reference as HTMLElement).offsetWidth}px`;
-      },
-    };
-    state.popper = createPopper(rInput.value.inputContainerRef, dropdown.value, {
-      placement: "bottom",
-      modifiers: [sameWidth],
-      ...props.popperOptions,
-    });
+  await nextTick();
+  rInput.value.inputRef.focus({ preventScroll: true });
+  const sameWidth: Modifier<"sameWidth", {}> = {
+    name: "sameWidth",
+    enabled: true,
+    phase: "beforeWrite",
+    requires: ["computeStyles"],
+    fn: ({ state }) => {
+      state.styles.popper.width = `${state.rects.reference.width}px`;
+    },
+    effect: ({ state }) => {
+      state.elements.popper.style.width = `${(state.elements.reference as HTMLElement).offsetWidth}px`;
+    },
+  };
+  state.popper = createPopper(rInput.value.inputContainerRef, dropdown.value, {
+    placement: "bottom",
+    modifiers: [sameWidth],
+    ...props.popperOptions,
   });
   emit("open");
 };
@@ -518,6 +528,12 @@ const optimizedItems = computed(() => {
   else return groupByParent(rawList);
 });
 
+// preserving last seleted item offset
+const setLastSelectedValue = (lastValue: string | number) => {
+  if (areOptionsProvided.value) return;
+  state.lastSelectedValue = lastValue;
+};
+
 provide(rSelectKey, {
   modelValue: toRef(props, "modelValue"),
   multiple: toRef(props, "multiple"),
@@ -526,6 +542,7 @@ provide(rSelectKey, {
   customSearch: props.customSearch,
   focusedItemValue,
   onSelectValue,
+  lastSelectedValue: toRef(state, "lastSelectedValue"),
 });
 defineExpose({
   setSelectedItems,
@@ -647,7 +664,7 @@ defineExpose({
   &-leave-to {
     .r-select-dropdown {
       opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(4px);
     }
   }
 }

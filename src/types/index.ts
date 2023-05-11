@@ -76,6 +76,7 @@ export interface SelectInject {
   customSearch: ((parameter: string) => void) | undefined;
   focusedItemValue: ComputedRef<{ value: string | number; text?: string; disabled?: boolean } | undefined>;
   onSelectValue: (...args: any) => void;
+  lastSelectedValue: Ref<number | string | null | undefined>;
 }
 
 export interface SliderInject {

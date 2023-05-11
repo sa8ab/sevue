@@ -6,6 +6,7 @@
     v-ripple
     tabindex="-1"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
+    ref="elementRef"
   >
     <div class="padding">
       <slot> {{ text }}</slot>
@@ -14,9 +15,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, toRef } from "vue";
+import { computed, inject, toRef, ref, onMounted } from "vue";
 import { rSelectKey } from "@/injectionKeys";
-import { isArray } from "@vue/shared";
 import useColor from "@/composables/useColor";
 import type { SelectInject } from "@/types";
 export interface Props {
@@ -37,6 +37,9 @@ defineOptions({
 });
 const select = inject(rSelectKey) as SelectInject;
 const color = useColor(props.color ? toRef(props, "color") : toRef(select!, "color"));
+
+const elementRef = ref<HTMLDivElement | undefined>();
+
 const onSelectValue = () => {
   select.onSelectValue({
     event: props.value,
@@ -53,10 +56,20 @@ const focused = computed(() => {
 });
 const isActive = computed(() => {
   const value = select.modelValue.value;
-  if (select.multiple.value && isArray(value)) {
-    return !!value.find((x: any) => x === props.value);
+  if (select.multiple.value && Array.isArray(value)) {
+    return !!value.find((x) => x === props.value);
   } else {
     return value == props.value;
+  }
+});
+const isLastSelectedItem = computed(() => {
+  return props.value === select.lastSelectedValue.value;
+});
+
+onMounted(() => {
+  if (isLastSelectedItem.value) {
+    const offsetTop = elementRef.value?.offsetTop;
+    if (offsetTop) elementRef.value?.scrollIntoView(false);
   }
 });
 </script>
