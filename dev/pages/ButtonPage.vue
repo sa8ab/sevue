@@ -3,6 +3,7 @@
     <div class="items">
       <RButton>Default</RButton>
       <RButton compact>Small</RButton>
+      <RButton compact iconOnly><i class="bx bx-user"></i></RButton>
     </div>
   </div>
 </template>

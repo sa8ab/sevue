@@ -28,7 +28,6 @@
         iconAfter,
         focused,
         colorInherit,
-        hasIcon: $slots.icon || props.icon,
         compact,
       },
     ]"
@@ -220,6 +219,10 @@ button {
 
     .icon-space {
       width: 0;
+    }
+
+    &.compact {
+      padding: var(--r-space-1);
     }
   }
 
