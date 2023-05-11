@@ -29,6 +29,7 @@
         focused,
         colorInherit,
         hasIcon: $slots.icon || props.icon,
+        compact,
       },
     ]"
     :style="{
@@ -74,6 +75,7 @@ export interface Props {
   to?: any;
   href?: string;
   tag?: any;
+  compact?: boolean;
 }
 
 const { iconPrefix, nuxtOptions } = useSevue();
@@ -224,6 +226,10 @@ button {
   // &.noPadding {
   //   padding: 0;
   // }
+
+  &.compact {
+    padding: var(--r-compact-normal-padding);
+  }
 }
 
 // Specials
