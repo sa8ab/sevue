@@ -85,9 +85,7 @@
 <script setup lang="ts">
 // TODO:
 // find next focusable item in performant way
-// done: before and after slots
 // Ability to pass custom dropdown
-// preserve last selected item position
 
 import { createPopper, type Instance, type Modifier, type Options as PopperOptions } from "@popperjs/core";
 import { isArray } from "@vue/shared";
