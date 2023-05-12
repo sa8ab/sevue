@@ -68,7 +68,10 @@ if (props.local) {
   watch(
     () => props.propsActive,
     (active) => {
-      state.active = active;
+      if (typeof active !== "undefined") state.active = active;
+    },
+    {
+      immediate: true,
     }
   );
 }
