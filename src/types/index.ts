@@ -43,6 +43,8 @@ export interface NotificationOptions {
   noCloseButton?: boolean;
   noPadding?: boolean;
   width?: string;
+  before?: string | VNode;
+  containerClass?: string;
   onClose?: () => void;
 }
 export interface Notification {
