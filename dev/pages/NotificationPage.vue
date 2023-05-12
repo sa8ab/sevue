@@ -1,7 +1,6 @@
 <template>
   <div class="center-it">
-    <RButton @click="notify">Notify</RButton>
-    <RButton @click="notify('400px')">Different width</RButton>
+    <RButton @click="notify()">Notify</RButton>
   </div>
 </template>
 
@@ -11,16 +10,16 @@ import { useNotification } from "../../src/main";
 import CookieNotification from "../components/Cnot.vue";
 
 const notification = useNotification();
-const notify = (width = "300px") => {
+const notify = () => {
   const I = notification({
-    text: h(CookieNotification, {
-      onClose: () => I.close(),
-    }),
-    noCloseButton: true,
-    duration: -1,
+    title: "TITLE",
+    text: "some text",
     color: "var(--r-b2)",
-    width,
-    placement: "top-left",
+    textColor: "red",
+    // before: h("i", {
+    //   class: "bx bx-user",
+    // }),
+    duration: -1,
   });
 };
 </script>

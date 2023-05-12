@@ -11,7 +11,7 @@
       v-if="state.active"
       @mouseenter="onPause"
       @mouseleave="onStart"
-      class="r-notification"
+      :class="['r-notification', containerClass]"
       :style="{
         '--r-color': color || 'var(--r-prm)',
         '--r-text-color': textColor || 'var(--r-text)',
@@ -19,13 +19,18 @@
       }"
     >
       <div :class="['notification-inner', { noPadding }]">
-        <VNodeRenderer class="title" :param="title" v-if="title" />
-        <VNodeRenderer class="text" :param="text" v-if="text" />
-        <RButton @click="close" class="close" iconOnly round v-if="!noCloseButton" textStyle>
-          <template #icon>
-            <SevueIcon name="close" />
-          </template>
-        </RButton>
+        <div class="notification-inner-before" v-if="before">
+          <VNodeRenderer :param="before" />
+        </div>
+        <div class="notification-inner-main">
+          <VNodeRenderer class="title" :param="title" v-if="title" />
+          <VNodeRenderer class="text" :param="text" v-if="text" />
+          <RButton @click="close" class="close" iconOnly round v-if="!noCloseButton" textStyle>
+            <template #icon>
+              <SevueIcon name="close" />
+            </template>
+          </RButton>
+        </div>
       </div>
     </div>
   </transition>
@@ -47,6 +52,8 @@ export interface Props {
   noCloseButton?: boolean;
   noPadding?: boolean;
   width?: string;
+  before?: string | VNode;
+  containerClass?: string;
   onClose?: () => void;
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -124,10 +131,16 @@ defineExpose({
     background: color();
     padding: var(--r-space-3);
     border-radius: var(--r-radius);
+    gap: var(--r-space-2);
     display: flex;
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: center;
     position: relative;
+
+    &-main {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
 
     .title {
       font-weight: bold;
@@ -140,8 +153,8 @@ defineExpose({
 
     .close {
       position: absolute;
-      top: 0;
-      right: 0;
+      top: 2px;
+      right: 2px;
       padding: 2px;
 
       svg {

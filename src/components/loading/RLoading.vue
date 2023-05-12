@@ -6,10 +6,10 @@
       :style="{
         '--r-color': getColor(color) || 'var(--r-prm)',
         '--r-component-background': getColor(background) || 'var(--r-b1)',
-        ...containerStyle
+        ...containerStyle,
       }"
-      ref="component">
-      <!-- TODO: Custom spinner -->
+      ref="component"
+    >
       <div class="r-loading-inner">
         <VNodeRenderer :param="spinner">
           <div class="r-loading-spinner" :style="{ transform: `scale(${scale})` }">
@@ -25,9 +25,9 @@
 
 <script setup lang="ts">
 import { getColor } from "@/utils";
-import { nextTick, onMounted, reactive, ref, } from "vue";
+import { nextTick, onMounted, reactive, ref } from "vue";
 import VNodeRenderer from "../VNodeRenderer.vue";
-import type { VNode, CSSProperties } from 'vue'
+import type { VNode, CSSProperties } from "vue";
 
 const props = withDefaults(
   defineProps<{
@@ -37,8 +37,8 @@ const props = withDefaults(
     scale?: number;
     target?: HTMLElement;
     spinner?: VNode;
-    containerClass?: string
-    containerStyle?: CSSProperties
+    containerClass?: string;
+    containerStyle?: CSSProperties;
   }>(),
   {}
 );
@@ -52,10 +52,11 @@ onMounted(() => {
     state.active = true;
   });
 });
-const close = () => {
+const close = async () => {
   const parentDiv: HTMLElement = component.value.parentElement;
+  await nextTick();
   setTimeout(() => {
-    parentDiv.remove();
+    parentDiv?.remove();
   }, 300);
   state.active = false;
 };
