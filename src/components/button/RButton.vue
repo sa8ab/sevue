@@ -30,6 +30,7 @@
         colorInherit,
         compact,
         transparent,
+        block,
       },
     ]"
     :style="{
@@ -77,6 +78,7 @@ export interface Props {
   tag?: any;
   compact?: boolean;
   transparent?: boolean;
+  block?: boolean;
 }
 
 const { iconPrefix, nuxtOptions } = useSevue();
@@ -236,6 +238,10 @@ button {
 
   &.compact {
     padding: var(--r-compact-normal-padding);
+  }
+
+  &.block {
+    width: 100%;
   }
 }
 

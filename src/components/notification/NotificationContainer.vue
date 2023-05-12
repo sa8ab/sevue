@@ -5,10 +5,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from "vue";
 defineOptions({
-  inheritAttrs: false
-})
+  inheritAttrs: false,
+});
 const props = defineProps({
   placement: { default: "bottom-right", type: String },
 });
@@ -30,10 +30,9 @@ const renderPlacement = computed(() => {
 .r-notifications-container {
   z-index: 100;
   position: fixed;
-  width: 100%;
-  max-width: 300px;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   padding: var(--r-space-2);
 
   &.has-top {
@@ -46,6 +45,7 @@ const renderPlacement = computed(() => {
 
   &.has-left {
     left: 0;
+    align-items: flex-start;
   }
 
   &.has-right {
@@ -55,12 +55,12 @@ const renderPlacement = computed(() => {
   &.is-center {
     left: 50%;
     transform: translateX(-50%);
+    align-items: center;
   }
 }
 
 @media only screen and (max-width: 600px) {
   .r-notifications-container {
-    max-width: 100%;
     width: 100%;
 
     .r-notification,
@@ -68,4 +68,5 @@ const renderPlacement = computed(() => {
       border-radius: var(--r-radius) !important;
     }
   }
-}</style>
+}
+</style>

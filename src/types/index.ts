@@ -41,6 +41,8 @@ export interface NotificationOptions {
   duration?: number;
   pauseOnHover?: boolean;
   noCloseButton?: boolean;
+  noPadding?: boolean;
+  width?: string;
   onClose?: () => void;
 }
 export interface Notification {

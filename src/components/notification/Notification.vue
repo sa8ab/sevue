@@ -1,5 +1,12 @@
 <template>
-  <transition :name="`move`" @beforeEnter="beforeEnter" @enter="enter" @leave="leave" @afterLeave="afterLeave">
+  <transition
+    :name="`move`"
+    @beforeEnter="beforeEnter"
+    @enter="enter"
+    @afterEnter="afterEnter"
+    @leave="leave"
+    @afterLeave="afterLeave"
+  >
     <div
       v-if="state.active"
       @mouseenter="onPause"
@@ -8,12 +15,13 @@
       :style="{
         '--r-color': color || 'var(--r-prm)',
         '--r-text-color': textColor || 'var(--r-text)',
+        '--notification-width': width || '360px',
       }"
     >
-      <div class="notification-inner">
+      <div :class="['notification-inner', { noPadding }]">
         <VNodeRenderer class="title" :param="title" v-if="title" />
         <VNodeRenderer class="text" :param="text" v-if="text" />
-        <RButton @click="close" class="close" iconOnly round v-if="!noCloseButton" fill textStyle>
+        <RButton @click="close" class="close" iconOnly round v-if="!noCloseButton" textStyle>
           <template #icon>
             <SevueIcon name="close" />
           </template>
@@ -37,6 +45,8 @@ export interface Props {
   duration?: number;
   pauseOnHover?: boolean;
   noCloseButton?: boolean;
+  noPadding?: boolean;
+  width?: string;
   onClose?: () => void;
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -75,19 +85,24 @@ const close = () => {
     props.onClose?.();
   }
 };
-const beforeEnter = (el: HTMLElement) => {
-  el.style.height = "0";
+const beforeEnter = (el: Element) => {
+  (el as HTMLElement).style.height = "0";
 };
-const enter = (el: HTMLElement) => {
+const enter = (el: Element) => {
   const height = el.scrollHeight;
-  el.style.height = `${height}px`;
+  (el as HTMLElement).style.height = `${height}px`;
 };
-const leave = (el: HTMLElement) => {
-  // There is a stupid flicker when it's 0px
-  el.style.height = "1px";
+const afterEnter = (el: Element) => {
+  (el as HTMLElement).style.height = `auto`;
+};
+const leave = (el: Element) => {
+  const height = getComputedStyle(el).height;
+  (el as HTMLElement).style.height = height;
+  getComputedStyle(el).height;
+  (el as HTMLElement).style.height = "0px";
   state.parentDiv = el.parentElement;
 };
-const afterLeave = (el: HTMLElement) => {
+const afterLeave = (el: Element) => {
   state.parentDiv?.remove();
 };
 
@@ -99,7 +114,7 @@ defineExpose({
 <style lang="scss">
 .r-notification {
   color: color(text-color);
-  width: 100%;
+  width: var(--notification-width);
   border-radius: var(--r-radius);
   transition: transform $duration, height $duration;
   // overflow: hidden;
@@ -134,10 +149,19 @@ defineExpose({
         height: 20px;
       }
     }
+
+    &.noPadding {
+      padding: 0;
+    }
   }
 
   &:hover {
     transform: translateY(4px);
+  }
+}
+@media only screen and (max-width: 600px) {
+  .r-notification {
+    width: 100%;
   }
 }
 
