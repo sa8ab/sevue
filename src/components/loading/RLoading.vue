@@ -11,13 +11,17 @@
       ref="component"
     >
       <div class="r-loading-inner">
-        <VNodeRenderer :param="spinner">
-          <div class="r-loading-spinner" :style="{ transform: `scale(${scale})` }">
-            <div class="r-loading-spinner__1"></div>
-            <div class="r-loading-spinner__2"></div>
-          </div>
-        </VNodeRenderer>
-        <VNodeRenderer :param="text" v-if="text" class="text" />
+        <slot name="spinner">
+          <VNodeRenderer :param="spinner">
+            <div class="r-loading-spinner" :style="{ transform: `scale(${scale})` }">
+              <div class="r-loading-spinner__1"></div>
+              <div class="r-loading-spinner__2"></div>
+            </div>
+          </VNodeRenderer>
+        </slot>
+        <slot>
+          <VNodeRenderer :param="text" v-if="text" class="text" />
+        </slot>
       </div>
     </div>
   </transition>
