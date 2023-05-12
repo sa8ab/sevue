@@ -1,6 +1,6 @@
 # SEVUE
 
-## <div style="display: flex; justify-content: center; margin-bottom: 24px">UI component library for Vue/Nuxt 3</div>
+## UI components for Vue/Nuxt 3
 
 <div align="center" width="100%">
   <img width="240" src="https://i.imgur.com/fQhpqDY.png"> 
@@ -18,6 +18,8 @@
 - popup
 - pagination
 - slider
+- radio
+- switch
 
 ### Composables
 - useNotification
