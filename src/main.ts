@@ -109,6 +109,7 @@ export {
   RTabItem,
   RRadio,
   RSwitch,
+  RLoading,
 } from "./components";
 
 // inject keys
@@ -127,6 +128,7 @@ export type {
   RTabProps,
   RRadioProps,
   RSwitchProps,
+  RLoadingProps,
 } from "./components";
 export type {
   Colors,

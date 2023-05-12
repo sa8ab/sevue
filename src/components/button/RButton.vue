@@ -31,6 +31,7 @@
         compact,
         transparent,
         block,
+        loading,
       },
     ]"
     :style="{
@@ -45,6 +46,7 @@
       </slot>
       <slot></slot>
     </div>
+    <RLoading local :propsActive="loading" :scale="0.48" :color="color || 'var(--r-prm)'" />
   </component>
 </template>
 
@@ -54,7 +56,7 @@ fix routing
 dynamic icon slot & detect iconOnly
 */
 import useColor from "@/composables/useColor";
-import { useSevue } from "@/main";
+import { useSevue, RLoading, type RLoadingProps } from "@/main";
 import { useSlots, ref, computed, toRef, h } from "vue";
 
 export interface Props {
@@ -79,6 +81,7 @@ export interface Props {
   compact?: boolean;
   transparent?: boolean;
   block?: boolean;
+  loading?: boolean;
 }
 
 const { iconPrefix, nuxtOptions } = useSevue();
@@ -132,6 +135,8 @@ button {
   user-select: none;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
 
   &:hover {
@@ -242,6 +247,10 @@ button {
 
   &.block {
     width: 100%;
+  }
+
+  &.loading {
+    pointer-events: none;
   }
 }
 

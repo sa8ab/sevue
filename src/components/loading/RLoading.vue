@@ -2,7 +2,7 @@
   <transition name="r-loading">
     <div
       v-if="state.active"
-      :class="['r-loading', containerClass, { hasTarget: !!target }]"
+      :class="['r-loading', containerClass, { hasTarget: !!target, local }]"
       :style="{
         '--r-color': getColor(color) || 'var(--r-prm)',
         '--r-component-background': getColor(background) || 'var(--r-b1)',
@@ -25,33 +25,36 @@
 
 <script setup lang="ts">
 import { getColor } from "@/utils";
-import { nextTick, onMounted, reactive, ref } from "vue";
+import { nextTick, onMounted, reactive, ref, watch } from "vue";
 import VNodeRenderer from "../VNodeRenderer.vue";
 import type { VNode, CSSProperties } from "vue";
 
-const props = withDefaults(
-  defineProps<{
-    text?: String | VNode;
-    color?: string;
-    background?: string;
-    scale?: number;
-    target?: HTMLElement;
-    spinner?: VNode;
-    containerClass?: string;
-    containerStyle?: CSSProperties;
-  }>(),
-  {}
-);
+export interface Props {
+  text?: string | VNode;
+  color?: string;
+  background?: string;
+  scale?: number;
+  target?: HTMLElement;
+  spinner?: VNode;
+  containerClass?: string;
+  containerStyle?: CSSProperties;
+  propsActive?: boolean;
+  local?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {});
 
 const component = ref();
 const state = reactive({
   active: false,
 });
 onMounted(() => {
+  if (props.local) return;
   nextTick(() => {
     state.active = true;
   });
 });
+
 const close = async () => {
   const parentDiv: HTMLElement = component.value.parentElement;
   await nextTick();
@@ -60,6 +63,15 @@ const close = async () => {
   }, 300);
   state.active = false;
 };
+
+if (props.local) {
+  watch(
+    () => props.propsActive,
+    (active) => {
+      state.active = active;
+    }
+  );
+}
 
 defineExpose({
   close,
@@ -91,7 +103,8 @@ defineExpose({
     flex-direction: column;
   }
 
-  &.hasTarget {
+  &.hasTarget,
+  &.local {
     position: absolute;
   }
 
