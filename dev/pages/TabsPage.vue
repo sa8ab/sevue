@@ -1,7 +1,7 @@
 <template>
   <div class="center-it">
     <RButton @click="tabs.length = 2">reduce</RButton>
-    <RTab @tabChange="onTabChange" ref="tabbar">
+    <RTab @tabChange="onTabChange" ref="tabbar" moverFull bordered>
       <RTabItem title="test" name="test"> test </RTabItem>
       <RTabItem :title="item.title" :name="item.title" v-for="item in tabs">
         {{ item.title }}

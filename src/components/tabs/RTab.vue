@@ -1,7 +1,7 @@
 <template>
   <div :class="['r-tab', { fit, bordered, scrollable, moverFull }]" :style="{ '--r-color': color || 'var(--r-prm)' }">
     <!-- tabbar -->
-    <div class="tabbar" ref="tabbar">
+    <div class="r-tabbar" ref="tabbar">
       <div
         v-for="{ title, name, disabled } in tabs"
         :class="['r-tab-button', { tabactive: state.activeTab === name, disabled }]"
@@ -131,10 +131,12 @@ defineExpose({
 .r-tab {
   min-width: 100%;
   --r-duration: calc(var(var(--r-duration)) * 1.2);
-  .tabbar {
+  --radius: calc(var(--r-radius) / 2);
+  .r-tabbar {
     display: flex;
     position: relative;
     overflow: hidden;
+    border-bottom: 1px solid color(border-color, var(--border-alpha));
   }
 
   .r-tab-button {
@@ -143,6 +145,7 @@ defineExpose({
     justify-content: center;
     padding: var(--r-normal-padding);
     transition: background var(--r-duration);
+    border-radius: var(--radius) var(--radius) 0 0;
     cursor: pointer;
     user-select: none;
 
@@ -165,7 +168,7 @@ defineExpose({
     position: absolute;
     bottom: 0;
     height: 2px;
-    border-radius: 2px;
+    border-radius: var(--radius);
     background: color(color);
     transition: width var(--r-duration), left var(--r-duration);
   }
@@ -187,14 +190,10 @@ defineExpose({
     overflow: hidden;
     border-radius: var(--r-radius);
     box-shadow: var(--border);
-
-    .tabbar {
-      border-bottom: 1px solid color(border-color, var(--border-alpha));
-    }
   }
 
   &.scrollable {
-    .tabbar {
+    .r-tabbar {
       overflow-x: auto;
       white-space: nowrap;
       @extend .scroll-bar;
@@ -205,6 +204,7 @@ defineExpose({
     .mover {
       height: 100%;
       z-index: 0;
+      border-radius: var(--radius) var(--radius) 0 0;
     }
 
     .r-tab-button {
@@ -212,7 +212,7 @@ defineExpose({
       z-index: 2;
 
       &.tabactive {
-        transition-delay: calc(var(--r-duration) / 2);
+        transition-delay: 0.1s;
         color: white;
         background: transparent;
       }
