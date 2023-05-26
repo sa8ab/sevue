@@ -58,7 +58,7 @@
     </div>
     <Teleport to="body">
       <Transition name="fade-move" @after-leave="onAfterLeave">
-        <div v-if="state.active" class="r-select-dropdown-container" ref="dropdown">
+        <div v-if="state.active" :class="['r-select-dropdown-container', dropdownClass]" ref="dropdown">
           <div class="r-select-dropdown" @scroll="onDropdownScroll">
             <div class="noOptions" v-if="noOptions && !canCreateOption">
               <slot name="noItems" class="noOptions"> No Options Available </slot>
@@ -133,6 +133,7 @@ export type Props = {
   perPage?: number;
   canCreateOption?: boolean;
   popperOptions?: PopperOptions;
+  dropdownClass?: string;
   renderPlaceholder?: (parameter: Option | Option[]) => string;
   customSearch?: (parameter: string) => void;
   itemExtractor?: (arg0: any) => Option;
