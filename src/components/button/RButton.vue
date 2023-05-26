@@ -46,7 +46,7 @@
       </slot>
       <slot></slot>
     </div>
-    <RLoading local :propsActive="loading" :scale="0.48" :color="color || 'var(--r-prm)'" />
+    <RLoading local :active="loading" :scale="0.48" :color="color || 'var(--r-prm)'" />
   </component>
 </template>
 

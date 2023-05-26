@@ -1,7 +1,7 @@
 <template>
   <transition name="r-loading">
     <div
-      v-if="state.active"
+      v-if="state.active || active"
       :class="['r-loading', containerClass, { hasTarget: !!target, local }]"
       :style="{
         '--r-color': getColor(color) || 'var(--r-prm)',
@@ -42,7 +42,7 @@ export interface Props {
   spinner?: VNode;
   containerClass?: string;
   containerStyle?: CSSProperties;
-  propsActive?: boolean;
+  active?: boolean;
   local?: boolean;
 }
 
@@ -67,18 +67,6 @@ const close = async () => {
   }, 300);
   state.active = false;
 };
-
-if (props.local) {
-  watch(
-    () => props.propsActive,
-    (active) => {
-      if (typeof active !== "undefined") state.active = active;
-    },
-    {
-      immediate: true,
-    }
-  );
-}
 
 defineExpose({
   close,
