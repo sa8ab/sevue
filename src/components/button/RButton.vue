@@ -52,7 +52,6 @@
 
 <script lang="ts" setup>
 /* TODO:
-fix routing
 dynamic icon slot & detect iconOnly
 */
 import useColor from "@/composables/useColor";

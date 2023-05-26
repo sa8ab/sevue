@@ -1,25 +1,18 @@
 <template>
-  <div
-    :class="['r-tab', { fit, bordered, iconOnly, scrollable, moverFull }]"
-    :style="{ '--r-color': color || 'var(--r-prm)' }"
-  >
+  <div :class="['r-tab', { fit, bordered, scrollable, moverFull }]" :style="{ '--r-color': color || 'var(--r-prm)' }">
     <!-- tabbar -->
     <div class="tabbar" ref="tabbar">
       <div
-        v-for="({ title, icon, disabled }, i) in tabs"
-        :key="i"
-        :class="['tab-button r', { tabactive: state.activeTab === title, disabled }]"
-        :icon="icon"
+        v-for="{ title, name, disabled } in tabs"
+        :class="['r-tab-button', { tabactive: state.activeTab === name, disabled }]"
         ref="tabBarItems"
-        @click="setActiveTab(title)"
+        @click="setActiveTab(name)"
         v-ripple
       >
-        <slot :name="`icon-${i}`">
-          <i :class="[iconPrefix, icon]" v-if="icon"></i>
-        </slot>
-        <span class="title" v-if="!iconOnly">
+        <slot :name="`icon-${name}`"></slot>
+        <slot :name="`content-${name}`">
           {{ title }}
-        </span>
+        </slot>
       </div>
       <div class="mover" :style="{ width: state.moverWidth, left: state.moverLeft }"></div>
     </div>
@@ -32,13 +25,14 @@
 
 <script setup lang="ts">
 import useColor from "@/composables/useColor";
-import { useSevue } from "@/main";
+import useDynamicSlots from "@/composables/useDynamicSlots";
 import { nextTick, onMounted, reactive, ref, toRef, computed, useSlots, watch, type VNode, provide } from "vue";
+import type { Props as Tab } from "./RTabItem.vue";
+import getRelatedChildren from "@/utils/getRelatedChildren";
 
 export interface Props {
   fit?: boolean;
   bordered?: boolean;
-  iconOnly?: boolean;
   scrollable?: boolean;
   moverFull?: boolean;
   color?: string;
@@ -51,67 +45,68 @@ type State = {
   direction: "forward" | "backward";
   moverWidth: string;
   moverLeft: string;
-  children: VNode[];
 };
-type Tab = {
-  title: string;
-  icon?: string;
-  disabled?: boolean;
-};
+
 const props = withDefaults(defineProps<Props>(), {});
 const emit = defineEmits(["tabChange"]);
 const color = useColor(toRef(props, "color"));
-const { iconPrefix } = useSevue();
+
+const defaultSlot = useDynamicSlots();
+
 const state = reactive<State>({
   activeTab: "",
   height: "auto",
   direction: "forward",
   moverWidth: "0",
   moverLeft: "0",
-  children: [],
 });
 const tabBarItems = ref<HTMLElement[]>([]);
 const tabbar = ref();
 
-const { default: defaultSlot } = useSlots();
-
 onMounted(() => {
-  setActiveTab(tabs.value[props.initialActiveTab ?? 0]?.title);
+  setActiveTab(tabs.value[props.initialActiveTab ?? 0]?.name);
 });
-watch(
-  () => defaultSlot!(),
-  (defSlot) => (state.children = defSlot),
-  { immediate: true }
-);
-const tabs = computed<Tab[]>(() => state.children.map(({ props }) => <Tab>props));
 
-const setActiveTab = (tab: string) => {
-  const oldTabIndex = tabs.value.findIndex(({ title }) => state.activeTab === title);
-  const newTabIndex = tabs.value.findIndex(({ title }) => tab === title);
+const tabs = computed<Tab[]>(() => children.value.map(({ props }) => <Tab>props));
+
+const setActiveTab = async (tab: string) => {
+  if (!tabs.value.length) return;
+  const oldTabIndex = tabs.value.findIndex(({ name }) => state.activeTab === name);
+  const newTabIndex = tabs.value.findIndex(({ name }) => tab === name);
 
   if (oldTabIndex < newTabIndex) state.direction = "forward";
   else state.direction = "backward";
   setMoverStyle({ index: newTabIndex });
-  nextTick(() => {
-    state.activeTab = tab;
-    emit("tabChange", { title: tab, index: newTabIndex });
+  await nextTick();
+  state.activeTab = tab;
+  emit("tabChange", { name: tab });
+};
+
+const setMoverStyle = async ({ index }: { index: number }) => {
+  const el = tabBarItems.value[index];
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const { width } = el?.getBoundingClientRect();
+
+      const newTabBarItemOffset = el.offsetLeft;
+
+      state.moverWidth = `${width}px`;
+      state.moverLeft = `${newTabBarItemOffset}px`;
+      if (props.scrollable) {
+        //   TODO: fix for rtl version
+        tabbar.value.scrollTo({
+          left: newTabBarItemOffset - 80,
+          behavior: "smooth",
+        });
+      }
+    });
   });
 };
 
-const setMoverStyle = ({ index }: { index: number }) => {
-  const { width } = tabBarItems.value[index]?.getBoundingClientRect();
-  const newTabBarItemOffset = tabBarItems.value[index].offsetLeft;
-  state.moverWidth = `${width}px`;
-  state.moverLeft = `${newTabBarItemOffset}px`;
+const children = computed(() => {
+  return getRelatedChildren(defaultSlot.value, "isTabItem");
+});
 
-  if (props.scrollable) {
-    //   TODO: fix for rtl version
-    tabbar.value.scrollTo({
-      left: newTabBarItemOffset - 80,
-      behavior: "smooth",
-    });
-  }
-};
 const setHeight = (height: number | string) => {
   state.height = height;
 };
@@ -133,37 +128,36 @@ defineExpose({
 </script>
 
 <style lang="scss">
-$duration: $duration * 1.5;
-
 .r-tab {
   min-width: 100%;
-
+  --r-duration: calc(var(var(--r-duration)) * 1.2);
   .tabbar {
     display: flex;
     position: relative;
     overflow: hidden;
   }
 
-  .tab-button {
+  .r-tab-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--r-space-1);
     padding: var(--r-normal-padding);
-    border-radius: 0;
+    transition: background var(--r-duration);
+    cursor: pointer;
+    user-select: none;
 
-    .title {
-      font-size: $fsmall;
+    &.disabled {
+      color: color(disabled);
+      pointer-events: none;
+    }
+
+    &:hover {
+      background: color(hover, var(--hover-alpha));
     }
 
     &.tabactive {
       color: color();
       background: color(color, var(--light-alpha));
-    }
-
-    &.disabled {
-      color: color(disabled);
-      pointer-events: none;
     }
   }
 
@@ -173,18 +167,18 @@ $duration: $duration * 1.5;
     height: 2px;
     border-radius: 2px;
     background: color(color);
-    transition: width $duration, left $duration;
+    transition: width var(--r-duration), left var(--r-duration);
   }
 
   .tabs-container {
     border-radius: var(--r-radius);
     overflow: hidden;
     position: relative;
-    transition: all $duration;
+    transition: all var(--r-duration);
   }
 
   &.fit {
-    .tab-button {
+    .r-tab-button {
       flex: 1;
     }
   }
@@ -196,13 +190,6 @@ $duration: $duration * 1.5;
 
     .tabbar {
       border-bottom: 1px solid color(border-color, var(--border-alpha));
-    }
-  }
-
-  &.iconOnly {
-    .tab-button {
-      width: 40px;
-      height: 40px;
     }
   }
 
@@ -220,12 +207,12 @@ $duration: $duration * 1.5;
       z-index: 0;
     }
 
-    .tab-button {
+    .r-tab-button {
       position: relative !important;
       z-index: 2;
 
       &.tabactive {
-        transition-delay: math.div($duration, 2);
+        transition-delay: calc(var(--r-duration) / 2);
         color: white;
         background: transparent;
       }
@@ -258,7 +245,7 @@ $duration: $duration * 1.5;
   &-leave-active {
     position: absolute;
     width: 100%;
-    transition: all $duration;
+    transition: all var(--r-duration);
   }
 }
 
@@ -283,7 +270,7 @@ $duration: $duration * 1.5;
   &-leave-active {
     position: absolute;
     width: 100%;
-    transition: all $duration;
+    transition: all var(--r-duration);
   }
 }
 </style>

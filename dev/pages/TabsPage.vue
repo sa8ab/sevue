@@ -1,11 +1,10 @@
 <template>
   <div class="center-it">
-    <RTab bordered color="red" @tabChange="onTabChange" fit ref="tabbar">
-      <RTabItem title="some title">
-        <RButton @click="goSecondTab" compact>some button</RButton>
-      </RTabItem>
-      <RTabItem title="title">
-        <RButton>some button</RButton>
+    <RButton @click="tabs.length = 2">reduce</RButton>
+    <RTab @tabChange="onTabChange" ref="tabbar">
+      <RTabItem title="test" name="test"> test </RTabItem>
+      <RTabItem :title="item.title" :name="item.title" v-for="item in tabs">
+        {{ item.title }}
       </RTabItem>
     </RTab>
   </div>
@@ -13,10 +12,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { RTab, RTabItem, RButton } from "../../src/main";
 
 const tabbar = ref();
 
-const goSecondTab = () => tabbar.value.setActiveTab("title");
+const tabs = ref([{ title: "settings" }, { title: "comments" }, { title: "logs" }]);
+
+const goSecondTab = () => tabbar.value.setActiveTab("comments");
 
 const onTabChange = (e) => {
   console.log(e);

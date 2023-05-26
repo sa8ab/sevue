@@ -9,13 +9,19 @@
 <script setup lang="ts">
 import { inject, computed } from "vue";
 
-const tab = inject("tab") as any;
-const props = defineProps<{
-  title: string;
-  icon?: string;
+export interface Props {
+  name: string;
+  title?: string;
   disabled?: boolean;
-  [x: string | number | symbol]: any;
-}>();
+}
+
+const tab = inject("tab") as any;
+
+defineOptions({
+  isTabItem: true,
+});
+
+const props = defineProps<Props>();
 
 const enter = (el: Element) => {
   const { height } = el.getBoundingClientRect();
@@ -32,7 +38,7 @@ const beforeLeave = (el: Element) => {
   tab.setHeight(`${height}px`);
 };
 
-const active = computed(() => tab.activeTab.value === props.title);
+const active = computed(() => tab.activeTab.value === props.name);
 const renderTransitionName = computed(() => tab.direction.value);
 </script>
 

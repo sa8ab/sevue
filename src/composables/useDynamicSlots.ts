@@ -1,5 +1,4 @@
-import { onMounted, useSlots, watch, ref, type VNode} from "vue";
-// FIXME: gives vite error ( related to ts2 plugin )
+import { onMounted, useSlots, watch, ref, type VNode } from "vue";
 const useDynamicSlots = () => {
   const data = ref<VNode[]>([]);
 
@@ -8,10 +7,13 @@ const useDynamicSlots = () => {
   onMounted(() => {
     data.value = defaultSlot!();
   });
+
   watch(
     () => defaultSlot!(),
-    (defSlot) => (data.value = defSlot)
+    (defSlot) => (data.value = defSlot),
+    { immediate: true }
   );
+
   return data;
 };
 export default useDynamicSlots;
