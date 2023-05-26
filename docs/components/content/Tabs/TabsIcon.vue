@@ -1,16 +1,21 @@
 <template>
   <div class="doc-item">
-    <RButton @click="iconOnly = !iconOnly" class="action">Toggle Only Icon</RButton>
-    <RTab :iconOnly="iconOnly">
-      <RTabItem title="First Tab" name="1" icon="bxl-vuejs"> Some Content </RTabItem>
-      <RTabItem title="Second Tab" name="2" icon="bxl-react"> Some Content </RTabItem>
+    <RTab>
+      <RTabItem title="First Tab" name="first">USER</RTabItem>
+      <RTabItem title="Second Tab" name="second">SETTINGS</RTabItem>
+      <template #content-first>
+        <i class="bx bx-user"></i>
+        &nbsp; USER
+      </template>
+      <template #content-second>
+        <i class="bx bx-cog"></i>
+        &nbsp; SETTINGS
+      </template>
     </RTab>
   </div>
 </template>
 
-<script lang="ts" setup>
-const iconOnly = ref(false);
-</script>
+<script lang="ts" setup></script>
 
 <style scoped>
 .doc-item {
