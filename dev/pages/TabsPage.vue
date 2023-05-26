@@ -21,7 +21,7 @@ const tabs = ref([{ title: "settings" }, { title: "comments" }, { title: "logs" 
 const goSecondTab = () => tabbar.value.setActiveTab("comments");
 
 const onTabChange = (e) => {
-  console.log(e);
+  console.log("onTabChange", e);
 };
 </script>
 
