@@ -8,8 +8,8 @@
             <slot name="header">
               <div class="r-popup-title">{{ title }}</div>
             </slot>
-            <RButton @click="onCloseReq" textStyle iconOnly v-if="!noCloseButton">
-              <i class="bx bx-x"></i>
+            <RButton @click="onCloseReq" textStyle iconOnly compact v-if="!noCloseButton">
+              <SevueIcon name="close" width="24px" height="24px" />
             </RButton>
           </div>
           <div class="r-popup-content overflow-x-scroll-bar">
@@ -23,6 +23,8 @@
 </template>
 
 <script setup lang="ts">
+import SevueIcon from "@/components/icons/SevueIcon.vue";
+
 export interface Props {
   active?: boolean;
   title?: string;
