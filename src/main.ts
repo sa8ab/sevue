@@ -29,6 +29,7 @@ import useNotification from "./composables/useNotification";
 import useLoading from "./composables/useLoading";
 import useSevue from "./composables/useSevue";
 import useTimer from "./composables/useTimer";
+import useColor from "./composables/useColor";
 
 import { setDark, setOptions } from "./utils";
 import { loadingKey, notificationKey, sevueKey } from "./injectionKeys";
@@ -93,7 +94,7 @@ export default {
 };
 
 // composables
-export { useNotification, useLoading, useSevue, useTimer, notificationFactory, loadingFactory };
+export { useNotification, useLoading, useSevue, useTimer, useColor, notificationFactory, loadingFactory };
 
 export {
   RButton,
