@@ -92,7 +92,6 @@ const activeTabIndex = computed(() => tabs.value.findIndex(({ name }) => state.a
 
 const runObserver = () => {
   state.observerInstance = new ResizeObserver(() => {
-    console.log("size changed");
     setMoverStyle(activeTabIndex.value);
   });
 
