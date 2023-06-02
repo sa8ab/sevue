@@ -43,7 +43,7 @@ export interface Props {
   color?: string;
   activeTextColor?: string;
   segmented?: boolean;
-  initialActiveTab?: number;
+  initialActiveTab?: string;
 }
 
 type State = {
@@ -79,7 +79,7 @@ const tabbarContainer = ref();
 const tabbar = ref<Element>();
 
 onMounted(async () => {
-  await setActiveTab(tabs.value[props.initialActiveTab ?? 0]?.name);
+  await setActiveTab(props.initialActiveTab ?? tabs.value[0]?.name);
   runObserver();
 });
 
