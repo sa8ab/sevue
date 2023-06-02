@@ -1,20 +1,25 @@
 <template>
-  <div :class="['r-tab', { fit, bordered, scrollable, moverFull }]" :style="{ '--r-color': color || 'var(--r-prm)' }">
+  <div
+    :class="['r-tab', { fit, bordered, scrollable, moverFull, segmented }]"
+    :style="{ '--r-color': color || 'var(--r-prm)', '--r-active-text': activeTextColor }"
+  >
     <!-- tabbar -->
-    <div class="r-tabbar" ref="tabbar">
-      <div
-        v-for="{ title, name, disabled } in tabs"
-        :class="['r-tab-button', { tabactive: state.activeTab === name, disabled }]"
-        ref="tabBarItems"
-        @click="setActiveTab(name)"
-        v-ripple
-      >
-        <slot :name="`icon-${name}`"></slot>
-        <slot :name="`content-${name}`">
-          {{ title }}
-        </slot>
+    <div class="r-tabbar-container" ref="tabbarContainer">
+      <div class="r-tabbar" ref="tabbar">
+        <div
+          v-for="{ title, name, disabled } in tabs"
+          :class="['r-tab-button', { tabactive: state.activeTab === name, disabled }]"
+          ref="tabBarItems"
+          @click="setActiveTab(name)"
+          v-ripple
+        >
+          <slot :name="`icon-${name}`"></slot>
+          <slot :name="`content-${name}`">
+            {{ title }}
+          </slot>
+        </div>
+        <div class="mover" :style="{ width: state.moverWidth, left: state.moverLeft }"></div>
       </div>
-      <div class="mover" :style="{ width: state.moverWidth, left: state.moverLeft }"></div>
     </div>
     <!-- tabs -->
     <div class="tabs-container" :style="{ height: state.height }">
@@ -26,7 +31,7 @@
 <script setup lang="ts">
 import useColor from "@/composables/useColor";
 import useDynamicSlots from "@/composables/useDynamicSlots";
-import { nextTick, onMounted, reactive, ref, toRef, computed, useSlots, watch, type VNode, provide } from "vue";
+import { nextTick, onMounted, reactive, ref, toRef, computed, provide, onBeforeUnmount } from "vue";
 import type { Props as Tab } from "./RTabItem.vue";
 import getRelatedChildren from "@/utils/getRelatedChildren";
 
@@ -36,6 +41,8 @@ export interface Props {
   scrollable?: boolean;
   moverFull?: boolean;
   color?: string;
+  activeTextColor?: string;
+  segmented?: boolean;
   initialActiveTab?: number;
 }
 
@@ -45,11 +52,16 @@ type State = {
   direction: "forward" | "backward";
   moverWidth: string;
   moverLeft: string;
+  // moverTop: string,
+  observerInstance?: ResizeObserver;
 };
 
-const props = withDefaults(defineProps<Props>(), {});
+const props = withDefaults(defineProps<Props>(), {
+  activeTextColor: "#fff",
+});
 const emit = defineEmits(["tabChange"]);
 const color = useColor(toRef(props, "color"));
+const activeTextColor = useColor(toRef(props, "activeTextColor"));
 
 const defaultSlot = useDynamicSlots();
 
@@ -59,15 +71,33 @@ const state = reactive<State>({
   direction: "forward",
   moverWidth: "0",
   moverLeft: "0",
+  // moverTop: "0",
+  observerInstance: undefined,
 });
 const tabBarItems = ref<HTMLElement[]>([]);
-const tabbar = ref();
+const tabbarContainer = ref();
+const tabbar = ref<Element>();
 
-onMounted(() => {
-  setActiveTab(tabs.value[props.initialActiveTab ?? 0]?.name);
+onMounted(async () => {
+  await setActiveTab(tabs.value[props.initialActiveTab ?? 0]?.name);
+  runObserver();
+});
+
+onBeforeUnmount(() => {
+  state.observerInstance?.disconnect();
 });
 
 const tabs = computed<Tab[]>(() => children.value.map(({ props }) => <Tab>props));
+const activeTabIndex = computed(() => tabs.value.findIndex(({ name }) => state.activeTab === name));
+
+const runObserver = () => {
+  state.observerInstance = new ResizeObserver(() => {
+    console.log("size changed");
+    setMoverStyle(activeTabIndex.value);
+  });
+
+  state.observerInstance.observe(tabbar.value!);
+};
 
 const setActiveTab = async (tab: string) => {
   if (!tabs.value.length) return;
@@ -76,31 +106,30 @@ const setActiveTab = async (tab: string) => {
 
   if (oldTabIndex < newTabIndex) state.direction = "forward";
   else state.direction = "backward";
-  setMoverStyle({ index: newTabIndex });
-  await nextTick();
+  setMoverStyle(newTabIndex);
   state.activeTab = tab;
   emit("tabChange", { name: tab });
 };
 
-const setMoverStyle = async ({ index }: { index: number }) => {
+const setMoverStyle = async (index: number) => {
+  await nextTick();
   const el = tabBarItems.value[index];
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      const { width } = el?.getBoundingClientRect();
+  const { width } = el?.getBoundingClientRect();
 
-      const newTabBarItemOffset = el.offsetLeft;
+  const newTabBarItemOffset = el.offsetLeft;
 
-      state.moverWidth = `${width}px`;
-      state.moverLeft = `${newTabBarItemOffset}px`;
-      if (props.scrollable) {
-        //   TODO: fix for rtl version
-        tabbar.value.scrollTo({
-          left: newTabBarItemOffset - 80,
-          behavior: "smooth",
-        });
-      }
+  // const top = el.offsetTop + (props.moverFull ? 0 : el.clientHeight);
+  // state.moverTop = `${top}px`;
+
+  state.moverWidth = `${width}px`;
+  state.moverLeft = `${newTabBarItemOffset}px`;
+  if (props.scrollable) {
+    //   TODO: fix for rtl version
+    tabbarContainer.value.scrollTo({
+      left: newTabBarItemOffset - 80,
+      behavior: "smooth",
     });
-  });
+  }
 };
 
 const children = computed(() => {
@@ -120,11 +149,6 @@ provide("tab", {
 defineExpose({
   setActiveTab,
 });
-// provide() {
-//   return {
-//     tab: this,
-//   };
-// }
 </script>
 
 <style lang="scss">
@@ -135,7 +159,10 @@ defineExpose({
   .r-tabbar {
     display: flex;
     position: relative;
-    overflow: hidden;
+  }
+  .r-tabbar-container {
+    display: flex;
+    justify-content: flex-start;
     border-bottom: 1px solid color(border-color, var(--border-alpha));
   }
 
@@ -145,7 +172,7 @@ defineExpose({
     justify-content: center;
     padding: var(--r-normal-padding);
     transition: background var(--r-duration);
-    border-radius: var(--radius) var(--radius) 0 0;
+    border-radius: var(--radius);
     cursor: pointer;
     user-select: none;
 
@@ -160,6 +187,7 @@ defineExpose({
 
     &.tabactive {
       color: color();
+      pointer-events: none;
       background: color(color, var(--light-alpha));
     }
   }
@@ -170,7 +198,7 @@ defineExpose({
     height: 2px;
     border-radius: var(--radius);
     background: color(color);
-    transition: width var(--r-duration), left var(--r-duration);
+    transition: all var(--r-duration);
   }
 
   .tabs-container {
@@ -181,6 +209,9 @@ defineExpose({
   }
 
   &.fit {
+    .r-tabbar {
+      flex: 1;
+    }
     .r-tab-button {
       flex: 1;
     }
@@ -194,8 +225,10 @@ defineExpose({
 
   &.scrollable {
     .r-tabbar {
-      overflow-x: auto;
       white-space: nowrap;
+    }
+    .r-tabbar-container {
+      overflow-x: auto;
       @extend .scroll-bar;
     }
   }
@@ -204,7 +237,7 @@ defineExpose({
     .mover {
       height: 100%;
       z-index: 0;
-      border-radius: var(--radius) var(--radius) 0 0;
+      border-radius: var(--radius);
     }
 
     .r-tab-button {
@@ -213,9 +246,32 @@ defineExpose({
 
       &.tabactive {
         transition-delay: 0.1s;
-        color: white;
+        color: color(active-text);
         background: transparent;
       }
+    }
+  }
+
+  &.segmented {
+    .r-tabbar-container {
+      border: none;
+      border-radius: var(--r-radius);
+      padding: var(--r-space-1);
+    }
+    .r-tab-button {
+      padding: var(--r-space-1) var(--r-space-3);
+      background-color: transparent;
+      border-radius: var(--r-radius);
+      z-index: 2;
+    }
+    .mover {
+      border-radius: var(--r-radius);
+      height: 100%;
+      z-index: 0;
+      box-shadow: 0 0 4px color(b2);
+    }
+    .tabactive {
+      color: color(active-text);
     }
   }
 }
