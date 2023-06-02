@@ -243,11 +243,10 @@ defineExpose({
     .r-tab-button {
       position: relative !important;
       z-index: 2;
+      background: transparent;
 
       &.tabactive {
-        transition-delay: 0.1s;
         color: color(active-text);
-        background: transparent;
       }
     }
   }
@@ -268,7 +267,7 @@ defineExpose({
       border-radius: var(--r-radius);
       height: 100%;
       z-index: 0;
-      box-shadow: 0 0 4px color(b2);
+      box-shadow: 0 0 6px -2px color();
     }
     .tabactive {
       color: color(active-text);

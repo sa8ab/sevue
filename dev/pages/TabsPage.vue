@@ -1,7 +1,7 @@
 <template>
   <div class="center-it">
     <RButton @click="tabs[1].title = 'changed thing'">change width</RButton>
-    <RTab ref="tabbar" :initialActiveTab="3" moverFull>
+    <RTab ref="tabbar" :initialActiveTab="3" moverFull segmented>
       <RTabItem title="test" name="test"> test </RTabItem>
       <RTabItem :title="item.title" :name="item.name" v-for="item in tabs">
         {{ item.title }}
