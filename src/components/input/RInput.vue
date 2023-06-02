@@ -105,6 +105,7 @@ defineExpose({
   }
   input {
     min-height: var(--r-element-min-height);
+    line-height: 1.2;
   }
 
   label {
