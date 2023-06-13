@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['r-tab', { fit, bordered, scrollable, moverFull, segmented }]"
+    :class="['r-tab', { fit, bordered, scrollable, moverFull, noBorder }]"
     :style="{ '--r-color': color || 'var(--r-prm)', '--r-active-text': activeTextColor }"
   >
     <!-- tabbar -->
@@ -43,8 +43,8 @@ export interface Props {
   moverFull?: boolean;
   color?: string;
   activeTextColor?: string;
-  segmented?: boolean;
   initialActiveTab?: string;
+  noBorder?: boolean;
 }
 
 type State = {
@@ -173,7 +173,7 @@ defineExpose({
 <style lang="scss">
 .r-tab {
   min-width: 100%;
-  --r-duration: calc(var(var(--r-duration)) * 1.2);
+  --r-duration: 5s;
   --radius: var(--r-radius);
   .r-tabbar {
     display: flex;
@@ -240,6 +240,9 @@ defineExpose({
     overflow: hidden;
     border-radius: var(--r-radius);
     box-shadow: var(--border);
+    .r-tab-item {
+      padding: var(--r-space-2);
+    }
   }
 
   &.scrollable {
@@ -257,6 +260,7 @@ defineExpose({
       height: 100%;
       z-index: 0;
       border-radius: var(--radius);
+      box-shadow: 0 0 6px -2px color();
     }
 
     .r-tab-button {
@@ -264,35 +268,23 @@ defineExpose({
       z-index: 2;
 
       &.tabactive {
+        background: transparent;
         color: color(active-text);
       }
     }
   }
 
-  &.segmented {
+  &.noBorder {
     .r-tabbar-container {
       border: none;
       border-radius: var(--r-radius);
-      padding: var(--r-space-1);
-    }
-    .r-tab-button {
-      border-radius: var(--r-radius);
-      z-index: 2;
-    }
-    .mover {
-      border-radius: var(--r-radius);
-      height: 100%;
-      z-index: 0;
-      box-shadow: 0 0 6px -2px color();
-    }
-    .tabactive {
-      color: color(active-text);
+      // padding: var(--r-space-1);
     }
   }
 }
 
 .r-tab-item {
-  padding: var(--r-space-2);
+  padding: var(--r-space-2) 0;
 }
 
 .forward {

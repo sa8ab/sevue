@@ -3,7 +3,7 @@
     <RButton @click="tabs[1].title = 'changed thing'">change width</RButton>
     <RButton @click="active = !active">active </RButton>
     <div v-if="active">
-      <RTab ref="tabbar">
+      <RTab ref="tabbar" moverFull noBorder>
         <RTabItem title="test" name="test"> test </RTabItem>
         <RTabItem title="test" name="test3"> test </RTabItem>
         <RTabItem title="test" name="test4"> test </RTabItem>
