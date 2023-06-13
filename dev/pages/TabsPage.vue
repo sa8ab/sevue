@@ -1,12 +1,16 @@
 <template>
   <div class="center-it">
-    <RButton @click="tabs[1].title = 'changed thing'">change width</RButton>
-    <RButton @click="active = !active">active </RButton>
+    <div class="actions">
+      <RButton @click="count++">change count</RButton>
+      <RButton @click="tab = 'test4'">change tab</RButton>
+      <RButton @click="active = !active">active </RButton>
+    </div>
     <div v-if="active">
-      <RTab ref="tabbar" moverFull noBorder>
+      <RTab ref="tabbar" moverFull noBorder v-model="tab">
         <RTabItem title="test" name="test"> test </RTabItem>
-        <RTabItem title="test" name="test3"> test </RTabItem>
+        <RTabItem title="test234" name="test3"> test 234</RTabItem>
         <RTabItem title="test" name="test4"> test </RTabItem>
+        <RTabItem v-for="x in count" :title="`dynamic ${x}`" :name="`dynamic ${x}`"> test </RTabItem>
       </RTab>
     </div>
   </div>
@@ -19,6 +23,7 @@ import { RTab, RTabItem, RButton } from "../../src/main";
 const tabbar = ref();
 const active = ref(true);
 const tab = ref("test3");
+const count = ref(2);
 
 const tabs = ref([
   { title: "Settings", name: "settings" },
@@ -38,8 +43,5 @@ const goSecondTab = () => tabbar.value.setActiveTab("comments");
 .center-it {
   // max-width: 800px;
   margin: auto;
-}
-.container {
-  // width: 100%;
 }
 </style>
