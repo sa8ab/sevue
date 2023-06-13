@@ -173,7 +173,6 @@ defineExpose({
 <style lang="scss">
 .r-tab {
   min-width: 100%;
-  --r-duration: calc(var(--r-duration) / 2);
   --radius: var(--r-radius);
   .r-tabbar {
     display: flex;
