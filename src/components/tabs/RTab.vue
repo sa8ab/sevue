@@ -10,7 +10,7 @@
           v-for="{ title, name, disabled } in tabs"
           :class="['r-tab-button', { tabactive: state.activeTab === name, disabled }]"
           ref="tabBarItems"
-          @click="setActiveTab(name)"
+          @click="state.activeTab = name"
           v-ripple
         >
           <slot :name="`icon-${name}`"></slot>
@@ -31,11 +31,12 @@
 <script setup lang="ts">
 import useColor from "@/composables/useColor";
 import useDynamicSlots from "@/composables/useDynamicSlots";
-import { nextTick, onMounted, reactive, ref, toRef, computed, provide, onBeforeUnmount } from "vue";
+import { nextTick, onMounted, reactive, ref, toRef, computed, provide, onBeforeUnmount, watch } from "vue";
 import type { Props as Tab } from "./RTabItem.vue";
 import getRelatedChildren from "@/utils/getRelatedChildren";
 
 export interface Props {
+  modelValue?: string;
   fit?: boolean;
   bordered?: boolean;
   scrollable?: boolean;
@@ -59,7 +60,10 @@ type State = {
 const props = withDefaults(defineProps<Props>(), {
   activeTextColor: "#fff",
 });
-const emit = defineEmits(["tabChange"]);
+const emit = defineEmits<{
+  (e: "tabChange", params: { name: string }): void;
+  (e: "update:modelValue", arg0: string): void;
+}>();
 const color = useColor(toRef(props, "color"));
 const activeTextColor = useColor(toRef(props, "activeTextColor"));
 
@@ -79,7 +83,6 @@ const tabbarContainer = ref();
 const tabbar = ref<Element>();
 
 onMounted(async () => {
-  await setActiveTab(props.initialActiveTab ?? tabs.value[0]?.name);
   runObserver();
 });
 
@@ -106,7 +109,6 @@ const setActiveTab = async (tab: string) => {
   if (oldTabIndex < newTabIndex) state.direction = "forward";
   else state.direction = "backward";
   setMoverStyle(newTabIndex);
-  state.activeTab = tab;
   emit("tabChange", { name: tab });
 };
 
@@ -139,6 +141,24 @@ const setHeight = (height: number | string) => {
   state.height = height;
 };
 
+watch(
+  () => props.modelValue,
+  (v) => {
+    if (v) state.activeTab = v;
+    else if (props.initialActiveTab) state.activeTab = props.initialActiveTab;
+    else state.activeTab = tabs.value[0].name;
+  },
+  { immediate: true }
+);
+
+watch(
+  () => state.activeTab,
+  (a) => {
+    setActiveTab(a);
+    emit("update:modelValue", a);
+  }
+);
+
 provide("tab", {
   setHeight,
   activeTab: toRef(state, "activeTab"),
@@ -154,7 +174,7 @@ defineExpose({
 .r-tab {
   min-width: 100%;
   --r-duration: calc(var(var(--r-duration)) * 1.2);
-  --radius: calc(var(--r-radius) / 2);
+  --radius: var(--r-radius);
   .r-tabbar {
     display: flex;
     position: relative;
@@ -181,7 +201,7 @@ defineExpose({
     }
 
     &:hover {
-      background: color(hover, var(--hover-alpha));
+      background: color(hover, var(--r-hover-alpha));
     }
 
     &.tabactive {
@@ -201,7 +221,7 @@ defineExpose({
   }
 
   .tabs-container {
-    border-radius: var(--r-radius);
+    border-radius: var(--radius);
     overflow: hidden;
     position: relative;
     transition: all var(--r-duration);
@@ -242,7 +262,6 @@ defineExpose({
     .r-tab-button {
       position: relative !important;
       z-index: 2;
-      background: transparent;
 
       &.tabactive {
         color: color(active-text);
@@ -257,8 +276,6 @@ defineExpose({
       padding: var(--r-space-1);
     }
     .r-tab-button {
-      padding: var(--r-space-1) var(--r-space-3);
-      background-color: transparent;
       border-radius: var(--r-radius);
       z-index: 2;
     }

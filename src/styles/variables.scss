@@ -27,7 +27,9 @@
   --r-space-3: 14px;
   --r-space-4: 22px;
   --r-space-5: 38px;
-  --r-normal-padding: 8px 12px;
+  --r-normal-padding-x: 8px;
+  --r-normal-padding-y: 12px;
+  --r-normal-padding: var(--r-normal-padding-x) var(--r-normal-padding-y);
   --r-compact-normal-padding: 4px 8px;
   --r-font-large: 1.18rem;
   --r-font-xlarge: 1.25rem;
@@ -36,6 +38,7 @@
   --r-element-min-height: 32px;
   --r-border-width: 1px;
   --hover-alpha: 0.3;
+  --r-hover-alpha: 0.3;
   --r-shadow-alpha: 0.2;
   --r-disabled-alpha: 0.8;
   --r-duration: 0.2s;

@@ -1,12 +1,14 @@
 <template>
   <div class="center-it">
     <RButton @click="tabs[1].title = 'changed thing'">change width</RButton>
-    <RTab ref="tabbar" initialActiveTab="logs" moverFull segmented>
-      <RTabItem title="test" name="test"> test </RTabItem>
-      <RTabItem :title="item.title" :name="item.name" v-for="item in tabs">
-        {{ item.title }}
-      </RTabItem>
-    </RTab>
+    <RButton @click="active = !active">active </RButton>
+    <div v-if="active">
+      <RTab ref="tabbar">
+        <RTabItem title="test" name="test"> test </RTabItem>
+        <RTabItem title="test" name="test3"> test </RTabItem>
+        <RTabItem title="test" name="test4"> test </RTabItem>
+      </RTab>
+    </div>
   </div>
 </template>
 
@@ -15,6 +17,8 @@ import { ref } from "vue";
 import { RTab, RTabItem, RButton } from "../../src/main";
 
 const tabbar = ref();
+const active = ref(true);
+const tab = ref("test3");
 
 const tabs = ref([
   { title: "Settings", name: "settings" },
