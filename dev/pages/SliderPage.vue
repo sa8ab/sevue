@@ -7,6 +7,17 @@
           <div class="custom-tick">{{ text }} {{ hi }}</div>
         </template>
       </RSlider>
+      <RSlider
+        v-model="selected"
+        :min="min"
+        :max="max"
+        :step="3"
+        ticks
+        :customTicks="customTicks"
+        @change="onChange"
+        disabled
+      >
+      </RSlider>
     </div>
     <RButton @click="changeMinMax">Change min and max</RButton>
     <RButton @click="selected = [1, 100]">Upper value to more than max</RButton>

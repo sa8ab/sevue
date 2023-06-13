@@ -1,5 +1,8 @@
 <template>
-  <div :class="['r-slider', { tickLabels: showTickLabels }]" :style="{ '--r-color': color || 'var(--r-prm)' }">
+  <div
+    :class="['r-slider', { tickLabels: showTickLabels, disabled }]"
+    :style="{ '--r-color': color || 'var(--r-prm)' }"
+  >
     <div class="bar" ref="slider" @click="onSliderClick">
       <div class="progress" :style="progressStyle"></div>
       <div class="ticks" v-if="ticks || customTicks">
@@ -51,6 +54,7 @@ export interface Props {
   tickLabels?: boolean;
   customTicks?: Array<{ text: string; value: number }>;
   hideFirstAndLastTickLabel?: boolean;
+  disabled?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
   modelValue: 0,
@@ -213,8 +217,8 @@ provide(sliderKey, {
   padding: var(--r-space-2) 0;
 
   .bar {
-    // background: color("b2");
-    background: color(hover, 0.6);
+    background: color(b2);
+    // background: color(b2, 0.6);
     height: 8px;
     width: 100%;
     position: relative;
@@ -240,6 +244,17 @@ provide(sliderKey, {
 
   &.tickLabels {
     padding-bottom: 24px;
+  }
+
+  &.disabled {
+    pointer-events: none;
+    opacity: var(--r-disabled-alpha);
+    .progress {
+      background: color(disabled, var(--r-disabled-alpha));
+    }
+    .the-dot {
+      background-color: color(disabled);
+    }
   }
 }
 </style>
