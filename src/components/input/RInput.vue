@@ -104,8 +104,8 @@ defineExpose({
     @extend .scroll-bar;
   }
   input {
+    height: auto !important;
     min-height: var(--r-element-min-height);
-    line-height: 1.2;
   }
 
   label {

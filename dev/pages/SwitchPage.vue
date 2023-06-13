@@ -1,6 +1,6 @@
 <template>
   <div class="center-it">
-    <RSwitch v-model="checked">
+    <RSwitch v-model="checked" square>
       <template #on> ON </template>
       <template #off> OFF </template>
     </RSwitch>

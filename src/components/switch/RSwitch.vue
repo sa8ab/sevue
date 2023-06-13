@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['r-switch', containerClass, { alternative, disabled }]"
+    :class="['r-switch', containerClass, { alternative, disabled, square }]"
     :style="{ '--r-color': color || 'var(--r-prm)', width: autoWidth ? 'auto' : state.width }"
     ref="switchRef"
   >
@@ -32,6 +32,7 @@ export interface Props {
   alternative?: boolean;
   disabled?: boolean;
   containerClass?: string;
+  square?: boolean;
 }
 
 defineOptions({
@@ -205,6 +206,16 @@ defineExpose({});
     opacity: var(--r-disabled-alpha);
     pointer-events: none;
     --r-color: var(--r-disabled) !important;
+  }
+
+  &.square {
+    border-radius: var(--r-radius);
+    .r-switch-background {
+      border-radius: var(--r-radius);
+    }
+    .r-switch-circle {
+      border-radius: var(--r-radius);
+    }
   }
 }
 </style>
