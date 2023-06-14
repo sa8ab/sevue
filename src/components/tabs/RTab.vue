@@ -101,9 +101,9 @@ const runObserver = () => {
   state.observerInstance.observe(tabbar.value!);
 };
 
-const setActiveTab = async (tab: string) => {
+const setActiveTab = async (tab: string, prev: string) => {
   if (!tabs.value.length) return;
-  const oldTabIndex = tabs.value.findIndex(({ name }) => state.activeTab === name);
+  const oldTabIndex = tabs.value.findIndex(({ name }) => prev === name);
   const newTabIndex = tabs.value.findIndex(({ name }) => tab === name);
 
   if (oldTabIndex < newTabIndex) state.direction = "forward";
@@ -153,8 +153,8 @@ watch(
 
 watch(
   () => state.activeTab,
-  (a) => {
-    setActiveTab(a);
+  (a, prev) => {
+    setActiveTab(a, prev);
     emit("update:modelValue", a);
   }
 );
