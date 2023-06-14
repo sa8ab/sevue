@@ -101,7 +101,7 @@ const runObserver = () => {
   state.observerInstance.observe(tabbar.value!);
 };
 
-const setActiveTab = async (tab: string, prev: string) => {
+const moveTab = async (tab: string, prev: string) => {
   if (!tabs.value.length) return;
   const oldTabIndex = tabs.value.findIndex(({ name }) => prev === name);
   const newTabIndex = tabs.value.findIndex(({ name }) => tab === name);
@@ -154,7 +154,7 @@ watch(
 watch(
   () => state.activeTab,
   (a, prev) => {
-    setActiveTab(a, prev);
+    moveTab(a, prev);
     emit("update:modelValue", a);
   }
 );
@@ -166,7 +166,7 @@ provide("tab", {
 });
 
 defineExpose({
-  setActiveTab,
+  moveTab,
 });
 </script>
 

@@ -6,10 +6,10 @@
       <RButton @click="active = !active">active </RButton>
     </div>
     <div v-if="active">
-      <RTab ref="tabbar" moverFull noBorder v-model="tab">
-        <RTabItem title="test" name="test"> test </RTabItem>
-        <RTabItem title="test234" name="test3"> test 234</RTabItem>
-        <RTabItem title="test" name="test4"> test </RTabItem>
+      <RTab ref="tabbar" moverFull noBorder :modelValue="tab">
+        <RTabItem title="test" name="test"></RTabItem>
+        <RTabItem title="test234" name="test3"></RTabItem>
+        <RTabItem title="test" name="test4"></RTabItem>
         <RTabItem v-for="x in count" :title="`dynamic ${x}`" :name="`dynamic ${x}`"> test </RTabItem>
       </RTab>
     </div>
