@@ -17,6 +17,8 @@ import {
   RTabItem,
   RRadio,
   RSwitch,
+  RPanel,
+  RPanelItem,
 } from "./components";
 
 // directives
@@ -67,6 +69,8 @@ export default {
     app.component("RSlider", RSlider);
     app.component("RTab", RTab);
     app.component("RTabItem", RTabItem);
+    app.component("RPanel", RPanel);
+    app.component("RPanelItem", RPanelItem);
     app.component("RRadio", RRadio);
     app.component("RSwitch", RSwitch);
 
