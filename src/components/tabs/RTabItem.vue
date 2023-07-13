@@ -1,21 +1,21 @@
 <template>
-  <Transition @enter="enter" @afterEnter="afterEnter" @beforeLeave="beforeLeave" :name="renderTransitionName">
-    <div class="r-tab-item" v-if="active">
-      <slot></slot>
-    </div>
-  </Transition>
+  <div :class="['r-tab-item', { 'r-tab-item-active': active }]" @click="onClick" ref="elementRef" v-ripple>
+    <slot></slot>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { inject, computed } from "vue";
+import { tabKey } from "@/injectionKeys";
+import type { TabInject } from "@/types";
+import { inject, computed, ref, watch, onMounted } from "vue";
 
 export interface Props {
-  name: string;
+  value: string;
   title?: string;
   disabled?: boolean;
 }
 
-const tab = inject("tab") as any;
+const tab = inject(tabKey) as TabInject;
 
 defineOptions({
   isTabItem: true,
@@ -23,23 +23,50 @@ defineOptions({
 
 const props = defineProps<Props>();
 
-const enter = (el: Element) => {
-  const { height } = el.getBoundingClientRect();
-  setTimeout(() => {
-    tab.setHeight(`${height}px`);
-  }, 0);
-};
-const afterEnter = () => {
-  tab.setHeight(`auto`);
-};
-const beforeLeave = (el: Element) => {
-  // because auto to px does not translate
-  const { height } = el.getBoundingClientRect();
-  tab.setHeight(`${height}px`);
+const elementRef = ref<HTMLElement | undefined>();
+
+const onClick = () => {
+  tab.onItemClick(props);
 };
 
-const active = computed(() => tab.activeTab.value === props.name);
-const renderTransitionName = computed(() => tab.direction.value);
+const active = computed(() => tab.activeTab.value === props.value);
+
+const setStyle = () => {
+  if (!active.value) return;
+  tab.setMoverStyle(elementRef.value!);
+};
+
+onMounted(() => setStyle());
+
+watch(tab.activeTab, () => {
+  setStyle();
+});
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.r-tab-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--r-normal-padding);
+  transition: background var(--r-duration);
+  border-radius: var(--radius);
+  cursor: pointer;
+  user-select: none;
+
+  &.disabled {
+    color: color(disabled);
+    pointer-events: none;
+  }
+
+  &:hover {
+    background: color(hover, var(--r-hover-alpha));
+  }
+
+  &-active {
+    color: color();
+    pointer-events: none;
+    // background: color(color, var(--light-alpha));
+  }
+}
+</style>

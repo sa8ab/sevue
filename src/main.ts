@@ -108,6 +108,8 @@ export {
   RSlider,
   RTab,
   RTabItem,
+  RPanel,
+  RPanelItem,
   RRadio,
   RSwitch,
   RLoading,

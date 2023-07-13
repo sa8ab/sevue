@@ -1,3 +1,4 @@
+import type { RTabProps } from "@/components";
 import type { ComputedRef } from "vue";
 import type { CSSProperties, Ref, VNode } from "vue";
 
@@ -90,4 +91,11 @@ export interface SliderInject {
   max: Ref<number>;
   hideFirstAndLastTickLabel: Ref<boolean>;
   getPositionFromValue: (arg1: { value: number }) => number;
+}
+
+export interface TabInject {
+  activeTab: Ref<string | number>;
+  direction: Ref<"forward" | "backward">;
+  onItemClick: (item: any) => void;
+  setMoverStyle: (item: HTMLElement) => void;
 }

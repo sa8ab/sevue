@@ -2,15 +2,16 @@
   <div class="center-it">
     <div class="actions">
       <RButton @click="count++">change count</RButton>
-      <RButton @click="tab = 'test4'">change tab</RButton>
+      <RButton @click="tab = 'three'">change tab</RButton>
       <RButton @click="active = !active">active </RButton>
+      <RButton @click="dynamicTabTitle = 'changed'">change a tab title</RButton>
     </div>
     <div v-if="active">
-      <RTab ref="tabbar" moverFull noBorder :modelValue="tab">
-        <RTabItem title="test" name="test"></RTabItem>
-        <RTabItem title="test234" name="test3"></RTabItem>
-        <RTabItem title="test" name="test4"></RTabItem>
-        <RTabItem v-for="x in count" :title="`dynamic ${x}`" :name="`dynamic ${x}`"> test </RTabItem>
+      <RTab ref="tabbar" v-model="tab">
+        <RTabItem value="one">{{ dynamicTabTitle }}</RTabItem>
+        <RTabItem value="two">two</RTabItem>
+        <RTabItem value="three">three</RTabItem>
+        <!-- <RTabItem v-for="x in count" :title="`dynamic ${x}`" :name="`dynamic ${x}`"> test </RTabItem> -->
       </RTab>
     </div>
   </div>
@@ -22,8 +23,9 @@ import { RTab, RTabItem, RButton } from "../../src/main";
 
 const tabbar = ref();
 const active = ref(true);
-const tab = ref("test3");
+const tab = ref("one");
 const count = ref(2);
+const dynamicTabTitle = ref("one");
 
 const tabs = ref([
   { title: "Settings", name: "settings" },

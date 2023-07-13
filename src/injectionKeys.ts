@@ -8,6 +8,7 @@ import type {
   SelectInject,
   NotificationInject,
   SliderInject,
+  TabInject,
 } from "@/types";
 
 export const notificationKey = Symbol() as InjectionKey<NotificationInject>;
@@ -19,3 +20,5 @@ export const rSelectKey = Symbol() as InjectionKey<SelectInject>;
 export const loadingKey = Symbol() as InjectionKey<LoadingInject>;
 
 export const sliderKey = Symbol() as InjectionKey<SliderInject>;
+
+export const tabKey = Symbol() as InjectionKey<TabInject>;

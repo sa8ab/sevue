@@ -5,7 +5,7 @@ import RPagination, { type Props as RPaginationProps } from './pagination'
 import RPopup, { type Props as RPopupProps } from './popup'
 import { RSelect, ROption, RSelectGroup, type ROptionProps, type RSelectProps } from './select'
 import RSlider, { type Props as RSliderProps } from './slider'
-import { RTab, RTabItem, type Props as RTabProps } from './tabs'
+import { RTab, RTabItem, RPanel, RPanelItem, type Props as RTabProps } from './tabs'
 import RRadio, { type Props as RRadioProps } from './radio'
 import RSwitch, { type Props as RSwitchProps } from './switch'
 import RLoading, { type Props as RLoadingProps } from './loading/RLoading.vue'
@@ -38,6 +38,8 @@ export {
   RTab,
   RTabProps,
   RTabItem,
+  RPanel,
+  RPanelItem,
 
   RRadio,
   RRadioProps,
