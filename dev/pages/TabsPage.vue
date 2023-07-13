@@ -10,16 +10,22 @@
       <RTab ref="tabbar" v-model="tab">
         <RTabItem value="one">{{ dynamicTabTitle }}</RTabItem>
         <RTabItem value="two">two</RTabItem>
-        <RTabItem value="three">three</RTabItem>
+        <RTabItem value="three" disabled>three</RTabItem>
         <!-- <RTabItem v-for="x in count" :title="`dynamic ${x}`" :name="`dynamic ${x}`"> test </RTabItem> -->
       </RTab>
+
+      <RPanel v-model="tab">
+        <RPanelItem value="one">some text one</RPanelItem>
+        <RPanelItem value="two">some text two</RPanelItem>
+        <RPanelItem value="three">some text three</RPanelItem>
+      </RPanel>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { RTab, RTabItem, RButton } from "../../src/main";
+import { RTab, RTabItem, RButton, RPanel, RPanelItem } from "../../src/main";
 
 const tabbar = ref();
 const active = ref(true);

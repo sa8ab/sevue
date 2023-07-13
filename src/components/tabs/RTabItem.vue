@@ -1,5 +1,5 @@
 <template>
-  <div :class="['r-tab-item', { 'r-tab-item-active': active }]" @click="onClick" ref="elementRef" v-ripple>
+  <div :class="['r-tab-item', { 'r-tab-item-active': active, disabled }]" @click="onClick" ref="elementRef" v-ripple>
     <slot></slot>
   </div>
 </template>

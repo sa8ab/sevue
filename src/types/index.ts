@@ -95,7 +95,11 @@ export interface SliderInject {
 
 export interface TabInject {
   activeTab: Ref<string | number>;
-  direction: Ref<"forward" | "backward">;
   onItemClick: (item: any) => void;
   setMoverStyle: (item: HTMLElement) => void;
+}
+export interface PanelInject {
+  activeTab: Ref<string | number>;
+  setHeight: (height: string) => void;
+  direction: Ref<"forward" | "backward">;
 }

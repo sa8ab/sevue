@@ -1,5 +1,5 @@
 <template>
-  <Transition @enter="enter" @afterEnter="afterEnter" @beforeLeave="beforeLeave" :name="renderTransitionName">
+  <Transition @enter="enter" @afterEnter="afterEnter" @beforeLeave="beforeLeave" :name="panel.direction.value">
     <div class="r-panel-item" v-if="active">
       <slot></slot>
     </div>
@@ -7,15 +7,19 @@
 </template>
 
 <script setup lang="ts">
+import { panelKey } from "@/injectionKeys";
+import type { PanelInject } from "@/types";
 import { inject, computed } from "vue";
 
 export interface Props {
-  name: string;
-  title?: string;
-  disabled?: boolean;
+  value: string | number;
 }
 
-const panel = inject("panel") as any;
+defineOptions({
+  isPanelItem: true,
+});
+
+const panel = inject(panelKey) as PanelInject;
 
 const props = defineProps<Props>();
 
@@ -29,63 +33,12 @@ const afterEnter = () => {
   panel.setHeight(`auto`);
 };
 const beforeLeave = (el: Element) => {
-  // because auto to px does not translate
   const { height } = el.getBoundingClientRect();
   panel.setHeight(`${height}px`);
 };
 
-const active = computed(() => panel.activeTab.value === props.name);
-const renderTransitionName = computed(() => panel.direction.value);
+const active = computed(() => panel.activeTab.value === props.value);
+// const renderTransitionName = computed(() => panel.direction.value);
 </script>
 
-<style lang="scss">
-.forward {
-  &-enter-from {
-    left: 100%;
-  }
-
-  &-enter-to {
-    left: 0;
-  }
-
-  &-leave-from {
-    left: 0;
-  }
-
-  &-leave-to {
-    left: -100%;
-  }
-
-  &-enter-active,
-  &-leave-active {
-    position: absolute;
-    width: 100%;
-    transition: all var(--r-duration);
-  }
-}
-
-.backward {
-  &-enter-from {
-    left: -100%;
-  }
-
-  &-enter-to {
-    left: 0;
-  }
-
-  &-leave-from {
-    left: 0;
-  }
-
-  &-leave-to {
-    left: 100%;
-  }
-
-  &-enter-active,
-  &-leave-active {
-    position: absolute;
-    width: 100%;
-    transition: all var(--r-duration);
-  }
-}
-</style>
+<style lang="scss"></style>

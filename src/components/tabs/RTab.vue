@@ -14,10 +14,8 @@
 
 <script setup lang="ts">
 import useColor from "@/composables/useColor";
-import useDynamicSlots from "@/composables/useDynamicSlots";
-import { nextTick, onMounted, reactive, ref, toRef, computed, provide, onBeforeUnmount, watch } from "vue";
+import { onMounted, reactive, ref, toRef, provide, onBeforeUnmount } from "vue";
 import type { Props as Tab } from "./RTabItem.vue";
-import getRelatedChildren from "@/utils/getRelatedChildren";
 import { tabKey } from "@/injectionKeys";
 
 export interface Props {
@@ -32,7 +30,6 @@ export interface Props {
 }
 
 type State = {
-  direction: "forward" | "backward";
   moverWidth: string;
   moverLeft: string;
   // moverTop: string,
@@ -50,10 +47,7 @@ const emit = defineEmits<{
 const color = useColor(toRef(props, "color"));
 const activeTextColor = useColor(toRef(props, "activeTextColor"));
 
-const defaultSlot = useDynamicSlots();
-
 const state = reactive<State>({
-  direction: "forward",
   moverWidth: "0",
   moverLeft: "0",
   // moverTop: "0",
@@ -71,8 +65,6 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   state.observerInstance?.disconnect();
 });
-
-const tabs = computed<Tab[]>(() => children.value.map(({ props }) => <Tab>props));
 
 const runObserver = () => {
   state.observerInstance = new ResizeObserver(() => {
@@ -112,13 +104,8 @@ const setMoverStyle = async (el?: HTMLElement) => {
   }
 };
 
-const children = computed(() => {
-  return getRelatedChildren(defaultSlot.value, "isTabItem");
-});
-
 provide(tabKey, {
   activeTab: toRef(props, "modelValue"),
-  direction: toRef(state, "direction"),
   onItemClick,
   setMoverStyle,
 });
