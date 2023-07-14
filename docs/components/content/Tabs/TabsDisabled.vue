@@ -1,14 +1,16 @@
 <template>
   <div class="doc-item">
-    <RTab initialActiveTab="2">
-      <RTabItem title="disabled tab" name="1" :disabled="true"> Content #1 </RTabItem>
-      <RTabItem title="Tab 2" name="2"> Content #2 </RTabItem>
-      <RTabItem title="Tab 3" name="3"> Content #3 </RTabItem>
+    <RTab v-model="active">
+      <RTabItem value="1" :disabled="true"> disabled tab </RTabItem>
+      <RTabItem value="2"> Tab 2 </RTabItem>
+      <RTabItem value="3"> Tab 3 </RTabItem>
     </RTab>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const active = ref("2");
+</script>
 
 <style scoped>
 .doc-item {

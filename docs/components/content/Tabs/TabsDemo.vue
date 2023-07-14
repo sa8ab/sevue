@@ -1,7 +1,12 @@
 <template>
   <div class="doc-item">
-    <RTab bordered moverFull>
-      <RTabItem title="Tab 1" name="tab1">
+    <RTab v-model="active" moverFull>
+      <RTabItem value="tab1"> Tab 1 </RTabItem>
+      <RTabItem value="tab2"> Tab 2 </RTabItem>
+      <RTabItem value="tab3"> Tab 3 </RTabItem>
+    </RTab>
+    <RPanel v-model="active">
+      <RPanelItem value="tab1">
         <div class="image-text">
           <img
             src="https://images.unsplash.com/photo-1613552465135-e5bdaada10bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
@@ -17,27 +22,26 @@
             src="https://images.unsplash.com/photo-1536514498073-50e69d39c6cf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80"
             alt=""
             class="img-3"
-          />
-        </div>
-      </RTabItem>
-      <RTabItem title="Tab 2" name="tab2">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut eveniet maiores magnam? Officia amet quod nulla
-        provident esse, assumenda suscipit voluptate repellat facilis fugit praesentium magni, quidem illo nemo at minus
-        autem et recusandae perspiciatis eligendi corrupti accusantium illum cumque!
-      </RTabItem>
-      <RTabItem title="Tab 3" name="tab3">
+          /></div
+      ></RPanelItem>
+      <RPanelItem value="tab2">
+        Tab 2 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut eveniet maiores magnam? Officia amet quod
+        nulla provident esse, assumenda suscipit voluptate repellat facilis fugit praesentium magni, quidem illo nemo at
+        minus autem et recusandae perspiciatis eligendi corrupti accusantium illum cumque!</RPanelItem
+      >
+      <RPanelItem value="tab3">
         <img src="https://cdn.pixabay.com/photo/2016/05/05/02/37/sunset-1373171_1280.jpg" alt="" />
         <div class="content">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat repellat eum laudantium nemo nulla et illum
           esse. Soluta, provident adipisci.
         </div>
-      </RTabItem>
-    </RTab>
+      </RPanelItem>
+    </RPanel>
   </div>
 </template>
 
 <script lang="ts" setup>
-const state = ref();
+const active = ref("tab1");
 </script>
 
 <style scoped lang="scss">
@@ -72,5 +76,8 @@ img {
     height: 180px;
     width: 100%;
   }
+}
+.r-panel {
+  border-radius: 6px;
 }
 </style>

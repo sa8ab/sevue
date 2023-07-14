@@ -21,6 +21,8 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     RPagination: typeof import('./src/components/pagination/RPagination.vue')['default']
+    RPanel: typeof import('./src/components/tabs/RPanel.vue')['default']
+    RPanelItem: typeof import('./src/components/tabs/RPanelItem.vue')['default']
     RPopup: typeof import('./src/components/popup/RPopup.vue')['default']
     RRadio: typeof import('./src/components/radio/RRadio.vue')['default']
     RSelect: typeof import('./src/components/select/RSelect.vue')['default']

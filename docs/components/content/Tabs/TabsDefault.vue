@@ -1,17 +1,15 @@
 <template>
   <div class="doc-item">
-    <RTab v-bind="$attrs">
-      <RTabItem title="First Tab" name="first"> Some Content </RTabItem>
-      <RTabItem title="Second Tab" name="second">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique velit molestias praesentium sequi inventore
-        quam, ad sed veniam vero soluta ab! Consequatur animi fugit minima, facilis repudiandae, quidem alias nemo
-        fugiat architecto iste, nobis accusamus facere iure excepturi quo culpa?
-      </RTabItem>
+    <RTab v-model="activeTab" v-bind="$attrs">
+      <RTabItem value="first"> First Tab </RTabItem>
+      <RTabItem title="Second Tab" value="second"> Second Tab </RTabItem>
     </RTab>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const activeTab = ref("first");
+</script>
 
 <style scoped>
 .doc-item {

@@ -1,21 +1,21 @@
 <template>
   <div class="doc-item">
-    <RTab>
-      <RTabItem title="First Tab" name="first">USER</RTabItem>
-      <RTabItem title="Second Tab" name="second">SETTINGS</RTabItem>
-      <template #content-first>
+    <RTab v-model:model-value="activeTab">
+      <RTabItem value="first">
         <i class="bx bx-user"></i>
-        &nbsp; USER
-      </template>
-      <template #content-second>
+        &nbsp; USER</RTabItem
+      >
+      <RTabItem value="second">
         <i class="bx bx-cog"></i>
         &nbsp; SETTINGS
-      </template>
+      </RTabItem>
     </RTab>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const activeTab = ref("first");
+</script>
 
 <style scoped>
 .doc-item {
