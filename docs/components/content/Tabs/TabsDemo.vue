@@ -5,6 +5,7 @@
       <RTabItem value="tab2"> Tab 2 </RTabItem>
       <RTabItem value="tab3"> Tab 3 </RTabItem>
     </RTab>
+    <div class="spacer"></div>
     <RPanel v-model="active">
       <RPanelItem value="tab1">
         <div class="image-text">
@@ -45,6 +46,9 @@ const active = ref("tab1");
 </script>
 
 <style scoped lang="scss">
+.spacer {
+  margin-bottom: 4px;
+}
 .doc-item {
   max-width: 800px;
 }
