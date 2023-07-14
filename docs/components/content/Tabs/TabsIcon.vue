@@ -3,8 +3,8 @@
     <RTab v-model:model-value="activeTab">
       <RTabItem value="first">
         <i class="bx bx-user"></i>
-        &nbsp; USER</RTabItem
-      >
+        &nbsp; USER
+      </RTabItem>
       <RTabItem value="second">
         <i class="bx bx-cog"></i>
         &nbsp; SETTINGS

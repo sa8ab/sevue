@@ -10,7 +10,7 @@ import type { TabInject } from "@/types";
 import { inject, computed, ref, watch, onMounted } from "vue";
 
 export interface Props {
-  value: string;
+  value: string | number;
   title?: string;
   disabled?: boolean;
 }

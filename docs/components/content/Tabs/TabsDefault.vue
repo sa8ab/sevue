@@ -2,8 +2,16 @@
   <div class="doc-item">
     <RTab v-model="activeTab" v-bind="$attrs">
       <RTabItem value="first"> First Tab </RTabItem>
-      <RTabItem title="Second Tab" value="second"> Second Tab </RTabItem>
+      <RTabItem value="second"> Second Tab </RTabItem>
     </RTab>
+    <RPanel v-model="activeTab">
+      <RPanelItem value="first">
+        <div>Content Of First Tab</div>
+        <div>Content Of First Tab</div>
+        <div>Content Of First Tab</div>
+      </RPanelItem>
+      <RPanelItem value="second">Content Of Second Tab</RPanelItem>
+    </RPanel>
   </div>
 </template>
 

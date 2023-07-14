@@ -41,8 +41,7 @@ const props = withDefaults(defineProps<Props>(), {
   activeTextColor: "#fff",
 });
 const emit = defineEmits<{
-  (e: "tabChange", params: { name: string }): void;
-  (e: "update:modelValue", arg0: string): void;
+  (e: "update:modelValue", arg0: Props["modelValue"]): void;
 }>();
 const color = useColor(toRef(props, "color"));
 const activeTextColor = useColor(toRef(props, "activeTextColor"));
