@@ -42,7 +42,7 @@ export default defineConfig({
     lib: {
       entry: "src/main.ts",
       name: "sevue",
-      fileName: (format) => `sevue.${format}.js`,
+      // fileName: (format) => `sevue.${format}.js`,
     },
     rollupOptions: {
       external: ["vue"],

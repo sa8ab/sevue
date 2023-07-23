@@ -5,8 +5,8 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/sevue.es.js",
-  "module": "./dist/sevue.es.js",
+  "main": "./dist/sevue.umc.cjs",
+  "module": "./dist/sevue.js",
   "type": "module",
   "types": "./dist/main.d.ts",
   "scripts": {
