@@ -5,7 +5,7 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/sevue.umd.js",
+  "main": "./dist/sevue.es.js",
   "module": "./dist/sevue.es.js",
   "type": "module",
   "types": "./dist/main.d.ts",
