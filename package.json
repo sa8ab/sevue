@@ -5,9 +5,8 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/sevue.umc.cjs",
-  "module": "./dist/sevue.js",
-  "type": "module",
+  "main": "./dist/sevue.umd.js",
+  "module": "./dist/sevue.mjs",
   "types": "./dist/main.d.ts",
   "scripts": {
     "dev": "vite",
@@ -16,6 +15,17 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit"
   },
+  "exports": {
+    ".": {
+      "import": "./dist/sevue.mjs",
+      "require": "./dist/sevue.umd.js"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    }
+  },
+  
   "dependencies": {
     "@popperjs/core": "^2.11.6",
     "vue": "^3.2.47"
