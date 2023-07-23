@@ -7,6 +7,7 @@
   ],
   "main": "./dist/sevue.umd.js",
   "module": "./dist/sevue.es.js",
+  "type": "module",
   "types": "./dist/main.d.ts",
   "scripts": {
     "dev": "vite",
