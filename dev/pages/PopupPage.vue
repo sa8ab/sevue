@@ -15,7 +15,7 @@
 import { ref } from "vue";
 
 const active = ref(false);
-const onBeforeClose = (done) => {
+const onBeforeClose = (done: any) => {
   done();
 };
 </script>

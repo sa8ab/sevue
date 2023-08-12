@@ -25,7 +25,6 @@
         textStyle,
         round,
         iconOnly,
-        iconAfter,
         focused,
         colorInherit,
         compact,
@@ -51,7 +50,7 @@
 dynamic icon slot & detect iconOnly
 */
 import useColor from "@/composables/useColor";
-import { useSevue, RLoading, type RLoadingProps } from "@/main";
+import { useSevue, RLoading } from "@/main";
 import { useSlots, ref, computed, toRef, h } from "vue";
 
 export interface Props {
@@ -67,7 +66,6 @@ export interface Props {
   round?: boolean;
   disabled?: boolean;
   iconOnly?: boolean;
-  iconAfter?: boolean;
   colorInherit?: boolean;
   to?: any;
   href?: string;
@@ -200,10 +198,6 @@ button {
 }
 
 .r-button {
-  &.iconAfter {
-    flex-direction: row-reverse;
-  }
-
   &.iconOnly {
     padding: var(--r-space-2);
 
@@ -211,10 +205,6 @@ button {
       padding: var(--r-space-1);
     }
   }
-
-  // &.noPadding {
-  //   padding: 0;
-  // }
 
   &.compact {
     padding: var(--r-compact-normal-padding);

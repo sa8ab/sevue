@@ -1,5 +1,5 @@
 <template>
-  <Teleport :to="teleport">
+  <Teleport :to="teleport" :disabled="teleportDisabled">
     <transition name="r-popup" v-bind="transitionProps">
       <div class="r-popup" v-if="active" v-bind="$attrs">
         <div class="r-popup-underlay" @click="onCloseReq"></div>
@@ -33,6 +33,7 @@ export interface Props {
   fullWidth?: boolean;
   transitionProps?: Record<string, any>;
   teleport?: string;
+  teleportDisabled?: boolean;
   beforeClose?: (arg0: () => void) => any;
 }
 defineOptions({
