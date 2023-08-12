@@ -121,7 +121,7 @@ provide(tabKey, {
   .r-tabbar-container {
     display: flex;
     justify-content: flex-start;
-    border-bottom: 1px solid color(border-color, var(--border-alpha));
+    border-bottom: 1px solid color(border-color, var(--r-border-alpha));
   }
 
   .mover {

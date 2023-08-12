@@ -25,7 +25,7 @@
   padding: var(--r-space-2);
 
   .item {
-    box-shadow: 0 0 0 1px rgba(var(--r-border-color), var(--border-alpha));
+    box-shadow: 0 0 0 1px rgba(var(--r-border-color), var(--r-border-alpha));
     border-radius: var(--r-radius);
     display: flex;
     align-items: center;

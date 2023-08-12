@@ -39,7 +39,7 @@ const onItemClick = (item: Option) => {
   gap: var(--r-space-1);
   background: color(b2) !important;
   padding: calc(var(--r-space-1) / 2) var(--r-space-1);
-  box-shadow: 0 0 0 1px color(border-color, var(--border-alpha));
+  box-shadow: 0 0 0 1px color(border-color, var(--r-border-alpha));
   font-size: var(--r-font-xsmall);
 
   &:hover {
