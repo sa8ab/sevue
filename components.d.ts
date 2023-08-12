@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     LoadingSpinner: typeof import('./src/components/LoadingSpinner.vue')['default']
     Notification: typeof import('./src/components/notification/Notification.vue')['default']
     NotificationContainer: typeof import('./src/components/notification/NotificationContainer.vue')['default']
+    RAlert: typeof import('./src/components/alert/RAlert.vue')['default']
     RButton: typeof import('./src/components/button/RButton.vue')['default']
     RCheckbox: typeof import('./src/components/checkbox/RCheckbox.vue')['default']
     RInput: typeof import('./src/components/input/RInput.vue')['default']

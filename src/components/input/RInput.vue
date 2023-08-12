@@ -8,9 +8,7 @@
       <slot name="before"></slot>
       <label class="label-element" @click="labelClick">
         <div class="icon-container" v-if="hasIcon" @click="iconClick">
-          <slot name="icon">
-            <i v-if="icon" :class="['icon', iconPrefix, icon]"></i>
-          </slot>
+          <slot name="icon"> </slot>
         </div>
         <slot name="input" :state="state">
           <component
@@ -45,7 +43,6 @@ import { useSevue } from "@/main";
 export interface Props {
   modelValue?: string | number | null;
   label?: string;
-  icon?: string;
   placeholder?: string;
   message?: string;
   iconAfter?: boolean;
@@ -56,8 +53,6 @@ export interface Props {
   containerClass?: string;
   tag?: any;
 }
-
-const { iconPrefix } = useSevue();
 
 defineOptions({
   inheritAttrs: false,
@@ -73,7 +68,7 @@ const inputRef = ref();
 const inputContainerRef = ref();
 const slots = useSlots();
 
-const hasIcon = computed(() => slots.icon || props.icon);
+const hasIcon = computed(() => slots.icon);
 
 const onInput = (e: Event) => {
   emit("update:modelValue", (e.target as HTMLInputElement).value);

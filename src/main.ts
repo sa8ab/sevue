@@ -19,6 +19,7 @@ import {
   RSwitch,
   RPanel,
   RPanelItem,
+  RAlert,
 } from "./components";
 
 // directives
@@ -72,6 +73,7 @@ export default {
     app.component("RPanelItem", RPanelItem);
     app.component("RRadio", RRadio);
     app.component("RSwitch", RSwitch);
+    app.component("RAlert", RAlert);
 
     // directives
     app.directive("ripple", options.ripple ? ripple : {});
@@ -114,6 +116,7 @@ export {
   RRadio,
   RSwitch,
   RLoading,
+  RAlert,
 } from "./components";
 
 // inject keys
@@ -133,6 +136,7 @@ export type {
   RRadioProps,
   RSwitchProps,
   RLoadingProps,
+  RAlertProps,
 } from "./components";
 export type {
   Colors,
@@ -179,5 +183,6 @@ declare module "@vue/runtime-core" {
     RTab: typeof import("./components/tabs/RTab.vue")["default"];
     RTabItem: typeof import("./components/tabs/RTabItem.vue")["default"];
     RSwitch: typeof import("./components/switch/RSwitch.vue")["default"];
+    RAlert: typeof import("./components/alert/RAlert.vue")["default"];
   }
 }
