@@ -78,7 +78,7 @@ const onClose = () => {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(black, var(--popup-underlay-opacity));
+    background: rgba(black, var(--r-popup-underlay-opacity));
     z-index: 2;
   }
 

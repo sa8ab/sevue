@@ -91,7 +91,7 @@ onMounted(() => {
   }
 
   &:hover {
-    background: color(hover, var(--hover-alpha));
+    background: color(hover, var(--r-hover-alpha));
   }
 
   &:last-child {
@@ -99,7 +99,7 @@ onMounted(() => {
   }
 
   &.focused {
-    background: color(hover, var(--hover-alpha));
+    background: color(hover, var(--r-hover-alpha));
     box-shadow: 0 0 0 1px color();
   }
 
@@ -110,7 +110,7 @@ onMounted(() => {
 
   &.active {
     color: color();
-    background: color(color, var(--light-alpha)) !important;
+    background: color(color, var(--r-light-alpha)) !important;
   }
 }
 </style>

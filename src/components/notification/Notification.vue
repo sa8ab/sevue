@@ -123,7 +123,7 @@ defineExpose({
   color: color(text-color);
   width: var(--notification-width);
   border-radius: var(--r-radius);
-  transition: transform $duration, height $duration;
+  transition: transform var(--r-duration), height var(--r-duration);
   // overflow: hidden;
 
   .notification-inner {
@@ -144,11 +144,11 @@ defineExpose({
 
     .title {
       font-weight: bold;
-      padding-bottom: $p2;
+      padding-bottom: var(--r-space-2);
     }
 
     .text {
-      font-size: $fsmall;
+      font-size: var(--r-font-small);
     }
 
     .close {
@@ -235,7 +235,7 @@ defineExpose({
     overflow: hidden;
 
     .notification-inner {
-      transition: transform $duration;
+      transition: transform var(--r-duration);
     }
   }
 }

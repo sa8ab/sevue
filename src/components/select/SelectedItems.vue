@@ -43,7 +43,7 @@ const onItemClick = (item: Option) => {
   font-size: var(--r-font-xsmall);
 
   &:hover {
-    background: color(hover, var(--hover-alpha)) !important;
+    background: color(hover, var(--r-hover-alpha)) !important;
   }
 
   &-close {

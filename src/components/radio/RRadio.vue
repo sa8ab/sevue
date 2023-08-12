@@ -84,7 +84,7 @@ defineExpose({
 
   &:hover {
     .check-container {
-      background: color(hover, var(--hover-alpha));
+      background: color(hover, var(--r-hover-alpha));
     }
   }
 
@@ -106,7 +106,7 @@ defineExpose({
     justify-content: center;
     border-radius: 50%;
     overflow: hidden;
-    border: 2px solid color(hover, var(--hover-alpha));
+    border: 2px solid color(hover, var(--r-hover-alpha));
     transition: all var(--r-duration);
   }
 

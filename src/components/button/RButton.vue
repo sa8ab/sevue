@@ -40,8 +40,8 @@
     }"
     v-ripple="{ disabled: transparent }"
   >
-    <slot name="icon"> </slot>
-    <slot></slot>
+    <slot name="icon" />
+    <slot />
     <RLoading local :active="loading" :scale="0.48" :color="color || 'var(--r-prm)'" />
   </component>
 </template>
@@ -123,7 +123,7 @@ button {
   padding: var(--r-normal-padding);
   border-radius: var(--r-radius);
   color: color();
-  background: color(color, var(--light-alpha));
+  background: color(color, var(--r-light-alpha));
   transition: all 0.3s;
   display: inline-flex;
   user-select: none;
@@ -132,10 +132,10 @@ button {
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  gap: var(--r-space-1);
+  gap: var(--r-space-2);
 
   &:hover {
-    background: color(color, var(--hover-alpha));
+    background: color(color, var(--r-hover-alpha));
   }
 }
 
@@ -156,7 +156,7 @@ button {
   background: transparent;
 
   &:hover {
-    background: color(color, var(--hover-alpha));
+    background: color(color, var(--r-hover-alpha));
   }
 }
 
@@ -194,7 +194,7 @@ button {
   color: inherit;
 
   &:hover {
-    background: color(hover, var(--hover-alpha));
+    background: color(hover, var(--r-hover-alpha));
     color: inherit;
   }
 }

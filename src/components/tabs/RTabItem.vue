@@ -66,7 +66,7 @@ watch(tab.activeTab, () => {
   &-active {
     color: color();
     pointer-events: none;
-    // background: color(color, var(--light-alpha));
+    // background: color(color, var(--r-light-alpha));
   }
 }
 </style>

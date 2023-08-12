@@ -7,6 +7,7 @@
       <RButton :loading="loading" color="red">some transparent button</RButton>
       <RButton :loading="loading">some transparent button</RButton>
       <RButton :loading="loading" textStyle>button</RButton>
+      <RButton>button test</RButton>
       <RButton @click="loading = !loading">Load</RButton>
     </div>
   </div>
@@ -26,6 +27,7 @@ const loading = ref(false);
 }
 .items {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 4px;
 }

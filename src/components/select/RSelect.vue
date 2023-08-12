@@ -628,7 +628,7 @@ defineExpose({
     border-radius: var(--r-radius);
     cursor: pointer;
     &:hover {
-      background: color(hover, var(--hover-alpha));
+      background: color(hover, var(--r-hover-alpha));
     }
   }
 
@@ -645,7 +645,7 @@ defineExpose({
   overflow: hidden;
   overflow-y: auto;
   box-shadow: var(--shadow);
-  padding: $p;
+  padding: var(--r-space-1);
   @extend .overflow-x-scroll-bar;
 }
 

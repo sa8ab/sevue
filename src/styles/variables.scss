@@ -37,23 +37,22 @@
   --r-font-xsmall: 0.74rem;
   --r-element-min-height: 32px;
   --r-border-width: 1px;
-  --hover-alpha: 0.3;
   --r-hover-alpha: 0.3;
   --r-shadow-alpha: 0.2;
   --r-disabled-alpha: 0.8;
   --r-duration: 0.2s;
-  --light-alpha: 0.2;
-  --info-alpha: 0.8;
-  --disabled-alpha: 0.8;
-  --border-alpha: 0.2;
-  --border-active-alpha: 0.4;
+  --r-light-alpha: 0.2;
+  --r-info-alpha: 0.8;
+  --r-disabled-alpha: 0.8;
+  --r-border-alpha: 0.2;
+  --r-border-active-alpha: 0.4;
   --r-focused-box-shadow-specs: 0px 0px 0px 2px;
 
   // shadows & borders
-  --shadow: 0px 2px 6px -2px rgba(var(--r-shadow-color), var(--r-shadow-alpha));
-  --border: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--border-alpha));
-  --border-active: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--border-active-alpha));
-  --popup-underlay-opacity: 0.2;
+  --r-shadow: 0px 2px 6px -2px rgba(var(--r-shadow-color), var(--r-shadow-alpha));
+  --r-border: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-alpha));
+  --r-border-active: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-active-alpha));
+  --r-popup-underlay-opacity: 0.2;
 }
 .dark {
   --r-gray: 22, 27, 33;
@@ -65,28 +64,11 @@
   --r-border-color: 200, 200, 200;
   --r-shadow-color: 60, 60, 60;
 
-  --shadow: 0px 2px 6px -2px rgba(var(--r-shadow-color), var(--r-shadow-alpha));
-  --border: 0 0 0 1px rgba(var(--r-border-color), var(--border-alpha));
-  --border-active: 0 0 0 1px rgba(var(--r-border-color), var(--border-active-alpha));
-  --popup-underlay-opacity: 0.5;
+  --r-shadow: 0px 2px 6px -2px rgba(var(--r-shadow-color), var(--r-shadow-alpha));
+  --r-border: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-alpha));
+  --r-border-active: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-active-alpha));
+  --r-popup-underlay-opacity: 0.5;
 }
-
-$duration: 0.2s;
-$radius: 6px;
-$radius2: 14px;
-$p: 4px;
-$p2: 8px;
-$p4: 14px;
-// $p5: 20px;
-$p6: 22px;
-// $p7: 28px;
-$p8: 38px;
-$bp: $p2 12px;
-
-$flarge: 1.18rem;
-$fxlarge: 1.25rem;
-$fsmall: 0.86rem;
-$fxsmall: 0.74rem;
 
 .flexCenter {
   display: flex;
