@@ -43,7 +43,6 @@ import type { SevueOptions } from "./types";
 
 const defaultOptions: SevueOptions = {
   ripple: true,
-  iconPrefix: "bx",
   colors: {},
   dark: false,
   nuxtOptions: {
@@ -82,13 +81,11 @@ export default {
     // instance
     // @ts-ignore
     app.config.globalProperties.$r = {};
-    app.config.globalProperties.$r.iconPrefix = options.iconPrefix;
     app.config.globalProperties.$r.setDark = setDark;
     app.config.globalProperties.$r.notification = notificationFactory(app);
     app.config.globalProperties.$r.loading = loadingFactory(app);
 
     app.provide(sevueKey, {
-      iconPrefix: options.iconPrefix as string,
       nuxtOptions: options.nuxtOptions!,
       setDark,
     });
@@ -155,7 +152,6 @@ import "@vue/runtime-core";
 declare module "vue" {
   export interface ComponentCustomProperties {
     $r: {
-      iconPrefix: string | undefined;
       setDark: (dark: boolean) => void;
       notification: ReturnType<typeof notificationFactory>;
       loading: ReturnType<typeof loadingFactory>;

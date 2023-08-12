@@ -6,7 +6,6 @@ export type Picked<T, K extends keyof T> = T[K];
 export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
 
 export type Sevue = {
-  iconPrefix: string;
   setDark: (dark: boolean) => void;
   nuxtOptions: {
     isNuxt: boolean;
@@ -23,7 +22,6 @@ export type Colors = {
 };
 export interface SevueOptions {
   ripple?: boolean;
-  iconPrefix?: string;
   colors?: Colors;
   dark?: boolean;
   nuxtOptions?: {

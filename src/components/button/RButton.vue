@@ -40,12 +40,8 @@
     }"
     v-ripple="{ disabled: transparent }"
   >
-    <div class="inner">
-      <slot name="icon">
-        <i :class="['icon', iconPrefix, icon]" v-if="icon"></i>
-      </slot>
-      <slot></slot>
-    </div>
+    <slot name="icon"> </slot>
+    <slot></slot>
     <RLoading local :active="loading" :scale="0.48" :color="color || 'var(--r-prm)'" />
   </component>
 </template>
@@ -70,7 +66,6 @@ export interface Props {
   textStyle?: boolean;
   round?: boolean;
   disabled?: boolean;
-  icon?: string;
   iconOnly?: boolean;
   iconAfter?: boolean;
   colorInherit?: boolean;
@@ -83,7 +78,7 @@ export interface Props {
   loading?: boolean;
 }
 
-const { iconPrefix, nuxtOptions } = useSevue();
+const { nuxtOptions } = useSevue();
 // interface LinkProps extends BaseProps {
 //   to?: string,
 //   href?: never
@@ -137,6 +132,7 @@ button {
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  gap: var(--r-space-1);
 
   &:hover {
     background: color(color, var(--hover-alpha));
@@ -147,10 +143,6 @@ button {
   border-radius: 50%;
 }
 
-.r-button .icon-space {
-  width: var(--r-space-2);
-}
-
 .r-button.bordered {
   border: 1px solid color(color, 0.8);
 }
@@ -158,13 +150,6 @@ button {
 .r-button.disabled {
   cursor: default !important;
   pointer-events: none;
-}
-
-.r-button .inner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: var(--r-space-1);
 }
 
 .r-button.flat {
@@ -216,20 +201,11 @@ button {
 
 .r-button {
   &.iconAfter {
-    .inner {
-      flex-direction: row-reverse;
-    }
+    flex-direction: row-reverse;
   }
 
   &.iconOnly {
     padding: var(--r-space-2);
-    .icon {
-      margin: 0;
-    }
-
-    .icon-space {
-      width: 0;
-    }
 
     &.compact {
       padding: var(--r-space-1);
