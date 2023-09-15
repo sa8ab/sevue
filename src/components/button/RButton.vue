@@ -31,11 +31,14 @@
         transparent,
         block,
         loading,
+        hasSize: size,
       },
     ]"
     :style="{
       '--r-color': color || 'var(--r-prm)',
       '--r-text-color': textColor || 'var(--r-text)',
+      width: size,
+      height: size,
     }"
     v-ripple="{ disabled: transparent }"
   >
@@ -78,6 +81,7 @@ export interface Props {
   transparent?: boolean;
   block?: boolean;
   loading?: boolean;
+  size?: string;
 }
 
 const { nuxtOptions } = useSevue();
@@ -220,6 +224,10 @@ button {
 
   &.loading {
     pointer-events: none;
+  }
+
+  &.hasSize {
+    padding: 0;
   }
 }
 
