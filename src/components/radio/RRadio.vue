@@ -99,8 +99,8 @@ defineExpose({
   }
 
   .check-container {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -112,9 +112,9 @@ defineExpose({
 
   .background {
     position: relative;
-    top: 6px;
-    width: calc(100% - 8px);
-    height: calc(100% - 8px);
+    top: 4px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
     background: color();
     transition: all var(--r-duration);
     border-radius: 50%;
