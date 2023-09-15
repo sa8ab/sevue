@@ -14,7 +14,7 @@
         </slot>
       </div>
       <div class="r-alert-text">
-        <slot name="text">
+        <slot>
           {{ text }}
         </slot>
       </div>
