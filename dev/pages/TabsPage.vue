@@ -7,7 +7,7 @@
       <RButton @click="dynamicTabTitle = 'changed'">change a tab title</RButton>
     </div>
     <div v-if="active">
-      <RTab ref="tabbar" v-model="tab">
+      <RTab ref="tabbar" v-model="tab" bordered>
         <RTabItem value="one">{{ dynamicTabTitle }}</RTabItem>
         <RTabItem value="two">two</RTabItem>
         <RTabItem value="three" disabled>three</RTabItem>

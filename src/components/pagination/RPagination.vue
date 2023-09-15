@@ -220,7 +220,7 @@ watch(
 
   &.bordered {
     .r-pagination-item {
-      box-shadow: var(--border);
+      box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-alpha));
     }
   }
 

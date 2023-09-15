@@ -1,7 +1,7 @@
 <template>
   <div class="center-it">
     <RAlert title="New Alert some text inside it please notice it">
-      <template #icon> icon </template>
+      <template #before> before </template>
       <template #text>
         <div>some text</div>
         <div>some text</div>

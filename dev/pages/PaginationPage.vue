@@ -1,7 +1,7 @@
 <template>
   <div class="center-it">
     <div class="container">
-      <RPagination :count="10" v-model="page" compact />
+      <RPagination :count="10" v-model="page" compact bordered />
     </div>
   </div>
 </template>

@@ -145,7 +145,7 @@ provide(tabKey, {
   &.bordered {
     overflow: hidden;
     border-radius: var(--r-radius);
-    box-shadow: var(--border);
+    box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-alpha));
     .r-tab-item {
       padding: var(--r-space-2);
     }

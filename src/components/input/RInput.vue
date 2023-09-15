@@ -92,7 +92,7 @@ defineExpose({
     border: none;
     background: transparent;
     font-size: 1rem;
-    padding: var(--r-space-2);
+    padding: var(--r-normal-padding-x);
     font-family: inherit;
     width: 100%;
     color: inherit;
@@ -134,10 +134,10 @@ defineExpose({
     border-radius: var(--r-radius);
     transition: box-shadow var(--r-duration);
     overflow: hidden;
-    box-shadow: var(--border);
+    box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-alpha));
 
     &:hover {
-      box-shadow: var(--border-active);
+      box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-active-alpha));
     }
   }
 

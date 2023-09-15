@@ -6,7 +6,7 @@
     }"
     v-if="state.active"
   >
-    <slot name="icon" />
+    <slot name="before" />
     <div class="r-alert-main">
       <div class="r-alert-title">
         <slot name="title">
@@ -64,7 +64,7 @@ const close = () => {
   display: flex;
   align-items: center;
   gap: var(--r-space-1);
-  padding: var(--r-normal-padding);
+  padding: var(--r-normal-padding-x);
   border-radius: var(--r-radius);
   background: color(color, var(--r-light-alpha));
   color: color();

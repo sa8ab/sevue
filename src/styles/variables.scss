@@ -49,9 +49,6 @@
   --r-focused-box-shadow-specs: 0px 0px 0px 2px;
 
   // shadows & borders
-  --r-shadow: 0px 2px 6px -2px rgba(var(--r-shadow-color), var(--r-shadow-alpha));
-  --r-border: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-alpha));
-  --r-border-active: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-active-alpha));
   --r-popup-underlay-opacity: 0.2;
 }
 .dark {
@@ -64,9 +61,6 @@
   --r-border-color: 200, 200, 200;
   --r-shadow-color: 60, 60, 60;
 
-  --r-shadow: 0px 2px 6px -2px rgba(var(--r-shadow-color), var(--r-shadow-alpha));
-  --r-border: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-alpha));
-  --r-border-active: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-active-alpha));
   --r-popup-underlay-opacity: 0.5;
 }
 
