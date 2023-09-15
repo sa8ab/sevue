@@ -1,5 +1,20 @@
 <template>
   <div class="center-it">
+    <div class="div" style="max-width: 200px">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in voluptatem magni. Beatae culpa alias fuga. Atque
+      blanditiis soluta tenetur sit, officiis deleniti doloribus magnam architecto iure repellendus rerum possimus non,
+      quae cupiditate repellat quidem eum quos fuga delectus. Consectetur facere illum excepturi quam, amet voluptate
+      est soluta aspernatur saepe dolores iusto eum nisi eius quas ratione dolorum vero molestias repudiandae voluptatum
+      quos odit adipisci perspiciatis consequatur tempora. Doloribus a cumque, quasi omnis minima nam eos culpa est
+      laudantium odio. Perferendis, autem odit culpa earum saepe repellendus id hic optio quos maxime repudiandae amet
+      laudantium nesciunt ratione, magnam odio magni reprehenderit velit iure qui, iste voluptatem natus fugiat!
+      Repellat, recusandae amet voluptates repudiandae ex veniam unde consequuntur odit ducimus id voluptatum hic quos
+      illo quis similique itaque aspernatur esse? Odio pariatur eos excepturi consequatur, assumenda commodi rem vel ea
+      aperiam maxime quod earum porro ab amet eum eius aliquid. Rem reiciendis consequuntur sint. Quidem necessitatibus
+      suscipit possimus error sequi, nemo atque explicabo obcaecati veniam. Doloribus nobis nisi velit, rem repudiandae
+      voluptatum laborum culpa recusandae quo hic id dolores consequatur nostrum ad perferendis in vero aliquam soluta?
+      Architecto delectus perspiciatis impedit voluptate fuga libero soluta ut tenetur! Mollitia sit delectus omnis?
+    </div>
     <div class="container">
       <RSelect
         v-model="customSelected"
@@ -37,6 +52,21 @@
           <ROption :value="item.value" :text="item.text" v-for="item in optimizedItems" />
         </template>
       </RSelect>
+    </div>
+    <div class="div" style="max-width: 200px">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in voluptatem magni. Beatae culpa alias fuga. Atque
+      blanditiis soluta tenetur sit, officiis deleniti doloribus magnam architecto iure repellendus rerum possimus non,
+      quae cupiditate repellat quidem eum quos fuga delectus. Consectetur facere illum excepturi quam, amet voluptate
+      est soluta aspernatur saepe dolores iusto eum nisi eius quas ratione dolorum vero molestias repudiandae voluptatum
+      quos odit adipisci perspiciatis consequatur tempora. Doloribus a cumque, quasi omnis minima nam eos culpa est
+      laudantium odio. Perferendis, autem odit culpa earum saepe repellendus id hic optio quos maxime repudiandae amet
+      laudantium nesciunt ratione, magnam odio magni reprehenderit velit iure qui, iste voluptatem natus fugiat!
+      Repellat, recusandae amet voluptates repudiandae ex veniam unde consequuntur odit ducimus id voluptatum hic quos
+      illo quis similique itaque aspernatur esse? Odio pariatur eos excepturi consequatur, assumenda commodi rem vel ea
+      aperiam maxime quod earum porro ab amet eum eius aliquid. Rem reiciendis consequuntur sint. Quidem necessitatibus
+      suscipit possimus error sequi, nemo atque explicabo obcaecati veniam. Doloribus nobis nisi velit, rem repudiandae
+      voluptatum laborum culpa recusandae quo hic id dolores consequatur nostrum ad perferendis in vero aliquam soluta?
+      Architecto delectus perspiciatis impedit voluptate fuga libero soluta ut tenetur! Mollitia sit delectus omnis?
     </div>
   </div>
 </template>

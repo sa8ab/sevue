@@ -56,7 +56,7 @@
         </template>
       </SelectedItems>
     </div>
-    <Teleport to="body">
+    <Teleport :to="teleport" :disabled="teleportDisabled">
       <Transition name="fade-move" @after-leave="onAfterLeave">
         <div v-if="state.active" :class="['r-select-dropdown-container', dropdownClass]" ref="dropdown">
           <div class="r-select-dropdown" @scroll="onDropdownScroll">
@@ -134,6 +134,8 @@ export type Props = {
   canCreateOption?: boolean;
   popperOptions?: PopperOptions;
   dropdownClass?: string;
+  teleportDisabled?: boolean;
+  teleport?: string;
   renderPlaceholder?: (parameter: Option | Option[]) => string;
   customSearch?: (parameter: string) => void;
   itemExtractor?: (arg0: any) => Option;
@@ -164,6 +166,7 @@ const props = withDefaults(defineProps<Props>(), {
   itemsKey: "items",
   groupIdentifier: "id",
   perPage: 10,
+  teleport: "body",
   renderPlaceholder: (option: Option | Option[]) => {
     if (Array.isArray(option)) return `${option.length} selected`;
     else return option.text || "";
