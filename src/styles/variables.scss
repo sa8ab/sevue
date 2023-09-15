@@ -30,7 +30,9 @@
   --r-normal-padding-y: 8px;
   --r-normal-padding-x: 12px;
   --r-normal-padding: var(--r-normal-padding-y) var(--r-normal-padding-x);
-  --r-compact-normal-padding: 4px 8px;
+  --r-compact-normal-padding-y: 4px;
+  --r-compact-normal-padding-x: 8px;
+  --r-compact-normal-padding: var(--r-compact-normal-padding-y) var(--r-compact-normal-padding-x);
   --r-font-large: 1.18rem;
   --r-font-xlarge: 1.25rem;
   --r-font-small: 0.86rem;

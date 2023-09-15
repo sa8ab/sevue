@@ -207,10 +207,10 @@ button {
 
 .r-button {
   &.iconOnly {
-    padding: var(--r-space-2);
+    padding: var(--r-normal-padding-y);
 
     &.compact {
-      padding: var(--r-space-1);
+      padding: var(--r-compact-normal-padding-y);
     }
   }
 
