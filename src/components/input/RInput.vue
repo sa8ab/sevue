@@ -185,9 +185,13 @@ defineExpose({
 
   &.error {
     --r-color: var(--r-red) !important;
-    --border: 0 0 0 var(--r-border-width) rgba(var(--r-red), 1);
-    --border-active: 0 0 0 var(--r-border-width) rgba(var(--r-red), var(--border-active-alpha));
 
+    .input-container {
+      box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-red), 1);
+      &:hover {
+        box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-red), var(--border-active-alpha));
+      }
+    }
     .label {
       color: color(red);
     }
