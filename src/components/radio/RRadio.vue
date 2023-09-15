@@ -26,7 +26,6 @@
 
 <script setup lang="ts">
 import { computed, toRef, ref } from "vue";
-import SevueIcon from "@/components/icons/SevueIcon.vue";
 import useColor from "@/composables/useColor";
 
 export interface Props {
