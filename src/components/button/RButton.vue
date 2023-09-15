@@ -41,7 +41,11 @@
   >
     <slot name="icon" />
     <slot />
-    <RLoading local :active="loading" :scale="0.48" :color="color || 'var(--r-prm)'" />
+    <RLoading local :active="loading" :scale="0.48" :color="color || 'var(--r-prm)'">
+      <template #spinner>
+        <slot name="spinner" />
+      </template>
+    </RLoading>
   </component>
 </template>
 

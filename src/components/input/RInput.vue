@@ -92,7 +92,7 @@ defineExpose({
     border: none;
     background: transparent;
     font-size: 1rem;
-    padding: var(--r-normal-padding-x);
+    padding: var(--r-normal-padding-y);
     font-family: inherit;
     width: 100%;
     color: inherit;

@@ -64,7 +64,7 @@ const close = () => {
   display: flex;
   align-items: center;
   gap: var(--r-space-1);
-  padding: var(--r-normal-padding-x);
+  padding: var(--r-normal-padding-y);
   border-radius: var(--r-radius);
   background: color(color, var(--r-light-alpha));
   color: color();
