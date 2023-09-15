@@ -57,7 +57,7 @@
       </SelectedItems>
     </div>
     <Teleport :to="teleport" :disabled="teleportDisabled">
-      <Transition name="fade-move" @after-leave="onAfterLeave">
+      <Transition name="fade-move" @after-leave="onAfterLeave" @beforeEnter="onBeforeEnter">
         <div v-if="state.active" :class="['r-select-dropdown-container', dropdownClass]" ref="dropdown">
           <div class="r-select-dropdown" @scroll="onDropdownScroll">
             <div class="noOptions" v-if="noOptions && !canCreateOption">
@@ -236,18 +236,7 @@ const afterSelectionHook = () => {
 };
 
 // open/close dropdown
-const toggleOpen = () => {
-  if (state.active) {
-    close();
-  } else {
-    open();
-  }
-};
-const open = async () => {
-  if (state.active || !canOpenDropdown.value) return;
-  state.active = true;
-  await nextTick();
-  rInput.value.inputRef.focus({ preventScroll: true });
+const onBeforeEnter = (el: Element) => {
   const sameWidth: Modifier<"sameWidth", {}> = {
     name: "sameWidth",
     enabled: true,
@@ -260,11 +249,25 @@ const open = async () => {
       state.elements.popper.style.width = `${(state.elements.reference as HTMLElement).offsetWidth}px`;
     },
   };
-  state.popper = createPopper(rInput.value.inputContainerRef, dropdown.value, {
+  state.popper = createPopper(rInput.value.inputContainerRef, el as HTMLElement, {
     placement: "bottom",
     modifiers: [sameWidth],
     ...props.popperOptions,
   });
+};
+
+const toggleOpen = () => {
+  if (state.active) {
+    close();
+  } else {
+    open();
+  }
+};
+
+const open = async () => {
+  if (state.active || !canOpenDropdown.value) return;
+  state.active = true;
+  rInput.value.inputRef.focus({ preventScroll: true });
   emit("open");
 };
 const close = (resetSearchValue: boolean = true, blur: boolean = true) => {
@@ -276,6 +279,7 @@ const close = (resetSearchValue: boolean = true, blur: boolean = true) => {
   state.page = 1;
   emit("close");
 };
+
 const clickOutside = {
   handler: close,
   middleware: (e: Event) => {
@@ -283,6 +287,7 @@ const clickOutside = {
     return !contains;
   },
 };
+
 const canOpenDropdown = computed<boolean>(() => {
   if ((props.noDropdownOnEmptySearch && !state.search) || props.noDropdown) return false;
   return true;

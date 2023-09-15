@@ -1,40 +1,17 @@
 <template>
   <div class="center-it">
-    <div class="div" style="max-width: 200px">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in voluptatem magni. Beatae culpa alias fuga. Atque
-      blanditiis soluta tenetur sit, officiis deleniti doloribus magnam architecto iure repellendus rerum possimus non,
-      quae cupiditate repellat quidem eum quos fuga delectus. Consectetur facere illum excepturi quam, amet voluptate
-      est soluta aspernatur saepe dolores iusto eum nisi eius quas ratione dolorum vero molestias repudiandae voluptatum
-      quos odit adipisci perspiciatis consequatur tempora. Doloribus a cumque, quasi omnis minima nam eos culpa est
-      laudantium odio. Perferendis, autem odit culpa earum saepe repellendus id hic optio quos maxime repudiandae amet
-      laudantium nesciunt ratione, magnam odio magni reprehenderit velit iure qui, iste voluptatem natus fugiat!
-      Repellat, recusandae amet voluptates repudiandae ex veniam unde consequuntur odit ducimus id voluptatum hic quos
-      illo quis similique itaque aspernatur esse? Odio pariatur eos excepturi consequatur, assumenda commodi rem vel ea
-      aperiam maxime quod earum porro ab amet eum eius aliquid. Rem reiciendis consequuntur sint. Quidem necessitatibus
-      suscipit possimus error sequi, nemo atque explicabo obcaecati veniam. Doloribus nobis nisi velit, rem repudiandae
-      voluptatum laborum culpa recusandae quo hic id dolores consequatur nostrum ad perferendis in vero aliquam soluta?
-      Architecto delectus perspiciatis impedit voluptate fuga libero soluta ut tenetur! Mollitia sit delectus omnis?
-    </div>
     <div class="container">
-      <RSelect
-        v-model="customSelected"
-        placeholder="Type and hit enter"
-        multiple
-        searchable
-        :loading="loading"
-        canCreateOption
-        @newOption="onNewOption"
-      >
+      <RSelect v-model="customSelected" placeholder="Type and hit enter" :loading="loading" teleport="body">
         <ROption v-for="item in items" :value="item.value" :text="item.text" />
-        <template #selectedItem="{ remove, text }">
+        <!-- <template #selectedItem="{ remove, text }">
           <div class="selected-items">{{ text }}</div>
           <div class="selected-items" @click="remove">remove</div>
-        </template>
+        </template> -->
       </RSelect>
-
+      <!-- 
       <RButton @click="items = []">Empty list</RButton>
       <RButton @click="loading = !loading">Toggle Loading</RButton>
-      <RButton @click="items = items.filter((_, index) => index !== 3)"> Remove some item </RButton>
+      <RButton @click="items = items.filter((_, index) => index !== 3)"> Remove some item </RButton> -->
     </div>
     <div class="container">
       <RSelect
@@ -47,9 +24,20 @@
           }))
         "
         searchable
+        :loading="loading"
+        canCreateOption
+        multiple
+        @newOption="onNewOption"
       >
         <template #default="{ optimizedItems }">
-          <ROption :value="item.value" :text="item.text" v-for="item in optimizedItems" />
+          <ROption
+            :value="item.value"
+            :text="item.text"
+            v-for="item in Array.from({ length: 1000 }, (_, i) => ({
+              value: i + 1,
+              text: `item ${i + 1}`,
+            }))"
+          />
         </template>
       </RSelect>
     </div>
@@ -57,16 +45,6 @@
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in voluptatem magni. Beatae culpa alias fuga. Atque
       blanditiis soluta tenetur sit, officiis deleniti doloribus magnam architecto iure repellendus rerum possimus non,
       quae cupiditate repellat quidem eum quos fuga delectus. Consectetur facere illum excepturi quam, amet voluptate
-      est soluta aspernatur saepe dolores iusto eum nisi eius quas ratione dolorum vero molestias repudiandae voluptatum
-      quos odit adipisci perspiciatis consequatur tempora. Doloribus a cumque, quasi omnis minima nam eos culpa est
-      laudantium odio. Perferendis, autem odit culpa earum saepe repellendus id hic optio quos maxime repudiandae amet
-      laudantium nesciunt ratione, magnam odio magni reprehenderit velit iure qui, iste voluptatem natus fugiat!
-      Repellat, recusandae amet voluptates repudiandae ex veniam unde consequuntur odit ducimus id voluptatum hic quos
-      illo quis similique itaque aspernatur esse? Odio pariatur eos excepturi consequatur, assumenda commodi rem vel ea
-      aperiam maxime quod earum porro ab amet eum eius aliquid. Rem reiciendis consequuntur sint. Quidem necessitatibus
-      suscipit possimus error sequi, nemo atque explicabo obcaecati veniam. Doloribus nobis nisi velit, rem repudiandae
-      voluptatum laborum culpa recusandae quo hic id dolores consequatur nostrum ad perferendis in vero aliquam soluta?
-      Architecto delectus perspiciatis impedit voluptate fuga libero soluta ut tenetur! Mollitia sit delectus omnis?
     </div>
   </div>
 </template>
@@ -178,6 +156,7 @@ const onNewSingleOption = ({ newOption, isAlreadyInOptions, isAlreadyInValue }) 
   display: flex;
   flex-wrap: wrap;
   gap: var(--r-space-2);
+  margin-top: 40px;
 }
 
 .selected-item {

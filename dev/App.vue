@@ -15,11 +15,13 @@ onMounted(() => {
 <style lang="scss">
 .app {
   min-height: 100vh;
+  position: relative;
 }
 
 body {
   background: color(b1);
   color: color(text);
+  position: relative;
 }
 
 .center-it {
