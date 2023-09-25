@@ -20,7 +20,7 @@
     />
     <div class="check-container">
       <slot name="icon">
-        <SevueIcon name="check" class="icon" />
+        <SevueIcon name="check" class="r-checkbox-icon" />
       </slot>
       <div class="background"></div>
     </div>
@@ -142,7 +142,7 @@ defineExpose({
     opacity: 0;
   }
 
-  .icon {
+  .r-checkbox-icon {
     position: relative;
     z-index: 2;
     opacity: 0;
@@ -172,7 +172,7 @@ defineExpose({
       border-radius: 0;
     }
 
-    .icon {
+    .r-checkbox-icon {
       transform: scale(1);
       opacity: 1;
     }
