@@ -1,11 +1,9 @@
 <template>
-  <div class="center-it">
+  <div class="">
     <RAlert title="New Alert some text inside it please notice it">
       <template #before> before </template>
-      <template #text>
-        <div>some text</div>
-        <div>some text</div>
-      </template>
+      <div>some text</div>
+      <div>some text</div>
 
       <template #close="{ close }">
         <div @click="close">Custom Close</div>

@@ -19,7 +19,7 @@
         </slot>
       </div>
     </div>
-    <div class="r-alert-close" v-if="!noClose">
+    <div class="r-alert-close" v-if="closable">
       <slot name="close" :close="close">
         <RButton iconOnly textStyle compact round @click="close">
           <SevueIcon name="close" width="18px" height="18px" />
@@ -38,7 +38,7 @@ import { reactive } from "vue";
 export interface Props {
   title?: string | number | null;
   text?: string | number | null;
-  noClose?: boolean;
+  closable?: boolean;
   color?: string;
 }
 const props = withDefaults(defineProps<Props>(), {});
@@ -74,6 +74,12 @@ const close = () => {
   }
   &-close {
     align-self: flex-start;
+  }
+  &-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--r-space-2);
   }
 }
 </style>
