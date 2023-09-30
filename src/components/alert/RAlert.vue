@@ -8,16 +8,16 @@
   >
     <slot name="before" />
     <div class="r-alert-main">
-      <div class="r-alert-title" v-if="title || $slots.title">
-        <slot name="title">
+      <slot name="title">
+        <div class="r-alert-title" v-if="title">
           {{ title }}
-        </slot>
-      </div>
-      <div class="r-alert-content" v-if="content || $slots.default">
-        <slot>
+        </div>
+      </slot>
+      <slot>
+        <div class="r-alert-content" v-if="content">
           {{ content }}
-        </slot>
-      </div>
+        </div>
+      </slot>
     </div>
     <div class="r-alert-close" v-if="closable">
       <slot name="close" :close="close">
