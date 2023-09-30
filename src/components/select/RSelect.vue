@@ -208,7 +208,7 @@ const onAfterLeave = () => {
   emit("afterTransitionEnd");
 };
 
-const onSelectValue = ({ event, activate }: { event: string | number; activate: boolean }) => {
+const onSelectValue = ({ event, activate }: { event: Option["value"]; activate: boolean }) => {
   if (props.multiple) {
     if (activate) {
       emit("update:modelValue", [...(props.modelValue as number[]), event]);
@@ -540,7 +540,7 @@ const optimizedItems = computed(() => {
 });
 
 // preserving last seleted item offset
-const setLastSelectedValue = (lastValue: string | number) => {
+const setLastSelectedValue = (lastValue: Option["value"]) => {
   if (areOptionsProvided.value) return;
   state.lastSelectedValue = lastValue;
 };

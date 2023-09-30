@@ -21,7 +21,7 @@ import useColor from "@/composables/useColor";
 import type { SelectInject } from "@/types";
 export interface Props {
   text?: string;
-  value: number | string;
+  value?: number | string | null;
   disabled?: boolean;
   color?: string;
   context?: Record<string, any>;
@@ -29,7 +29,7 @@ export interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   text: "",
-  value: 0,
+  value: undefined,
   disabled: false,
 });
 defineOptions({

@@ -77,7 +77,7 @@ export interface SelectInject {
   search: Ref<string>;
   color: Ref<string | undefined>;
   customSearch: ((parameter: string) => void) | undefined;
-  focusedItemValue: ComputedRef<{ value: string | number; text?: string; disabled?: boolean } | undefined>;
+  focusedItemValue: ComputedRef<{ value?: string | number | null; text?: string; disabled?: boolean } | undefined>;
   onSelectValue: (...args: any) => void;
   lastSelectedValue: Ref<number | string | null | undefined>;
 }

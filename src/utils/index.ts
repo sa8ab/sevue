@@ -25,10 +25,7 @@ export const setDark = (dark: boolean = false) => {
 
 export const hexToRgb = (hex: string) =>
   hex!
-    .replace(
-      /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
-      (m, r, g, b) => "#" + r + r + g + g + b + b
-    )!
+    .replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => "#" + r + r + g + g + b + b)!
     .substring(1)!
     .match(/.{2}/g)!
     .map((x) => parseInt(x, 16));
@@ -46,7 +43,7 @@ export const getColor = (color: string = ""): string | undefined => {
     const [r, g, b] = hexToRgb(color);
     return `${r}, ${g}, ${b}`;
   } else if (isPreset) {
-    return `var(--r-${color})`
+    return `var(--r-${color})`;
     // if (typeof window === "undefined") {
     //   console.log('no window');
     //   return undefined;
@@ -56,15 +53,17 @@ export const getColor = (color: string = ""): string | undefined => {
   } else if (isCSSVar) {
     return color;
   } else {
-    return undefined
+    return undefined;
   }
 };
 
-// @ts
-export const uniqueArray = <T>(array: Array<T>, key: (parameter: Array<T>[0]) => keyof ArrayElement<T>) => {
+export const uniqueArray = <T>(
+  array: Array<T>,
+  key: (parameter: Array<T>[0]) => keyof ArrayElement<T> | null | undefined
+) => {
   let seen = new Set();
-  return array.filter(item => {
+  return array.filter((item) => {
     let k = key(item);
     return seen.has(k) ? false : seen.add(k);
   });
-}
+};
