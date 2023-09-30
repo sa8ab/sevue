@@ -29,7 +29,9 @@
 
     <HeightTransition>
       <span class="message" v-if="message">
-        <span class="padding">{{ message }}</span>
+        <span class="padding">
+          <slot name="message">{{ message }}</slot>
+        </span>
       </span>
     </HeightTransition>
   </div>
@@ -39,12 +41,12 @@
 import { reactive, toRef, ref, useSlots, computed } from "vue";
 import HeightTransition from "../HeightTransition.vue";
 import useColor from "@/composables/useColor";
-import { useSevue } from "@/main";
+
 export interface Props {
   modelValue?: string | number | null;
   label?: string;
   placeholder?: string;
-  message?: string;
+  message?: string | boolean;
   iconAfter?: boolean;
   sharp?: boolean;
   color?: string;

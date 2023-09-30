@@ -14,13 +14,12 @@
         :error="error"
         iconAfter
         @labelClick="open"
-        @keyup.tab="open"
+        @keydown.tab="onKeydownTab"
         @keyup.esc="close"
         @keydown.arrow-down.stop.prevent="onArrowDown"
         @keydown.arrow-up.stop.prevent="onArrowUp"
         @keydown.enter.stop.prevent="onEnter"
         @input="onInputChange"
-        @blur="onInputBlur"
         v-bind="inputProps"
       >
         <template #after>
@@ -109,7 +108,6 @@ import SelectedItems from "./SelectedItems.vue";
 import LoadingSpinner from "../LoadingSpinner.vue";
 import { uniqueArray } from "@/utils";
 import SevueIcon from "@/components/icons/SevueIcon.vue";
-import type { Picked } from "@/types";
 import type { Props as Option } from "./ROption.vue";
 
 export type Props = {
@@ -237,8 +235,8 @@ const afterSelectionHook = () => {
 };
 
 // open/close dropdown
-const onInputBlur = () => {
-  close();
+const onKeydownTab = (e: KeyboardEvent) => {
+  if (state.active) e.preventDefault();
 };
 const onBeforeEnter = (el: Element) => {
   const sameWidth: Modifier<"sameWidth", {}> = {
@@ -274,13 +272,13 @@ const open = async () => {
   rInput.value.inputRef.focus({ preventScroll: true });
   emit("open");
 };
-const close = (resetSearchValue: boolean = true, blur: boolean = true) => {
+const close = (resetSearchValue: boolean = true) => {
   if (!state.active) return;
   state.active = false;
   if (resetSearchValue) resetSearch();
   state.focusedItem = -1;
-  if (blur) rInput.value.inputRef.blur();
   state.page = 1;
+  rInput.value.inputRef.focus({ preventScroll: true });
   emit("close");
 };
 
@@ -396,6 +394,10 @@ const handleNewOption = async () => {
 };
 
 function onEnter() {
+  if (!state.active) {
+    open();
+    return;
+  }
   if (props.canCreateOption && !focusedItemValue.value && !!state.search) {
     handleNewOption();
     return;
@@ -488,7 +490,7 @@ const onInputChange = (e: InputEvent) => {
 watch(
   () => state.search,
   (search) => {
-    if (state.active && props.noDropdownOnEmptySearch && !search) close(false, false);
+    if (state.active && props.noDropdownOnEmptySearch && !search) close(false);
     else if (!state.active && !!search) {
       open();
     }

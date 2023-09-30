@@ -1,7 +1,7 @@
 <template>
   <div class="center-it">
     <div class="container">
-      <RSelect v-model="customSelected" placeholder="Type and hit enter" :loading="loading" teleport="body">
+      <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" teleport="body">
         <ROption v-for="item in items" :value="item.value" :text="item.text" />
         <!-- <template #selectedItem="{ remove, text }">
           <div class="selected-items">{{ text }}</div>
@@ -15,29 +15,17 @@
     </div>
     <div class="container">
       <RSelect
-        v-model="selected2"
+        v-model="customSelected"
         placeholder="select2"
-        :items="
-          Array.from({ length: 1000 }, (_, i) => ({
-            value: i + 1,
-            text: `item ${i + 1}`,
-          }))
-        "
+        :items="items2"
         searchable
         :loading="loading"
         canCreateOption
         multiple
-        @newOption="onNewOption"
+        :onNewOption="onNewOption"
       >
         <template #default="{ optimizedItems }">
-          <ROption
-            :value="item.value"
-            :text="item.text"
-            v-for="item in Array.from({ length: 1000 }, (_, i) => ({
-              value: i + 1,
-              text: `item ${i + 1}`,
-            }))"
-          />
+          <ROption :value="item.value" :text="item.text" v-for="item in optimizedItems" />
         </template>
       </RSelect>
     </div>
@@ -74,7 +62,6 @@ const gItems = ref([
     ],
   },
 ]);
-const selected = ref("");
 const selected2 = ref("");
 
 const searchTerm = ref("");
@@ -84,7 +71,12 @@ const items = ref([
   { text: "zxzxc", value: "zxzxc" },
   { text: "123", value: "123" },
 ]);
-const items2 = ref([]);
+const items2 = ref(
+  Array.from({ length: 20 }, (_, i) => ({
+    value: i + 1,
+    text: `item ${i + 1}`,
+  }))
+);
 
 const customSelected = ref([]);
 const singleSelected = ref("");
@@ -104,7 +96,7 @@ const customSearch = (param: string) => {
 
 const onNewOption = async ({ newOption, isAlreadyInOptions, isAlreadyInValue }) => {
   loading.value = true;
-  await new Promise((resolve, reject) => {
+  await new Promise((resolve) => {
     setTimeout(() => {
       resolve(true);
     }, 1000);
@@ -114,16 +106,8 @@ const onNewOption = async ({ newOption, isAlreadyInOptions, isAlreadyInValue }) 
     customSelected.value = [...customSelected.value, newOption];
   }
 
-  // nextTick(() => {
-  //   selectRef.value.setSelectedItems([
-  //     {
-  //       value: newOption,
-  //       text: newOption,
-  //     },
-  //   ]);
-  // });
   if (!isAlreadyInOptions) {
-    items.value.push({
+    items2.value.push({
       value: newOption,
       text: newOption,
     });
