@@ -31,7 +31,7 @@ export const hexToRgb = (hex: string) =>
     .map((x) => parseInt(x, 16));
 
 export const getColor = (color: string = ""): string | undefined => {
-  const presetColors = ["red", "yellow", "prm", "green"];
+  const presetColors = ["red", "yellow", "prm", "green", "text", "disabled"];
   const isRGB = /^(rgb|rgba)/.test(color);
   const isHEX = color.startsWith("#");
   const isPreset = presetColors.includes(color);
