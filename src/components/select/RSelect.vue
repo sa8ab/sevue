@@ -20,6 +20,7 @@
         @keydown.arrow-up.stop.prevent="onArrowUp"
         @keydown.enter.stop.prevent="onEnter"
         @input="onInputChange"
+        @blur="onInputBlur"
         v-bind="inputProps"
       >
         <template #after>
@@ -236,6 +237,9 @@ const afterSelectionHook = () => {
 };
 
 // open/close dropdown
+const onInputBlur = () => {
+  close();
+};
 const onBeforeEnter = (el: Element) => {
   const sameWidth: Modifier<"sameWidth", {}> = {
     name: "sameWidth",
