@@ -8,12 +8,12 @@
   >
     <slot name="before" />
     <div class="r-alert-main">
-      <div class="r-alert-title">
+      <div class="r-alert-title" v-if="title || $slots.title">
         <slot name="title">
           {{ title }}
         </slot>
       </div>
-      <div class="r-alert-text">
+      <div class="r-alert-text" v-if="text || $slots.default">
         <slot>
           {{ text }}
         </slot>
