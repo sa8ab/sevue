@@ -13,9 +13,9 @@
           {{ title }}
         </slot>
       </div>
-      <div class="r-alert-text" v-if="text || $slots.default">
+      <div class="r-alert-content" v-if="content || $slots.default">
         <slot>
-          {{ text }}
+          {{ content }}
         </slot>
       </div>
     </div>
@@ -37,7 +37,7 @@ import { reactive } from "vue";
 
 export interface Props {
   title?: string | number | null;
-  text?: string | number | null;
+  content?: string | number | null;
   closable?: boolean;
   color?: string;
 }
