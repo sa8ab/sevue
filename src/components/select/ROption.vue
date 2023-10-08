@@ -19,6 +19,7 @@ import { computed, inject, toRef, ref, onMounted } from "vue";
 import { rSelectKey } from "@/injectionKeys";
 import useColor from "@/composables/useColor";
 import type { SelectInject } from "@/types";
+import { nextTick } from "vue";
 export interface Props {
   text?: string;
   value?: number | string | null;
@@ -66,10 +67,15 @@ const isLastSelectedItem = computed(() => {
   return props.value === select.lastSelectedValue.value;
 });
 
-onMounted(() => {
+onMounted(async () => {
   if (isLastSelectedItem.value) {
     const offsetTop = elementRef.value?.offsetTop;
-    if (offsetTop) elementRef.value?.scrollIntoView(false);
+    console.log({ offsetTop });
+    await nextTick();
+    if (offsetTop)
+      elementRef.value?.scrollIntoView({
+        block: "nearest",
+      });
   }
 });
 </script>

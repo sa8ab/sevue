@@ -1,5 +1,10 @@
 <template>
   <div class="center-it">
+    <div class="div" style="max-width: 200px">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in voluptatem magni. Beatae culpa alias fuga. Atque
+      blanditiis soluta tenetur sit, officiis deleniti doloribus magnam architecto iure repellendus rerum possimus non,
+      quae cupiditate repellat quidem eum quos fuga delectus. Consectetur facere illum excepturi quam, amet voluptate
+    </div>
     <div class="container">
       <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" teleport="body">
         <ROption v-for="item in items" :value="item.value" :text="item.text" />
@@ -69,7 +74,19 @@ const loading = ref(false);
 
 const items = ref([
   { text: "zxzxc", value: "zxzxc" },
-  { text: "123", value: "123" },
+  { text: "123", value: "12323" },
+  { text: "zxzxc", value: "zxzxc32" },
+  { text: "123", value: "12233" },
+  { text: "zxzxc", value: "zxz3xc" },
+  { text: "123", value: "1253" },
+  { text: "zxzxc", value: "zxvfdzxc" },
+  { text: "123", value: "123rt" },
+  { text: "zxzxc", value: "zxdszxc" },
+  { text: "123", value: "123fer4" },
+  { text: "zxzxc", value: "zxzr2xc" },
+  { text: "123", value: "12fd3" },
+  { text: "zxzxc", value: "zxzxcdsc" },
+  { text: "123", value: "12234123" },
 ]);
 const items2 = ref(
   Array.from({ length: 20 }, (_, i) => ({
