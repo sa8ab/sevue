@@ -107,7 +107,6 @@ const onClose = () => {
     justify-content: space-between;
     align-items: center;
     padding: var(--r-space-2);
-    // box-shadow: $shadow2;
     border-bottom: 1px solid color(text, 0.1);
   }
   &-title {
