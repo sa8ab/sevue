@@ -2,7 +2,16 @@
   <div class="center-it">
     {{ selected }}
     <div class="container">
-      <RSlider v-model="selected" :min="min" :max="max" :step="3" ticks :customTicks="customTicks" @change="onChange">
+      <RSlider
+        v-model="selected"
+        :min="min"
+        :max="max"
+        :step="3"
+        ticks
+        :customTicks="customTicks"
+        @change="onChange"
+        tooltip
+      >
         <template #tick="{ text, hi }">
           <div class="custom-tick">{{ text }} {{ hi }}</div>
         </template>

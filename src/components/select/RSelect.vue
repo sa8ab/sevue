@@ -657,7 +657,7 @@ defineExpose({
   max-height: 240px;
   overflow: hidden;
   overflow-y: auto;
-  box-shadow: var(--shadow);
+  box-shadow: 0 6px 12px color(shadow-color, var(--r-shadow-alpha));
   padding: var(--r-space-1);
   @extend .overflow-x-scroll-bar;
 }

@@ -117,7 +117,7 @@ const containerStyle = computed(() => {
     transform-origin: bottom;
     color: white;
     font-size: var(--r-font-small);
-    box-shadow: var(--shadow);
+    box-shadow: 0 2px 8px color(shadow-color, 0.4);
   }
   &.active {
     .r-slider-tooltip {

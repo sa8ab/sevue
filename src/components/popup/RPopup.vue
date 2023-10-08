@@ -94,7 +94,7 @@ const onClose = () => {
     display: flex;
     flex-direction: column;
     z-index: 4;
-    box-shadow: var(--shadow);
+    box-shadow: 0 6px 12px color(shadow-color, var(--r-shadow-alpha));
     background: color(b2);
 
     &.fullWidth {
