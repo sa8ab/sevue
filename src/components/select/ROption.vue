@@ -70,7 +70,6 @@ const isLastSelectedItem = computed(() => {
 onMounted(async () => {
   if (isLastSelectedItem.value) {
     const offsetTop = elementRef.value?.offsetTop;
-    console.log({ offsetTop });
     await nextTick();
     if (offsetTop)
       elementRef.value?.scrollIntoView({
