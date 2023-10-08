@@ -278,7 +278,6 @@ const close = (resetSearchValue: boolean = true) => {
   if (resetSearchValue) resetSearch();
   state.focusedItem = -1;
   state.page = 1;
-  rInput.value.inputRef.focus({ preventScroll: true });
   emit("close");
 };
 
