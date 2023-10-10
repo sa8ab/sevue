@@ -1,6 +1,6 @@
 <template>
-  <div class="r-select" v-click-outside="clickOutside" :style="{ '--r-color': color || 'var(--r-prm)' }">
-    <div :class="['trigger', { disabled }]">
+  <div class="r-select" v-click-outside="clickOutside" :style="{ '--r-color': color || 'var(--r-prm)' }" ref="selfRef">
+    <div :class="['trigger', { disabled }]" tabindex="0" @focusin="onFocus" @focusout="onBlur">
       <RInput
         containerClass="r-input-container"
         :class="['input', { noInput: !searchable, isAnyItemSelected }]"
@@ -20,7 +20,9 @@
         @keydown.arrow-up.stop.prevent="onArrowUp"
         @keydown.enter.stop.prevent="onEnter"
         @input="onInputChange"
+        tabindex="-1"
         v-bind="inputProps"
+        labelTag="div"
       >
         <template #after>
           <slot name="loadingSpinner" :loading="loading">
@@ -58,7 +60,12 @@
     </div>
     <Teleport :to="teleport" :disabled="teleportDisabled">
       <Transition name="fade-move" @after-leave="onAfterLeave" @beforeEnter="onBeforeEnter">
-        <div v-if="state.active" :class="['r-select-dropdown-container', dropdownClass]" ref="dropdown">
+        <div
+          v-if="state.active"
+          :class="['r-select-dropdown-container', dropdownClass]"
+          ref="dropdown"
+          @mousedown.prevent
+        >
           <div class="r-select-dropdown" @scroll="onDropdownScroll">
             <div class="noOptions" v-if="noOptions && !canCreateOption">
               <slot name="noItems" class="noOptions"> No Options Available </slot>
@@ -177,6 +184,7 @@ const emit = defineEmits<{
   (e: "close"): void;
   (e: "afterTransitionEnd"): void;
   (e: "search", arg0: string): void;
+  (e: "blur"): void;
 }>();
 const color = useColor(toRef(props, "color"));
 const state = reactive<State>({
@@ -192,6 +200,7 @@ const state = reactive<State>({
 });
 const rInput = ref();
 const dropdown = ref();
+const selfRef = ref<HTMLElement | undefined>();
 const toggle = ref();
 
 // cycle
@@ -235,6 +244,15 @@ const afterSelectionHook = () => {
 };
 
 // open/close dropdown
+const onFocus = () => {
+  rInput.value.inputRef.focus({ preventScroll: true });
+};
+const onBlur = (e: FocusEvent) => {
+  const relatedTarget = e.relatedTarget;
+  if (relatedTarget && selfRef.value?.contains(relatedTarget as any)) return;
+  emit("blur");
+};
+
 const onKeydownTab = (e: KeyboardEvent) => {
   if (state.active) e.preventDefault();
 };
@@ -269,7 +287,6 @@ const toggleOpen = () => {
 const open = async () => {
   if (state.active || !canOpenDropdown.value) return;
   state.active = true;
-  rInput.value.inputRef.focus({ preventScroll: true });
   emit("open");
 };
 const close = (resetSearchValue: boolean = true) => {

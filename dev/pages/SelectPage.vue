@@ -6,7 +6,7 @@
       quae cupiditate repellat quidem eum quos fuga delectus. Consectetur facere illum excepturi quam, amet voluptate
     </div>
     <div class="container">
-      <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" teleport="body">
+      <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234" @blur="onBlur">
         <ROption v-for="item in items" :value="item.value" :text="item.text" />
         <!-- <template #selectedItem="{ remove, text }">
           <div class="selected-items">{{ text }}</div>
@@ -20,6 +20,7 @@
     </div>
     <div class="container">
       <RSelect
+        label="test label"
         v-model="customSelected"
         placeholder="select2"
         :items="items2"
@@ -71,6 +72,10 @@ const selected2 = ref("");
 
 const searchTerm = ref("");
 const loading = ref(false);
+
+const onBlur = () => {
+  console.log("blur");
+};
 
 const items = ref([
   { text: "zxzxc", value: "zxzxc" },

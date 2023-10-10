@@ -6,7 +6,7 @@
     <span class="label" v-if="label">{{ label }}</span>
     <div class="input-container" ref="inputContainerRef">
       <slot name="before"></slot>
-      <label class="label-element" @click="labelClick">
+      <component :is="labelTag || 'label'" class="label-element" @click="labelClick">
         <div class="icon-container" v-if="hasIcon" @click="iconClick">
           <slot name="icon"> </slot>
         </div>
@@ -23,7 +23,7 @@
             ref="inputRef"
           />
         </slot>
-      </label>
+      </component>
       <slot name="after"></slot>
     </div>
 
@@ -45,6 +45,7 @@ import useColor from "@/composables/useColor";
 export interface Props {
   modelValue?: string | number | null;
   label?: string;
+  labelTag?: string;
   placeholder?: string;
   message?: string | boolean;
   iconAfter?: boolean;
