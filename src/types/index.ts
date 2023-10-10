@@ -72,7 +72,7 @@ export interface LoadingInject {
 }
 
 export interface SelectInject {
-  modelValue: Ref<Array<number | string> | number | string | null | undefined>;
+  modelValue: Ref<Array<number | string | undefined | null> | number | string | null | undefined>;
   multiple: Ref<boolean | undefined>;
   search: Ref<string>;
   color: Ref<string | undefined>;

@@ -113,7 +113,7 @@ import type { Props as Option } from "./ROption.vue";
 export type Props = {
   searchable?: boolean;
   multiple?: boolean;
-  modelValue?: Array<number | string> | number | string | null;
+  modelValue?: Array<number | string | null | undefined> | number | string | null;
   placeholder?: string;
   disabled?: boolean;
   label?: string;
@@ -172,7 +172,7 @@ const props = withDefaults(defineProps<Props>(), {
   },
 });
 const emit = defineEmits<{
-  (e: "update:modelValue", arg0: any): void;
+  (e: "update:modelValue", arg0: Props["modelValue"]): void;
   (e: "open"): void;
   (e: "close"): void;
   (e: "afterTransitionEnd"): void;
@@ -207,12 +207,12 @@ const onAfterLeave = () => {
 };
 
 const onSelectValue = ({ event, activate }: { event: Option["value"]; activate: boolean }) => {
-  if (props.multiple) {
+  if (props.multiple && Array.isArray(props.modelValue)) {
     if (activate) {
-      emit("update:modelValue", [...(props.modelValue as number[]), event]);
+      emit("update:modelValue", [...props.modelValue, event]);
       setLastSelectedValue(event);
     } else {
-      let val = [...(props.modelValue as number[])];
+      let val = [...props.modelValue];
       val = val.filter((x) => x !== event);
       emit("update:modelValue", val);
     }
