@@ -147,6 +147,7 @@ defineExpose({
   .label-element {
     display: flex;
     align-items: center;
+    flex: 1;
   }
 
   .icon-container {

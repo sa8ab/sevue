@@ -1,23 +1,21 @@
 <template>
-  <div class="center-it">
+  <div class="">
     <div class="div" style="max-width: 200px">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in voluptatem magni. Beatae culpa alias fuga. Atque
       blanditiis soluta tenetur sit, officiis deleniti doloribus magnam architecto iure repellendus rerum possimus non,
       quae cupiditate repellat quidem eum quos fuga delectus. Consectetur facere illum excepturi quam, amet voluptate
     </div>
-    <div class="container">
-      <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234" @blur="onBlur">
-        <ROption v-for="item in items" :value="item.value" :text="item.text" />
-        <!-- <template #selectedItem="{ remove, text }">
+    <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234" @blur="onBlur">
+      <ROption v-for="item in items" :value="item.value" :text="item.text" />
+      <!-- <template #selectedItem="{ remove, text }">
           <div class="selected-items">{{ text }}</div>
           <div class="selected-items" @click="remove">remove</div>
         </template> -->
-      </RSelect>
-      <!-- 
+    </RSelect>
+    <!-- 
       <RButton @click="items = []">Empty list</RButton>
       <RButton @click="loading = !loading">Toggle Loading</RButton>
       <RButton @click="items = items.filter((_, index) => index !== 3)"> Remove some item </RButton> -->
-    </div>
     <div class="container">
       <RSelect
         label="test label"
