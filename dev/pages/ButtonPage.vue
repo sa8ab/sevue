@@ -5,7 +5,8 @@
       <RButton compact color="yellow">Small</RButton>
       <RButton compact iconOnly color="red"><i class="bx bx-user"></i></RButton> -->
       <RButton :loading="loading" color="red" compact>some transparent button</RButton>
-      <RButton :loading="loading" autoHeight>some transparent button</RButton>
+      <RButton :loading="loading">Some transparent button</RButton>
+      <RButton :loading="loading" iconOnly compact>X</RButton>
       <RButton :loading="loading">button</RButton>
       <RButton>button test</RButton>
       <RButton @click="loading = !loading">Load</RButton>

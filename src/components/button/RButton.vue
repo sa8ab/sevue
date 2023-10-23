@@ -222,10 +222,12 @@ button {
 
 .r-button {
   &.iconOnly {
-    padding: var(--r-normal-padding-y);
+    width: var(--r-element-default-height);
+    height: var(--r-element-default-height);
 
     &.compact {
-      padding: var(--r-compact-normal-padding-y);
+      width: var(--r-element-compact-height);
+      height: var(--r-element-compact-height);
     }
   }
 
