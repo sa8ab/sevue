@@ -181,7 +181,7 @@ defineExpose({
     .input-container {
       box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-red), 1);
       &:hover {
-        box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-red), var(--border-active-alpha));
+        box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-red), var(--r-border-active-alpha));
       }
     }
     .label {

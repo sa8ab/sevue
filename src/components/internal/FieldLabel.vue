@@ -18,11 +18,11 @@ const props = defineProps<{
   font-size: var(--r-font-small);
   transition: all var(--r-duration);
   padding: 2px;
-  &_error {
-    color: color(red);
-  }
   &_focused {
     color: color();
+  }
+  &_error {
+    color: color(red);
   }
 }
 </style>
