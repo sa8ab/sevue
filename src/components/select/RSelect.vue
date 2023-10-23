@@ -9,11 +9,12 @@
     </FieldLabel>
     <div
       :class="['trigger']"
-      :tabindex="focusable ? '0' : '-1'"
+      :tabindex="renderTriggerTabindex"
       @focusin="onFocus"
       @focusout="onBlur"
       @click="onTriggerClick"
       v-click-outside="clickOutside"
+      ref="triggerRef"
     >
       <RInput
         containerClass="r-input-container"
@@ -224,6 +225,7 @@ const state = reactive<State>({
 const rInput = ref();
 const dropdown = ref();
 const selfRef = ref<HTMLElement | undefined>();
+const triggerRef = ref<HTMLElement | undefined>();
 const toggle = ref();
 
 // cycle
@@ -285,7 +287,7 @@ const onToggleClick = (e: Event) => {
   e.stopPropagation();
   close();
 };
-const onFocus = (event: Event) => {
+const onFocus = (event: FocusEvent) => {
   rInput.value.inputRef.focus({ preventScroll: true });
   state.focused = true;
 };
@@ -296,12 +298,21 @@ const onBlur = (e: FocusEvent) => {
   emit("blur");
 };
 
+const renderTriggerTabindex = computed(() => {
+  if (!props.focusable) return "-1";
+  if (state.focused) return "-1";
+  return "0";
+});
+
 const onDropdownMousedown = (e: MouseEvent) => {
   e.preventDefault();
 };
 
 const onKeydownTab = (e: KeyboardEvent) => {
+  console.log("tab");
+
   if (state.active) e.preventDefault();
+  // else triggerRef.value?.blur();
 };
 const onBeforeEnter = (el: Element) => {
   const sameWidth: Modifier<"sameWidth", {}> = {

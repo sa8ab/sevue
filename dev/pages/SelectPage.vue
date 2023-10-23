@@ -5,12 +5,18 @@
       blanditiis soluta tenetur sit, officiis deleniti doloribus magnam architecto iure repellendus rerum possimus non,
       quae cupiditate repellat quidem eum quos fuga delectus. Consectetur facere illum excepturi quam, amet voluptate
     </div>
-    <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234" error>
+    <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234">
       <ROption v-for="item in items" :value="item.value" :text="item.text" />
-      <!-- <template #selectedItem="{ remove, text }">
-          <div class="selected-items">{{ text }}</div>
-          <div class="selected-items" @click="remove">remove</div>
-        </template> -->
+    </RSelect>
+    <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234">
+      <ROption v-for="item in items" :value="item.value" :text="item.text" />
+    </RSelect>
+    <RButton>Button</RButton>
+    <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234">
+      <ROption v-for="item in items" :value="item.value" :text="item.text" />
+    </RSelect>
+    <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234">
+      <ROption v-for="item in items" :value="item.value" :text="item.text" />
     </RSelect>
     <!-- 
       <RButton @click="items = []">Empty list</RButton>
