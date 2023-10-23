@@ -4,7 +4,7 @@
       <!-- <RButton>Default</RButton>
       <RButton compact color="yellow">Small</RButton>
       <RButton compact iconOnly color="red"><i class="bx bx-user"></i></RButton> -->
-      <RButton :loading="loading" color="red">some transparent button</RButton>
+      <RButton :loading="loading" color="red" compact>some transparent button</RButton>
       <RButton :loading="loading">some transparent button</RButton>
       <RButton :loading="loading">button</RButton>
       <RButton>button test</RButton>

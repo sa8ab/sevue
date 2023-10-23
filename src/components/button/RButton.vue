@@ -33,7 +33,7 @@
         block,
         loading,
         hasSize: size,
-        autoHeight,
+        isAutoHeight: isAutoHeight,
       },
     ]"
     :style="{
@@ -121,6 +121,10 @@ const renderComponent = computed(() => {
   if (isAnchorElement.value) return "a";
   return "button";
 });
+
+const isAutoHeight = computed(() => {
+  return props.autoHeight || props.compact;
+});
 </script>
 
 <style lang="scss">
@@ -147,7 +151,7 @@ button {
   gap: var(--r-space-2);
   height: var(--r-element-default-height);
 
-  &.autoHeight {
+  &.isAutoHeight {
     height: auto;
   }
 
