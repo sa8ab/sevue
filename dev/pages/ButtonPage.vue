@@ -1,13 +1,20 @@
 <template>
   <div class="center-it">
-    <div class="items">
-      <!-- <RButton>Default</RButton>
-      <RButton compact color="yellow">Small</RButton>
-      <RButton compact iconOnly color="red"><i class="bx bx-user"></i></RButton> -->
-      <RButton :loading="loading" color="red" compact>some transparent button</RButton>
-      <RButton :loading="loading">Some transparent button</RButton>
+    <div class="items base">
+      <RButton>Normal</RButton>
+      <RButton iconOnly><i class="bx bx-user"></i></RButton>
+      <RButton compact iconOnly><i class="bx bx-user"></i></RButton>
+      <RButton compact>Compact</RButton>
+    </div>
+    <div class="items loading">
+      <RButton compact iconOnly color="red"><i class="bx bx-user"></i></RButton>
+      <RButton :loading="loading" color="red" compact>compact</RButton>
+      <RButton :loading="loading" variant="transparent">Some transparent button</RButton>
       <RButton :loading="loading" iconOnly compact>X</RButton>
-      <RButton :loading="loading">button</RButton>
+      <RButton>button</RButton>
+      <RButton compact>button</RButton>
+      <RButton iconOnly compact>ICC</RButton>
+      <RButton iconOnly>IC</RButton>
       <RButton>button test</RButton>
       <RButton @click="loading = !loading">Load</RButton>
     </div>
@@ -34,7 +41,6 @@ const customFocus = () => {};
 .items {
   display: flex;
   align-items: center;
-
   gap: 4px;
 }
 </style>

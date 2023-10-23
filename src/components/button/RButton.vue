@@ -123,7 +123,7 @@ const renderComponent = computed(() => {
 });
 
 const isAutoHeight = computed(() => {
-  return props.autoHeight || props.compact;
+  return props.autoHeight;
 });
 </script>
 
@@ -136,7 +136,7 @@ button {
 }
 
 .r-button {
-  padding: var(--r-normal-padding);
+  padding: 0 var(--r-normal-padding-x);
   border-radius: var(--r-radius);
   color: color();
   background: color(color, var(--r-light-alpha));
@@ -221,7 +221,12 @@ button {
 }
 
 .r-button {
+  &.compact {
+    padding: 0 var(--r-compact-normal-padding-x);
+    height: var(--r-element-compact-height);
+  }
   &.iconOnly {
+    padding: 0;
     width: var(--r-element-default-height);
     height: var(--r-element-default-height);
 
@@ -229,10 +234,6 @@ button {
       width: var(--r-element-compact-height);
       height: var(--r-element-compact-height);
     }
-  }
-
-  &.compact {
-    padding: var(--r-compact-normal-padding);
   }
 
   &.block {
