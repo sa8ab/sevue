@@ -1,11 +1,11 @@
 <template>
-  <div class="">
+  <div class="center-it">
     <div class="div" style="max-width: 200px">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in voluptatem magni. Beatae culpa alias fuga. Atque
       blanditiis soluta tenetur sit, officiis deleniti doloribus magnam architecto iure repellendus rerum possimus non,
       quae cupiditate repellat quidem eum quos fuga delectus. Consectetur facere illum excepturi quam, amet voluptate
     </div>
-    <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234" @blur="onBlur">
+    <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234">
       <ROption v-for="item in items" :value="item.value" :text="item.text" />
       <!-- <template #selectedItem="{ remove, text }">
           <div class="selected-items">{{ text }}</div>
@@ -18,6 +18,7 @@
       <RButton @click="items = items.filter((_, index) => index !== 3)"> Remove some item </RButton> -->
     <div class="container">
       <RSelect
+        message="some message goes her"
         label="test label"
         v-model="customSelected"
         placeholder="select2"
@@ -98,7 +99,7 @@ const items2 = ref(
   }))
 );
 
-const customSelected = ref([]);
+const customSelected = ref<any>([]);
 const singleSelected = ref("");
 
 const filteredItems = computed(() => {
@@ -114,7 +115,7 @@ const customSearch = (param: string) => {
   searchTerm.value = param;
 };
 
-const onNewOption = async ({ newOption, isAlreadyInOptions, isAlreadyInValue }) => {
+const onNewOption = async ({ newOption, isAlreadyInOptions, isAlreadyInValue }: any) => {
   loading.value = true;
   await new Promise((resolve) => {
     setTimeout(() => {
@@ -137,7 +138,7 @@ const onNewOption = async ({ newOption, isAlreadyInOptions, isAlreadyInValue }) 
 
   return true;
 };
-const onNewSingleOption = ({ newOption, isAlreadyInOptions, isAlreadyInValue }) => {
+const onNewSingleOption = ({ newOption }: any) => {
   singleSelected.value = newOption;
   items2.value.push({
     value: newOption,

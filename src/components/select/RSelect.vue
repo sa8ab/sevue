@@ -1,19 +1,30 @@
 <template>
-  <div class="r-select" v-click-outside="clickOutside" :style="{ '--r-color': color || 'var(--r-prm)' }" ref="selfRef">
-    <div :class="['trigger', { disabled }]" tabindex="0" @focusin="onFocus" @focusout="onBlur">
+  <div
+    :class="['r-select', { 'r-select_focused': state.focused, 'r-select_disabled': disabled }]"
+    :style="{ '--r-color': color || 'var(--r-prm)' }"
+    ref="selfRef"
+  >
+    <FieldLabel :label="label" v-if="label || $slots.label" :error="error" :focused="state.focused">
+      <slot name="label"></slot>
+    </FieldLabel>
+    <div
+      :class="['trigger']"
+      tabindex="0"
+      @focusin="onFocus"
+      @focusout="onBlur"
+      @click="onTriggerClick"
+      v-click-outside="clickOutside"
+    >
       <RInput
         containerClass="r-input-container"
-        :class="['input', { noInput: !searchable, isAnyItemSelected }]"
+        :class="['r-select_input', { noInput: !searchable, isAnyItemSelected }]"
         v-model="state.search"
         :placeholder="inputPlaceholder"
         :readOnly="!searchable"
-        :label="label"
         :disabled="disabled"
         ref="rInput"
-        :message="message"
         :error="error"
         iconAfter
-        @labelClick="open"
         @keydown.tab="onKeydownTab"
         @keyup.esc="close"
         @keydown.arrow-down.stop.prevent="onArrowDown"
@@ -32,10 +43,10 @@
           </slot>
           <slot name="toggleIcon" :toggleOpen="toggleOpen" :active="state.active" :loading="loading">
             <span
-              @click.prevent="toggleOpen"
-              :class="['dropdown-icon', { rotate: state.active }]"
+              :class="['r-select_dropdown-icon', { rotate: state.active }]"
               v-ripple
               v-if="!loading && !noDropdown"
+              @click="onToggleClick"
             >
               <SevueIcon name="chevron-down" />
             </span>
@@ -48,23 +59,30 @@
           <slot name="inputIcon" />
         </template>
       </RInput>
-      <SelectedItems
-        :items="state.selectedItems"
-        v-if="Array.isArray(state.selectedItems)"
-        @itemClick="onSelectedItemClick"
-      >
-        <template #default="slotProps">
-          <slot name="selectedItem" v-bind="slotProps"></slot>
-        </template>
-      </SelectedItems>
     </div>
+    <SelectedItems
+      :items="state.selectedItems"
+      v-if="Array.isArray(state.selectedItems)"
+      @itemClick="onSelectedItemClick"
+    >
+      <template #default="slotProps">
+        <slot name="selectedItem" v-bind="slotProps"></slot>
+      </template>
+    </SelectedItems>
+    <HeightTransition>
+      <FieldMessage :message="message" v-if="message || $slots.message">
+        <slot name="message" />
+      </FieldMessage>
+    </HeightTransition>
+
     <Teleport :to="teleport" :disabled="teleportDisabled">
       <Transition name="fade-move" @after-leave="onAfterLeave" @beforeEnter="onBeforeEnter">
         <div
           v-if="state.active"
           :class="['r-select-dropdown-container', dropdownClass]"
           ref="dropdown"
-          @mousedown.prevent
+          tabindex="-1"
+          @mousedown="onDropdownMousedown"
         >
           <div class="r-select-dropdown" @scroll="onDropdownScroll">
             <div class="noOptions" v-if="noOptions && !canCreateOption">
@@ -112,6 +130,9 @@ import {
 } from "vue";
 import useColor from "@/composables/useColor";
 import SelectedItems from "./SelectedItems.vue";
+import FieldMessage from "../internal/FieldMessage.vue";
+import FieldLabel from "../internal/FieldLabel.vue";
+import HeightTransition from "../HeightTransition.vue";
 import LoadingSpinner from "../LoadingSpinner.vue";
 import { uniqueArray } from "@/utils";
 import SevueIcon from "@/components/icons/SevueIcon.vue";
@@ -244,13 +265,37 @@ const afterSelectionHook = () => {
 };
 
 // open/close dropdown
-const onFocus = () => {
+const onTriggerClick = () => {
+  if (!state.active) {
+    open();
+    return;
+  }
+  if (!props.searchable) {
+    close();
+    return;
+  }
+};
+
+const onToggleClick = (e: Event) => {
+  if (!state.active) {
+    return;
+  }
+  e.stopPropagation();
+  close();
+};
+const onFocus = (event: Event) => {
   rInput.value.inputRef.focus({ preventScroll: true });
+  state.focused = true;
 };
 const onBlur = (e: FocusEvent) => {
   const relatedTarget = e.relatedTarget;
   if (relatedTarget && selfRef.value?.contains(relatedTarget as any)) return;
+  state.focused = false;
   emit("blur");
+};
+
+const onDropdownMousedown = (e: MouseEvent) => {
+  e.preventDefault();
 };
 
 const onKeydownTab = (e: KeyboardEvent) => {
@@ -301,6 +346,7 @@ const close = (resetSearchValue: boolean = true) => {
 const clickOutside = {
   handler: close,
   middleware: (e: Event) => {
+    if (!state.active) return false;
     const contains = dropdown.value?.contains(e.target);
     return !contains;
   },
@@ -584,7 +630,7 @@ defineExpose({
 
 <style lang="scss">
 .r-select {
-  .dropdown-icon {
+  &_dropdown-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -614,7 +660,7 @@ defineExpose({
     align-items: center;
   }
 
-  .input {
+  &_input {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -626,11 +672,12 @@ defineExpose({
     }
   }
 
-  .trigger {
-    &.disabled {
-      opacity: 0.8;
-      pointer-events: none;
-    }
+  &_focused {
+  }
+
+  &_disabled {
+    opacity: 0.8;
+    pointer-events: none;
   }
 
   .icon-container {

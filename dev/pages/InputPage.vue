@@ -1,6 +1,6 @@
 <template>
   <div class="center-it">
-    <RInput v-model="state.model" placeholder="input">
+    <RInput v-model="state.model" placeholder="input" label="some label">
       <template #after>
         <div class="after">
           <RButton iconOnly>Hey</RButton>
@@ -17,7 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, h } from "vue";
 import { RInput } from "../../src/main";
 import { reactive } from "vue";
 
@@ -27,7 +26,7 @@ const state = reactive<{
   model: "",
 });
 
-const onInput = (e) => {
+const onInput = (e: any) => {
   console.log(e);
 };
 </script>

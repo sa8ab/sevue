@@ -3,7 +3,7 @@
     :class="['r-input', containerClass, { focused: state.focused, disabled, iconAfter, sharp, error, hasIcon }]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
   >
-    <span class="label" v-if="label">{{ label }}</span>
+    <div class="label" v-if="label">{{ label }}</div>
     <div class="input-container" ref="inputContainerRef">
       <slot name="before"></slot>
       <component :is="labelTag || 'label'" class="label-element" @click="labelClick">
@@ -110,23 +110,11 @@ defineExpose({
     flex: 1;
   }
 
-  .label,
-  .message {
+  .label {
     display: flex;
     font-size: var(--r-font-small);
     transition: all var(--r-duration);
-  }
-
-  .label {
     padding: 2px;
-  }
-
-  .message {
-    color: color(disabled);
-
-    .padding {
-      padding: 2px;
-    }
   }
 
   .input-container {
