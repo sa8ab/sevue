@@ -9,7 +9,7 @@
     </FieldLabel>
     <div
       :class="['trigger']"
-      tabindex="0"
+      :tabindex="focusable ? '0' : '-1'"
       @focusin="onFocus"
       @focusout="onBlur"
       @click="onTriggerClick"
@@ -163,6 +163,7 @@ export type Props = {
   dropdownClass?: string;
   teleportDisabled?: boolean;
   teleport?: string;
+  focusable?: boolean;
   renderPlaceholder?: (parameter: Option | Option[]) => string;
   customSearch?: (parameter: string) => void;
   itemExtractor?: (arg0: any) => Option;
@@ -194,6 +195,7 @@ const props = withDefaults(defineProps<Props>(), {
   groupIdentifier: "id",
   perPage: 10,
   teleport: "body",
+  focusable: true,
   renderPlaceholder: (option: Option | Option[]) => {
     if (Array.isArray(option)) return `${option.length} selected`;
     else return option.text || "";

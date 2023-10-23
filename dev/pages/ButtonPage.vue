@@ -5,7 +5,7 @@
       <RButton compact color="yellow">Small</RButton>
       <RButton compact iconOnly color="red"><i class="bx bx-user"></i></RButton> -->
       <RButton :loading="loading" color="red" compact>some transparent button</RButton>
-      <RButton :loading="loading">some transparent button</RButton>
+      <RButton :loading="loading" autoHeight>some transparent button</RButton>
       <RButton :loading="loading">button</RButton>
       <RButton>button test</RButton>
       <RButton @click="loading = !loading">Load</RButton>
@@ -18,6 +18,10 @@ import { ref } from "vue";
 import { RButton } from "../../src/main";
 
 const loading = ref(false);
+
+const buttonRef = ref<HTMLButtonElement | undefined>(undefined);
+
+const customFocus = () => {};
 </script>
 
 <style lang="scss" scoped>
