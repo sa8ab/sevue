@@ -3,7 +3,9 @@
     :class="['r-input', containerClass, { focused: state.focused, disabled, iconAfter, sharp, error, hasIcon }]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
   >
-    <div class="label" v-if="label">{{ label }}</div>
+    <FieldLabel :label="label" v-if="label || $slots.label" :error="error" :focused="state.focused">
+      <slot name="label"></slot>
+    </FieldLabel>
     <div class="input-container" ref="inputContainerRef">
       <slot name="before"></slot>
       <component :is="labelTag || 'label'" class="label-element" @click="labelClick">
@@ -28,11 +30,9 @@
     </div>
 
     <HeightTransition>
-      <span class="message" v-if="message">
-        <span class="padding">
-          <slot name="message">{{ message }}</slot>
-        </span>
-      </span>
+      <FieldMessage :message="message" v-if="message || $slots.message">
+        <slot name="message" />
+      </FieldMessage>
     </HeightTransition>
   </div>
 </template>
@@ -41,13 +41,15 @@
 import { reactive, toRef, ref, useSlots, computed } from "vue";
 import HeightTransition from "../HeightTransition.vue";
 import useColor from "@/composables/useColor";
+import FieldMessage from "../internal/FieldMessage.vue";
+import FieldLabel from "../internal/FieldLabel.vue";
 
 export interface Props {
   modelValue?: string | number | null;
   label?: string;
   labelTag?: string;
   placeholder?: string;
-  message?: string | boolean;
+  message?: string | number | null | boolean;
   iconAfter?: boolean;
   sharp?: boolean;
   color?: string;
@@ -109,13 +111,6 @@ defineExpose({
     flex: 1;
   }
 
-  .label {
-    display: flex;
-    font-size: var(--r-font-small);
-    transition: all var(--r-duration);
-    padding: 2px;
-  }
-
   .input-container {
     background: color(b1);
     display: flex;
@@ -152,8 +147,7 @@ defineExpose({
   }
 
   &.focused {
-    .icon-container,
-    .label {
+    .icon-container {
       color: color();
     }
 
@@ -182,9 +176,6 @@ defineExpose({
       &:hover {
         box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-red), var(--r-border-active-alpha));
       }
-    }
-    .label {
-      color: color(red);
     }
   }
 }

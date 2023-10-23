@@ -9,6 +9,8 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    FieldLabel: typeof import('./src/components/internal/FieldLabel.vue')['default']
+    FieldMessage: typeof import('./src/components/internal/FieldMessage.vue')['default']
     HeightTransition: typeof import('./src/components/HeightTransition.vue')['default']
     LoadingSpinner: typeof import('./src/components/LoadingSpinner.vue')['default']
     Notification: typeof import('./src/components/notification/Notification.vue')['default']

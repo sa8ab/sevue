@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  message?: string | null | number;
+  message?: string | boolean | null | number;
 }>();
 </script>
 
