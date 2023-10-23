@@ -6,7 +6,7 @@
       <RButton compact iconOnly color="red"><i class="bx bx-user"></i></RButton> -->
       <RButton :loading="loading" color="red">some transparent button</RButton>
       <RButton :loading="loading">some transparent button</RButton>
-      <RButton :loading="loading" textStyle>button</RButton>
+      <RButton :loading="loading">button</RButton>
       <RButton>button test</RButton>
       <RButton @click="loading = !loading">Load</RButton>
     </div>
@@ -22,13 +22,14 @@ const loading = ref(false);
 
 <style lang="scss" scoped>
 .center-it {
-  max-width: 400px;
-  margin: auto;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
 }
 .items {
   display: flex;
-  flex-direction: column;
   align-items: center;
+
   gap: 4px;
 }
 </style>

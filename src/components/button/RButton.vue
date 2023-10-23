@@ -15,6 +15,7 @@
     "
     :class="[
       'r-button',
+      variant || '',
       {
         flat,
         bordered,
@@ -67,6 +68,7 @@ export interface Props {
   link?: boolean; // FIXME:
   cancel?: boolean;
   color?: string;
+  variant?: "light" | "fill" | "flat" | "bordered" | "text" | "transparent";
   // TEXTCOLOR ONLY WORKS IN FILL STYLE
   textColor?: string;
   textStyle?: boolean;
@@ -94,7 +96,9 @@ const { nuxtOptions } = useSevue();
 //   href?: string
 // }
 // type Props = LinkProps | AnchorProps
-const props = withDefaults(defineProps<Props>(), {});
+const props = withDefaults(defineProps<Props>(), {
+  variant: "light",
+});
 const color = useColor(toRef(props, "color"));
 const textColor = useColor(toRef(props, "textColor"));
 const slots = useSlots();
