@@ -4,7 +4,7 @@
       <RButton @click="active = true">Button</RButton>
     </div>
 
-    <RPopup v-model:active="active" noCloseButton :beforeClose="onBeforeClose" title="hi">
+    <RPopup v-model:active="active" :beforeClose="onBeforeClose" title="hi">
       <template #header> Custom header </template>
       popup content
     </RPopup>

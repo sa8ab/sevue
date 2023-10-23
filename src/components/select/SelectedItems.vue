@@ -3,7 +3,7 @@
     <!-- TODO: replace with tag component -->
     <template v-for="item in items" :key="item.value">
       <slot v-bind="item" :remove="() => onItemClick(item)">
-        <RButton class="r-selected-item" @click="onItemClick(item)" iconAfter textStyle>
+        <RButton class="r-selected-item" @click="onItemClick(item)" iconAfter textStyle autoHeight>
           <div class="r-selected-item-text">{{ item.text }}</div>
           <template #icon>
             <SevueIcon name="close" class="r-selected-item-close" />
