@@ -1,10 +1,23 @@
 <template>
   <div
-    :class="['r-switch', containerClass, { alternative, disabled, square }]"
+    :class="[
+      'r-switch',
+      containerClass,
+      { alternative, disabled, square, 'r-switch__focused': state.focused, 'r-switch_bordered': bordered },
+    ]"
     :style="{ '--r-color': color || 'var(--r-prm)', width: autoWidth ? 'auto' : state.width }"
     ref="switchRef"
   >
-    <input class="r-switch-input" type="checkbox" v-model="model" :disabled="disabled" v-bind="$attrs" ref="inputRef" />
+    <input
+      class="r-switch-input"
+      type="checkbox"
+      v-model="model"
+      :disabled="disabled"
+      v-bind="$attrs"
+      ref="inputRef"
+      @keyup.tab="onFocus"
+      @blur="onBlur"
+    />
     <div class="r-switch-background"></div>
     <div class="r-switch-text r-switch-on" ref="onRef">
       <slot name="on">
@@ -33,6 +46,7 @@ export interface Props {
   disabled?: boolean;
   containerClass?: string;
   square?: boolean;
+  bordered?: boolean;
 }
 
 defineOptions({
@@ -57,6 +71,22 @@ const inputRef = ref<HTMLInputElement | undefined>();
 const onRef = ref<HTMLDivElement | undefined>();
 const offRef = ref<HTMLDivElement | undefined>();
 const switchRef = ref<HTMLDivElement | undefined>();
+
+const focus = () => {
+  inputRef.value?.focus();
+  onFocus();
+};
+const blur = () => {
+  inputRef.value?.blur();
+  onBlur();
+};
+
+const onFocus = () => {
+  state.focused = true;
+};
+const onBlur = () => {
+  state.focused = false;
+};
 
 onMounted(() => {
   // make sure elements are there
@@ -88,7 +118,11 @@ if (!props.autoWidth) {
   );
 }
 
-defineExpose({});
+defineExpose({
+  inputRef,
+  focus,
+  blur,
+});
 </script>
 
 <style lang="scss">
@@ -96,7 +130,7 @@ defineExpose({});
   --circle-width: 20px;
   --padding: 6px;
   --text-space: calc(var(--circle-width) + (var(--padding) * 2));
-  --duration: calc(var(--r-duration) * 2);
+  --duration: calc(var(--r-duration) * 1.5);
   min-width: 48px;
   height: 28px;
   border-radius: 80px;
@@ -107,7 +141,7 @@ defineExpose({});
   justify-content: center;
   cursor: pointer;
   overflow: hidden;
-  transition: width var(--duration);
+  transition: width var(--duration), box-shadow var(--r-duration);
   &-background {
     position: absolute;
     left: -100%;
@@ -216,6 +250,13 @@ defineExpose({});
     .r-switch-circle {
       border-radius: var(--r-radius);
     }
+  }
+
+  &_bordered {
+    border: 1px solid color(border-color, var(--r-border-alpha));
+  }
+  &__focused {
+    box-shadow: var(--r-focused-box-shadow-specs) color(color);
   }
 }
 </style>
