@@ -33,6 +33,7 @@
         block,
         loading,
         hasSize: size,
+        autoHeight,
       },
     ]"
     :style="{
@@ -84,6 +85,7 @@ export interface Props {
   block?: boolean;
   loading?: boolean;
   size?: string;
+  autoHeight?: boolean;
 }
 
 const { nuxtOptions } = useSevue();
@@ -143,6 +145,11 @@ button {
   overflow: hidden;
   cursor: pointer;
   gap: var(--r-space-2);
+  height: var(--r-element-default-height);
+
+  &.autoHeight {
+    height: auto;
+  }
 
   &:hover {
     background: color(color, var(--r-hover-alpha));

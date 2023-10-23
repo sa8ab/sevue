@@ -1,17 +1,20 @@
 <template>
   <div class="center-it">
-    <RInput v-model="state.model" placeholder="input" label="some label">
-      <template #after>
-        <div class="after">
-          <RButton iconOnly>Hey</RButton>
-          <RButton>
-            <template #icon>
-              <i class="bx bx-search"></i>
-            </template>
-          </RButton>
-        </div>
-      </template>
-    </RInput>
+    <div class="side">
+      <RInput placeholder="test"></RInput>
+      <RInput v-model="state.model" placeholder="input">
+        <template #after>
+          <div class="after">
+            <RButton iconOnly>Hey</RButton>
+            <RButton>
+              <template #icon>
+                <i class="bx bx-search"></i>
+              </template>
+            </RButton>
+          </div>
+        </template>
+      </RInput>
+    </div>
     <RInput tag="textarea" v-model="state.model" placeholder="some placeholder" @input="onInput"></RInput>
   </div>
 </template>
@@ -37,6 +40,9 @@ const onInput = (e: any) => {
   margin: auto;
 }
 .after {
+  display: flex;
+}
+.side {
   display: flex;
 }
 </style>
