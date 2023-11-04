@@ -131,7 +131,6 @@ const rippleDisabled = computed(() => props.variant === "link" || props.variant 
 
 const height = computed(() => {
   if (props.customSize) return props.customSize;
-  if (props.block) return "100%";
 
   const size = props.size;
   if (size === "default" || !size) return "var(--r-element-default-height)";
@@ -140,6 +139,7 @@ const height = computed(() => {
 });
 const width = computed(() => {
   if (props.customSize) return props.customSize;
+  if (props.block) return "100%";
   if (!props.iconOnly) return "initial";
   const size = props.size;
   if (size === "default" || !size) return "var(--r-element-default-height)";
