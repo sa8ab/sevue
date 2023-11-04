@@ -69,7 +69,7 @@ export interface Props {
   link?: boolean; // FIXME:
   cancel?: boolean;
   color?: string;
-  variant?: "light" | "fill" | "flat" | "bordered" | "text" | "transparent";
+  variant?: "light" | "fill" | "flat" | "bordered" | "text" | "transparent" | "textStyle";
   // TEXTCOLOR ONLY WORKS IN FILL STYLE
   textColor?: string;
   textStyle?: boolean;

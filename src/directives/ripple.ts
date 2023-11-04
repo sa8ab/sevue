@@ -128,7 +128,9 @@ function isRippleEnabled(value: any): value is true {
   return typeof value === "undefined" || !!value;
 }
 
-function rippleShow(e: MouseEvent | TouchEvent) {
+function rippleShow(e: MouseEvent | TouchEvent, binding: any) {
+  if (binding.value?.disabled) return;
+
   const value: RippleOptions = {};
   const element = e.currentTarget as HTMLElement;
   if (!element || !element._ripple || element._ripple.touched) return;
@@ -162,8 +164,6 @@ function rippleHide(e: Event) {
 }
 
 function updateRipple(el: HTMLElement, binding: any, wasEnabled: boolean) {
-  if (binding.value && binding.value.disabled) return;
-
   const enabled = isRippleEnabled(binding.value);
   if (!enabled) {
     ripples.hide(el);
@@ -181,11 +181,11 @@ function updateRipple(el: HTMLElement, binding: any, wasEnabled: boolean) {
     el._ripple.circle = value.circle;
   }
   if (enabled && !wasEnabled) {
-    el.addEventListener("touchstart", rippleShow, { passive: true });
+    el.addEventListener("touchstart", (e) => rippleShow(e, binding), { passive: true });
     el.addEventListener("touchend", rippleHide, { passive: true });
     el.addEventListener("touchcancel", rippleHide);
 
-    el.addEventListener("mousedown", rippleShow);
+    el.addEventListener("mousedown", (e) => rippleShow(e, binding));
     el.addEventListener("mouseup", rippleHide);
     el.addEventListener("mouseleave", rippleHide);
     // Anchor tags can be dragged, causes other hides to fail - #1537
@@ -196,7 +196,7 @@ function updateRipple(el: HTMLElement, binding: any, wasEnabled: boolean) {
 }
 
 function removeListeners(el: HTMLElement) {
-  el.removeEventListener("mousedown", rippleShow);
+  el.removeEventListener("mousedown", (e) => rippleShow(e, binding));
   el.removeEventListener("touchstart", rippleHide);
   el.removeEventListener("touchend", rippleHide);
   el.removeEventListener("touchcancel", rippleHide);
