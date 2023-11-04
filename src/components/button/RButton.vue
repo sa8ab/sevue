@@ -16,6 +16,7 @@
     :class="[
       'r-button',
       variant ? `r-button-${variant}` : '',
+      size ? `r-button-${size}` : '',
       {
         flat,
         'r-button-bordered': bordered,
@@ -26,26 +27,25 @@
         'r-button-text': textStyle,
         'r-button-round': round,
         'r-button-transparent': transparent,
-        iconOnly,
+        'r-button-icon-only': iconOnly,
         focused,
         colorInherit,
-        compact,
         block,
         loading,
-        hasSize: size,
+        hasCustomSize: customSize,
         isAutoHeight: isAutoHeight,
       },
     ]"
     :style="{
       '--r-color': color || 'var(--r-prm)',
-      width: size,
-      height: size,
+      '--r-height': height,
+      '--r-width': width,
     }"
     v-ripple="{ disabled: rippleDisabled }"
   >
     <slot name="icon" />
     <slot />
-    <RLoading local :active="loading" :scale="0.48" :color="color || 'var(--r-prm)'">
+    <RLoading local :active="loading" :scale="0.48" :color="color || 'var(--r-prm)'" containerClass="r-button-loading">
       <template #spinner>
         <slot name="spinner" />
       </template>
@@ -77,11 +77,11 @@ export interface Props {
   to?: any;
   href?: string;
   tag?: any;
-  compact?: boolean;
   transparent?: boolean;
   block?: boolean;
   loading?: boolean;
-  size?: string;
+  customSize?: string;
+  size?: "default" | "small" | "large";
   autoHeight?: boolean;
 }
 
@@ -122,6 +122,24 @@ const isAutoHeight = computed(() => {
 });
 
 const rippleDisabled = computed(() => props.variant === "link" || props.variant === "transparent");
+
+const height = computed(() => {
+  if (props.customSize) return props.customSize;
+  if (props.block) return "100%";
+
+  const size = props.size;
+  if (size === "default" || !size) return "var(--r-element-default-height)";
+  if (size === "small") return "var(--r-element-small-height)";
+  if (size === "large") return "var(--r-element-large-height)";
+});
+const width = computed(() => {
+  if (props.customSize) return props.customSize;
+  if (!props.iconOnly) return "initial";
+  const size = props.size;
+  if (size === "default" || !size) return "var(--r-element-default-height)";
+  if (size === "small") return "var(--r-element-small-height)";
+  if (size === "large") return "var(--r-element-large-height)";
+});
 </script>
 
 <style lang="scss">
@@ -133,7 +151,6 @@ button {
 }
 
 .r-button {
-  padding: 0 var(--r-normal-padding-x);
   border-radius: var(--r-radius);
   color: color();
   background: color(color, var(--r-light-alpha));
@@ -145,7 +162,8 @@ button {
   position: relative;
   cursor: pointer;
   gap: var(--r-space-2);
-  height: var(--r-element-default-height);
+  height: var(--r-height);
+  width: var(--r-width);
 
   &-round {
     border-radius: 50%;
@@ -159,7 +177,7 @@ button {
     pointer-events: none;
   }
 
-  // variants
+  // VARIANTS
   &-light {
     &:hover {
       background: color(color, var(--r-hover-alpha));
@@ -223,32 +241,23 @@ button {
   color: inherit;
 }
 
+// SIZES
 .r-button {
-  &.compact {
-    padding: 0 var(--r-compact-normal-padding-x);
-    height: var(--r-element-compact-height);
+  padding: 0 var(--r-normal-padding-x);
+  &-small {
+    font-size: var(--r-font-small);
   }
-  &.iconOnly {
+  &-large {
+    font-size: var(--r-font-large);
+  }
+
+  &-icon-only,
+  &.hasCustomSize {
     padding: 0;
-    width: var(--r-element-default-height);
-    height: var(--r-element-default-height);
-
-    &.compact {
-      width: var(--r-element-compact-height);
-      height: var(--r-element-compact-height);
-    }
-  }
-
-  &.block {
-    width: 100%;
   }
 
   &.loading {
     pointer-events: none;
-  }
-
-  &.hasSize {
-    padding: 0;
   }
 }
 

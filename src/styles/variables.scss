@@ -31,16 +31,17 @@
   --r-normal-padding-y: 8px;
   --r-normal-padding-x: 12px;
   --r-normal-padding: var(--r-normal-padding-y) var(--r-normal-padding-x);
-  --r-compact-normal-padding-y: 4px;
-  --r-compact-normal-padding-x: 8px;
-  --r-compact-normal-padding: var(--r-compact-normal-padding-y) var(--r-compact-normal-padding-x);
   --r-font-large: 1.18rem;
   --r-font-xlarge: 1.25rem;
   --r-font-small: 0.86rem;
   --r-font-xsmall: 0.74rem;
+
+  --r-element-small-height: 28px;
   --r-element-default-height: 36px;
-  --r-element-compact-height: 28px;
+  --r-element-large-height: 40px;
+
   --r-element-min-height: 32px;
+
   --r-border-width: 1px;
   --r-hover-alpha: 0.3;
   --r-shadow-alpha: 0.2;

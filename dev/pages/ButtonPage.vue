@@ -12,20 +12,22 @@
       <RButton :disabled="disabled" variant="link">Link</RButton>
     </div>
     <div class="items base">
+      <RButton size="small">SMALL</RButton>
       <RButton>Normal</RButton>
+      <RButton size="large">LARGE</RButton>
+
+      <RButton size="small" iconOnly><i class="bx bx-user"></i></RButton>
       <RButton iconOnly><i class="bx bx-user"></i></RButton>
-      <RButton compact iconOnly><i class="bx bx-user"></i></RButton>
-      <RButton compact bordered>Compact</RButton>
-      <RButton disabled>Disabled</RButton>
+      <RButton size="large" iconOnly><i class="bx bx-user"></i></RButton>
     </div>
     <div class="items loading">
-      <RButton compact iconOnly color="red"><i class="bx bx-user"></i></RButton>
-      <RButton :loading="loading" color="red" compact>compact</RButton>
+      <RButton size="small" iconOnly color="red"><i class="bx bx-user"></i></RButton>
+      <RButton :loading="loading" color="red" size="small">SMALL</RButton>
       <RButton :loading="loading" variant="transparent">Some transparent button</RButton>
-      <RButton :loading="loading" iconOnly compact>X</RButton>
+      <RButton :loading="loading" iconOnly size="small">X</RButton>
       <RButton>button</RButton>
-      <RButton compact>button</RButton>
-      <RButton iconOnly compact>ICC</RButton>
+      <RButton size="small">button</RButton>
+      <RButton iconOnly size="small">ICC</RButton>
       <RButton iconOnly>IC</RButton>
       <RButton>button test</RButton>
       <RButton @click="loading = !loading">Load</RButton>
