@@ -45,7 +45,13 @@
   >
     <slot name="icon" />
     <slot />
-    <RLoading local :active="loading" :scale="0.48" :color="color || 'var(--r-prm)'" containerClass="r-button-loading">
+    <RLoading
+      local
+      :active="loading"
+      :scale="0.48"
+      :color="color || 'var(--r-prm)'"
+      containerClass="r-button-loading-component"
+    >
       <template #spinner>
         <slot name="spinner" />
       </template>
@@ -164,6 +170,8 @@ button {
   gap: var(--r-space-2);
   height: var(--r-height);
   width: var(--r-width);
+  // for loading
+  overflow: hidden;
 
   &-round {
     border-radius: 50%;

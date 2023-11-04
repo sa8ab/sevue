@@ -80,7 +80,7 @@ defineExpose({
 
 .r-loading {
   color: color(textColor);
-  background: color(component-background, 0.6);
+  background: color(component-background, var(--r-loading-background-opacity));
   width: 100%;
   height: 100%;
   position: fixed;

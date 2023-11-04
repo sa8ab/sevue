@@ -4,12 +4,12 @@
       <RButton @click="disabled = !disabled">Toggle Disabled</RButton>
     </div>
     <div class="items base">
-      <RButton :disabled="disabled">Normal</RButton>
-      <RButton :disabled="disabled" variant="flat">Flat</RButton>
-      <RButton :disabled="disabled" variant="fill">Fill</RButton>
-      <RButton :disabled="disabled" variant="bordered">Bordered</RButton>
-      <RButton :disabled="disabled" variant="text">Text</RButton>
-      <RButton :disabled="disabled" variant="link">Link</RButton>
+      <RButton :loading="loading" :disabled="disabled">Normal</RButton>
+      <RButton :loading="loading" :disabled="disabled" variant="flat">Flat</RButton>
+      <RButton :loading="loading" :disabled="disabled" variant="fill">Fill</RButton>
+      <RButton :loading="loading" :disabled="disabled" variant="bordered">Bordered</RButton>
+      <RButton :loading="loading" :disabled="disabled" variant="text">Text</RButton>
+      <RButton :loading="loading" :disabled="disabled" variant="link">Link</RButton>
     </div>
     <div class="items base">
       <RButton size="small">SMALL</RButton>
