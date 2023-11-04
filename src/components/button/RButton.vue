@@ -15,21 +15,21 @@
     "
     :class="[
       'r-button',
-      variant || '',
+      variant ? `r-button-${variant}` : '',
       {
         flat,
-        bordered,
-        fill,
-        link,
+        'r-button-bordered': bordered,
+        'r-button-fill': fill,
+        'r-button-link': link,
         cancel: cancel || disabled,
-        disabled,
-        textStyle,
-        round,
+        'r-button-disabled': disabled,
+        'r-button-text': textStyle,
+        'r-button-round': round,
+        'r-button-transparent': transparent,
         iconOnly,
         focused,
         colorInherit,
         compact,
-        transparent,
         block,
         loading,
         hasSize: size,
@@ -38,11 +38,10 @@
     ]"
     :style="{
       '--r-color': color || 'var(--r-prm)',
-      '--r-text-color': textColor || 'var(--r-text)',
       width: size,
       height: size,
     }"
-    v-ripple="{ disabled: transparent }"
+    v-ripple="{ disabled: rippleDisabled }"
   >
     <slot name="icon" />
     <slot />
@@ -66,12 +65,10 @@ export interface Props {
   flat?: boolean;
   bordered?: boolean;
   fill?: boolean;
-  link?: boolean; // FIXME:
+  link?: boolean;
   cancel?: boolean;
   color?: string;
-  variant?: "light" | "fill" | "flat" | "bordered" | "text" | "transparent" | "textStyle";
-  // TEXTCOLOR ONLY WORKS IN FILL STYLE
-  textColor?: string;
+  variant?: "light" | "fill" | "flat" | "bordered" | "text" | "transparent" | "textStyle" | "link" | "cancel";
   textStyle?: boolean;
   round?: boolean;
   disabled?: boolean;
@@ -102,8 +99,6 @@ const props = withDefaults(defineProps<Props>(), {
   variant: "light",
 });
 const color = useColor(toRef(props, "color"));
-const textColor = useColor(toRef(props, "textColor"));
-const slots = useSlots();
 
 const focused = ref(false);
 
@@ -125,6 +120,8 @@ const renderComponent = computed(() => {
 const isAutoHeight = computed(() => {
   return props.autoHeight;
 });
+
+const rippleDisabled = computed(() => props.variant === "link" || props.variant === "transparent");
 </script>
 
 <style lang="scss">
@@ -146,78 +143,84 @@ button {
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
   cursor: pointer;
   gap: var(--r-space-2);
   height: var(--r-element-default-height);
 
-  &.isAutoHeight {
-    height: auto;
+  &-round {
+    border-radius: 50%;
   }
 
-  &:hover {
-    background: color(color, var(--r-hover-alpha));
+  &-cancel {
+    --r-color: var(--r-disabled) !important;
   }
-}
-
-.r-button.round {
-  border-radius: 50%;
-}
-
-.r-button.bordered {
-  border: 1px solid color(color, 0.8);
-}
-
-.r-button.disabled {
-  cursor: default !important;
-  pointer-events: none;
-}
-
-.r-button.flat {
-  background: transparent;
-
-  &:hover {
-    background: color(color, var(--r-hover-alpha));
+  &-disabled {
+    --r-color: var(--r-disabled) !important;
+    pointer-events: none;
   }
-}
 
-.r-button.fill {
-  background: color();
-  color: color(text-color);
-
-  &:hover {
-    background: color(color, 0.8);
+  // variants
+  &-light {
+    &:hover {
+      background: color(color, var(--r-hover-alpha));
+    }
   }
-}
 
-.r-button.link {
-  padding: 0px;
-}
+  &-bordered {
+    border: 1px solid color(border-color, var(--r-border-alpha));
+    background-color: transparent;
+    &:hover {
+      background: color(color, var(--r-hover-alpha));
+    }
+  }
 
-.r-button.transparent {
-  background: transparent;
-  &:hover {
+  &-flat {
     background: transparent;
-    color: color(color, 0.8);
+    &:hover {
+      background: color(color, var(--r-hover-alpha));
+    }
   }
-}
 
-.r-button.cancel {
-  --r-color: var(--r-disabled) !important;
+  &-fill {
+    background: color();
+    color: color(primary-foreground);
+    &:hover {
+      background: color(color, 0.8);
+    }
+  }
+
+  &-link {
+    padding: 0px;
+    background: transparent;
+    height: auto;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &-transparent {
+    background: transparent;
+    &:hover {
+      color: color(color, 0.8);
+    }
+  }
+
+  &-text,
+  &-textStyle {
+    background: transparent;
+    color: inherit;
+    &:hover {
+      background: color(hover, var(--r-hover-alpha));
+    }
+  }
+
+  &.isAutoHeight {
+    height: auto !important;
+  }
 }
 
 .r-button.colorInherit {
   color: inherit;
-}
-
-.r-button.textStyle {
-  background: transparent;
-  color: inherit;
-
-  &:hover {
-    background: color(hover, var(--r-hover-alpha));
-    color: inherit;
-  }
 }
 
 .r-button {
@@ -250,12 +253,19 @@ button {
 }
 
 // Specials
-.r-button.textStyle.disabled {
-  color: color(disabled);
-}
+.r-button {
+  &-text,
+  &-textStyle {
+    &.r-button-disabled {
+      color: color(disabled);
+    }
+  }
 
-.r-button.fill.disabled {
-  opacity: var(--disabled-alpha);
+  &-fill {
+    &.r-button-disabled {
+      opacity: var(--disabled-alpha);
+    }
+  }
 }
 
 .r-button.focused {
