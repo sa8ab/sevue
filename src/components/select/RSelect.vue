@@ -513,7 +513,7 @@ const setSelectedItems = (options: Option[]) => {
     );
   } else {
     const foundOption = options.find(({ value: optionValue }) => optionValue === props.modelValue);
-    if (foundOption) items = foundOption;
+    items = foundOption || [];
   }
   state.selectedItems = items;
 };
