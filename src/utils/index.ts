@@ -30,6 +30,8 @@ export const hexToRgb = (hex: string) =>
     .match(/.{2}/g)!
     .map((x) => parseInt(x, 16));
 
+const sevueColors = ["prm", "alternative", "red", "yellow", "green", "text", "disabled"];
+
 export const getColor = (color: string = ""): string | undefined => {
   const presetColors = ["red", "yellow", "prm", "green", "text", "disabled"];
   const isRGB = /^(rgb|rgba)/.test(color);
@@ -44,17 +46,17 @@ export const getColor = (color: string = ""): string | undefined => {
     return `${r}, ${g}, ${b}`;
   } else if (isPreset) {
     return `var(--r-${color})`;
-    // if (typeof window === "undefined") {
-    //   console.log('no window');
-    //   return undefined;
-    // };
-    // const style = window.getComputedStyle(document.body);
-    // return style.getPropertyValue("--r-" + color);
   } else if (isCSSVar) {
     return color;
   } else {
     return undefined;
   }
+};
+
+export const getForegroundColor = (color: string = "") => {
+  const isSevueColor = sevueColors.includes(color);
+  if (isSevueColor) return `var(--r-${color}-foreground)`;
+  return "var(--r-text)";
 };
 
 export const uniqueArray = <T>(
