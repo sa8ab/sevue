@@ -11,7 +11,7 @@
     <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234">
       <ROption v-for="item in items" :value="item.value" :text="item.text" />
     </RSelect>
-    <RButton>Button</RButton>
+    <RButton @click="clear">Button</RButton>
     <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234">
       <ROption v-for="item in items" :value="item.value" :text="item.text" />
     </RSelect>
@@ -55,6 +55,10 @@ import { RSelect } from "../../src/main";
 import { computed } from "vue";
 import { onMounted } from "vue";
 import { nextTick } from "vue";
+
+const clear = () => {
+  selected2.value = null;
+};
 
 const gItems = ref([
   {
