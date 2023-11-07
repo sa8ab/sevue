@@ -60,7 +60,7 @@ onMounted(() => {
 });
 
 const close = async () => {
-  const parentDiv: HTMLElement = component.value.parentElement;
+  const parentDiv: HTMLElement = component.value?.parentElement;
   await nextTick();
   setTimeout(() => {
     parentDiv?.remove();
