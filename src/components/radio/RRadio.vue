@@ -44,7 +44,7 @@ defineOptions({
 const props = withDefaults(defineProps<Props>(), {});
 const emit = defineEmits(["update:modelValue"]);
 
-const color = useColor(toRef(props, "color"));
+const { color } = useColor(toRef(props, "color"));
 const inputRef = ref<HTMLInputElement | undefined>();
 const focused = ref(false);
 

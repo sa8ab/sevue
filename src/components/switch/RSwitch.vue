@@ -56,7 +56,7 @@ defineOptions({
 const props = defineProps<Props>();
 const emit = defineEmits(["update:modelValue"]);
 
-const color = useColor(toRef(props, "color"));
+const { color } = useColor(toRef(props, "color"));
 
 type State = {
   focused: boolean;

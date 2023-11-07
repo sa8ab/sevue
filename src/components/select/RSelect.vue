@@ -210,7 +210,7 @@ const emit = defineEmits<{
   (e: "search", arg0: string): void;
   (e: "blur"): void;
 }>();
-const color = useColor(toRef(props, "color"));
+const { color } = useColor(toRef(props, "color"));
 const state = reactive<State>({
   search: "",
   active: false,

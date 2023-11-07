@@ -37,7 +37,7 @@ defineOptions({
   isOption: true,
 });
 const select = inject(rSelectKey) as SelectInject;
-const color = useColor(props.color ? toRef(props, "color") : toRef(select!, "color"));
+const { color } = useColor(props.color ? toRef(props, "color") : toRef(select!, "color"));
 
 const elementRef = ref<HTMLDivElement | undefined>();
 

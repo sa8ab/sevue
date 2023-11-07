@@ -72,7 +72,7 @@ const emit = defineEmits<{
   (e: "update:modelValue", arg0: number | Array<number>): void;
   (e: "change", arg0: number | Array<number>): void;
 }>();
-const color = useColor(toRef(props, "color"));
+const { color } = useColor(toRef(props, "color"));
 
 const state = reactive({
   value1: 0,

@@ -47,7 +47,7 @@ const emit = defineEmits<{
   (e: "close"): void;
 }>();
 
-const color = useColor(toRef(props, "color"));
+const { color } = useColor(toRef(props, "color"));
 
 const state = reactive({
   active: true,

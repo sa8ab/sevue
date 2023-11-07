@@ -60,8 +60,8 @@ const props = withDefaults(defineProps<Props>(), {
   textColor: "#fff",
   duration: 4000,
 });
-const color = useColor(toRef(props, "color"));
-const textColor = useColor(toRef(props, "textColor"));
+const { color } = useColor(toRef(props, "color"));
+const { color: textColor } = useColor(toRef(props, "textColor"));
 
 const timer = useTimer(() => close(), props.duration);
 

@@ -65,7 +65,7 @@ defineOptions({
 
 const props = defineProps<Props>();
 const emit = defineEmits(["update:modelValue", "labelClick", "iconClick"]);
-const color = useColor(toRef(props, "color"));
+const { color } = useColor(toRef(props, "color"));
 const state = reactive({
   focused: false,
 });

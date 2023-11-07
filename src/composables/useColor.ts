@@ -1,17 +1,16 @@
-import { onBeforeMount, ref, watch, type Ref } from "vue";
-import { getColor } from "@/utils";
+import { getColor, getForegroundColor } from "@/utils";
+import { computed } from "vue";
+import type { Ref } from "vue";
 
-const useColor = (color: Ref<string | undefined>) => {
+const useColor = (color: Ref<string | undefined>, foregroundColor?: Ref<string | undefined>) => {
+  const c = computed(() => getColor(color.value));
 
-  const result = ref<string | undefined>()
+  const f = computed(() => {
+    if (foregroundColor?.value) return getColor(foregroundColor.value);
+    return getForegroundColor(color.value);
+  });
 
-  watch(color, (newColor) => {
-    result.value = getColor(newColor)
-  }, {
-    immediate: true
-  })
-
-  return result
+  return { color: c, foreground: f };
 };
 
 export default useColor;

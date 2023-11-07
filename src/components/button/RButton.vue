@@ -37,7 +37,8 @@
       },
     ]"
     :style="{
-      '--r-color': color || 'var(--r-prm)',
+      '--r-color': color,
+      '--r-foreground': foreground,
       '--r-height': height,
       '--r-width': width,
     }"
@@ -65,7 +66,7 @@ dynamic icon slot & detect iconOnly
 */
 import useColor from "@/composables/useColor";
 import { useSevue, RLoading } from "@/main";
-import { useSlots, ref, computed, toRef, h } from "vue";
+import { ref, computed, toRef } from "vue";
 
 export interface Props {
   flat?: boolean;
@@ -74,6 +75,7 @@ export interface Props {
   link?: boolean;
   cancel?: boolean;
   color?: string;
+  textColor?: string;
   variant?: "light" | "fill" | "flat" | "bordered" | "text" | "transparent" | "textStyle" | "link" | "cancel";
   textStyle?: boolean;
   round?: boolean;
@@ -102,9 +104,10 @@ const { nuxtOptions } = useSevue();
 // }
 // type Props = LinkProps | AnchorProps
 const props = withDefaults(defineProps<Props>(), {
+  color: "prm",
   variant: "light",
 });
-const color = useColor(toRef(props, "color"));
+const { color, foreground } = useColor(toRef(props, "color"), toRef(props, "textColor"));
 
 const focused = ref(false);
 
@@ -209,7 +212,7 @@ button {
 
   &-fill {
     background: color();
-    color: color(primary-foreground);
+    color: color(foreground);
     &:hover {
       background: color(color, 0.8);
     }

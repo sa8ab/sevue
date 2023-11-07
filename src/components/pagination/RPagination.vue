@@ -97,8 +97,8 @@ const props = withDefaults(defineProps<Props>(), {
   activeShadow: true,
 });
 const emit = defineEmits(["update:modelValue"]);
-const color = useColor(toRef(props, "color"));
-const activeTextColor = useColor(toRef(props, "activeTextColor"));
+const { color } = useColor(toRef(props, "color"));
+const { color: activeTextColor } = useColor(toRef(props, "activeTextColor"));
 
 const setValue = (val: number) => {
   emit("update:modelValue", val);

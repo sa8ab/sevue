@@ -30,7 +30,7 @@ export const hexToRgb = (hex: string) =>
     .match(/.{2}/g)!
     .map((x) => parseInt(x, 16));
 
-const sevueColors = ["prm", "alternative", "red", "yellow", "green", "text", "disabled"];
+const foreColors = ["prm", "alternative", "red", "yellow", "green"];
 
 export const getColor = (color: string = ""): string | undefined => {
   const presetColors = ["red", "yellow", "prm", "green", "text", "disabled"];
@@ -54,8 +54,8 @@ export const getColor = (color: string = ""): string | undefined => {
 };
 
 export const getForegroundColor = (color: string = "") => {
-  const isSevueColor = sevueColors.includes(color);
-  if (isSevueColor) return `var(--r-${color}-foreground)`;
+  const isForeColor = foreColors.includes(color);
+  if (isForeColor) return `var(--r-${color}-foreground)`;
   return "var(--r-text)";
 };
 

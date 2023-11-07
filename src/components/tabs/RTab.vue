@@ -43,8 +43,8 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   (e: "update:modelValue", arg0: Props["modelValue"]): void;
 }>();
-const color = useColor(toRef(props, "color"));
-const activeTextColor = useColor(toRef(props, "activeTextColor"));
+const { color } = useColor(toRef(props, "color"));
+const { color: activeTextColor } = useColor(toRef(props, "activeTextColor"));
 
 const state = reactive<State>({
   moverWidth: "0",
