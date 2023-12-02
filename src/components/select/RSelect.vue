@@ -75,6 +75,11 @@
         <slot name="message" />
       </FieldMessage>
     </HeightTransition>
+    <HeightTransition>
+      <FieldMessage :message="errorMessage" v-if="errorMessage || $slots.errorMessage" error>
+        <slot name="errorMessage" />
+      </FieldMessage>
+    </HeightTransition>
 
     <Teleport :to="teleport" :disabled="teleportDisabled">
       <Transition name="fade-move" @after-leave="onAfterLeave" @beforeEnter="onBeforeEnter">
@@ -149,6 +154,7 @@ export type Props = {
   keepOpenAfterSelection?: boolean;
   color?: string;
   error?: boolean;
+  errorMessage?: string | boolean | null;
   message?: string;
   inputProps?: any;
   noDropdown?: boolean;

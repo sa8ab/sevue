@@ -6,11 +6,11 @@ const props = defineProps<{
 </script>
 
 <template>
-  <span :class="['r-field-message', { error }]">
-    <span class="r-field-message_padding">
+  <div :class="['r-field-message', { error }]">
+    <div class="r-field-message_padding">
       <slot>{{ message }}</slot>
-    </span>
-  </span>
+    </div>
+  </div>
 </template>
 
 <style lang="scss">
