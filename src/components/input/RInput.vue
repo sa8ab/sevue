@@ -55,6 +55,7 @@ export interface Props {
   color?: string;
   disabled?: boolean;
   error?: boolean;
+  errorMessage?: string | boolean;
   containerClass?: string;
   tag?: any;
 }
@@ -104,7 +105,7 @@ defineExpose({
     @extend .scroll-bar;
   }
   input {
-    height: var(--r-element-element-height);
+    height: var(--r-element-default-height);
   }
 
   label {
