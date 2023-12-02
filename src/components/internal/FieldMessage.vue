@@ -1,11 +1,12 @@
 <script setup lang="ts">
 const props = defineProps<{
   message?: string | boolean | null | number;
+  error?: boolean;
 }>();
 </script>
 
 <template>
-  <span class="r-field-message">
+  <span :class="['r-field-message', { error }]">
     <span class="r-field-message_padding">
       <slot>{{ message }}</slot>
     </span>
@@ -21,6 +22,10 @@ const props = defineProps<{
 
   &_padding {
     padding: 2px;
+  }
+
+  &.error {
+    color: color(red);
   }
 }
 </style>

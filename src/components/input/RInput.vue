@@ -1,6 +1,10 @@
 <template>
   <div
-    :class="['r-input', containerClass, { focused: state.focused, disabled, iconAfter, sharp, error, hasIcon }]"
+    :class="[
+      'r-input',
+      containerClass,
+      { focused: state.focused, disabled, iconAfter, sharp, error: error || errorMessage, hasIcon },
+    ]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
   >
     <FieldLabel :label="label" v-if="label || $slots.label" :error="error" :focused="state.focused">
@@ -32,6 +36,11 @@
     <HeightTransition>
       <FieldMessage :message="message" v-if="message || $slots.message">
         <slot name="message" />
+      </FieldMessage>
+    </HeightTransition>
+    <HeightTransition>
+      <FieldMessage :message="errorMessage" v-if="errorMessage || $slots.errorMessage" error>
+        <slot name="errorMessage" />
       </FieldMessage>
     </HeightTransition>
   </div>

@@ -16,6 +16,7 @@
       </RInput>
     </div>
     <RInput tag="textarea" v-model="state.model" placeholder="some placeholder" @input="onInput"></RInput>
+    <RInput label="Email" errorMessage="invalid email" message="invalid"></RInput>
   </div>
 </template>
 
