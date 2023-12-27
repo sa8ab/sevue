@@ -171,6 +171,7 @@ export type Props = {
   teleportDisabled?: boolean;
   teleport?: string;
   focusable?: boolean;
+  canDeselect?: boolean;
   renderPlaceholder?: (parameter: Option | Option[]) => string;
   customSearch?: (parameter: string) => void;
   itemExtractor?: (arg0: any) => Option;
@@ -257,7 +258,8 @@ const onSelectValue = ({ event, activate }: { event: Option["value"]; activate: 
       emit("update:modelValue", val);
     }
   } else {
-    emit("update:modelValue", event);
+    const v = props.canDeselect ? (activate ? event : undefined) : event;
+    emit("update:modelValue", v);
     setLastSelectedValue(event);
   }
 
@@ -487,6 +489,8 @@ function onEnter() {
   let isValueActive = true;
   if (props.multiple && isArray(props.modelValue)) {
     isValueActive = !!props.modelValue.find((value) => value === focusedItemValue.value!.value);
+  } else {
+    isValueActive = focusedItemValue.value.value == props.modelValue;
   }
   onSelectValue({
     event: focusedItemValue.value.value,

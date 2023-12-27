@@ -5,7 +5,7 @@
       blanditiis soluta tenetur sit, officiis deleniti doloribus magnam architecto iure repellendus rerum possimus non,
       quae cupiditate repellat quidem eum quos fuga delectus. Consectetur facere illum excepturi quam, amet voluptate
     </div>
-    <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234">
+    <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234" canDeselect>
       <ROption v-for="item in items" :value="item.value" :text="item.text" />
     </RSelect>
     <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234">
