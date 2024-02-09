@@ -17,6 +17,7 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/main.d.ts",
       "import": "./dist/sevue.mjs",
       "require": "./dist/sevue.umd.js"
     },
