@@ -7,9 +7,9 @@ const props = defineProps<{
 </script>
 
 <template>
-  <span :class="['r-field-label', { 'r-field-label_error': error, 'r-field-label_focused': focused }]">
+  <label :class="['r-field-label', { 'r-field-label_error': error, 'r-field-label_focused': focused }]">
     <slot>{{ label }}</slot>
-  </span>
+  </label>
 </template>
 
 <style lang="scss">

@@ -1,13 +1,10 @@
 <template>
   <div
-    :class="[
-      'r-input',
-      containerClass,
-      { focused: state.focused, disabled, sharp, error: error || errorMessage, hasIcon },
-    ]"
+    :class="['r-input', containerClass, { focused: state.focused, disabled, sharp, error: error || errorMessage }]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
+    @pointerdown="handlePointerDown"
   >
-    <FieldLabel :label="label" v-if="label || $slots.label" :error="error" :focused="state.focused">
+    <FieldLabel :label="label" v-if="label || $slots.label" :error="error" :focused="state.focused" :for="id">
       <slot name="label"></slot>
     </FieldLabel>
     <div class="input-container" ref="inputContainerRef">
@@ -16,12 +13,12 @@
         <input
           v-model="model"
           :placeholder="placeholder"
-          :value="modelValue"
           :disabled="disabled"
-          @focus="state.focused = true"
-          @blur="state.focused = false"
+          :id="id"
           v-bind="$attrs"
           ref="inputRef"
+          @focus="handleFocus"
+          @blur="handleBlur"
         />
       </slot>
       <slot name="after"></slot>
@@ -50,16 +47,16 @@ import FieldLabel from "../internal/FieldLabel.vue";
 export interface Props {
   modelValue?: string | number | null;
   label?: string;
-  labelTag?: string;
   placeholder?: string;
   message?: string | number | null | boolean;
   sharp?: boolean;
   color?: string;
+  containerClass?: string;
+
   disabled?: boolean;
   error?: boolean;
   errorMessage?: string | boolean;
-  containerClass?: string;
-  tag?: any;
+  id?: string;
 }
 
 defineOptions({
@@ -67,23 +64,50 @@ defineOptions({
 });
 
 const props = defineProps<Props>();
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits<{
+  "update:modelValue": [Props["modelValue"]];
+}>();
+
 const { color } = useColor(toRef(props, "color"));
+
 const state = reactive({
   focused: false,
 });
-const inputRef = ref();
-const inputContainerRef = ref();
-const slots = useSlots();
 
-const hasIcon = computed(() => slots.icon);
+const inputRef = ref<HTMLInputElement>();
+const inputContainerRef = ref();
 
 const model = computed({
   set: (e) => emit("update:modelValue", e),
   get: () => props.modelValue,
 });
 
+const focus = () => {
+  inputRef.value?.focus();
+};
+
+const handleFocus = () => {
+  console.log("handle focus");
+
+  state.focused = true;
+};
+
+const handleBlur = () => {
+  state.focused = false;
+};
+
+const handlePointerDown = (e: PointerEvent) => {
+  const target = e.target as HTMLElement;
+
+  if (target.closest("input, button, a")) return;
+
+  requestAnimationFrame(() => {
+    focus();
+  });
+};
+
 defineExpose({
+  focus,
   inputRef,
   inputContainerRef,
 });
@@ -125,18 +149,7 @@ defineExpose({
     }
   }
 
-  .icon-container {
-    padding: var(--r-space-2);
-    display: flex;
-    padding-right: 0;
-    transition: color var(--duration);
-  }
-
   &.focused {
-    .icon-container {
-      color: color();
-    }
-
     .input-container {
       box-shadow: 0 0 0 1px color();
     }

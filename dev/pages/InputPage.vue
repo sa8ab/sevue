@@ -1,16 +1,12 @@
 <template>
   <div class="center-it">
     <div class="side">
-      <RInput placeholder="test" label="Username"></RInput>
+      <RInput placeholder="test" label="Username" id="username"></RInput>
       <RInput v-model="state.model" placeholder="input">
         <template #after>
           <div class="after">
             <RButton iconOnly>Hey</RButton>
-            <RButton>
-              <template #icon>
-                <i class="bx bx-search"></i>
-              </template>
-            </RButton>
+            <div>After</div>
           </div>
         </template>
       </RInput>
