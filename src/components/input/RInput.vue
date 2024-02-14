@@ -151,7 +151,7 @@ defineExpose({
     box-shadow: generateBoxShadow(1px, border-color, var(--r-border-alpha));
   }
 
-  :not(.r-input_disabled) .input-container {
+  &:not(.r-input_disabled) .input-container {
     &:hover {
       --r-border-alpha: 0.5;
     }
