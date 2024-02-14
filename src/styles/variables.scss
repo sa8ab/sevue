@@ -1,8 +1,8 @@
 @function color($color: color, $alpha: 1) {
   @return rgba(var(--r-#{$color}), $alpha);
 }
-@function borderx($color: prm, $alpha: 1) {
-  @return 0 0 0 1px rgba(var(--r-#{$color}), $alpha);
+@function generateBoxShadow($width: 1px, $color: prm, $alpha: 1) {
+  @return 0 0 0 $width rgba(var(--r-#{$color}), $alpha);
 }
 
 .flexCenter {

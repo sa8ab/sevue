@@ -1,10 +1,14 @@
 <template>
   <div
-    :class="['r-input', containerClass, { focused: state.focused, disabled, sharp, error: hasErrors }]"
+    :class="[
+      'r-input',
+      containerClass,
+      { 'r-input_focused': state.focused, 'r-input_disabled': disabled, sharp, 'r-input_error': hasErrors },
+    ]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
     @pointerdown="handlePointerDown"
   >
-    <FieldLabel :label="label" v-if="label || $slots.label" :focused="state.focused" :for="id">
+    <FieldLabel :label="label" v-if="label || $slots.label" :for="id">
       <slot name="label"></slot>
     </FieldLabel>
     <div class="input-container" ref="inputContainerRef">
@@ -139,20 +143,14 @@ defineExpose({
     border-radius: var(--r-radius);
     transition: box-shadow var(--r-duration);
     overflow: hidden;
-    box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-alpha));
+    box-shadow: generateBoxShadow(1px, border-color, var(--r-border-alpha));
 
     &:hover {
-      box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-active-alpha));
+      --r-border-alpha: 0.5;
     }
   }
 
-  &.focused {
-    .input-container {
-      box-shadow: 0 0 0 1px color();
-    }
-  }
-
-  &.disabled {
+  &_disabled {
     opacity: 0.8;
   }
 
@@ -160,14 +158,15 @@ defineExpose({
     --r-radius: 0px;
   }
 
-  &.error {
+  &_error {
     --r-color: var(--r-red) !important;
+    --r-border-color: var(--r-red);
+    --r-border-alpha: 1;
+  }
 
+  &_focused {
     .input-container {
-      box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-red), 1);
-      &:hover {
-        box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-red), var(--r-border-active-alpha));
-      }
+      box-shadow: generateBoxShadow(2px, color);
     }
   }
 }

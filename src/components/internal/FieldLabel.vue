@@ -1,12 +1,11 @@
 <script setup lang="ts">
 const props = defineProps<{
   label?: string | null | number;
-  focused?: boolean | null;
 }>();
 </script>
 
 <template>
-  <label :class="['r-field-label', { 'r-field-label_focused': focused }]">
+  <label :class="['r-field-label']">
     <slot>{{ label }}</slot>
   </label>
 </template>
@@ -17,8 +16,5 @@ const props = defineProps<{
   font-size: var(--r-font-small);
   transition: color var(--r-duration);
   padding-bottom: 4px;
-  &_focused {
-    color: color();
-  }
 }
 </style>
