@@ -3,7 +3,7 @@
     :class="[
       'r-input',
       containerClass,
-      { focused: state.focused, disabled, iconAfter, sharp, error: error || errorMessage, hasIcon },
+      { focused: state.focused, disabled, sharp, error: error || errorMessage, hasIcon },
     ]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
   >
@@ -12,24 +12,18 @@
     </FieldLabel>
     <div class="input-container" ref="inputContainerRef">
       <slot name="before"></slot>
-      <component :is="labelTag || 'label'" class="label-element" @click="labelClick">
-        <div class="icon-container" v-if="hasIcon" @click="iconClick">
-          <slot name="icon"> </slot>
-        </div>
-        <slot name="input" :state="state">
-          <component
-            :is="tag ? tag : 'input'"
-            :placeholder="placeholder"
-            :value="modelValue"
-            :disabled="disabled"
-            @focus="state.focused = true"
-            @blur="state.focused = false"
-            @input="onInput"
-            v-bind="$attrs"
-            ref="inputRef"
-          />
-        </slot>
-      </component>
+      <slot name="input" :state="state">
+        <input
+          v-model="model"
+          :placeholder="placeholder"
+          :value="modelValue"
+          :disabled="disabled"
+          @focus="state.focused = true"
+          @blur="state.focused = false"
+          v-bind="$attrs"
+          ref="inputRef"
+        />
+      </slot>
       <slot name="after"></slot>
     </div>
 
@@ -59,7 +53,6 @@ export interface Props {
   labelTag?: string;
   placeholder?: string;
   message?: string | number | null | boolean;
-  iconAfter?: boolean;
   sharp?: boolean;
   color?: string;
   disabled?: boolean;
@@ -74,7 +67,7 @@ defineOptions({
 });
 
 const props = defineProps<Props>();
-const emit = defineEmits(["update:modelValue", "labelClick", "iconClick"]);
+const emit = defineEmits(["update:modelValue"]);
 const { color } = useColor(toRef(props, "color"));
 const state = reactive({
   focused: false,
@@ -85,15 +78,11 @@ const slots = useSlots();
 
 const hasIcon = computed(() => slots.icon);
 
-const onInput = (e: Event) => {
-  emit("update:modelValue", (e.target as HTMLInputElement).value);
-};
-const labelClick = (e: Event) => {
-  emit("labelClick", e);
-};
-const iconClick = (e: Event) => {
-  emit("iconClick", e);
-};
+const model = computed({
+  set: (e) => emit("update:modelValue", e),
+  get: () => props.modelValue,
+});
+
 defineExpose({
   inputRef,
   inputContainerRef,
@@ -136,24 +125,11 @@ defineExpose({
     }
   }
 
-  .label-element {
-    display: flex;
-    align-items: center;
-    flex: 1;
-  }
-
   .icon-container {
     padding: var(--r-space-2);
     display: flex;
     padding-right: 0;
     transition: color var(--duration);
-  }
-
-  &.iconAfter {
-    .icon-container {
-      padding-right: var(--r-space-2);
-      padding-left: 0;
-    }
   }
 
   &.focused {
@@ -168,10 +144,6 @@ defineExpose({
 
   &.disabled {
     opacity: 0.8;
-  }
-
-  &.iconAfter .label-element {
-    flex-direction: row-reverse;
   }
 
   &.sharp .input-container {

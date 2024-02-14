@@ -1,7 +1,7 @@
 <template>
   <div class="center-it">
     <div class="side">
-      <RInput placeholder="test"></RInput>
+      <RInput placeholder="test" label="Username"></RInput>
       <RInput v-model="state.model" placeholder="input">
         <template #after>
           <div class="after">

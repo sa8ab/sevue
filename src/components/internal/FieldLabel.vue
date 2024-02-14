@@ -16,7 +16,7 @@ const props = defineProps<{
 .r-field-label {
   display: flex;
   font-size: var(--r-font-small);
-  transition: all var(--r-duration);
+  transition: color var(--r-duration);
   padding: 2px;
   &_focused {
     color: color();
