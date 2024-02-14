@@ -4,6 +4,7 @@ import RInput, { type Props as RInputProps } from "./input";
 import RPagination, { type Props as RPaginationProps } from "./pagination";
 import RPopup, { type Props as RPopupProps } from "./popup";
 import { RSelect, ROption, RSelectGroup, type ROptionProps, type RSelectProps } from "./select";
+import { RSelect as RSelectNew } from "./selectnew";
 import RSlider, { type Props as RSliderProps } from "./slider";
 import { RTab, RTabItem, RPanel, RPanelItem, type Props as RTabProps } from "./tabs";
 import RRadio, { type Props as RRadioProps } from "./radio";
@@ -42,4 +43,5 @@ export {
   RLoadingProps,
   RAlert,
   RAlertProps,
+  RSelectNew,
 };

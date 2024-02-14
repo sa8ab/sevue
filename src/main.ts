@@ -20,6 +20,7 @@ import {
   RPanel,
   RPanelItem,
   RAlert,
+  RSelectNew,
 } from "./components";
 
 // directives
@@ -60,6 +61,7 @@ export default {
     // components
     app.component("RButton", RButton);
     app.component("RSelect", RSelect);
+    app.component("RSelectNew", RSelectNew);
     app.component("ROption", ROption);
     app.component("RSelectGroup", RSelectGroup);
     app.component("RInput", RInput);
