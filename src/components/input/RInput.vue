@@ -6,12 +6,11 @@
       { 'r-input_focused': state.focused, 'r-input_disabled': disabled, sharp, 'r-input_error': hasErrors },
     ]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
-    @pointerdown="handlePointerDown"
   >
     <FieldLabel :label="label" v-if="label || $slots.label" :for="id">
       <slot name="label"></slot>
     </FieldLabel>
-    <div class="input-container" ref="inputContainerRef">
+    <div class="input-container" ref="inputContainerRef" @pointerdown="handlePointerDown">
       <slot name="before"></slot>
       <slot name="input" :state="state">
         <input
@@ -144,18 +143,20 @@ defineExpose({
     transition: box-shadow var(--r-duration);
     overflow: hidden;
     box-shadow: generateBoxShadow(1px, border-color, var(--r-border-alpha));
+  }
 
+  :not(.r-input_disabled) .input-container {
     &:hover {
       --r-border-alpha: 0.5;
     }
   }
 
-  &_disabled {
-    opacity: 0.8;
-  }
-
   &.sharp .input-container {
     --r-radius: 0px;
+  }
+
+  &_disabled {
+    opacity: 0.75;
   }
 
   &_error {

@@ -2,7 +2,7 @@
   <div class="center-it">
     <div class="side">
       <RInput placeholder="test" label="Username" id="username"></RInput>
-      <RInput v-model.number="state.model" placeholder="input">
+      <RInput v-model.number="state.model" placeholder="input" disabled label="Email Conflicts">
         <template #after>
           <div class="after">
             <RButton iconOnly>Hey</RButton>
@@ -10,9 +10,9 @@
           </div>
         </template>
       </RInput>
+      <RInput tag="textarea" v-model="state.model" placeholder="some placeholder" @input="onInput"></RInput>
+      <RInput label="Email" errorMessage="invalid email" message="invalid" id="user-email"></RInput>
     </div>
-    <RInput tag="textarea" v-model="state.model" placeholder="some placeholder" @input="onInput"></RInput>
-    <RInput label="Email" errorMessage="invalid email" message="invalid"></RInput>
   </div>
 </template>
 
@@ -33,13 +33,14 @@ const onInput = (e: any) => {
 
 <style lang="scss" scoped>
 .center-it {
-  max-width: 400px;
   margin: auto;
 }
 .after {
   display: flex;
 }
 .side {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
 }
 </style>
