@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.6",
-    "vue": "^3.2.47"
+    "vue": "^3.4.19"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.0.0",
