@@ -1,13 +1,12 @@
 <script setup lang="ts">
 const props = defineProps<{
   label?: string | null | number;
-  error?: boolean | null;
   focused?: boolean | null;
 }>();
 </script>
 
 <template>
-  <label :class="['r-field-label', { 'r-field-label_error': error, 'r-field-label_focused': focused }]">
+  <label :class="['r-field-label', { 'r-field-label_focused': focused }]">
     <slot>{{ label }}</slot>
   </label>
 </template>
@@ -17,12 +16,9 @@ const props = defineProps<{
   display: flex;
   font-size: var(--r-font-small);
   transition: color var(--r-duration);
-  padding: 2px;
+  padding-bottom: 4px;
   &_focused {
     color: color();
-  }
-  &_error {
-    color: color(red);
   }
 }
 </style>

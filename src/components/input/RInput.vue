@@ -1,10 +1,10 @@
 <template>
   <div
-    :class="['r-input', containerClass, { focused: state.focused, disabled, sharp, error: error || errorMessage }]"
+    :class="['r-input', containerClass, { focused: state.focused, disabled, sharp, error: hasErrors }]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
     @pointerdown="handlePointerDown"
   >
-    <FieldLabel :label="label" v-if="label || $slots.label" :error="error" :focused="state.focused" :for="id">
+    <FieldLabel :label="label" v-if="label || $slots.label" :focused="state.focused" :for="id">
       <slot name="label"></slot>
     </FieldLabel>
     <div class="input-container" ref="inputContainerRef">
@@ -12,11 +12,11 @@
       <slot name="input" :state="state">
         <input
           v-model="model"
+          ref="inputRef"
           :placeholder="placeholder"
           :disabled="disabled"
           :id="id"
           v-bind="$attrs"
-          ref="inputRef"
           @focus="handleFocus"
           @blur="handleBlur"
         />
@@ -57,6 +57,10 @@ export interface Props {
   error?: boolean;
   errorMessage?: string | boolean;
   id?: string;
+
+  // add hint
+
+  // add variant solid/transparent/default
 }
 
 defineOptions({
@@ -69,6 +73,7 @@ const emit = defineEmits<{
 }>();
 
 const { color } = useColor(toRef(props, "color"));
+const slots = useSlots();
 
 const state = reactive({
   focused: false,
@@ -106,6 +111,8 @@ const handlePointerDown = (e: PointerEvent) => {
   });
 };
 
+const hasErrors = computed(() => !!props.error || !!props.errorMessage || !!slots.errorMessage);
+
 defineExpose({
   focus,
   inputRef,
@@ -115,8 +122,7 @@ defineExpose({
 
 <style lang="scss">
 .r-input {
-  input,
-  textarea {
+  input {
     border: none;
     background: transparent;
     font-size: 1rem;
@@ -124,21 +130,12 @@ defineExpose({
     font-family: inherit;
     width: 100%;
     color: inherit;
-    @extend .scroll-bar;
-  }
-  input {
     height: var(--r-element-default-height);
-  }
-
-  label {
-    flex: 1;
   }
 
   .input-container {
     background: color(b1);
     display: flex;
-    // align-items: center;
-    // gap: var(--r-space-1);
     border-radius: var(--r-radius);
     transition: box-shadow var(--r-duration);
     overflow: hidden;
