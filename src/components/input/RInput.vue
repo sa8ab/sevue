@@ -7,8 +7,9 @@
     ]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
   >
-    <FieldLabel :label="label" v-if="label || $slots.label" :for="id">
+    <FieldLabel :label="label" :hint="hint" :labelFor="id">
       <slot name="label"></slot>
+      <template #hint> <slot name="hint"></slot> </template>
     </FieldLabel>
     <div class="input-container" ref="inputContainerRef" @pointerdown="handlePointerDown">
       <slot name="before"></slot>
@@ -19,6 +20,7 @@
           :placeholder="placeholder"
           :disabled="disabled"
           :id="id"
+          :type="type"
           v-bind="$attrs"
           @focus="handleFocus"
           @blur="handleBlur"
@@ -55,6 +57,7 @@ export interface Props {
   sharp?: boolean;
   color?: string;
   containerClass?: string;
+  type?: string;
 
   disabled?: boolean;
   error?: boolean;
@@ -62,6 +65,7 @@ export interface Props {
   id?: string;
 
   // add hint
+  hint?: string | number | null;
 
   // add variant solid/transparent/default
 }
@@ -70,7 +74,9 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  type: "text",
+});
 const emit = defineEmits<{
   "update:modelValue": [Props["modelValue"]];
 }>();
