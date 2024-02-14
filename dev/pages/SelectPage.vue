@@ -1,107 +1,26 @@
 <template>
-  <div class="center-it">
-    <div class="div" style="max-width: 200px">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in voluptatem magni. Beatae culpa alias fuga. Atque
-      blanditiis soluta tenetur sit, officiis deleniti doloribus magnam architecto iure repellendus rerum possimus non,
-      quae cupiditate repellat quidem eum quos fuga delectus. Consectetur facere illum excepturi quam, amet voluptate
-    </div>
+  <div class="center-it grid-4">
     <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234" canDeselect>
-      <ROption v-for="item in items" :value="item.value" :text="item.text" />
+      <ROption v-for="item in items" :value="item.id" :text="item.name" />
     </RSelect>
-    <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234">
-      <ROption v-for="item in items" :value="item.value" :text="item.text" />
-    </RSelect>
-    <RButton @click="clear">Button</RButton>
-    <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234">
-      <ROption v-for="item in items" :value="item.value" :text="item.text" />
-    </RSelect>
-    <RSelect v-model="selected2" placeholder="Type and hit enter" :loading="loading" label="1234">
-      <ROption v-for="item in items" :value="item.value" :text="item.text" />
-    </RSelect>
-    <!-- 
-      <RButton @click="items = []">Empty list</RButton>
-      <RButton @click="loading = !loading">Toggle Loading</RButton>
-      <RButton @click="items = items.filter((_, index) => index !== 3)"> Remove some item </RButton> -->
-    <div class="container">
-      <RSelect
-        message="some message goes her"
-        label="test label"
-        v-model="customSelected"
-        placeholder="select2"
-        :items="items2"
-        searchable
-        :loading="loading"
-        canCreateOption
-        multiple
-        :onNewOption="onNewOption"
-      >
-        <template #default="{ optimizedItems }">
-          <ROption :value="item.value" :text="item.text" v-for="item in optimizedItems" />
-        </template>
-      </RSelect>
-    </div>
-    <div class="div" style="max-width: 200px">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Error in voluptatem magni. Beatae culpa alias fuga. Atque
-      blanditiis soluta tenetur sit, officiis deleniti doloribus magnam architecto iure repellendus rerum possimus non,
-      quae cupiditate repellat quidem eum quos fuga delectus. Consectetur facere illum excepturi quam, amet voluptate
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
 import { ref } from "vue";
 import { RSelect } from "../../src/main";
-import { computed } from "vue";
-import { onMounted } from "vue";
-import { nextTick } from "vue";
+import { users } from "../mock/index";
 
 const clear = () => {
   selected2.value = null;
 };
 
-const gItems = ref([
-  {
-    title: "UK",
-    cities: [
-      { name: "London", id: 1 },
-      { name: "Bristol", id: 2 },
-    ],
-  },
-  {
-    title: "Russia",
-    cities: [
-      { name: "Moscow", id: 3 },
-      { name: "Saint Petersburg", id: 4 },
-      { name: "Novosibirsk", id: 5 },
-    ],
-  },
-]);
 const selected2 = ref("");
 
-const searchTerm = ref("");
 const loading = ref(false);
 
-const onBlur = () => {
-  console.log("blur");
-};
+const items = users;
 
-const items = ref([
-  { text: "zxzxc", value: "zxzxc" },
-  { text: "123", value: "12323" },
-  { text: "zxzxc", value: "zxzxc32" },
-  { text: "123", value: "12233" },
-  { text: "zxzxc", value: "zxz3xc" },
-  { text: "123", value: "1253" },
-  { text: "zxzxc", value: "zxvfdzxc" },
-  { text: "123", value: "123rt" },
-  { text: "zxzxc", value: "zxdszxc" },
-  { text: "123", value: "123fer4" },
-  { text: "zxzxc", value: "zxzr2xc" },
-  { text: "123", value: "12fd3" },
-  { text: "zxzxc", value: "zxzxcdsc" },
-  { text: "123", value: "12234123" },
-]);
 const items2 = ref(
   Array.from({ length: 20 }, (_, i) => ({
     value: i + 1,
@@ -110,20 +29,6 @@ const items2 = ref(
 );
 
 const customSelected = ref<any>([]);
-const singleSelected = ref("");
-
-const filteredItems = computed(() => {
-  return items.value.filter(({ text }) => {
-    return text.includes(searchTerm.value);
-  });
-});
-
-const selectRef = ref();
-const singleSelectRef = ref();
-
-const customSearch = (param: string) => {
-  searchTerm.value = param;
-};
 
 const onNewOption = async ({ newOption, isAlreadyInOptions, isAlreadyInValue }: any) => {
   loading.value = true;
@@ -148,25 +53,15 @@ const onNewOption = async ({ newOption, isAlreadyInOptions, isAlreadyInValue }: 
 
   return true;
 };
-const onNewSingleOption = ({ newOption }: any) => {
-  singleSelected.value = newOption;
-  items2.value.push({
-    value: newOption,
-    text: newOption,
-  });
-};
-
-// onMounted(async () => {
-//   loading.value = true;
-//   const { data } = await axios.get(`https://dummyjson.com/products`);
-//   loading.value = false;
-//   console.log(data.products);
-
-//   items.value = data.products;
-// });
 </script>
 
 <style lang="scss" scoped>
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  padding: 40px;
+}
 .container {
   display: flex;
   flex-wrap: wrap;
