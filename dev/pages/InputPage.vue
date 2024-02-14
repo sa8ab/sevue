@@ -2,7 +2,7 @@
   <div class="center-it">
     <div class="side">
       <RInput placeholder="test" label="Username" id="username"></RInput>
-      <RInput v-model.number="state.model" placeholder="input" disabled label="Email Conflicts">
+      <RInput v-model.number="state.model" placeholder="input" label="Email Conflicts">
         <template #after>
           <div class="after">
             <RButton iconOnly>Hey</RButton>
@@ -11,6 +11,8 @@
         </template>
       </RInput>
       <RInput tag="textarea" v-model="state.model" placeholder="some placeholder" @input="onInput"></RInput>
+      <RInput tag="textarea" v-model="state.model" placeholder="some placeholder" @input="onInput"></RInput>
+      <RInput label="Email" errorMessage="invalid email" message="invalid" id="user-email" disabled></RInput>
       <RInput label="Email" errorMessage="invalid email" message="invalid" id="user-email"></RInput>
     </div>
   </div>
