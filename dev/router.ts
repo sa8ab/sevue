@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "./pages/HomePage.vue";
 import SelectPage from "./pages/SelectPage.vue";
+import SelectNewPage from "./pages/SelectNewPage.vue";
 import PaginationPage from "./pages/PaginationPage.vue";
 import CheckboxPage from "./pages/CheckboxPage.vue";
 import NotificationPage from "./pages/NotificationPage.vue";
@@ -17,6 +18,7 @@ import AlertPage from "./pages/AlertPage.vue";
 const routes = [
   { path: "/", component: Home },
   { path: "/select", component: SelectPage },
+  { path: "/select-new", component: SelectNewPage },
   { path: "/pagination", component: PaginationPage },
   { path: "/checkbox", component: CheckboxPage },
   { path: "/notification", component: NotificationPage },
