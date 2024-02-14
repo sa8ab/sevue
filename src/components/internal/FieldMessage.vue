@@ -6,7 +6,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div :class="['r-field-message', { error }]">
+  <div :class="['r-field-message', { 'r-field-message_error': error }]">
     <div class="r-field-message_padding">
       <slot>{{ message }}</slot>
     </div>
@@ -21,10 +21,10 @@ const props = defineProps<{
   color: color(disabled);
 
   &_padding {
-    padding: 2px;
+    padding-top: 4px;
   }
 
-  &.error {
+  &_error {
     color: color(red);
   }
 }
