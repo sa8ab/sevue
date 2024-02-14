@@ -1,10 +1,12 @@
 <template>
-  <div class="center-it grid-4"></div>
+  <div class="center-it grid-4">
+    <RSelectNew />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { RSelect } from "../../src/main";
+import { RSelectNew } from "../../src/main";
 </script>
 
 <style lang="scss" scoped>

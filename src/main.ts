@@ -61,7 +61,6 @@ export default {
     // components
     app.component("RButton", RButton);
     app.component("RSelect", RSelect);
-    app.component("RSelectNew", RSelectNew);
     app.component("ROption", ROption);
     app.component("RSelectGroup", RSelectGroup);
     app.component("RInput", RInput);
@@ -119,6 +118,7 @@ export {
   RSwitch,
   RLoading,
   RAlert,
+  RSelectNew,
 } from "./components";
 
 // inject keys

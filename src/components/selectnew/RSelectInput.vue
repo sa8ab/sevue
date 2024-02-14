@@ -11,7 +11,7 @@
       <slot name="label"></slot>
       <template #hint> <slot name="hint"></slot> </template>
     </FieldLabel>
-    <InputContainer @pointerdown="handlePointerDown" :focused="state.focused" :disabled="disabled">
+    <div class="input-container" ref="inputContainerRef" @pointerdown="handlePointerDown">
       <slot name="before"></slot>
       <slot name="input" :state="state">
         <input
@@ -27,7 +27,7 @@
         />
       </slot>
       <slot name="after"></slot>
-    </InputContainer>
+    </div>
 
     <HeightTransition>
       <FieldMessage :message="message" v-if="message || $slots.message">
@@ -48,7 +48,6 @@ import HeightTransition from "../HeightTransition.vue";
 import useColor from "@/composables/useColor";
 import FieldMessage from "../internal/FieldMessage.vue";
 import FieldLabel from "../internal/FieldLabel.vue";
-import InputContainer from "../internal/InputContainer.vue";
 
 export interface Props {
   modelValue?: string | number | null;
@@ -143,8 +142,19 @@ defineExpose({
     height: var(--r-element-default-height);
   }
 
-  &.sharp .r-input-container {
-    --r-radius: 0px;
+  .input-container {
+    background: color(b1);
+    display: flex;
+    border-radius: var(--r-radius);
+    transition: box-shadow var(--r-duration);
+    overflow: hidden;
+    box-shadow: generateBoxShadow(1px, border-color, var(--r-border-alpha));
+  }
+
+  &:not(.r-input_disabled) .input-container {
+    &:hover {
+      --r-border-alpha: 0.5;
+    }
   }
 
   &_disabled {
@@ -155,6 +165,12 @@ defineExpose({
     --r-color: var(--r-red) !important;
     --r-border-color: var(--r-red);
     --r-border-alpha: 1;
+  }
+
+  &_focused {
+    .input-container {
+      box-shadow: generateBoxShadow(2px, color);
+    }
   }
 }
 </style>

@@ -1,4 +1,6 @@
-<template></template>
+<template>
+  <div>New Select</div>
+</template>
 
 <script setup lang="ts"></script>
 
