@@ -470,6 +470,10 @@ const handleEnter = () => {
     activate();
     return;
   }
+
+  if (state.focusedOption !== undefined) {
+    select(state.focusedOption);
+  }
 };
 
 const handleEsc = () => {
