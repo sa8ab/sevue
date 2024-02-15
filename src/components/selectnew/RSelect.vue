@@ -12,6 +12,7 @@
       @pointerdown="handlePointerDown"
       @click="handleClick"
       ref="containerRef"
+      tabindex="-1"
     >
       <div class="r-selectnew-display">
         <input
@@ -40,6 +41,7 @@
 
 <script setup lang="ts">
 import { reactive, ref, toRef, computed } from "vue";
+import type { Ref } from "vue";
 import FieldLabel from "../internal/FieldLabel.vue";
 import InputContainer from "../internal/InputContainer.vue";
 import SevueIcon from "@/components/icons/SevueIcon.vue";
@@ -94,7 +96,7 @@ const search = defineModel<string | undefined>("search", {
 });
 
 const toggleIconRef = ref<HTMLDivElement>();
-const containerRef = ref<HTMLDivElement>();
+const containerRef = ref<InstanceType<typeof InputContainer>>();
 const dropdownRef = ref<HTMLDivElement>();
 
 // INPUT
@@ -104,7 +106,16 @@ const handleInputFocus = (e: FocusEvent) => {
   state.focused = true;
 };
 const handleInputBlur = (e: FocusEvent) => {
+  const relatedTarget = e.relatedTarget as HTMLElement;
+
+  // don't do anything if it's on select
+  if (relatedTarget && containerRef.value?.selfRef?.contains(relatedTarget)) return;
+
+  // TODO: don't do anything if it's dropdown
+
+  // close
   state.focused = false;
+  close();
 };
 const inputReadonly = computed(() => !props.searchable);
 
@@ -127,7 +138,7 @@ const middleware = ref([
     },
   }),
 ]);
-const { floatingStyles, isPositioned } = useFloating(containerRef, dropdownRef, {
+const { floatingStyles } = useFloating(containerRef as any, dropdownRef, {
   placement: "bottom",
   whileElementsMounted: autoUpdate,
   open: active,
