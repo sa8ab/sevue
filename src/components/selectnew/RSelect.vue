@@ -19,6 +19,7 @@
           class="r-selectnew-input"
           type="text"
           ref="inputRef"
+          v-model="search"
           :readonly="inputReadonly"
           @focus="handleInputFocus"
           @blur="handleInputBlur"
@@ -32,19 +33,46 @@
       </div>
     </InputContainer>
     <Transition name="fade-move">
-      <div class="r-selectnew-dropdown" ref="dropdownRef" v-if="active" :style="floatingStyles" tabindex="0">
-        <div class="r-selectnew-dropdown-inner">Dropdown Element</div>
+      <div
+        class="r-selectnew-dropdown"
+        ref="dropdownRef"
+        v-if="active"
+        :style="floatingStyles"
+        tabindex="0"
+        @mousedown="handleDropdownMousedown"
+      >
+        <div class="r-selectnew-dropdown-inner">
+          <template v-if="localGroupOptions?.length">
+            <RSelectGroup v-for="group in localGroupOptions" :title="group.title">
+              <ROption v-for="option in group.options" :text="option?.text" :isFocused="false" :isSelected="false">
+                <slot name="option" v-bind="option?.context"></slot>
+              </ROption>
+            </RSelectGroup>
+          </template>
+          <template v-else-if="localOptions?.length">
+            <div class="r-selectnew-options-list">
+              <!-- Allow rendering whole option #optionContainer -->
+              <ROption v-for="option in localOptions" :text="option?.text" :isFocused="false" :isSelected="false">
+                <slot name="option" v-bind="option?.context"></slot>
+              </ROption>
+            </div>
+          </template>
+          <template v-else>
+            <div>No Items Available</div>
+          </template>
+        </div>
       </div>
     </Transition>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="Option, OptionGroup">
 import { reactive, ref, toRef, computed } from "vue";
-import type { Ref } from "vue";
 import FieldLabel from "../internal/FieldLabel.vue";
 import InputContainer from "../internal/InputContainer.vue";
 import SevueIcon from "@/components/icons/SevueIcon.vue";
+import ROption from "./ROption.vue";
+import RSelectGroup from "./RSelectGroup.vue";
 import { useFloating, autoUpdate, flip, offset, size, shift } from "@floating-ui/vue";
 
 import useColor from "@/composables/useColor";
@@ -69,9 +97,12 @@ export interface Props {
   loading?: boolean;
 
   // options
-  options?: any[];
-  getText?: (option: any) => string | number;
-  getValue?: (option: any) => string | number;
+  options?: Option[];
+  groupedOptions?: OptionGroup[];
+  getText?: (option: Option) => string | number;
+  getValue?: (option: Option) => string | number;
+  getGroupOptions?: (group: OptionGroup) => Option[];
+  getGroupTitle?: (group: OptionGroup) => string | number | undefined | null;
   creatable?: boolean;
   focusable?: boolean;
   deselectable?: boolean;
@@ -118,7 +149,8 @@ const handleInputBlur = (e: FocusEvent) => {
   // don't do anything if it's on select
   if (relatedTarget && containerRef.value?.selfRef?.contains(relatedTarget)) return;
 
-  // TODO: don't do anything if it's dropdown
+  // don't do anything if it's dropdown.
+  if (dropdownRef.value?.contains(relatedTarget)) return;
 
   // close
   state.focused = false;
@@ -170,15 +202,33 @@ const close = () => {
 
 // OPTIONS
 
-const transformedOptions = computed(() =>
-  props.options?.map((option) => {
-    return {
-      context: option,
-      value: props.getValue(option),
-      text: props.getValue(option),
-    };
-  })
-);
+const generateLocalOption = (option: Option) => ({
+  context: option,
+  value: props.getValue(option),
+  text: props.getText(option),
+});
+
+const generateLocalGroup = (group: OptionGroup) => ({
+  context: group,
+  title: props.getGroupTitle?.(group),
+  options: props.getGroupOptions?.(group).map((option) => generateLocalOption(option)) || [],
+});
+
+const localGroupOptions = computed(() => {
+  return props.groupedOptions?.map((group) => generateLocalGroup(group));
+});
+
+const localOptions = computed(() => {
+  return props.options?.map((option) => generateLocalOption(option));
+});
+
+const flatOptions = computed(() => {
+  // flat groups
+  if (localGroupOptions.value) {
+    return localGroupOptions.value?.flatMap((item) => item.options);
+  }
+  return localOptions.value;
+});
 
 // EVENTS
 const handlePointerDown = (e: PointerEvent) => {
@@ -188,6 +238,11 @@ const handlePointerDown = (e: PointerEvent) => {
   requestAnimationFrame(() => {
     focus();
   });
+};
+
+const handleDropdownMousedown = (e: MouseEvent) => {
+  // avoid focusing
+  e.preventDefault();
 };
 
 const handleToggleClick = () => {
@@ -291,7 +346,9 @@ const handleKeydown = (e: KeyboardEvent) => {
 
 .r-selectnew-dropdown-inner {
   background-color: color(b2);
+  padding: 4px;
 }
+
 .fade-move {
   &-enter-active,
   &-leave-active {

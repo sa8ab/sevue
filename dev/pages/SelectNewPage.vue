@@ -2,14 +2,30 @@
   <div>
     <div style="height: 200px"></div>
     <div class="center-it grid-4">
-      <RSelectNew label="New Select" hint="Up to 4 items" searchable :options="users" />
+      <RSelectNew
+        label="New Select"
+        hint="Up to 4 items"
+        searchable
+        :options="users"
+        :getText="(option) => option.name"
+      >
+      </RSelectNew>
+      <RSelectNew
+        label="Grouped Select"
+        :groupedOptions="groupedUsers"
+        :getGroupOptions="(group) => group.users"
+        :getGroupTitle="(group) => group.role"
+        :getText="(option) => option.name"
+      >
+      </RSelectNew>
+      <RSelectNew label="Grouped Select" :options="[]"> </RSelectNew>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { RSelectNew } from "../../src/main";
-import { users } from "../mock";
+import { users, groupedUsers } from "../mock";
 </script>
 
 <style lang="scss" scoped>
