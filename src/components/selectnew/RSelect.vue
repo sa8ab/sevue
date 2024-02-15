@@ -55,6 +55,7 @@
                   :text="option?.text"
                   :isFocused="getIsFocusedOption(option.value)"
                   :isSelected="getIsSelected(option.value)"
+                  :isLastActive="getIsLastActive(option.value)"
                   :color="color"
                   @click="select(option.value)"
                   @mouseover="setFocusedOption(option.value)"
@@ -71,6 +72,7 @@
                   :text="option?.text"
                   :isFocused="getIsFocusedOption(option.value)"
                   :isSelected="getIsSelected(option.value)"
+                  :isLastActive="getIsLastActive(option.value)"
                   :color="color"
                   @click="select(option.value)"
                   @mouseover="setFocusedOption(option.value)"
@@ -383,6 +385,12 @@ const setFocusedOption = (v: BaseModelValue) => (state.focusedOption = v);
 
 const getIsFocusedOption = (optionValue: BaseModelValue) => {
   return state.focusedOption !== undefined && optionValue == state.focusedOption;
+};
+
+const getIsLastActive = (optionValue: BaseModelValue): boolean => {
+  if (!props.modelValue) return false;
+  if (Array.isArray(props.modelValue)) return props.modelValue[props.modelValue.length - 1] == optionValue;
+  return props.modelValue == optionValue;
 };
 
 const focusNextOption = () => {
