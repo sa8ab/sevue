@@ -471,7 +471,7 @@ const handleEnter = () => {
     return;
   }
 
-  if (state.focusedOption !== undefined) {
+  if (state.focusedOption != undefined) {
     select(state.focusedOption);
   }
 };
