@@ -25,8 +25,10 @@
           @blur="handleInputBlur"
           @keydown="handleKeydown"
         />
-        <div class="r-selectnew-placeholder"></div>
-        <div class="r-selectnew-display-label"></div>
+        <template v-if="!search">
+          <div class="r-selectnew-placeholder" v-if="!renderDisplayLabel">{{ placeholder }}</div>
+          <div class="r-selectnew-display-label" v-else>{{ renderDisplayLabel }}</div>
+        </template>
       </div>
       <div class="r-selectnew-toggle-icon" ref="toggleIconRef">
         <SevueIcon name="chevron-down" width="24px" height="24px" />
@@ -272,7 +274,26 @@ const searchedFlatOptions = computed(() => {
 
 // SELECTED ITESM
 
-const syncedSelectedItems = computed(() => {});
+const liveSelected = computed(() => {
+  if (props.multiple) {
+    return (props.modelValue as Array<BaseModelValue>)
+      ?.map?.((model) => {
+        const local = flatOptions.value?.find(({ value }) => model == value);
+        return local;
+      })
+      .filter((v) => !!v);
+  } else {
+    return flatOptions.value?.find(({ value }) => props.modelValue == value);
+  }
+});
+
+const renderDisplayLabel = computed(() => {
+  if (Array.isArray(liveSelected.value)) {
+    return liveSelected.value.map((item) => item?.text).join(", ");
+  } else {
+    return liveSelected.value?.text;
+  }
+});
 
 // EVENTS
 const handlePointerDown = (e: PointerEvent) => {
@@ -367,16 +388,22 @@ const handleKeydown = (e: KeyboardEvent) => {
   &-display {
     position: relative;
     flex: 1;
+    display: flex;
     align-items: center;
   }
   &-display-label,
   &-placeholder {
     pointer-events: none;
     position: absolute;
-    top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  &-placeholder {
+    color: color(disabled, var(--r-disabled-alpha));
   }
 
   &-toggle-icon {

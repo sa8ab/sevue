@@ -8,6 +8,7 @@
         searchable
         :options="users"
         :getText="(option) => option.name"
+        placeholder="Select Options"
       >
       </RSelectNew>
       <RSelectNew
@@ -16,10 +17,13 @@
         :getGroupOptions="(group) => group.users"
         :getGroupTitle="(group) => group.role"
         :getText="(option) => option.name"
+        multiple
+        :modelValue="['46', '23']"
         searchable
+        placeholder="Select Options"
       >
       </RSelectNew>
-      <RSelectNew label="Grouped Select" :options="[]"> </RSelectNew>
+      <RSelectNew label="Grouped Select" placeholder="Select Options"> </RSelectNew>
     </div>
   </div>
 </template>
