@@ -58,7 +58,7 @@
                   :isLastActive="getIsLastActive(option.value)"
                   :color="color"
                   @click="select(option.value)"
-                  @mouseover="setFocusedOption(option.value)"
+                  @mouseover="handleOptionMouseover"
                 >
                   <slot name="option" v-bind="option?.context"></slot>
                 </ROption>
@@ -75,7 +75,7 @@
                   :isLastActive="getIsLastActive(option.value)"
                   :color="color"
                   @click="select(option.value)"
-                  @mouseover="setFocusedOption(option.value)"
+                  @mouseover="handleOptionMouseover"
                 >
                   <slot name="option" v-bind="option?.context"></slot>
                 </ROption>
@@ -449,6 +449,10 @@ const handleDropdownMousedown = (e: MouseEvent) => {
   e.preventDefault();
 };
 
+const handleOptionMouseover = () => {
+  setFocusedOption(undefined);
+};
+
 const handleToggleClick = () => {
   if (active.value) close();
   else activate();
@@ -504,10 +508,12 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 
   if (key === "ArrowUp") {
+    e.preventDefault();
     focusPrevOption();
   }
 
   if (key === "ArrowDown") {
+    e.preventDefault();
     focusNextOption();
   }
 };

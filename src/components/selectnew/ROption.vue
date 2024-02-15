@@ -62,7 +62,8 @@ watch(
     background: color(color, var(--r-light-alpha));
   }
 
-  &_focused {
+  &_focused,
+  &:hover {
     background: color(hover, var(--r-hover-alpha));
   }
 }
