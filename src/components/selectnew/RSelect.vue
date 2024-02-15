@@ -42,28 +42,34 @@
         @mousedown="handleDropdownMousedown"
       >
         <div class="r-selectnew-dropdown-inner">
-          <template v-if="searchedGroups?.length">
-            <RSelectGroup v-for="group in searchedGroups" :title="group.title">
-              <ROption v-for="option in group.options" :text="option?.text" :isFocused="false" :isSelected="false">
-                <slot name="option" v-bind="option?.context"></slot>
-              </ROption>
-            </RSelectGroup>
-          </template>
-          <template v-else-if="searchedOptions?.length">
-            <div class="r-selectnew-options-list">
-              <!-- Allow rendering whole option #optionContainer -->
-              <ROption v-for="option in searchedOptions" :text="option?.text" :isFocused="false" :isSelected="false">
-                <slot name="option" v-bind="option?.context"></slot>
-              </ROption>
-            </div>
-          </template>
-          <template v-else-if="search">
-            <div>No results for {{ search }}</div>
-          </template>
-          <template v-else>
-            <div>No Items Available</div>
-          </template>
+          <slot name="dropdown-header"></slot>
+          <div class="dropdown-scroll-area">
+            <slot name="before-options"></slot>
+            <template v-if="searchedGroups?.length">
+              <RSelectGroup v-for="group in searchedGroups" :title="group.title">
+                <ROption v-for="option in group.options" :text="option?.text" :isFocused="false" :isSelected="false">
+                  <slot name="option" v-bind="option?.context"></slot>
+                </ROption>
+              </RSelectGroup>
+            </template>
+            <template v-else-if="searchedOptions?.length">
+              <div class="r-selectnew-options-list">
+                <!-- Allow rendering whole option #optionContainer -->
+                <ROption v-for="option in searchedOptions" :text="option?.text" :isFocused="false" :isSelected="false">
+                  <slot name="option" v-bind="option?.context"></slot>
+                </ROption>
+              </div>
+            </template>
+            <template v-else-if="search">
+              <div>No results for {{ search }}</div>
+            </template>
+            <template v-else>
+              <div>No Items Available</div>
+            </template>
+            <slot name="after-options"></slot>
+          </div>
         </div>
+        <slot name="dropdown-footer"></slot>
       </div>
     </Transition>
   </div>
