@@ -110,6 +110,7 @@ export interface Props {
   groupedOptions?: OptionGroup[];
   getText?: (option: Option) => string | number;
   getValue?: (option: Option) => string | number;
+  getIsDisabled?: (option: Option) => boolean;
   getGroupOptions?: (group: OptionGroup) => Option[];
   getGroupTitle?: (group: OptionGroup) => string | number | undefined | null;
   customSearch?: (search?: string, option: Option) => {};
@@ -216,6 +217,7 @@ const generateLocalOption = (option: Option) => ({
   context: option,
   value: props.getValue(option),
   text: props.getText(option),
+  disabled: props.getIsDisabled?.(option),
 });
 
 const generateLocalGroup = (group: OptionGroup) => ({
@@ -267,6 +269,10 @@ const searchedFlatOptions = computed(() => {
     return text ? `${text}`.toLowerCase().includes(search.value.toLowerCase()) : true;
   });
 });
+
+// SELECTED ITESM
+
+const syncedSelectedItems = computed(() => {});
 
 // EVENTS
 const handlePointerDown = (e: PointerEvent) => {
@@ -392,6 +398,7 @@ const handleKeydown = (e: KeyboardEvent) => {
 .r-selectnew-dropdown {
   &-inner {
     background-color: color(b2);
+    border-radius: var(--r-radius);
   }
   &-scroll-area {
     padding: 4px;
