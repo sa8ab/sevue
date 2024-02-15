@@ -1,6 +1,6 @@
 <template>
   <div class="center-it grid-4">
-    <RSelectNew label="New Select" hint="Up to 4 items" />
+    <RSelectNew label="New Select" hint="Up to 4 items" searchable />
   </div>
 </template>
 

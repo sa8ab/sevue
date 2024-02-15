@@ -15,14 +15,16 @@
           :readonly="inputReadonly"
           @focus="handleInputFocus"
           @blur="handleInputBlur"
+          @keydown="handleKeydown"
         />
         <div class="r-selectnew-placeholder"></div>
         <div class="r-selectnew-display-label"></div>
       </div>
-      <div class="r-selectnew-toggle-icon">
+      <div class="r-selectnew-toggle-icon" ref="toggleIconRef">
         <SevueIcon name="chevron-down" width="24px" height="24px" />
       </div>
     </InputContainer>
+    <pre>{{ active }}</pre>
   </div>
 </template>
 
@@ -79,6 +81,8 @@ const search = defineModel<string | undefined>("search", {
   default: () => undefined,
 });
 
+const toggleIconRef = ref<HTMLDivElement>();
+
 // INPUT
 const inputRef = ref<HTMLInputElement>();
 
@@ -88,12 +92,24 @@ const handleInputFocus = (e: FocusEvent) => {
 const handleInputBlur = (e: FocusEvent) => {
   state.focused = false;
 };
-const inputReadonly = computed(() => false);
+const inputReadonly = computed(() => !props.searchable);
 
 const focus = () => {
   inputRef.value?.focus();
 };
 
+// ACTIVE/DEACTIVE
+const toggleActive = () => (active.value = !active.value);
+
+const activate = () => {
+  active.value = true;
+};
+
+const close = () => {
+  active.value = false;
+};
+
+// EVENTS
 const handlePointerDown = (e: PointerEvent) => {
   const target = e.target as HTMLElement;
 
@@ -103,7 +119,47 @@ const handlePointerDown = (e: PointerEvent) => {
   });
 };
 
-const handleClick = (e: Event) => {};
+const handleToggleClick = () => {
+  if (active.value) close();
+  else activate();
+};
+
+const handleClick = (e: Event) => {
+  const target = e.target as HTMLElement;
+
+  // click of trigger icon
+  if (toggleIconRef.value?.contains(target)) {
+    handleToggleClick();
+    return;
+  }
+
+  // is searchable, don't close if already open
+  if (props.searchable && active.value) return;
+
+  if (!active.value) {
+    activate();
+  } else {
+    close();
+  }
+};
+
+const handleEnter = () => {};
+
+const handleKeydown = (e: KeyboardEvent) => {
+  const key = e.key;
+
+  if (key === "Enter") {
+  }
+
+  if (key === "Tab") {
+  }
+
+  if (key === "ArrowUp") {
+  }
+
+  if (key === "ArrowDown") {
+  }
+};
 </script>
 
 <style lang="scss">
@@ -139,8 +195,12 @@ const handleClick = (e: Event) => {};
   }
 
   &-toggle-icon {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
   }
 }
 .fade-move {
