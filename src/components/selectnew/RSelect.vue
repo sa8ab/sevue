@@ -120,6 +120,7 @@ export interface Props {
   disabled?: boolean;
   label?: string;
   closeAfterSelection?: boolean;
+  resetSearchAfterSelection?: boolean;
   color?: string;
   error?: boolean;
   errorMessage?: string | boolean | null;
@@ -145,6 +146,7 @@ export interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  resetSearchAfterSelection: true,
   closeAfterSelection: true,
   showDropdownOnEmptySearch: true,
   getText: (option: any) => option.title,
@@ -239,7 +241,7 @@ const activate = () => {
 };
 
 const close = () => {
-  // active.value = false;
+  active.value = false;
 };
 
 // OPTIONS
@@ -324,9 +326,18 @@ const select = (value: BaseModelValue) => {
       emitUpdateModelValue(undefined);
     }
   }
+  afterSelectHook();
 };
 
-const afterSelectHook = () => {};
+const afterSelectHook = () => {
+  if (props.closeAfterSelection) {
+    close();
+  }
+
+  if (props.resetSearchAfterSelection) {
+    search.value = undefined;
+  }
+};
 
 const liveSelected = computed(() => {
   if (props.multiple) {

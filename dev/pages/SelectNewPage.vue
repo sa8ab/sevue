@@ -10,6 +10,7 @@
         :getText="(option) => option.name"
         placeholder="Select Options"
         v-model="model1"
+        :resetSearchAfterSelection="false"
       >
         <template #option="{ name, id }">
           <span> #{{ id }} {{ name }}</span>
@@ -25,6 +26,7 @@
         v-model="model2"
         searchable
         placeholder="Select Options"
+        :closeAfterSelection="false"
       >
       </RSelectNew>
       <RSelectNew label="Grouped Select" placeholder="Select Options"> </RSelectNew>
