@@ -1,16 +1,26 @@
 <script setup lang="ts">
+import { toRef } from "vue";
+import useColor from "@/composables/useColor";
+
 export interface Props {
   value?: string | number | null;
   text?: string | number | null;
   isSelected?: boolean;
   isFocused?: boolean;
+  color?: string;
 }
 
 const props = defineProps<Props>();
+
+const { color } = useColor(toRef(props, "color"));
 </script>
 
 <template>
-  <div class="r-optionnew">
+  <div
+    :class="['r-optionnew', { 'r-optionnew_selected': isSelected, 'r-optionnew_focused': isFocused }]"
+    :style="{ '--r-color': color || 'var(--r-prm)' }"
+    @click="$emit('click')"
+  >
     <slot>{{ text }}</slot>
   </div>
 </template>
@@ -21,8 +31,10 @@ const props = defineProps<Props>();
   cursor: pointer;
   transition: all var(--r-duration);
   border-radius: var(--r-radius);
-  &:hover {
-    background: color(hover, var(--r-hover-alpha));
+
+  &_selected {
+    color: color();
+    background: color(color, var(--r-light-alpha));
   }
 }
 </style>

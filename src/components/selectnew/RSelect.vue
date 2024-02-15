@@ -49,7 +49,14 @@
             <slot name="before-options"></slot>
             <template v-if="searchedGroups?.length">
               <RSelectGroup v-for="group in searchedGroups" :title="group.title">
-                <ROption v-for="option in group.options" :text="option?.text" :isFocused="false" :isSelected="false">
+                <ROption
+                  v-for="option in group.options"
+                  :text="option?.text"
+                  :isFocused="false"
+                  :isSelected="getIsSelected(option.value)"
+                  :color="color"
+                  @click="select(option.value)"
+                >
                   <slot name="option" v-bind="option?.context"></slot>
                 </ROption>
               </RSelectGroup>
@@ -57,7 +64,14 @@
             <template v-else-if="searchedOptions?.length">
               <div class="r-selectnew-options-list">
                 <!-- Allow rendering whole option #optionContainer -->
-                <ROption v-for="option in searchedOptions" :text="option?.text" :isFocused="false" :isSelected="false">
+                <ROption
+                  v-for="option in searchedOptions"
+                  :text="option?.text"
+                  :isFocused="false"
+                  :isSelected="getIsSelected(option.value)"
+                  :color="color"
+                  @click="select(option.value)"
+                >
                   <slot name="option" v-bind="option?.context"></slot>
                 </ROption>
               </div>
@@ -89,6 +103,13 @@ import { useFloating, autoUpdate, flip, offset, size, shift } from "@floating-ui
 import useColor from "@/composables/useColor";
 
 type BaseModelValue = string | number | undefined | null;
+
+type LocalOption = {
+  text?: string | number | null;
+  value?: BaseModelValue;
+  disabled?: boolean;
+  context: Option;
+};
 
 export interface Props {
   modelValue?: BaseModelValue | BaseModelValue[];
@@ -128,6 +149,10 @@ const props = withDefaults(defineProps<Props>(), {
   getText: (option: any) => option.title,
   getValue: (option: any) => option.id,
 });
+
+const emit = defineEmits<{
+  "update:modelValue": [BaseModelValue | BaseModelValue[]];
+}>();
 
 const { color } = useColor(toRef(props, "color"));
 
@@ -203,6 +228,7 @@ const { floatingStyles } = useFloating(containerRef as any, dropdownRef, {
 });
 
 // ACTIVE/DEACTIVE
+
 const toggleActive = () => (active.value = !active.value);
 
 const activate = () => {
@@ -215,7 +241,7 @@ const close = () => {
 
 // OPTIONS
 
-const generateLocalOption = (option: Option) => ({
+const generateLocalOption = (option: Option): LocalOption => ({
   context: option,
   value: props.getValue(option),
   text: props.getText(option),
@@ -272,7 +298,32 @@ const searchedFlatOptions = computed(() => {
   });
 });
 
-// SELECTED ITESM
+// SELECTED ITEMS
+
+const select = (value: BaseModelValue) => {
+  const isSelected = getIsSelected(value);
+  // multiple
+  if (props.multiple) {
+    let model = [...((props.modelValue as BaseModelValue[]) || [])];
+
+    if (isSelected) {
+      model = model.filter((v) => v !== value);
+      emit("update:modelValue", model);
+    } else {
+      model = [...model, value];
+      emit("update:modelValue", model);
+    }
+  } else {
+    // single select
+    if (!isSelected) {
+      emit("update:modelValue", value);
+    } else if (props.deselectable) {
+      emit("update:modelValue", undefined);
+    }
+  }
+};
+
+const afterSelectHood = () => {};
 
 const liveSelected = computed(() => {
   if (props.multiple) {
@@ -294,6 +345,15 @@ const renderDisplayLabel = computed(() => {
     return liveSelected.value?.text;
   }
 });
+
+// SINGLE OPTION
+
+const getIsSelected = (optionValue: BaseModelValue): boolean => {
+  if (props.multiple) {
+    return !!(props.modelValue as Array<BaseModelValue>)?.find?.((v) => v == optionValue);
+  }
+  return props.modelValue == optionValue;
+};
 
 // EVENTS
 const handlePointerDown = (e: PointerEvent) => {
