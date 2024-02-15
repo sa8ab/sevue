@@ -32,7 +32,7 @@
       </div>
     </InputContainer>
     <Transition name="fade-move">
-      <div class="r-selectnew-dropdown" ref="dropdownRef" v-if="active" :style="floatingStyles">
+      <div class="r-selectnew-dropdown" ref="dropdownRef" v-if="active" :style="floatingStyles" tabindex="0">
         <div class="r-selectnew-dropdown-inner">Dropdown Element</div>
       </div>
     </Transition>
@@ -67,7 +67,11 @@ export interface Props {
   id?: string;
   showDropdownOnEmptySearch?: boolean;
   loading?: boolean;
+
+  // options
   options?: any[];
+  getText?: (option: any) => string | number;
+  getValue?: (option: any) => string | number;
   creatable?: boolean;
   focusable?: boolean;
   deselectable?: boolean;
@@ -77,6 +81,8 @@ export interface Props {
 const props = withDefaults(defineProps<Props>(), {
   closeAfterSelection: true,
   showDropdownOnEmptySearch: true,
+  getText: (option: any) => option.title,
+  getValue: (option: any) => option.id,
 });
 
 const { color } = useColor(toRef(props, "color"));
@@ -105,6 +111,7 @@ const inputRef = ref<HTMLInputElement>();
 const handleInputFocus = (e: FocusEvent) => {
   state.focused = true;
 };
+
 const handleInputBlur = (e: FocusEvent) => {
   const relatedTarget = e.relatedTarget as HTMLElement;
 
@@ -117,10 +124,15 @@ const handleInputBlur = (e: FocusEvent) => {
   state.focused = false;
   close();
 };
+
 const inputReadonly = computed(() => !props.searchable);
 
 const focus = () => {
   inputRef.value?.focus();
+};
+
+const blur = () => {
+  inputRef.value?.blur();
 };
 
 // POSITIONING
@@ -155,6 +167,18 @@ const activate = () => {
 const close = () => {
   active.value = false;
 };
+
+// OPTIONS
+
+const transformedOptions = computed(() =>
+  props.options?.map((option) => {
+    return {
+      context: option,
+      value: props.getValue(option),
+      text: props.getValue(option),
+    };
+  })
+);
 
 // EVENTS
 const handlePointerDown = (e: PointerEvent) => {
@@ -282,7 +306,7 @@ const handleKeydown = (e: KeyboardEvent) => {
   &-leave-to {
     .r-selectnew-dropdown-inner {
       opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(6px);
     }
   }
 }

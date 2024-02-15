@@ -2,14 +2,14 @@
   <div>
     <div style="height: 200px"></div>
     <div class="center-it grid-4">
-      <RSelectNew label="New Select" hint="Up to 4 items" searchable />
+      <RSelectNew label="New Select" hint="Up to 4 items" searchable :options="users" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { RSelectNew } from "../../src/main";
+import { users } from "../mock";
 </script>
 
 <style lang="scss" scoped>
