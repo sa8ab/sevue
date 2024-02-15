@@ -20,6 +20,7 @@
           type="text"
           ref="inputRef"
           v-model="search"
+          @input="emitSearch()"
           :readonly="inputReadonly"
           @focus="handleInputFocus"
           @blur="handleInputBlur"
@@ -152,6 +153,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   "update:modelValue": [BaseModelValue | BaseModelValue[]];
+  change: [BaseModelValue | BaseModelValue[]];
+  search: [string | undefined];
 }>();
 
 const { color } = useColor(toRef(props, "color"));
@@ -308,22 +311,22 @@ const select = (value: BaseModelValue) => {
 
     if (isSelected) {
       model = model.filter((v) => v !== value);
-      emit("update:modelValue", model);
+      emitUpdateModelValue(model);
     } else {
       model = [...model, value];
-      emit("update:modelValue", model);
+      emitUpdateModelValue(model);
     }
   } else {
     // single select
     if (!isSelected) {
-      emit("update:modelValue", value);
+      emitUpdateModelValue(value);
     } else if (props.deselectable) {
-      emit("update:modelValue", undefined);
+      emitUpdateModelValue(undefined);
     }
   }
 };
 
-const afterSelectHood = () => {};
+const afterSelectHook = () => {};
 
 const liveSelected = computed(() => {
   if (props.multiple) {
@@ -425,6 +428,15 @@ const handleKeydown = (e: KeyboardEvent) => {
 
   if (key === "ArrowDown") {
   }
+};
+
+// EMITS
+const emitUpdateModelValue = (value: BaseModelValue | BaseModelValue[]) => {
+  emit("update:modelValue", value);
+  emit("change", value);
+};
+const emitSearch = () => {
+  emit("search", search.value);
 };
 </script>
 
