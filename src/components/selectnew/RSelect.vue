@@ -143,15 +143,29 @@ const handleClick = (e: Event) => {
   }
 };
 
-const handleEnter = () => {};
+const handleEnter = () => {
+  if (!active.value) {
+    activate();
+    return;
+  }
+};
+
+const handleEsc = () => {
+  if (active.value) close();
+};
 
 const handleKeydown = (e: KeyboardEvent) => {
   const key = e.key;
 
   if (key === "Enter") {
+    handleEnter();
   }
 
   if (key === "Tab") {
+  }
+
+  if (key === "Escape") {
+    handleEsc();
   }
 
   if (key === "ArrowUp") {
