@@ -36,5 +36,9 @@ const { color } = useColor(toRef(props, "color"));
     color: color();
     background: color(color, var(--r-light-alpha));
   }
+
+  &_focused {
+    background: color(hover, var(--r-hover-alpha));
+  }
 }
 </style>

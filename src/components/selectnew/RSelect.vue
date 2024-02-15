@@ -20,7 +20,7 @@
           type="text"
           ref="inputRef"
           v-model="search"
-          @input="emitSearch()"
+          @input="handleInput"
           :readonly="inputReadonly"
           @focus="handleInputFocus"
           @blur="handleInputBlur"
@@ -53,10 +53,11 @@
                 <ROption
                   v-for="option in group.options"
                   :text="option?.text"
-                  :isFocused="false"
+                  :isFocused="getIsFocusedOption(option.value)"
                   :isSelected="getIsSelected(option.value)"
                   :color="color"
                   @click="select(option.value)"
+                  @mouseover="setFocusedOption(option.value)"
                 >
                   <slot name="option" v-bind="option?.context"></slot>
                 </ROption>
@@ -68,10 +69,11 @@
                 <ROption
                   v-for="option in searchedOptions"
                   :text="option?.text"
-                  :isFocused="false"
+                  :isFocused="getIsFocusedOption(option.value)"
                   :isSelected="getIsSelected(option.value)"
                   :color="color"
                   @click="select(option.value)"
+                  @mouseover="setFocusedOption(option.value)"
                 >
                   <slot name="option" v-bind="option?.context"></slot>
                 </ROption>
@@ -163,6 +165,7 @@ const { color } = useColor(toRef(props, "color"));
 
 const state = reactive<{
   focused: boolean;
+  focusedOption?: BaseModelValue;
 }>({
   focused: false,
 });
@@ -181,6 +184,12 @@ const dropdownRef = ref<HTMLDivElement>();
 
 // INPUT
 const inputRef = ref<HTMLInputElement>();
+
+const handleInput = () => {
+  emitSearch();
+  state.focused = true;
+  state.focusedOption = undefined;
+};
 
 const handleInputFocus = (e: FocusEvent) => {
   state.focused = true;
@@ -242,6 +251,7 @@ const activate = () => {
 
 const close = () => {
   active.value = false;
+  state.focusedOption = undefined;
 };
 
 // OPTIONS
@@ -369,6 +379,53 @@ const getIsSelected = (optionValue: BaseModelValue): boolean => {
   return props.modelValue == optionValue;
 };
 
+const setFocusedOption = (v: BaseModelValue) => (state.focusedOption = v);
+
+const getIsFocusedOption = (optionValue: BaseModelValue) => {
+  return state.focusedOption !== undefined && optionValue == state.focusedOption;
+};
+
+const focusNextOption = () => {
+  const list = searchedFlatOptions.value;
+  // if there is nothing on the list
+  if (!list?.length) return;
+
+  const currentIndex = list?.findIndex(({ value }) => value == state.focusedOption);
+
+  // there is nothing selected yet.
+  if (currentIndex == -1 || !state.focusedOption) {
+    // select first item
+    setFocusedOption(list[0].value);
+    return;
+  }
+
+  const next = list.find((item, index) => !item.disabled && index > currentIndex);
+
+  if (next) {
+    setFocusedOption(next.value);
+  }
+};
+
+const focusPrevOption = () => {
+  const list = searchedFlatOptions.value;
+
+  if (!list?.length) return;
+
+  const reversedList = [...list].reverse();
+
+  const currentIndex = reversedList.findIndex(({ value }) => value == state.focusedOption);
+
+  if (currentIndex == -1 || !state.focusedOption) {
+    return;
+  }
+
+  const previous = reversedList.find((item, index) => !item.disabled && index > currentIndex);
+
+  if (previous) {
+    setFocusedOption(previous.value);
+  }
+};
+
 // EVENTS
 const handlePointerDown = (e: PointerEvent) => {
   const target = e.target as HTMLElement;
@@ -435,9 +492,11 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 
   if (key === "ArrowUp") {
+    focusPrevOption();
   }
 
   if (key === "ArrowDown") {
+    focusNextOption();
   }
 };
 
