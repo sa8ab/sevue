@@ -42,8 +42,8 @@
         @mousedown="handleDropdownMousedown"
       >
         <div class="r-selectnew-dropdown-inner">
-          <slot name="dropdown-header"></slot>
-          <div class="dropdown-scroll-area">
+          <slot name="r-selectnew-dropdown-header"></slot>
+          <div class="r-selectnew-dropdown-scroll-area">
             <slot name="before-options"></slot>
             <template v-if="searchedGroups?.length">
               <RSelectGroup v-for="group in searchedGroups" :title="group.title">
@@ -61,7 +61,7 @@
               </div>
             </template>
             <template v-else-if="search">
-              <div>No results for {{ search }}</div>
+              <div>No results for "{{ search }}"</div>
             </template>
             <template v-else>
               <div>No Items Available</div>
@@ -207,7 +207,7 @@ const activate = () => {
 };
 
 const close = () => {
-  active.value = false;
+  // active.value = false;
 };
 
 // OPTIONS
@@ -326,6 +326,7 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 
   if (key === "Tab") {
+    if (active.value) e.preventDefault();
   }
 
   if (key === "Escape") {
@@ -380,11 +381,24 @@ const handleKeydown = (e: KeyboardEvent) => {
     justify-content: center;
     cursor: pointer;
   }
+
+  &-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
 }
 
-.r-selectnew-dropdown-inner {
-  background-color: color(b2);
-  padding: 4px;
+.r-selectnew-dropdown {
+  &-inner {
+    background-color: color(b2);
+  }
+  &-scroll-area {
+    padding: 4px;
+    overflow-y: auto;
+    max-height: 200px;
+    @extend .scroll-bar;
+  }
 }
 
 .fade-move {

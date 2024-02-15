@@ -18,5 +18,11 @@ const props = defineProps<Props>();
 <style lang="scss">
 .r-optionnew {
   padding: var(--r-normal-padding-y);
+  cursor: pointer;
+  transition: all var(--r-duration);
+  border-radius: var(--r-radius);
+  &:hover {
+    background: color(hover, var(--r-hover-alpha));
+  }
 }
 </style>
