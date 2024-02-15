@@ -2,7 +2,7 @@
   <div>
     <div style="height: 200px"></div>
     <div class="center-it grid-4">
-      <RSelectNew label="New Select" hint="Up to 4 items" searchable />
+      <RSelectNew label="New Select" hint="Up to 4 items" searchable dropdownWidth="400px" />
     </div>
   </div>
 </template>

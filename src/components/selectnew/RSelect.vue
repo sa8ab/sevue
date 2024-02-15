@@ -43,7 +43,7 @@ import { reactive, ref, toRef, computed } from "vue";
 import FieldLabel from "../internal/FieldLabel.vue";
 import InputContainer from "../internal/InputContainer.vue";
 import SevueIcon from "@/components/icons/SevueIcon.vue";
-import { useFloating, autoUpdate, flip, offset, size } from "@floating-ui/vue";
+import { useFloating, autoUpdate, flip, offset, size, shift } from "@floating-ui/vue";
 
 import useColor from "@/composables/useColor";
 
@@ -69,6 +69,7 @@ export interface Props {
   creatable?: boolean;
   focusable?: boolean;
   deselectable?: boolean;
+  dropdownWidth?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -117,10 +118,11 @@ const middleware = ref([
   flip({
     crossAxis: false,
   }),
+  shift(),
   size({
     apply: ({ rects, elements }) => {
       Object.assign(elements.floating.style, {
-        width: `${rects.reference.width}px`,
+        width: props.dropdownWidth ?? `${rects.reference.width}px`,
       });
     },
   }),
@@ -250,6 +252,10 @@ const handleKeydown = (e: KeyboardEvent) => {
     justify-content: center;
     cursor: pointer;
   }
+}
+
+.r-selectnew-dropdown-inner {
+  background-color: color(b2);
 }
 .fade-move {
   &-enter-active,
