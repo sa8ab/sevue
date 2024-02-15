@@ -38,24 +38,27 @@
         ref="dropdownRef"
         v-if="active"
         :style="floatingStyles"
-        tabindex="0"
+        tabindex="-1"
         @mousedown="handleDropdownMousedown"
       >
         <div class="r-selectnew-dropdown-inner">
-          <template v-if="localGroupOptions?.length">
-            <RSelectGroup v-for="group in localGroupOptions" :title="group.title">
+          <template v-if="searchedGroups?.length">
+            <RSelectGroup v-for="group in searchedGroups" :title="group.title">
               <ROption v-for="option in group.options" :text="option?.text" :isFocused="false" :isSelected="false">
                 <slot name="option" v-bind="option?.context"></slot>
               </ROption>
             </RSelectGroup>
           </template>
-          <template v-else-if="localOptions?.length">
+          <template v-else-if="searchedOptions?.length">
             <div class="r-selectnew-options-list">
               <!-- Allow rendering whole option #optionContainer -->
-              <ROption v-for="option in localOptions" :text="option?.text" :isFocused="false" :isSelected="false">
+              <ROption v-for="option in searchedOptions" :text="option?.text" :isFocused="false" :isSelected="false">
                 <slot name="option" v-bind="option?.context"></slot>
               </ROption>
             </div>
+          </template>
+          <template v-else-if="search">
+            <div>No results for {{ search }}</div>
           </template>
           <template v-else>
             <div>No Items Available</div>
@@ -103,6 +106,7 @@ export interface Props {
   getValue?: (option: Option) => string | number;
   getGroupOptions?: (group: OptionGroup) => Option[];
   getGroupTitle?: (group: OptionGroup) => string | number | undefined | null;
+  customSearch?: (search?: string, option: Option) => {};
   creatable?: boolean;
   focusable?: boolean;
   deselectable?: boolean;
@@ -222,12 +226,40 @@ const localOptions = computed(() => {
   return props.options?.map((option) => generateLocalOption(option));
 });
 
+const searchedGroups = computed(() => {
+  return localGroupOptions.value
+    ?.map((localGroup) => {
+      return {
+        ...localGroup,
+        options: localGroup.options.filter((option) => {
+          return !!searchedFlatOptions.value?.find((searched) => searched.value == option.value);
+        }),
+      };
+    })
+    .filter(({ options }) => options.length);
+});
+
+const searchedOptions = computed(() => {
+  return localOptions.value?.filter(({ value }) => {
+    return !!searchedFlatOptions.value?.find((searched) => searched.value == value);
+  });
+});
+
 const flatOptions = computed(() => {
   // flat groups
   if (localGroupOptions.value) {
     return localGroupOptions.value?.flatMap((item) => item.options);
   }
+  // or return options
   return localOptions.value;
+});
+
+const searchedFlatOptions = computed(() => {
+  return flatOptions.value?.filter(({ text, context }) => {
+    if (!search.value) return true;
+    if (props.customSearch) return props.customSearch(search.value, context);
+    return text ? `${text}`.toLowerCase().includes(search.value.toLowerCase()) : true;
+  });
 });
 
 // EVENTS

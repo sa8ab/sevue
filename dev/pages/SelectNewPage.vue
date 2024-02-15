@@ -16,6 +16,7 @@
         :getGroupOptions="(group) => group.users"
         :getGroupTitle="(group) => group.role"
         :getText="(option) => option.name"
+        searchable
       >
       </RSelectNew>
       <RSelectNew label="Grouped Select" :options="[]"> </RSelectNew>
