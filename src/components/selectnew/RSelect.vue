@@ -6,7 +6,13 @@
       <template #hint> <slot name="hint"></slot> </template>
     </FieldLabel>
 
-    <InputContainer :disabled="disabled" :focused="state.focused" @pointerdown="handlePointerDown" @click="handleClick">
+    <InputContainer
+      :disabled="disabled"
+      :focused="state.focused"
+      @pointerdown="handlePointerDown"
+      @click="handleClick"
+      ref="containerRef"
+    >
       <div class="r-selectnew-display">
         <input
           class="r-selectnew-input"
@@ -24,7 +30,11 @@
         <SevueIcon name="chevron-down" width="24px" height="24px" />
       </div>
     </InputContainer>
-    <pre>{{ active }}</pre>
+    <Transition name="fade-move">
+      <div class="r-selectnew-dropdown" ref="dropdownRef" v-if="active" :style="floatingStyles">
+        <div class="r-selectnew-dropdown-inner">Dropdown Element</div>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -33,6 +43,7 @@ import { reactive, ref, toRef, computed } from "vue";
 import FieldLabel from "../internal/FieldLabel.vue";
 import InputContainer from "../internal/InputContainer.vue";
 import SevueIcon from "@/components/icons/SevueIcon.vue";
+import { useFloating, autoUpdate, flip, offset, size } from "@floating-ui/vue";
 
 import useColor from "@/composables/useColor";
 
@@ -82,6 +93,8 @@ const search = defineModel<string | undefined>("search", {
 });
 
 const toggleIconRef = ref<HTMLDivElement>();
+const containerRef = ref<HTMLDivElement>();
+const dropdownRef = ref<HTMLDivElement>();
 
 // INPUT
 const inputRef = ref<HTMLInputElement>();
@@ -97,6 +110,27 @@ const inputReadonly = computed(() => !props.searchable);
 const focus = () => {
   inputRef.value?.focus();
 };
+
+// POSITIONING
+const middleware = ref([
+  offset(4),
+  flip({
+    crossAxis: false,
+  }),
+  size({
+    apply: ({ rects, elements }) => {
+      Object.assign(elements.floating.style, {
+        width: `${rects.reference.width}px`,
+      });
+    },
+  }),
+]);
+const { floatingStyles, isPositioned } = useFloating(containerRef, dropdownRef, {
+  placement: "bottom",
+  whileElementsMounted: autoUpdate,
+  open: active,
+  middleware,
+});
 
 // ACTIVE/DEACTIVE
 const toggleActive = () => (active.value = !active.value);
@@ -220,18 +254,18 @@ const handleKeydown = (e: KeyboardEvent) => {
 .fade-move {
   &-enter-active,
   &-leave-active {
-    .r-select-dropdown {
-      transition: all calc(var(--r-duration) / 1.5);
+    --duration: calc(var(--r-duration) / 1.5);
+    transition-duration: var(--duration);
+    .r-selectnew-dropdown-inner {
+      transition: opacity var(--duration), transform var(--duration);
     }
-
-    transition: opacity calc(var(--r-duration) / 1.5);
   }
 
   &-enter-from,
   &-leave-to {
-    .r-select-dropdown {
+    .r-selectnew-dropdown-inner {
       opacity: 0;
-      transform: translateY(4px);
+      transform: translateY(8px);
     }
   }
 }

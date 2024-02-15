@@ -27,6 +27,7 @@
     }
   },
   "dependencies": {
+    "@floating-ui/vue": "^1.0.6",
     "@popperjs/core": "^2.11.6",
     "vue": "^3.4.19"
   },
