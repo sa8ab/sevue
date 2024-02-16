@@ -387,6 +387,14 @@ const select = (value: BaseModelValue) => {
   afterSelectHook();
 };
 
+const removeLastValue = () => {
+  if (!props.modelValue) return;
+  if (!Array.isArray(props.modelValue)) return;
+  if (!props.modelValue.length) return;
+
+  select(props.modelValue[props.modelValue.length - 1]);
+};
+
 const afterSelectHook = () => {
   if (props.closeAfterSelection) {
     close();
@@ -560,6 +568,12 @@ const handleEsc = () => {
 
 const handleKeydown = (e: KeyboardEvent) => {
   const key = e.key;
+
+  if (key === "Backspace") {
+    if (!search.value) {
+      removeLastValue();
+    }
+  }
 
   if (key === "Enter") {
     handleEnter();
