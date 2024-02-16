@@ -538,7 +538,11 @@ const handleKeydown = (e: KeyboardEvent) => {
 
   if (key === "ArrowDown") {
     e.preventDefault();
-    focusNextOption();
+    if (!active.value) {
+      activate();
+    } else {
+      focusNextOption();
+    }
   }
 };
 
