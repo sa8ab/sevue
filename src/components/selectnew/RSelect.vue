@@ -51,6 +51,15 @@
       </div>
     </InputContainer>
 
+    <div class="r-selectnew-selected-tags" v-if="showTags && Array.isArray(liveSelected)">
+      <div class="r-selectnew-selected-tag" v-for="item in liveSelected">
+        <span>
+          {{ item?.text }}
+        </span>
+        <SevueIcon name="close" size="18px" />
+      </div>
+    </div>
+
     <HeightTransition>
       <FieldMessage :message="message" v-if="message || $slots.message">
         <slot name="message" />
@@ -79,7 +88,7 @@
                 <RSelectGroup v-for="group in searchedGroups" :title="group.title">
                   <slot
                     name="option-content"
-                    v-for="option in searchedOptions"
+                    v-for="option in group.options"
                     :option="option.context"
                     v-bind="generateOptionAttrs(option)"
                   >
@@ -91,7 +100,6 @@
               </template>
               <template v-else-if="searchedOptions?.length">
                 <div class="r-selectnew-options-list">
-                  <!-- Allow rendering whole option #optionContainer -->
                   <slot
                     name="option-content"
                     v-for="option in searchedOptions"
@@ -167,6 +175,7 @@ export interface Props {
   dropdownClass?: string;
   teleportDisabled?: boolean;
   teleport?: string;
+  showTags?: boolean;
 
   // options
   options?: Option[];
@@ -188,6 +197,7 @@ const props = withDefaults(defineProps<Props>(), {
   closeAfterSelection: true,
   showDropdownOnEmptySearch: true,
   teleport: "body",
+  showTags: true,
   getText: (option: any) => option.title,
   getValue: (option: any) => option.id,
 });
@@ -602,6 +612,31 @@ const emitSearch = () => {
     padding: 0 var(--r-normal-padding-y);
     align-items: center;
     height: var(--r-element-default-height);
+  }
+
+  &-selected-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--r-space-1);
+    margin-top: var(--r-space-1);
+  }
+  &-selected-tag {
+    user-select: none;
+    max-width: 180px;
+    font-size: var(--r-font-xsmall);
+    background-color: color(b2);
+    padding: 2px 4px;
+    box-shadow: generateBoxShadow(1px, border-color, var(--r-border-alpha));
+    border-radius: var(--r-radius);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    span {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   &-display {
