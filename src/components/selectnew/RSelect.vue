@@ -86,11 +86,11 @@
                 </div>
               </template>
               <div class="r-selectnew-empty" v-else-if="search">
-                <slot name="optionEmpty" :search="search">
+                <slot name="option-empty" :search="search">
                   <span>"{{ search }}" Not found</span>
                 </slot>
               </div>
-              <div class="r-selectnew-empty">
+              <div class="r-selectnew-empty" v-else>
                 <slot name="empty">
                   <span>No Options</span>
                 </slot>
