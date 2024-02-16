@@ -436,14 +436,6 @@ const focusPrevOption = () => {
   }
 };
 
-// :text="option?.text"
-// :isFocused="getIsFocusedOption(option.value)"
-// :isSelected="getIsSelected(option.value)"
-// :isLastActive="getIsLastActive(option.value)"
-// :color="color"
-// @click="select(option.value)"
-// @mouseover="handleOptionMouseover"
-
 const generateOptionAttrs = (option: LocalOption) => {
   return {
     text: option.text,
