@@ -37,6 +37,11 @@
           <div class="r-selectnew-placeholder" v-else-if="placeholder">{{ placeholder }}</div>
         </template>
       </div>
+      <div class="r-selectnew-loading" v-if="loading">
+        <slot name="loading">
+          <LoadingSpinner width="24" />
+        </slot>
+      </div>
       <div class="r-selectnew-toggle-icon-container" ref="toggleIconRef">
         <slot name="toggleIcon" :active="active">
           <div :class="['r-selectnew-toggle-icon', { 'r-selectnew-toggle-icon_rotate': active }]">
@@ -114,6 +119,7 @@ import ROption from "./ROption.vue";
 import RSelectGroup from "./RSelectGroup.vue";
 import HeightTransition from "../HeightTransition.vue";
 import FieldMessage from "../internal/FieldMessage.vue";
+import LoadingSpinner from "../LoadingSpinner.vue";
 import { useFloating, autoUpdate, flip, offset, size, shift } from "@floating-ui/vue";
 
 import useColor from "@/composables/useColor";

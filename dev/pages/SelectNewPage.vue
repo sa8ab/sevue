@@ -41,6 +41,10 @@
           <div>Custom display label</div>
         </template>
       </RSelectNew>
+      <div>
+        <RSelectNew label="Loading Select" :options="users" :getText="(v) => v.name" :loading="loading"> </RSelectNew>
+        <RButton @click="loading = !loading">Load</RButton>
+      </div>
     </div>
   </div>
 </template>
@@ -54,6 +58,8 @@ const model1 = ref(undefined);
 const model2 = ref(undefined);
 const model3 = ref(undefined);
 const model4 = ref("46");
+
+const loading = ref(true);
 </script>
 
 <style lang="scss" scoped>
