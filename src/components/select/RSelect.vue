@@ -263,6 +263,7 @@ const handleInputBlur = (e: FocusEvent) => {
 
   // close
   state.focused = false;
+  search.value = undefined;
   close();
 };
 
