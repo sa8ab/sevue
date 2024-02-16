@@ -562,8 +562,12 @@ const handleEnter = () => {
   }
 };
 
-const handleEsc = () => {
-  if (active.value) close();
+const handleEsc = (e: KeyboardEvent) => {
+  if (active.value) {
+    // if is open, close and mute the event from parent
+    e.stopPropagation();
+    close();
+  }
 };
 
 const handleKeydown = (e: KeyboardEvent) => {
@@ -576,6 +580,7 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 
   if (key === "Enter") {
+    e.stopPropagation();
     handleEnter();
   }
 
@@ -584,7 +589,7 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 
   if (key === "Escape") {
-    handleEsc();
+    handleEsc(e);
   }
 
   if (key === "ArrowUp") {
