@@ -2,6 +2,7 @@
   <div
     :class="['r-selectnew', { 'r-selectnew_disabled': disabled, 'r-selectnew_error': hasErrors || slots.errorMessage }]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
+    tabindex="-1"
   >
     <!-- Label and Hint -->
     <FieldLabel :label="label" :hint="hint" :labelFor="id" v-if="label || hint || $slots.hint || $slots.label">
@@ -530,7 +531,7 @@ const generateOptionAttrs = (option: LocalOption) => {
 const handlePointerDown = (e: PointerEvent) => {
   const target = e.target as HTMLElement;
 
-  if (target.closest("input, button, a")) return;
+  if (target.closest("input, button, a, [tabindex]")) return;
   requestAnimationFrame(() => {
     focus();
   });

@@ -2,6 +2,13 @@
   <div>
     <div style="height: 200px"></div>
     <div class="grid-4">
+      <RInput>
+        <template #after>
+          <RSelect></RSelect>
+        </template>
+      </RInput>
+    </div>
+    <div class="grid-4">
       <RSelect
         label="New Select"
         hint="Up to 4 items"

@@ -114,7 +114,7 @@ const handleBlur = () => {
 const handlePointerDown = (e: PointerEvent) => {
   const target = e.target as HTMLElement;
 
-  if (target.closest("input, button, a")) return;
+  if (target.closest("input, button, a, [tabindex]")) return;
 
   requestAnimationFrame(() => {
     focus();
