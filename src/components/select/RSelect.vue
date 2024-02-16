@@ -736,9 +736,11 @@ const emitSearch = () => {
 }
 
 .r-selectnew-dropdown {
+  z-index: 100;
   &-inner {
     background-color: color(b2);
     border-radius: var(--r-radius);
+    box-shadow: 0 6px 12px color(shadow-color, var(--r-shadow-alpha)), generateBoxShadow(1px, border-color, 0.1);
   }
   &-scroll-area {
     padding: 4px;
@@ -752,7 +754,8 @@ const emitSearch = () => {
   &-enter-active,
   &-leave-active {
     --duration: calc(var(--r-duration) / 1.5);
-    transition-duration: var(--duration);
+    // dummy property to transition to apply transition on child item
+    transition: opacity var(--duration);
     .r-selectnew-dropdown-inner {
       transition: opacity var(--duration), transform var(--duration);
     }

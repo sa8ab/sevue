@@ -2,7 +2,7 @@
   <div>
     <div style="height: 200px"></div>
     <div class="grid-4">
-      <RSelectNew
+      <RSelect
         label="New Select"
         hint="Up to 4 items"
         searchable
@@ -14,8 +14,8 @@
         <template #option="{ option }">
           <span> #{{ option.id }} {{ option.name }}</span>
         </template>
-      </RSelectNew>
-      <RSelectNew
+      </RSelect>
+      <RSelect
         label="Grouped Select"
         :groupedOptions="groupedUsers"
         :getGroupOptions="(group) => group.users"
@@ -27,7 +27,7 @@
         placeholder="Select Options"
         :closeAfterSelection="false"
       />
-      <RSelectNew
+      <RSelect
         label="Multiple Select"
         :options="users"
         :getText="(o) => o.name"
@@ -39,36 +39,34 @@
         <template #displayLabel>
           <div>{{ model3.length }} Selected</div>
         </template>
-      </RSelectNew>
-      <RSelectNew label="Grouped Select" placeholder="Select Options"> </RSelectNew>
-      <RSelectNew label="Custom Option Wrapper" :options="users" :getText="(v) => v.name" v-model="model4">
-      </RSelectNew>
-      <RSelectNew label="Disabled Select" disabled :options="users" :getText="(v) => v.name" v-model="model4">
-      </RSelectNew>
-      <RSelectNew color="red" label="Colored" :options="users" :getText="(v) => v.name" v-model="model4"> </RSelectNew>
-      <RSelectNew label="Error" :options="users" :getText="(v) => v.name" v-model="model4" message="Select your status">
-      </RSelectNew>
-      <RSelectNew label="Display Label" :options="users" :getText="(v) => v.name" v-model="model4">
+      </RSelect>
+      <RSelect label="Grouped Select" placeholder="Select Options"> </RSelect>
+      <RSelect label="Custom Option Wrapper" :options="users" :getText="(v) => v.name" v-model="model4"> </RSelect>
+      <RSelect label="Disabled Select" disabled :options="users" :getText="(v) => v.name" v-model="model4"> </RSelect>
+      <RSelect color="red" label="Colored" :options="users" :getText="(v) => v.name" v-model="model4"> </RSelect>
+      <RSelect label="Error" :options="users" :getText="(v) => v.name" v-model="model4" message="Select your status">
+      </RSelect>
+      <RSelect label="Display Label" :options="users" :getText="(v) => v.name" v-model="model4">
         <template #displayLabel>
           <div>Custom display label</div>
         </template>
-      </RSelectNew>
+      </RSelect>
       <div>
-        <RSelectNew label="Loading Select" :options="users" :getText="(v) => v.name" :loading="loading"> </RSelectNew>
+        <RSelect label="Loading Select" :options="users" :getText="(v) => v.name" :loading="loading"> </RSelect>
         <RButton @click="loading = !loading">Load</RButton>
       </div>
-      <RSelectNew label="Custom Option" :options="users" v-model="model4" :getText="(v) => v.name">
+      <RSelect label="Custom Option" :options="users" v-model="model4" :getText="(v) => v.name">
         <template #option-content="{ text, onClick }">
           <div class="custom-option" @click="onClick">234{{ text }}</div>
         </template>
-      </RSelectNew>
+      </RSelect>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { RSelectNew } from "../../src/main";
+import { RSelect } from "../../src/main";
 import { users, groupedUsers } from "../mock";
 
 const model1 = ref(undefined);

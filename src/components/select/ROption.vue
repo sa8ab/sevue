@@ -56,6 +56,7 @@ watch(
   cursor: pointer;
   transition: all var(--r-duration);
   border-radius: var(--r-radius);
+  font-size: var(--r-font-small);
 
   &_selected {
     color: color();
