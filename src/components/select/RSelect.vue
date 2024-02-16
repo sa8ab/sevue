@@ -2,7 +2,6 @@
   <div
     :class="['r-selectnew', { 'r-selectnew_disabled': disabled, 'r-selectnew_error': hasErrors || slots.errorMessage }]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
-    tabindex="-1"
   >
     <!-- Label and Hint -->
     <FieldLabel :label="label" :hint="hint" :labelFor="id" v-if="label || hint || $slots.hint || $slots.label">
@@ -16,7 +15,6 @@
       @pointerdown="handlePointerDown"
       @click="handleClick"
       ref="containerRef"
-      tabindex="-1"
     >
       <div class="r-selectnew-display">
         <input
@@ -531,7 +529,7 @@ const generateOptionAttrs = (option: LocalOption) => {
 const handlePointerDown = (e: PointerEvent) => {
   const target = e.target as HTMLElement;
 
-  if (target.closest("input, button, a, [tabindex]")) return;
+  if (target.closest("input, button, a")) return;
   requestAnimationFrame(() => {
     focus();
   });

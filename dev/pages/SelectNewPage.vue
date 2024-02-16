@@ -2,7 +2,7 @@
   <div>
     <div style="height: 200px"></div>
     <div class="grid-4">
-      <RInput>
+      <RInput skipFocusOn=".r-selectnew">
         <template #after>
           <RSelect></RSelect>
         </template>

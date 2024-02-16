@@ -68,6 +68,9 @@ export interface Props {
   // add hint
   hint?: string | number | null;
 
+  // When mousedown. skip focus when facing these items ( html selectors )
+  skipFocusOn?: string;
+
   // add variant solid/transparent/default
 }
 
@@ -102,8 +105,6 @@ const focus = () => {
 };
 
 const handleFocus = () => {
-  console.log("handle focus");
-
   state.focused = true;
 };
 
@@ -114,7 +115,9 @@ const handleBlur = () => {
 const handlePointerDown = (e: PointerEvent) => {
   const target = e.target as HTMLElement;
 
-  if (target.closest("input, button, a, [tabindex]")) return;
+  const skippers = props.skipFocusOn ? `, ${props.skipFocusOn}` : "";
+
+  if (target.closest(`input, button, a ${skippers}`)) return;
 
   requestAnimationFrame(() => {
     focus();
