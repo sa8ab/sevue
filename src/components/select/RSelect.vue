@@ -217,6 +217,8 @@ const emit = defineEmits<{
   search: [string | undefined];
   blur: [FocusEvent];
   focus: [FocusEvent];
+  open: [];
+  close: [];
 }>();
 
 const { color } = useColor(toRef(props, "color"));
@@ -309,11 +311,13 @@ const toggleActive = () => (active.value = !active.value);
 const activate = () => {
   if (props.disabled) return;
   active.value = true;
+  emitOpen();
 };
 
 const close = () => {
   active.value = false;
   state.focusedOption = undefined;
+  emitClose();
 };
 
 // OPTIONS
@@ -642,13 +646,17 @@ const emitUpdateModelValue = (value: BaseModelValue | BaseModelValue[]) => {
 const emitSearch = () => {
   emit("search", search.value);
 };
-
 const emitBlur = (e: FocusEvent) => {
   emit("blur", e);
 };
-
 const emitFocus = (e: FocusEvent) => {
   emit("focus", e);
+};
+const emitOpen = () => {
+  emit("open");
+};
+const emitClose = () => {
+  emit("close");
 };
 </script>
 
