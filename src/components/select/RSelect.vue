@@ -23,9 +23,10 @@
           type="text"
           ref="inputRef"
           v-model="search"
-          @input="handleInput"
           :readonly="inputReadonly"
           :disabled="disabled"
+          :tabindex="focusable ? undefined : '-1'"
+          @input="handleInput"
           @focus="handleInputFocus"
           @blur="handleInputBlur"
           @keydown="handleKeydown"
@@ -205,6 +206,7 @@ const props = withDefaults(defineProps<Props>(), {
   showDropdownOnEmptySearch: true,
   teleport: "body",
   showTags: true,
+  focusable: true,
   getText: (option: any) => option.title,
   getValue: (option: any) => option.id,
 });
@@ -213,6 +215,7 @@ const emit = defineEmits<{
   "update:modelValue": [BaseModelValue | BaseModelValue[]];
   change: [BaseModelValue | BaseModelValue[]];
   search: [string | undefined];
+  blur: [FocusEvent];
 }>();
 
 const { color } = useColor(toRef(props, "color"));
