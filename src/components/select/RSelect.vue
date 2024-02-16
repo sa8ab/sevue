@@ -588,6 +588,7 @@ const handleKeydown = (e: KeyboardEvent) => {
 
   if (key === "Enter") {
     e.stopPropagation();
+    e.preventDefault();
     handleEnter();
   }
 
