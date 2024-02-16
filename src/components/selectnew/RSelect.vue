@@ -31,8 +31,10 @@
           @keydown="handleKeydown"
         />
         <template v-if="!search">
-          <div class="r-selectnew-placeholder" v-if="!renderDisplayLabel">{{ placeholder }}</div>
-          <div class="r-selectnew-display-label" v-else>{{ renderDisplayLabel }}</div>
+          <div class="r-selectnew-display-label" v-if="renderDisplayLabel">
+            <slot name="displayLabel" :displayLabel="renderDisplayLabel">{{ renderDisplayLabel }}</slot>
+          </div>
+          <div class="r-selectnew-placeholder" v-else-if="placeholder">{{ placeholder }}</div>
         </template>
       </div>
       <div class="r-selectnew-toggle-icon-container" ref="toggleIconRef">

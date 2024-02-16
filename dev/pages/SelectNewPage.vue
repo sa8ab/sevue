@@ -8,7 +8,6 @@
         searchable
         :options="users"
         :getText="(option) => option.name"
-        placeholder="Select Options"
         v-model="model1"
         :resetSearchAfterSelection="false"
       >
@@ -36,6 +35,11 @@
       </RSelectNew>
       <RSelectNew color="red" label="Colored" :options="users" :getText="(v) => v.name" v-model="model4"> </RSelectNew>
       <RSelectNew label="Error" :options="users" :getText="(v) => v.name" v-model="model4" message="Select your status">
+      </RSelectNew>
+      <RSelectNew label="Display Label" :options="users" :getText="(v) => v.name" v-model="model4">
+        <template #displayLabel>
+          <div>Custom display label</div>
+        </template>
       </RSelectNew>
     </div>
   </div>
