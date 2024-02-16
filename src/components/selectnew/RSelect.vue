@@ -66,34 +66,16 @@
               <slot name="before-options"></slot>
               <template v-if="searchedGroups?.length">
                 <RSelectGroup v-for="group in searchedGroups" :title="group.title">
-                  <ROption
-                    v-for="option in group.options"
-                    :text="option?.text"
-                    :isFocused="getIsFocusedOption(option.value)"
-                    :isSelected="getIsSelected(option.value)"
-                    :isLastActive="getIsLastActive(option.value)"
-                    :color="color"
-                    @click="select(option.value)"
-                    @mouseover="handleOptionMouseover"
-                  >
-                    <slot name="option" v-bind="option?.context"></slot>
+                  <ROption v-for="option in group.options" v-bind="generateOptionAttrs(option)">
+                    <slot name="option" :option="option.context" :isSelected="getIsSelected(option.value)"></slot>
                   </ROption>
                 </RSelectGroup>
               </template>
               <template v-else-if="searchedOptions?.length">
                 <div class="r-selectnew-options-list">
                   <!-- Allow rendering whole option #optionContainer -->
-                  <ROption
-                    v-for="option in searchedOptions"
-                    :text="option?.text"
-                    :isFocused="getIsFocusedOption(option.value)"
-                    :isSelected="getIsSelected(option.value)"
-                    :isLastActive="getIsLastActive(option.value)"
-                    :color="color"
-                    @click="select(option.value)"
-                    @mouseover="handleOptionMouseover"
-                  >
-                    <slot name="option" v-bind="option?.context"></slot>
+                  <ROption v-for="option in searchedOptions" v-bind="generateOptionAttrs(option)">
+                    <slot name="option" :option="option.context" :isSelected="getIsSelected(option.value)"></slot>
                   </ROption>
                 </div>
               </template>
@@ -452,6 +434,26 @@ const focusPrevOption = () => {
   if (previous) {
     setFocusedOption(previous.value);
   }
+};
+
+// :text="option?.text"
+// :isFocused="getIsFocusedOption(option.value)"
+// :isSelected="getIsSelected(option.value)"
+// :isLastActive="getIsLastActive(option.value)"
+// :color="color"
+// @click="select(option.value)"
+// @mouseover="handleOptionMouseover"
+
+const generateOptionAttrs = (option: LocalOption) => {
+  return {
+    text: option.text,
+    isFocused: getIsFocusedOption(option.value),
+    isSelected: getIsSelected(option.value),
+    isLastActive: getIsLastActive(option.value),
+    color: props.color,
+    onClick: () => select(option.value),
+    onMouseover: () => handleOptionMouseover(),
+  };
 };
 
 // EVENTS
