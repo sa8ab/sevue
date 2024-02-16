@@ -1,5 +1,5 @@
 <template>
-  <div class="r-selectnew" :style="{ '--r-color': color || 'var(--r-prm)' }">
+  <div :class="['r-selectnew', { 'r-selectnew_disabled': disabled }]" :style="{ '--r-color': color || 'var(--r-prm)' }">
     <!-- Label and Hint -->
     <FieldLabel :label="label" :hint="hint" :labelFor="id">
       <slot name="label"></slot>
@@ -22,6 +22,7 @@
           v-model="search"
           @input="handleInput"
           :readonly="inputReadonly"
+          :disabled="disabled"
           @focus="handleInputFocus"
           @blur="handleInputBlur"
           @keydown="handleKeydown"
@@ -35,64 +36,66 @@
         <SevueIcon name="chevron-down" width="24px" height="24px" />
       </div>
     </InputContainer>
-    <Transition name="fade-move">
-      <div
-        class="r-selectnew-dropdown"
-        ref="dropdownRef"
-        v-if="active"
-        :style="floatingStyles"
-        tabindex="-1"
-        @mousedown="handleDropdownMousedown"
-      >
-        <div class="r-selectnew-dropdown-inner">
-          <slot name="r-selectnew-dropdown-header"></slot>
-          <div class="r-selectnew-dropdown-scroll-area">
-            <slot name="before-options"></slot>
-            <template v-if="searchedGroups?.length">
-              <RSelectGroup v-for="group in searchedGroups" :title="group.title">
-                <ROption
-                  v-for="option in group.options"
-                  :text="option?.text"
-                  :isFocused="getIsFocusedOption(option.value)"
-                  :isSelected="getIsSelected(option.value)"
-                  :isLastActive="getIsLastActive(option.value)"
-                  :color="color"
-                  @click="select(option.value)"
-                  @mouseover="handleOptionMouseover"
-                >
-                  <slot name="option" v-bind="option?.context"></slot>
-                </ROption>
-              </RSelectGroup>
-            </template>
-            <template v-else-if="searchedOptions?.length">
-              <div class="r-selectnew-options-list">
-                <!-- Allow rendering whole option #optionContainer -->
-                <ROption
-                  v-for="option in searchedOptions"
-                  :text="option?.text"
-                  :isFocused="getIsFocusedOption(option.value)"
-                  :isSelected="getIsSelected(option.value)"
-                  :isLastActive="getIsLastActive(option.value)"
-                  :color="color"
-                  @click="select(option.value)"
-                  @mouseover="handleOptionMouseover"
-                >
-                  <slot name="option" v-bind="option?.context"></slot>
-                </ROption>
-              </div>
-            </template>
-            <template v-else-if="search">
-              <div>No results for "{{ search }}"</div>
-            </template>
-            <template v-else>
-              <div>No Items Available</div>
-            </template>
-            <slot name="after-options"></slot>
+    <Teleport to="body">
+      <Transition name="fade-move">
+        <div
+          class="r-selectnew-dropdown"
+          ref="dropdownRef"
+          v-if="active"
+          :style="floatingStyles"
+          tabindex="-1"
+          @mousedown="handleDropdownMousedown"
+        >
+          <div class="r-selectnew-dropdown-inner">
+            <slot name="r-selectnew-dropdown-header"></slot>
+            <div class="r-selectnew-dropdown-scroll-area">
+              <slot name="before-options"></slot>
+              <template v-if="searchedGroups?.length">
+                <RSelectGroup v-for="group in searchedGroups" :title="group.title">
+                  <ROption
+                    v-for="option in group.options"
+                    :text="option?.text"
+                    :isFocused="getIsFocusedOption(option.value)"
+                    :isSelected="getIsSelected(option.value)"
+                    :isLastActive="getIsLastActive(option.value)"
+                    :color="color"
+                    @click="select(option.value)"
+                    @mouseover="handleOptionMouseover"
+                  >
+                    <slot name="option" v-bind="option?.context"></slot>
+                  </ROption>
+                </RSelectGroup>
+              </template>
+              <template v-else-if="searchedOptions?.length">
+                <div class="r-selectnew-options-list">
+                  <!-- Allow rendering whole option #optionContainer -->
+                  <ROption
+                    v-for="option in searchedOptions"
+                    :text="option?.text"
+                    :isFocused="getIsFocusedOption(option.value)"
+                    :isSelected="getIsSelected(option.value)"
+                    :isLastActive="getIsLastActive(option.value)"
+                    :color="color"
+                    @click="select(option.value)"
+                    @mouseover="handleOptionMouseover"
+                  >
+                    <slot name="option" v-bind="option?.context"></slot>
+                  </ROption>
+                </div>
+              </template>
+              <template v-else-if="search">
+                <div>No results for "{{ search }}"</div>
+              </template>
+              <template v-else>
+                <div>No Items Available</div>
+              </template>
+              <slot name="after-options"></slot>
+            </div>
           </div>
+          <slot name="dropdown-footer"></slot>
         </div>
-        <slot name="dropdown-footer"></slot>
-      </div>
-    </Transition>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
@@ -248,6 +251,7 @@ const { floatingStyles } = useFloating(containerRef as any, dropdownRef, {
 const toggleActive = () => (active.value = !active.value);
 
 const activate = () => {
+  if (props.disabled) return;
   active.value = true;
 };
 
@@ -530,6 +534,9 @@ const emitSearch = () => {
 
 <style lang="scss">
 .r-selectnew {
+  &_disabled {
+    opacity: 0.76;
+  }
   &-input {
     border: none;
     background: transparent;
@@ -545,6 +552,7 @@ const emitSearch = () => {
     align-items: center;
     height: var(--r-element-default-height);
   }
+
   &-display {
     position: relative;
     flex: 1;

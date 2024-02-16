@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="height: 200px"></div>
-    <div class="center-it grid-4">
+    <div class="grid-4">
       <RSelectNew
         label="New Select"
         hint="Up to 4 items"
@@ -31,6 +31,8 @@
       </RSelectNew>
       <RSelectNew label="Grouped Select" placeholder="Select Options"> </RSelectNew>
       <RSelectNew label="Custom Option Wrapper" :options="users" :getText="(v) => v.name" v-model="model4">
+      </RSelectNew>
+      <RSelectNew label="Disabled Select" disabled :options="users" :getText="(v) => v.name" v-model="model4">
       </RSelectNew>
     </div>
   </div>
