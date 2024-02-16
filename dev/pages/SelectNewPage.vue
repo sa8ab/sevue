@@ -34,6 +34,13 @@
       </RSelectNew>
       <RSelectNew label="Disabled Select" disabled :options="users" :getText="(v) => v.name" v-model="model4">
       </RSelectNew>
+      <RSelectNew color="red" label="Colored" :options="users" :getText="(v) => v.name" v-model="model4"> </RSelectNew>
+      <RSelectNew label="Error" :options="users" :getText="(v) => v.name" v-model="model4">
+        <template #errorMessage v-if="errorMessage">
+          <div>some error</div>
+        </template>
+      </RSelectNew>
+      <RButton @click="errorMessage = !errorMessage">Toggle error</RButton>
     </div>
   </div>
 </template>
@@ -47,6 +54,8 @@ const model1 = ref(undefined);
 const model2 = ref(undefined);
 const model3 = ref(undefined);
 const model4 = ref("46");
+
+const errorMessage = ref(true);
 </script>
 
 <style lang="scss" scoped>

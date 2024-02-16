@@ -1,5 +1,8 @@
 <template>
-  <div :class="['r-selectnew', { 'r-selectnew_disabled': disabled }]" :style="{ '--r-color': color || 'var(--r-prm)' }">
+  <div
+    :class="['r-selectnew', { 'r-selectnew_disabled': disabled, 'r-selectnew_error': hasErrors || slots.errorMessage }]"
+    :style="{ '--r-color': color || 'var(--r-prm)' }"
+  >
     <!-- Label and Hint -->
     <FieldLabel :label="label" :hint="hint" :labelFor="id">
       <slot name="label"></slot>
@@ -36,6 +39,17 @@
         <SevueIcon name="chevron-down" width="24px" height="24px" />
       </div>
     </InputContainer>
+
+    <HeightTransition>
+      <FieldMessage :message="message" v-if="message || $slots.message">
+        <slot name="message" />
+      </FieldMessage>
+    </HeightTransition>
+    <HeightTransition>
+      <FieldMessage :message="errorMessage" v-if="errorMessage || $slots.errorMessage" error>
+        <slot name="errorMessage" />
+      </FieldMessage>
+    </HeightTransition>
     <Teleport to="body">
       <Transition name="fade-move">
         <div
@@ -100,12 +114,14 @@
 </template>
 
 <script setup lang="ts" generic="Option, OptionGroup">
-import { reactive, ref, toRef, computed } from "vue";
+import { reactive, ref, toRef, computed, useSlots, watch } from "vue";
 import FieldLabel from "../internal/FieldLabel.vue";
 import InputContainer from "../internal/InputContainer.vue";
 import SevueIcon from "@/components/icons/SevueIcon.vue";
 import ROption from "./ROption.vue";
 import RSelectGroup from "./RSelectGroup.vue";
+import HeightTransition from "../HeightTransition.vue";
+import FieldMessage from "../internal/FieldMessage.vue";
 import { useFloating, autoUpdate, flip, offset, size, shift } from "@floating-ui/vue";
 
 import useColor from "@/composables/useColor";
@@ -522,6 +538,12 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 };
 
+// STATES
+
+const slots = useSlots();
+
+const hasErrors = computed(() => !!props.error || !!props.errorMessage);
+
 // EMITS
 const emitUpdateModelValue = (value: BaseModelValue | BaseModelValue[]) => {
   emit("update:modelValue", value);
@@ -534,9 +556,6 @@ const emitSearch = () => {
 
 <style lang="scss">
 .r-selectnew {
-  &_disabled {
-    opacity: 0.76;
-  }
   &-input {
     border: none;
     background: transparent;
@@ -587,6 +606,16 @@ const emitSearch = () => {
     display: flex;
     flex-direction: column;
     gap: 2px;
+  }
+
+  &_disabled {
+    opacity: 0.76;
+  }
+
+  &_error {
+    --r-color: var(--r-red) !important;
+    --r-border-color: var(--r-red);
+    --r-border-alpha: 1;
   }
 }
 
