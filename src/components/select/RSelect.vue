@@ -1,75 +1,72 @@
 <template>
   <div
-    :class="['r-select', { 'r-select_focused': state.focused, 'r-select_disabled': disabled }]"
+    :class="['r-selectnew', { 'r-selectnew_disabled': disabled, 'r-selectnew_error': hasErrors || slots.errorMessage }]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
-    ref="selfRef"
   >
-    <FieldLabel :label="label" v-if="label || $slots.label" :error="error" :focused="state.focused">
+    <!-- Label and Hint -->
+    <FieldLabel :label="label" :hint="hint" :labelFor="id">
       <slot name="label"></slot>
+      <template #hint> <slot name="hint"></slot> </template>
     </FieldLabel>
-    <div
-      :class="['trigger']"
-      :tabindex="renderTriggerTabindex"
-      @focusin="onFocus"
-      @focusout="onBlur"
-      @click="onTriggerClick"
-      v-click-outside="clickOutside"
-      ref="triggerRef"
+
+    <InputContainer
+      :disabled="disabled"
+      :focused="state.focused"
+      @pointerdown="handlePointerDown"
+      @click="handleClick"
+      ref="containerRef"
+      tabindex="-1"
     >
-      <RInput
-        containerClass="r-input-container"
-        :class="['r-select_input', { noInput: !searchable, isAnyItemSelected }]"
-        v-model="state.search"
-        :placeholder="inputPlaceholder"
-        :readOnly="!searchable"
-        :disabled="disabled"
-        ref="rInput"
-        :error="error"
-        iconAfter
-        @keydown.tab="onKeydownTab"
-        @keyup.esc="close"
-        @keydown.arrow-down.stop.prevent="onArrowDown"
-        @keydown.arrow-up.stop.prevent="onArrowUp"
-        @keydown.enter.stop.prevent="onEnter"
-        @input="onInputChange"
-        tabindex="-1"
-        v-bind="inputProps"
-        labelTag="div"
+      <div class="r-selectnew-display">
+        <input
+          class="r-selectnew-input"
+          type="text"
+          ref="inputRef"
+          v-model="search"
+          @input="handleInput"
+          :readonly="inputReadonly"
+          :disabled="disabled"
+          @focus="handleInputFocus"
+          @blur="handleInputBlur"
+          @keydown="handleKeydown"
+        />
+        <template v-if="!search">
+          <div class="r-selectnew-display-label" v-if="renderDisplayLabel">
+            <slot name="displayLabel" :displayLabel="renderDisplayLabel">{{ renderDisplayLabel }}</slot>
+          </div>
+          <div class="r-selectnew-placeholder" v-else-if="placeholder">{{ placeholder }}</div>
+        </template>
+      </div>
+      <div class="r-selectnew-loading" v-if="loading">
+        <slot name="loading">
+          <LoadingSpinner width="24" />
+        </slot>
+      </div>
+      <div class="r-selectnew-toggle-icon-container" ref="toggleIconRef">
+        <slot name="toggleIcon" :active="active">
+          <div :class="['r-selectnew-toggle-icon', { 'r-selectnew-toggle-icon_rotate': active }]">
+            <SevueIcon name="chevron-down" size="24px" />
+          </div>
+        </slot>
+      </div>
+    </InputContainer>
+
+    <div class="r-selectnew-selected-tags" v-if="showTags && Array.isArray(liveSelected)">
+      <slot
+        name="selected-tag"
+        v-for="item in liveSelected"
+        :option="item?.context"
+        :remove="() => handleSelectedTagClick(item?.value)"
       >
-        <template #after>
-          <slot name="loadingSpinner" :loading="loading">
-            <div class="loading-container" v-if="loading">
-              <LoadingSpinner width="24" />
-            </div>
-          </slot>
-          <slot name="toggleIcon" :toggleOpen="toggleOpen" :active="state.active" :loading="loading">
-            <span
-              :class="['r-select_dropdown-icon', { rotate: state.active }]"
-              v-ripple
-              v-if="!loading && !noDropdown"
-              @click="onToggleClick"
-            >
-              <SevueIcon name="chevron-down" />
-            </span>
-          </slot>
-        </template>
-        <template #before>
-          <slot name="before" />
-        </template>
-        <template #icon>
-          <slot name="inputIcon" />
-        </template>
-      </RInput>
+        <div class="r-selectnew-selected-tag" @click="handleSelectedTagClick(item?.value)">
+          <span>
+            {{ item?.text }}
+          </span>
+          <SevueIcon name="close" size="18px" />
+        </div>
+      </slot>
     </div>
-    <SelectedItems
-      :items="state.selectedItems"
-      v-if="Array.isArray(state.selectedItems)"
-      @itemClick="onSelectedItemClick"
-    >
-      <template #default="slotProps">
-        <slot name="selectedItem" v-bind="slotProps"></slot>
-      </template>
-    </SelectedItems>
+
     <HeightTransition>
       <FieldMessage :message="message" v-if="message || $slots.message">
         <slot name="message" />
@@ -80,687 +77,691 @@
         <slot name="errorMessage" />
       </FieldMessage>
     </HeightTransition>
-
     <Teleport :to="teleport" :disabled="teleportDisabled">
-      <Transition name="fade-move" @after-leave="onAfterLeave" @beforeEnter="onBeforeEnter">
+      <Transition name="fade-move">
         <div
-          v-if="state.active"
-          :class="['r-select-dropdown-container', dropdownClass]"
-          ref="dropdown"
+          :class="['r-selectnew-dropdown', dropdownClass]"
+          ref="dropdownRef"
+          v-if="active"
+          :style="floatingStyles"
           tabindex="-1"
-          @mousedown="onDropdownMousedown"
+          @mousedown="handleDropdownMousedown"
         >
-          <div class="r-select-dropdown" @scroll="onDropdownScroll">
-            <div class="noOptions" v-if="noOptions && !canCreateOption">
-              <slot name="noItems" class="noOptions"> No Options Available </slot>
+          <div class="r-selectnew-dropdown-inner">
+            <slot name="dropdown-header"></slot>
+            <div class="r-selectnew-dropdown-scroll-area">
+              <slot name="before-options"></slot>
+              <template v-if="searchedGroups?.length">
+                <RSelectGroup v-for="group in searchedGroups" :title="group.title">
+                  <slot
+                    name="option-content"
+                    v-for="option in group.options"
+                    :option="option.context"
+                    v-bind="generateOptionAttrs(option)"
+                  >
+                    <ROption v-bind="generateOptionAttrs(option)">
+                      <slot name="option" :option="option.context" :isSelected="getIsSelected(option.value)"></slot>
+                    </ROption>
+                  </slot>
+                </RSelectGroup>
+              </template>
+              <template v-else-if="searchedOptions?.length">
+                <div class="r-selectnew-options-list">
+                  <slot
+                    name="option-content"
+                    v-for="option in searchedOptions"
+                    :option="option.context"
+                    v-bind="generateOptionAttrs(option)"
+                  >
+                    <ROption v-bind="generateOptionAttrs(option)">
+                      <slot name="option" :option="option.context" :isSelected="getIsSelected(option.value)"></slot>
+                    </ROption>
+                  </slot>
+                </div>
+              </template>
+              <div class="r-selectnew-empty" v-else-if="search">
+                <slot name="option-empty" :search="search">
+                  <span>"{{ search }}" Not found</span>
+                </slot>
+              </div>
+              <div class="r-selectnew-empty" v-else>
+                <slot name="empty">
+                  <span>No Options</span>
+                </slot>
+              </div>
+              <slot name="after-options"></slot>
             </div>
-            <slot
-              v-if="canCreateOption && state.search"
-              name="newOption"
-              :addNewOption="onEnter"
-              :search="state.search"
-            >
-              <div class="new-option" @click="onEnter">{{ state.search }}</div>
-              <div class="new-option-separator"></div>
-            </slot>
-            <slot name="dropdownBefore" />
-            <slot :optimizedItems="optimizedItems" />
-            <slot name="dropdownAfter" />
           </div>
+          <slot name="dropdown-footer"></slot>
         </div>
       </Transition>
     </Teleport>
   </div>
 </template>
 
-<script setup lang="ts">
-// TODO:
-// find next focusable item in performant way
-// Ability to pass custom dropdown
-
-import { createPopper, type Instance, type Modifier, type Options as PopperOptions } from "@popperjs/core";
-import { isArray } from "@vue/shared";
-import { rSelectKey } from "@/injectionKeys";
-import {
-  nextTick,
-  computed,
-  onBeforeUnmount,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-  toRef,
-  useSlots,
-  watch,
-  type VNode,
-} from "vue";
-import useColor from "@/composables/useColor";
-import SelectedItems from "./SelectedItems.vue";
-import FieldMessage from "../internal/FieldMessage.vue";
+<script setup lang="ts" generic="Option, OptionGroup">
+import { reactive, ref, toRef, computed, useSlots, watch } from "vue";
 import FieldLabel from "../internal/FieldLabel.vue";
-import HeightTransition from "../HeightTransition.vue";
-import LoadingSpinner from "../LoadingSpinner.vue";
-import { uniqueArray } from "@/utils";
+import InputContainer from "../internal/InputContainer.vue";
 import SevueIcon from "@/components/icons/SevueIcon.vue";
-import type { Props as Option } from "./ROption.vue";
+import ROption from "./ROption.vue";
+import RSelectGroup from "./RSelectGroup.vue";
+import HeightTransition from "../HeightTransition.vue";
+import FieldMessage from "../internal/FieldMessage.vue";
+import LoadingSpinner from "../LoadingSpinner.vue";
+import { useFloating, autoUpdate, flip, offset, size, shift } from "@floating-ui/vue";
 
-export type Props = {
-  searchable?: boolean;
+import useColor from "@/composables/useColor";
+
+type BaseModelValue = string | number | undefined | null;
+
+type LocalOption = {
+  text?: string | number | null;
+  value?: BaseModelValue;
+  disabled?: boolean;
+  context: Option;
+};
+
+export interface Props {
+  modelValue?: BaseModelValue | BaseModelValue[];
   multiple?: boolean;
-  modelValue?: Array<number | string | null | undefined> | number | string | null;
+  searchable?: boolean;
   placeholder?: string;
   disabled?: boolean;
   label?: string;
-  keepOpenAfterSelection?: boolean;
+  closeAfterSelection?: boolean;
+  resetSearchAfterSelection?: boolean;
   color?: string;
   error?: boolean;
   errorMessage?: string | boolean | null;
   message?: string;
-  inputProps?: any;
-  noDropdown?: boolean;
-  noDropdownOnEmptySearch?: boolean;
+  hint?: string;
+  id?: string;
+  showDropdownOnEmptySearch?: boolean;
   loading?: boolean;
-  items?: Array<any>;
-  itemsKey?: string;
-  groupIdentifier?: string;
-  paginationOffset?: number;
-  perPage?: number;
-  canCreateOption?: boolean;
-  popperOptions?: PopperOptions;
   dropdownClass?: string;
   teleportDisabled?: boolean;
   teleport?: string;
+  showTags?: boolean;
+
+  // options
+  options?: Option[];
+  groupedOptions?: OptionGroup[];
+  getText?: (option: Option) => string | number;
+  getValue?: (option: Option) => string | number;
+  getIsDisabled?: (option: Option) => boolean;
+  getGroupOptions?: (group: OptionGroup) => Option[];
+  getGroupTitle?: (group: OptionGroup) => string | number | undefined | null;
+  customSearch?: (search?: string, option: Option) => {};
+  creatable?: boolean;
   focusable?: boolean;
-  canDeselect?: boolean;
-  renderPlaceholder?: (parameter: Option | Option[]) => string;
-  customSearch?: (parameter: string) => void;
-  itemExtractor?: (arg0: any) => Option;
-  onNewOption?: (arg0: {
-    newOption: string;
-    isAlreadyInValue: boolean;
-    isAlreadyInOptions: boolean;
-  }) => Promise<boolean> | boolean;
-};
+  deselectable?: boolean;
+  dropdownWidth?: string;
+}
 
-type State = {
-  search: string;
-  active: boolean;
-  focused: boolean;
-  focusedItem: number;
-  popper?: Instance;
-  options: Option[];
-  selectedItems: Option | Option[];
-  page: number;
-  lastSelectedValue?: string | number | null;
-};
 const props = withDefaults(defineProps<Props>(), {
-  searchable: false,
-  keepOpenAfterSelection: false,
-  placeholder: "",
-  noDropdownOnEmptySearch: false,
-  paginationOffset: 40,
-  itemsKey: "items",
-  groupIdentifier: "id",
-  perPage: 10,
+  resetSearchAfterSelection: true,
+  closeAfterSelection: true,
+  showDropdownOnEmptySearch: true,
   teleport: "body",
-  focusable: true,
-  renderPlaceholder: (option: Option | Option[]) => {
-    if (Array.isArray(option)) return `${option.length} selected`;
-    else return option.text || "";
-  },
+  showTags: true,
+  getText: (option: any) => option.title,
+  getValue: (option: any) => option.id,
 });
+
 const emit = defineEmits<{
-  (e: "update:modelValue", arg0: Props["modelValue"]): void;
-  (e: "open"): void;
-  (e: "close"): void;
-  (e: "afterTransitionEnd"): void;
-  (e: "search", arg0: string): void;
-  (e: "blur"): void;
+  "update:modelValue": [BaseModelValue | BaseModelValue[]];
+  change: [BaseModelValue | BaseModelValue[]];
+  search: [string | undefined];
 }>();
+
 const { color } = useColor(toRef(props, "color"));
-const state = reactive<State>({
-  search: "",
-  active: false,
+
+const state = reactive<{
+  focused: boolean;
+  focusedOption?: BaseModelValue;
+}>({
   focused: false,
-  focusedItem: -1,
-  popper: undefined,
-  options: [],
-  selectedItems: [],
-  page: 1,
-  lastSelectedValue: undefined,
 });
-const rInput = ref();
-const dropdown = ref();
-const selfRef = ref<HTMLElement | undefined>();
-const triggerRef = ref<HTMLElement | undefined>();
-const toggle = ref();
 
-// cycle
-onMounted(() => !shouldSkipSettingChildren.value && setChildren(defaultSlot!()));
-onBeforeUnmount(() => {
-  if (state.active) {
-    state.active = false;
-  }
+const active = defineModel<boolean>("active", {
+  default: () => false,
 });
-const onAfterLeave = () => {
-  state.popper?.destroy();
-  emit("afterTransitionEnd");
+
+const search = defineModel<string | undefined>("search", {
+  default: () => undefined,
+});
+
+const toggleIconRef = ref<HTMLDivElement>();
+const containerRef = ref<InstanceType<typeof InputContainer>>();
+const dropdownRef = ref<HTMLDivElement>();
+
+// INPUT
+const inputRef = ref<HTMLInputElement>();
+
+const handleInput = () => {
+  emitSearch();
+  state.focused = true;
+  state.focusedOption = undefined;
 };
 
-const onSelectValue = ({ event, activate }: { event: Option["value"]; activate: boolean }) => {
-  if (props.multiple && Array.isArray(props.modelValue)) {
-    if (activate) {
-      emit("update:modelValue", [...props.modelValue, event]);
-      setLastSelectedValue(event);
-    } else {
-      let val = [...props.modelValue];
-      val = val.filter((x) => x !== event);
-      emit("update:modelValue", val);
-    }
-  } else {
-    const v = props.canDeselect ? (activate ? event : undefined) : event;
-    emit("update:modelValue", v);
-    setLastSelectedValue(event);
-  }
-
-  afterSelectionHook();
-};
-
-const afterSelectionHook = () => {
-  if (!props.keepOpenAfterSelection) {
-    resetSearch();
-    // in order to focus on the laters selected item
-    // this.focusedItem = this.options.findIndex(({ value }) => value === event);
-    close();
-  }
-  state.popper?.update();
-};
-
-// open/close dropdown
-const onTriggerClick = () => {
-  if (!state.active) {
-    open();
-    return;
-  }
-  if (!props.searchable) {
-    close();
-    return;
-  }
-};
-
-const onToggleClick = (e: Event) => {
-  if (!state.active) {
-    return;
-  }
-  e.stopPropagation();
-  close();
-};
-const onFocus = (event: FocusEvent) => {
-  rInput.value.inputRef.focus({ preventScroll: true });
+const handleInputFocus = (e: FocusEvent) => {
   state.focused = true;
 };
-const onBlur = (e: FocusEvent) => {
-  const relatedTarget = e.relatedTarget;
-  if (relatedTarget && selfRef.value?.contains(relatedTarget as any)) return;
+
+const handleInputBlur = (e: FocusEvent) => {
+  const relatedTarget = e.relatedTarget as HTMLElement;
+
+  // don't do anything if it's on select
+  if (relatedTarget && containerRef.value?.selfRef?.contains(relatedTarget)) return;
+
+  // don't do anything if it's dropdown.
+  if (dropdownRef.value?.contains(relatedTarget)) return;
+
+  // close
   state.focused = false;
-  emit("blur");
+  close();
 };
 
-const renderTriggerTabindex = computed(() => {
-  if (!props.focusable) return "-1";
-  if (state.focused) return "-1";
-  return "0";
+const inputReadonly = computed(() => !props.searchable);
+
+const focus = () => {
+  inputRef.value?.focus();
+};
+
+const blur = () => {
+  inputRef.value?.blur();
+};
+
+// POSITIONING
+const middleware = ref([
+  offset(4),
+  flip({
+    crossAxis: false,
+  }),
+  shift(),
+  size({
+    apply: ({ rects, elements }) => {
+      Object.assign(elements.floating.style, {
+        width: props.dropdownWidth ?? `${rects.reference.width}px`,
+      });
+    },
+  }),
+]);
+const { floatingStyles } = useFloating(containerRef as any, dropdownRef, {
+  placement: "bottom",
+  whileElementsMounted: autoUpdate,
+  open: active,
+  middleware,
 });
 
-const onDropdownMousedown = (e: MouseEvent) => {
+// ACTIVE/DEACTIVE
+
+const toggleActive = () => (active.value = !active.value);
+
+const activate = () => {
+  if (props.disabled) return;
+  active.value = true;
+};
+
+const close = () => {
+  active.value = false;
+  state.focusedOption = undefined;
+};
+
+// OPTIONS
+
+const generateLocalOption = (option: Option): LocalOption => ({
+  context: option,
+  value: props.getValue(option),
+  text: props.getText(option),
+  disabled: props.getIsDisabled?.(option),
+});
+
+const generateLocalGroup = (group: OptionGroup) => ({
+  context: group,
+  title: props.getGroupTitle?.(group),
+  options: props.getGroupOptions?.(group).map((option) => generateLocalOption(option)) || [],
+});
+
+const localGroupOptions = computed(() => {
+  return props.groupedOptions?.map((group) => generateLocalGroup(group));
+});
+
+const localOptions = computed(() => {
+  return props.options?.map((option) => generateLocalOption(option));
+});
+
+const searchedGroups = computed(() => {
+  return localGroupOptions.value
+    ?.map((localGroup) => {
+      return {
+        ...localGroup,
+        options: localGroup.options.filter((option) => {
+          return !!searchedFlatOptions.value?.find((searched) => searched.value == option.value);
+        }),
+      };
+    })
+    .filter(({ options }) => options.length);
+});
+
+const searchedOptions = computed(() => {
+  return localOptions.value?.filter(({ value }) => {
+    return !!searchedFlatOptions.value?.find((searched) => searched.value == value);
+  });
+});
+
+const flatOptions = computed(() => {
+  // flat groups
+  if (localGroupOptions.value) {
+    return localGroupOptions.value?.flatMap((item) => item.options);
+  }
+  // or return options
+  return localOptions.value;
+});
+
+const searchedFlatOptions = computed(() => {
+  return flatOptions.value?.filter(({ text, context }) => {
+    if (!search.value) return true;
+    if (props.customSearch) return props.customSearch(search.value, context);
+    return text ? `${text}`.toLowerCase().includes(search.value.toLowerCase()) : true;
+  });
+});
+
+// SELECTED ITEMS
+
+const select = (value: BaseModelValue) => {
+  const isSelected = getIsSelected(value);
+  // multiple
+  if (props.multiple) {
+    let model = [...((props.modelValue as BaseModelValue[]) || [])];
+
+    if (isSelected) {
+      model = model.filter((v) => v !== value);
+      emitUpdateModelValue(model);
+    } else {
+      model = [...model, value];
+      emitUpdateModelValue(model);
+    }
+  } else {
+    // single select
+    if (!isSelected) {
+      emitUpdateModelValue(value);
+    } else if (props.deselectable) {
+      emitUpdateModelValue(undefined);
+    }
+  }
+  afterSelectHook();
+};
+
+const removeLastValue = () => {
+  if (!props.modelValue) return;
+  if (!Array.isArray(props.modelValue)) return;
+  if (!props.modelValue.length) return;
+
+  select(props.modelValue[props.modelValue.length - 1]);
+};
+
+const afterSelectHook = () => {
+  if (props.closeAfterSelection) {
+    close();
+  }
+
+  if (props.resetSearchAfterSelection) {
+    search.value = undefined;
+  }
+};
+
+const liveSelected = computed(() => {
+  if (props.multiple) {
+    return (props.modelValue as Array<BaseModelValue>)
+      ?.map?.((model) => {
+        const local = flatOptions.value?.find(({ value }) => model == value);
+        return local;
+      })
+      .filter((v) => !!v);
+  } else {
+    return flatOptions.value?.find(({ value }) => props.modelValue == value);
+  }
+});
+
+const isAnySelected = computed(() => {
+  if (Array.isArray(liveSelected.value)) return !!liveSelected.value.length;
+  return !!liveSelected.value;
+});
+
+const renderDisplayLabel = computed(() => {
+  if (!isAnySelected.value) return undefined;
+
+  if (Array.isArray(liveSelected.value)) {
+    if (props.showTags) return `${liveSelected.value.length} Selected`;
+    return liveSelected.value.map((item) => item?.text).join(", ");
+  }
+
+  return liveSelected.value?.text;
+});
+
+// SINGLE OPTION
+
+const getIsSelected = (optionValue: BaseModelValue): boolean => {
+  if (props.multiple) {
+    return !!(props.modelValue as Array<BaseModelValue>)?.find?.((v) => v == optionValue);
+  }
+  return props.modelValue == optionValue;
+};
+
+const setFocusedOption = (v: BaseModelValue) => (state.focusedOption = v);
+
+const getIsFocusedOption = (optionValue: BaseModelValue) => {
+  return state.focusedOption !== undefined && optionValue == state.focusedOption;
+};
+
+const getIsLastActive = (optionValue: BaseModelValue): boolean => {
+  if (!props.modelValue) return false;
+  if (Array.isArray(props.modelValue)) return props.modelValue[props.modelValue.length - 1] == optionValue;
+  return props.modelValue == optionValue;
+};
+
+const focusNextOption = () => {
+  const list = searchedFlatOptions.value;
+  // if there is nothing on the list
+  if (!list?.length) return;
+
+  const currentIndex = list?.findIndex(({ value }) => value == state.focusedOption);
+
+  // there is nothing selected yet.
+  if (currentIndex == -1 || !state.focusedOption) {
+    // select first item
+    setFocusedOption(list[0].value);
+    return;
+  }
+
+  const next = list.find((item, index) => !item.disabled && index > currentIndex);
+
+  if (next) {
+    setFocusedOption(next.value);
+  }
+};
+
+const focusPrevOption = () => {
+  const list = searchedFlatOptions.value;
+
+  if (!list?.length) return;
+
+  const reversedList = [...list].reverse();
+
+  const currentIndex = reversedList.findIndex(({ value }) => value == state.focusedOption);
+
+  if (currentIndex == -1 || !state.focusedOption) {
+    return;
+  }
+
+  const previous = reversedList.find((item, index) => !item.disabled && index > currentIndex);
+
+  if (previous) {
+    setFocusedOption(previous.value);
+  }
+};
+
+const generateOptionAttrs = (option: LocalOption) => {
+  return {
+    text: option.text,
+    isFocused: getIsFocusedOption(option.value),
+    isSelected: getIsSelected(option.value),
+    isLastActive: getIsLastActive(option.value),
+    color: props.color,
+    onClick: () => select(option.value),
+    onMouseover: () => handleOptionMouseover(),
+  };
+};
+
+// EVENTS
+const handlePointerDown = (e: PointerEvent) => {
+  const target = e.target as HTMLElement;
+
+  if (target.closest("input, button, a")) return;
+  requestAnimationFrame(() => {
+    focus();
+  });
+};
+
+const handleDropdownMousedown = (e: MouseEvent) => {
+  // avoid focusing
   e.preventDefault();
 };
 
-const onKeydownTab = (e: KeyboardEvent) => {
-  console.log("tab");
-
-  if (state.active) e.preventDefault();
-  // else triggerRef.value?.blur();
-};
-const onBeforeEnter = (el: Element) => {
-  const sameWidth: Modifier<"sameWidth", {}> = {
-    name: "sameWidth",
-    enabled: true,
-    phase: "beforeWrite",
-    requires: ["computeStyles"],
-    fn: ({ state }) => {
-      state.styles.popper.width = `${state.rects.reference.width}px`;
-    },
-    effect: ({ state }) => {
-      state.elements.popper.style.width = `${(state.elements.reference as HTMLElement).offsetWidth}px`;
-    },
-  };
-  state.popper = createPopper(rInput.value.inputContainerRef, el as HTMLElement, {
-    placement: "bottom",
-    modifiers: [sameWidth],
-    ...props.popperOptions,
-  });
+const handleOptionMouseover = () => {
+  setFocusedOption(undefined);
 };
 
-const toggleOpen = () => {
-  if (state.active) {
+const handleToggleClick = () => {
+  if (active.value) close();
+  else activate();
+};
+
+const handleClick = (e: Event) => {
+  const target = e.target as HTMLElement;
+
+  // click of trigger icon
+  if (toggleIconRef.value?.contains(target)) {
+    handleToggleClick();
+    return;
+  }
+
+  // is searchable, don't close if already open
+  if (props.searchable && active.value) return;
+
+  if (!active.value) {
+    activate();
+  } else {
     close();
-  } else {
-    open();
   }
 };
 
-const open = async () => {
-  if (state.active || !canOpenDropdown.value) return;
-  state.active = true;
-  emit("open");
-};
-const close = (resetSearchValue: boolean = true) => {
-  if (!state.active) return;
-  state.active = false;
-  if (resetSearchValue) resetSearch();
-  state.focusedItem = -1;
-  state.page = 1;
-  emit("close");
-};
-
-const clickOutside = {
-  handler: close,
-  middleware: (e: Event) => {
-    if (!state.active) return false;
-    const contains = dropdown.value?.contains(e.target);
-    return !contains;
-  },
-};
-
-const canOpenDropdown = computed<boolean>(() => {
-  if ((props.noDropdownOnEmptySearch && !state.search) || props.noDropdown) return false;
-  return true;
-});
-
-// Options
-
-const areOptionsProvided = computed(() => !!props.items);
-const shouldSkipSettingChildren = computed(() => !defaultSlot || areOptionsProvided.value);
-
-const { default: defaultSlot } = useSlots();
-const setChildren = (defSlot: VNode[]) => {
-  const tempOptions: State["options"] = [];
-  const checkItem = (nodes: VNode[]) => {
-    nodes.forEach((node) => {
-      if ((node.type as any).isOption) {
-        tempOptions.push(node.props as any);
-      } else if (typeof node.children === "object" && node.children) {
-        // @ts-ignore
-        if (node.children.default) {
-          // @ts-ignore
-          checkItem(node.children.default() as VNode[]);
-        } else {
-          checkItem(node.children as VNode[]);
-        }
-      }
-    });
-  };
-
-  checkItem(defSlot);
-  state.options = tempOptions;
-};
-
-const setOptionsFromItems = (items: any[] = []) => {
-  let tempOptions: (Option & { R_SELECT_GROUP: any })[] = [];
-
-  const checkItem = (innerItems: any[], R_SELECT_GROUP?: any) => {
-    innerItems.forEach((item) => {
-      if (item[props.itemsKey]) {
-        // has nested items
-        const { [props.itemsKey]: nestedItems, ...parent } = item;
-        checkItem(nestedItems, parent);
-        return;
-      } else {
-        tempOptions.push({ ...((props.itemExtractor?.(item) ?? item) as Option), R_SELECT_GROUP });
-      }
-    });
-  };
-
-  checkItem(items);
-  state.options = tempOptions;
-};
-
-if (!shouldSkipSettingChildren.value) {
-  watch(
-    () => defaultSlot!(),
-    (defSlot) => setChildren(defSlot)
-  );
-} else {
-  watch(
-    () => props.items,
-    (items) => setOptionsFromItems(items),
-    { immediate: true, deep: true }
-  );
-}
-const noOptions = computed(() => {
-  return !visibleItems.value.length;
-});
-
-// Items Focus
-function onArrowDown() {
-  if (props.noDropdown) return;
-  if (noOptions.value) return;
-  if (state.focusedItem < state.options.length - 1) state.focusedItem++;
-  else state.focusedItem = 0;
-  if (!isItemFocusable.value) {
-    onArrowDown();
-  }
-}
-function onArrowUp() {
-  if (props.noDropdown) return;
-  if (noOptions.value) return;
-  if (state.focusedItem > 0) {
-    state.focusedItem--;
-  } else if (state.focusedItem === 0 || state.focusedItem < 0) {
-    state.focusedItem = state.options.length - 1;
-  }
-  if (!isItemFocusable.value) {
-    onArrowUp();
-  }
-}
-
-const handleNewOption = async () => {
-  const isAlreadyInValue = Array.isArray(props.modelValue) && props.modelValue.find((item) => item == state.search);
-  const isAlreadyInOptions = state.options.find(({ value }) => value == state.search);
-  const result = await props.onNewOption?.({
-    newOption: state.search,
-    isAlreadyInValue: Boolean(isAlreadyInValue),
-    isAlreadyInOptions: Boolean(isAlreadyInOptions),
-  });
-  if (result) afterSelectionHook();
-};
-
-function onEnter() {
-  if (!state.active) {
-    open();
+const handleEnter = () => {
+  if (!active.value) {
+    activate();
     return;
   }
-  if (props.canCreateOption && !focusedItemValue.value && !!state.search) {
-    handleNewOption();
-    return;
-  }
-  if (!focusedItemValue.value) return;
-  let isValueActive = true;
-  if (props.multiple && isArray(props.modelValue)) {
-    isValueActive = !!props.modelValue.find((value) => value === focusedItemValue.value!.value);
-  } else {
-    isValueActive = focusedItemValue.value.value == props.modelValue;
-  }
-  onSelectValue({
-    event: focusedItemValue.value.value,
-    activate: isValueActive ? false : true,
-  });
-}
-const focusedItemValue = computed(() => {
-  if (state.focusedItem < 0) return undefined;
-  return visibleItems.value[state.focusedItem];
-});
-const isItemFocusable = computed(() => {
-  const item = visibleItems.value.find(({ value }) => focusedItemValue.value?.value === value);
-  return item && !item.disabled;
-});
 
-// Selected Items
-const setSelectedItems = (options: Option[]) => {
-  let items: Option[] | Option = state.selectedItems;
-  if (Array.isArray(props.modelValue)) {
-    props.modelValue.forEach((value) => {
-      const foundOption = options.find(({ value: optionValue }: Option) => optionValue === value);
-      if (foundOption) (items as Option[]).push(foundOption);
-    });
-    // remove duplicated items from previous selections ( takes first ones )
-    items = uniqueArray<Option>(items as Option[], (item) => item.value);
-    // to remove if there was any items deleted from modelValue
-    items = items.filter(
-      ({ value: itemValue }) =>
-        !!(props.modelValue as (string | number)[]).find((modelValue) => modelValue === itemValue)
-    );
-  } else {
-    const foundOption = options.find(({ value: optionValue }) => optionValue === props.modelValue);
-    items = foundOption || [];
+  if (state.focusedOption != undefined) {
+    select(state.focusedOption);
   }
-  state.selectedItems = items;
-};
-watch(
-  [() => props.modelValue, () => state.options],
-  () => {
-    setSelectedItems(state.options);
-  },
-  { immediate: true, deep: true }
-);
-
-const isAnyItemSelected = computed(() => {
-  if (Array.isArray(state.selectedItems)) {
-    return !!state.selectedItems.length;
-  } else {
-    return !!state.selectedItems;
-  }
-});
-const inputPlaceholder = computed<string>(() => {
-  // const selectedValueTexts = state.selectedItems.map(({ text }) => text).join(', ');
-  // return selectedValueTexts.length ? selectedValueTexts : props.placeholder;
-  if (isAnyItemSelected.value) {
-    return props.renderPlaceholder(state.selectedItems);
-  }
-  return props.placeholder;
-});
-
-const onSelectedItemClick = (item: Option) => {
-  onSelectValue({
-    event: item.value,
-    activate: false,
-  });
 };
 
-// Search
-const visibleItems = computed(() => {
-  return props.customSearch
-    ? state.options
-    : state.options.filter(({ text }) => {
-        return text ? text.toLowerCase().includes(state.search.toLowerCase()) : true;
-      });
-});
-const onInputChange = (e: InputEvent) => {
-  const value = (e.target as HTMLInputElement).value;
-  emit("search", value);
-  props.customSearch?.(value);
-  props.customSearch && state.popper?.update();
+const handleEsc = (e: KeyboardEvent) => {
+  if (active.value) {
+    // if is open, close and mute the event from parent
+    e.stopPropagation();
+    close();
+  }
 };
-watch(
-  () => state.search,
-  (search) => {
-    if (state.active && props.noDropdownOnEmptySearch && !search) close(false);
-    else if (!state.active && !!search) {
-      open();
+
+const handleKeydown = (e: KeyboardEvent) => {
+  const key = e.key;
+
+  if (key === "Backspace") {
+    if (!search.value) {
+      removeLastValue();
     }
   }
-);
-const resetSearch = () => {
-  if (state.search === "") return;
-  props.customSearch?.("");
-  emit("search", "");
-  state.search = "";
-};
 
-// optimize
-const onDropdownScroll = (e: Event) => {
-  if (visibleItems.value.length < state.page * props.perPage) return; // no more items
-  const { scrollHeight, scrollTop, clientHeight } = e.target as HTMLElement;
-  const shouldLoadNewItems = scrollTop + clientHeight > scrollHeight - props.paginationOffset;
-  if (shouldLoadNewItems) state.page++;
-};
+  if (key === "Enter") {
+    e.stopPropagation();
+    handleEnter();
+  }
 
-const groupByParent = (items: Array<Option & { R_SELECT_GROUP?: any }>) => {
-  const itemsKey = props.itemsKey;
-  const groupIdentifier = props.groupIdentifier;
-  // TODO: typings based on user given generic type
-  const groups: {
-    [arg0: string | number]: any;
-  } = {};
+  if (key === "Tab") {
+    if (active.value) e.preventDefault();
+  }
 
-  items.forEach((item) => {
-    const { R_SELECT_GROUP, ...rest } = item;
-    const { [groupIdentifier]: indentifierValue } = R_SELECT_GROUP;
+  if (key === "Escape") {
+    handleEsc(e);
+  }
 
-    if (!groups[indentifierValue]) {
-      groups[indentifierValue] = { ...R_SELECT_GROUP, [itemsKey]: [] };
+  if (key === "ArrowUp") {
+    e.preventDefault();
+    focusPrevOption();
+  }
+
+  if (key === "ArrowDown") {
+    e.preventDefault();
+    if (!active.value) {
+      activate();
+    } else {
+      focusNextOption();
     }
-    groups[indentifierValue][itemsKey].push(rest);
-  });
-
-  return Object.values(groups);
+  }
 };
 
-const optimizedItems = computed(() => {
-  const rawList = visibleItems.value.filter((_, i) => {
-    return i < state.page * props.perPage;
-  });
+// SELECTED TAGS
 
-  if (!(rawList[0] as Option & { R_SELECT_GROUP?: any })?.R_SELECT_GROUP) return rawList;
-  else return groupByParent(rawList);
-});
-
-// preserving last seleted item offset
-const setLastSelectedValue = (lastValue: Option["value"]) => {
-  if (areOptionsProvided.value) return;
-  state.lastSelectedValue = lastValue;
+const handleSelectedTagClick = (value: BaseModelValue) => {
+  select(value);
 };
 
-provide(rSelectKey, {
-  modelValue: toRef(props, "modelValue"),
-  multiple: toRef(props, "multiple"),
-  search: toRef(state, "search"),
-  color: toRef(props, "color"),
-  customSearch: props.customSearch,
-  focusedItemValue,
-  onSelectValue,
-  lastSelectedValue: toRef(state, "lastSelectedValue"),
-});
-defineExpose({
-  setSelectedItems,
-  rInput,
-  open,
-  close,
-  resetSearch,
-});
+// STATES
+
+const slots = useSlots();
+
+const hasErrors = computed(() => !!props.error || !!props.errorMessage);
+
+// EMITS
+const emitUpdateModelValue = (value: BaseModelValue | BaseModelValue[]) => {
+  emit("update:modelValue", value);
+  emit("change", value);
+};
+const emitSearch = () => {
+  emit("search", search.value);
+};
 </script>
 
 <style lang="scss">
-.r-select {
-  &_dropdown-icon {
+.r-selectnew {
+  &-input {
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    font-family: inherit;
+    width: 100%;
+    color: inherit;
+    padding: var(--r-normal-padding-y) 0;
+  }
+
+  .r-input-container {
+    padding: 0 var(--r-normal-padding-y);
+    align-items: center;
+    height: var(--r-element-default-height);
+  }
+
+  &-selected-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--r-space-1);
+    margin-top: var(--r-space-1);
+  }
+  &-selected-tag {
+    user-select: none;
+    max-width: 180px;
+    font-size: var(--r-font-xsmall);
+    background-color: color(b2);
+    padding: 2px 4px;
+    box-shadow: generateBoxShadow(1px, border-color, var(--r-border-alpha));
+    border-radius: var(--r-radius);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    span {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &-display {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  &-display-label,
+  &-placeholder {
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  &-placeholder {
+    color: color(disabled, var(--r-disabled-alpha));
+  }
+
+  &-toggle-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    overflow: hidden;
     cursor: pointer;
-    width: 32px;
-    height: 32px;
     transition: transform var(--r-duration);
-
-    svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    &.rotate {
+    &_rotate {
       transform: rotate(180deg);
     }
   }
 
-  .loading-container {
-    width: 32px;
-    padding: 0 var(--r-space-1);
+  &-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
 
-  .r-input-container .input-container {
-    align-items: center;
-  }
-
-  &_input {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .isAnyItemSelected {
-    &::placeholder {
-      color: color(text);
-    }
+  &-empty {
+    color: color(disabled);
+    text-align: center;
+    padding: var(--r-normal-padding-y);
   }
 
   &_disabled {
-    opacity: 0.8;
-    pointer-events: none;
+    opacity: 0.76;
   }
 
-  .icon-container {
-    padding: 0px !important;
-  }
-
-  .noInput {
-    cursor: pointer;
+  &_error {
+    --r-color: var(--r-red) !important;
+    --r-border-color: var(--r-red);
+    --r-border-alpha: 1;
   }
 }
 
-.r-select-dropdown-container {
-  position: absolute;
-  z-index: 100;
-
-  .noOptions {
-    padding: var(--r-normal-padding);
-    text-align: center;
-  }
-  .new-option {
-    padding: var(--r-normal-padding);
-    font-size: var(--r-font-small);
-    color: color(text);
-    transition: background var(--r-duration);
+.r-selectnew-dropdown {
+  &-inner {
+    background-color: color(b2);
     border-radius: var(--r-radius);
-    cursor: pointer;
-    &:hover {
-      background: color(hover, var(--r-hover-alpha));
-    }
   }
-
-  .new-option-separator {
-    padding: 2px 0;
-    border-bottom: 1px solid color(border-color, var(--r-border-alpha));
+  &-scroll-area {
+    padding: 4px;
+    overflow-y: auto;
+    max-height: 200px;
+    @extend .scroll-bar;
   }
-}
-
-.r-select-dropdown {
-  background: color(b2);
-  border-radius: var(--r-radius);
-  max-height: 240px;
-  overflow: hidden;
-  overflow-y: auto;
-  box-shadow: 0 6px 12px color(shadow-color, var(--r-shadow-alpha)), 0 0 0 1px color(border-color, 0.1);
-  padding: var(--r-space-1);
-  @extend .overflow-x-scroll-bar;
 }
 
 .fade-move {
   &-enter-active,
   &-leave-active {
-    .r-select-dropdown {
-      transition: all calc(var(--r-duration) / 1.5);
+    --duration: calc(var(--r-duration) / 1.5);
+    transition-duration: var(--duration);
+    .r-selectnew-dropdown-inner {
+      transition: opacity var(--duration), transform var(--duration);
     }
-
-    transition: opacity calc(var(--r-duration) / 1.5);
   }
 
   &-enter-from,
   &-leave-to {
-    .r-select-dropdown {
+    .r-selectnew-dropdown-inner {
       opacity: 0;
-      transform: translateY(4px);
+      transform: translateY(6px);
     }
   }
 }

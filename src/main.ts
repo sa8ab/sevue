@@ -20,7 +20,6 @@ import {
   RPanel,
   RPanelItem,
   RAlert,
-  RSelectNew,
 } from "./components";
 
 // directives
@@ -118,7 +117,6 @@ export {
   RSwitch,
   RLoading,
   RAlert,
-  RSelectNew,
 } from "./components";
 
 // inject keys
@@ -131,8 +129,8 @@ export type {
   RInputProps,
   RPaginationProps,
   RPopupProps,
-  RSelectProps,
-  ROptionProps,
+  // RSelectProps,
+  // ROptionProps,
   RSliderProps,
   RTabProps,
   RRadioProps,

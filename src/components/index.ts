@@ -3,8 +3,8 @@ import RCheckbox, { type Props as RCheckboxProps } from "./checkbox";
 import RInput, { type Props as RInputProps } from "./input";
 import RPagination, { type Props as RPaginationProps } from "./pagination";
 import RPopup, { type Props as RPopupProps } from "./popup";
-import { RSelect, ROption, RSelectGroup, type ROptionProps, type RSelectProps } from "./select";
-import { RSelect as RSelectNew } from "./selectnew";
+// import { RSelect, ROption, RSelectGroup, type ROptionProps, type RSelectProps } from "./select";
+import { RSelect, ROption, RSelectGroup } from "./select";
 import RSlider, { type Props as RSliderProps } from "./slider";
 import { RTab, RTabItem, RPanel, RPanelItem, type Props as RTabProps } from "./tabs";
 import RRadio, { type Props as RRadioProps } from "./radio";
@@ -24,9 +24,9 @@ export {
   RPopup,
   RPopupProps,
   RSelect,
-  RSelectProps,
+  // RSelectProps,
   ROption,
-  ROptionProps,
+  // ROptionProps,
   RSelectGroup,
   RSlider,
   RSliderProps,
@@ -43,5 +43,4 @@ export {
   RLoadingProps,
   RAlert,
   RAlertProps,
-  RSelectNew,
 };

@@ -1,36 +1,28 @@
+<script setup lang="ts">
+export interface Props {
+  title?: string | number | null;
+}
+
+const props = defineProps<Props>();
+</script>
+
 <template>
-  <div class="r-select-group">
-    <slot name="header">
-      <p class="title" v-if="titleVisible">{{ title }}</p>
+  <div class="r-selectnew-group">
+    <slot name="title">
+      <div class="r-selectnew-group-title">{{ title }}</div>
     </slot>
-    <slot></slot>
+    <div class="r-selectnew-options-list r-selectnew-group-options-list">
+      <slot />
+    </div>
   </div>
 </template>
 
-<script lang="ts" setup>
-import { rSelectKey } from "@/injectionKeys";
-import { ref, inject, computed } from "vue";
-const select = inject(rSelectKey);
-defineOptions({
-  isSelectGroup: true,
-});
-const props = defineProps<{
-  title?: string;
-  keepTitleOnSearch?: boolean;
-}>();
-
-const titleVisible = computed(() => {
-  if (props.keepTitleOnSearch) return true;
-  else if (!select?.search.value) return true;
-  else return false;
-});
-</script>
-
 <style lang="scss">
-.r-select-group {
-  .title {
-    padding: var(--r-space-1);
-    font-weight: 500;
+.r-selectnew-group {
+  &-title {
+    padding: 4px;
+    color: color(disabled);
+    font-size: var(--r-font-small);
   }
 }
 </style>
