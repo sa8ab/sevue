@@ -7,7 +7,7 @@
     ]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
   >
-    <FieldLabel :label="label" :hint="hint" :labelFor="id">
+    <FieldLabel :label="label" :hint="hint" :labelFor="id" v-if="label || hint || $slots.hint || $slots.label">
       <slot name="label"></slot>
       <template #hint> <slot name="hint"></slot> </template>
     </FieldLabel>

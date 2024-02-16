@@ -40,7 +40,7 @@
           <div>{{ model3.length }} Selected</div>
         </template>
       </RSelect>
-      <RSelect label="Grouped Select" placeholder="Select Options"> </RSelect>
+      <RSelect placeholder="Select Options"> </RSelect>
       <RSelect label="Custom Option Wrapper" :options="users" :getText="(v) => v.name" v-model="model4"> </RSelect>
       <RSelect label="Disabled Select" disabled :options="users" :getText="(v) => v.name" v-model="model4"> </RSelect>
       <RSelect color="red" label="Colored" :options="users" :getText="(v) => v.name" v-model="model4"> </RSelect>
