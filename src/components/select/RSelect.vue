@@ -216,6 +216,7 @@ const emit = defineEmits<{
   change: [BaseModelValue | BaseModelValue[]];
   search: [string | undefined];
   blur: [FocusEvent];
+  focus: [FocusEvent];
 }>();
 
 const { color } = useColor(toRef(props, "color"));
@@ -249,6 +250,7 @@ const handleInput = () => {
 };
 
 const handleInputFocus = (e: FocusEvent) => {
+  emitFocus(e);
   state.focused = true;
 };
 
@@ -643,6 +645,10 @@ const emitSearch = () => {
 
 const emitBlur = (e: FocusEvent) => {
   emit("blur", e);
+};
+
+const emitFocus = (e: FocusEvent) => {
+  emit("focus", e);
 };
 </script>
 
