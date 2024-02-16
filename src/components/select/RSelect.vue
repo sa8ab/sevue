@@ -15,6 +15,7 @@
       @pointerdown="handlePointerDown"
       @click="handleClick"
       ref="containerRef"
+      tabindex="-1"
     >
       <div class="r-selectnew-display">
         <input
@@ -259,6 +260,7 @@ const handleInputBlur = (e: FocusEvent) => {
   const relatedTarget = e.relatedTarget as HTMLElement;
 
   // don't do anything if it's on select
+  // added tabindex on containerref to be able to catch the relatedTarget
   if (relatedTarget && containerRef.value?.selfRef?.contains(relatedTarget)) return;
 
   // don't do anything if it's dropdown.
