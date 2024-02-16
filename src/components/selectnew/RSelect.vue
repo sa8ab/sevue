@@ -35,8 +35,12 @@
           <div class="r-selectnew-display-label" v-else>{{ renderDisplayLabel }}</div>
         </template>
       </div>
-      <div class="r-selectnew-toggle-icon" ref="toggleIconRef">
-        <SevueIcon name="chevron-down" width="24px" height="24px" />
+      <div class="r-selectnew-toggle-icon-container" ref="toggleIconRef">
+        <slot name="toggleIcon" :active="active">
+          <div :class="['r-selectnew-toggle-icon', { 'r-selectnew-toggle-icon_rotate': active }]">
+            <SevueIcon name="chevron-down" size="24px" />
+          </div>
+        </slot>
       </div>
     </InputContainer>
 
@@ -588,12 +592,14 @@ const emitSearch = () => {
   }
 
   &-toggle-icon {
-    width: 28px;
-    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: transform var(--r-duration);
+    &_rotate {
+      transform: rotate(180deg);
+    }
   }
 
   &-options-list {
