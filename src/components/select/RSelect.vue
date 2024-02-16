@@ -265,6 +265,7 @@ const handleInputBlur = (e: FocusEvent) => {
   state.focused = false;
   search.value = undefined;
   close();
+  emitBlur(e);
 };
 
 const inputReadonly = computed(() => !props.searchable);
@@ -638,6 +639,10 @@ const emitUpdateModelValue = (value: BaseModelValue | BaseModelValue[]) => {
 };
 const emitSearch = () => {
   emit("search", search.value);
+};
+
+const emitBlur = (e: FocusEvent) => {
+  emit("blur", e);
 };
 </script>
 
