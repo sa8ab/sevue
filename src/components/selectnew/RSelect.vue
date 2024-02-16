@@ -61,10 +61,10 @@
         <slot name="errorMessage" />
       </FieldMessage>
     </HeightTransition>
-    <Teleport to="body">
+    <Teleport :to="teleport" :disabled="teleportDisabled">
       <Transition name="fade-move">
         <div
-          class="r-selectnew-dropdown"
+          :class="['r-selectnew-dropdown', dropdownClass]"
           ref="dropdownRef"
           v-if="active"
           :style="floatingStyles"
@@ -77,17 +77,31 @@
               <slot name="before-options"></slot>
               <template v-if="searchedGroups?.length">
                 <RSelectGroup v-for="group in searchedGroups" :title="group.title">
-                  <ROption v-for="option in group.options" v-bind="generateOptionAttrs(option)">
-                    <slot name="option" :option="option.context" :isSelected="getIsSelected(option.value)"></slot>
-                  </ROption>
+                  <slot
+                    name="option-content"
+                    v-for="option in searchedOptions"
+                    :option="option.context"
+                    v-bind="generateOptionAttrs(option)"
+                  >
+                    <ROption v-bind="generateOptionAttrs(option)">
+                      <slot name="option" :option="option.context" :isSelected="getIsSelected(option.value)"></slot>
+                    </ROption>
+                  </slot>
                 </RSelectGroup>
               </template>
               <template v-else-if="searchedOptions?.length">
                 <div class="r-selectnew-options-list">
                   <!-- Allow rendering whole option #optionContainer -->
-                  <ROption v-for="option in searchedOptions" v-bind="generateOptionAttrs(option)">
-                    <slot name="option" :option="option.context" :isSelected="getIsSelected(option.value)"></slot>
-                  </ROption>
+                  <slot
+                    name="option-content"
+                    v-for="option in searchedOptions"
+                    :option="option.context"
+                    v-bind="generateOptionAttrs(option)"
+                  >
+                    <ROption v-bind="generateOptionAttrs(option)">
+                      <slot name="option" :option="option.context" :isSelected="getIsSelected(option.value)"></slot>
+                    </ROption>
+                  </slot>
                 </div>
               </template>
               <div class="r-selectnew-empty" v-else-if="search">
@@ -150,6 +164,9 @@ export interface Props {
   id?: string;
   showDropdownOnEmptySearch?: boolean;
   loading?: boolean;
+  dropdownClass?: string;
+  teleportDisabled?: boolean;
+  teleport?: string;
 
   // options
   options?: Option[];
@@ -170,6 +187,7 @@ const props = withDefaults(defineProps<Props>(), {
   resetSearchAfterSelection: true,
   closeAfterSelection: true,
   showDropdownOnEmptySearch: true,
+  teleport: "body",
   getText: (option: any) => option.title,
   getValue: (option: any) => option.id,
 });

@@ -45,6 +45,11 @@
         <RSelectNew label="Loading Select" :options="users" :getText="(v) => v.name" :loading="loading"> </RSelectNew>
         <RButton @click="loading = !loading">Load</RButton>
       </div>
+      <RSelectNew label="Custom Option" :options="users" v-model="model4" :getText="(v) => v.name">
+        <template #option-content="{ text, onClick }">
+          <div class="custom-option" @click="onClick">234{{ text }}</div>
+        </template>
+      </RSelectNew>
     </div>
   </div>
 </template>
@@ -59,7 +64,7 @@ const model2 = ref(undefined);
 const model3 = ref(undefined);
 const model4 = ref("46");
 
-const loading = ref(true);
+const loading = ref(false);
 </script>
 
 <style lang="scss" scoped>
