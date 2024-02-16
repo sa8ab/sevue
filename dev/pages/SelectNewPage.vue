@@ -26,7 +26,19 @@
         searchable
         placeholder="Select Options"
         :closeAfterSelection="false"
+      />
+      <RSelectNew
+        label="Multiple Select"
+        :options="users"
+        :getText="(o) => o.name"
+        multiple
+        v-model="model3"
+        placeholder="Select Options"
+        :showTags="false"
       >
+        <template #displayLabel>
+          <div>{{ model3.length }} Selected</div>
+        </template>
       </RSelectNew>
       <RSelectNew label="Grouped Select" placeholder="Select Options"> </RSelectNew>
       <RSelectNew label="Custom Option Wrapper" :options="users" :getText="(v) => v.name" v-model="model4">

@@ -52,7 +52,7 @@
     </InputContainer>
 
     <div class="r-selectnew-selected-tags" v-if="showTags && Array.isArray(liveSelected)">
-      <div class="r-selectnew-selected-tag" v-for="item in liveSelected">
+      <div class="r-selectnew-selected-tag" v-for="item in liveSelected" @click="handleSelectedTagClick(item?.value)">
         <span>
           {{ item?.text }}
         </span>
@@ -410,12 +410,20 @@ const liveSelected = computed(() => {
   }
 });
 
+const isAnySelected = computed(() => {
+  if (Array.isArray(liveSelected.value)) return !!liveSelected.value.length;
+  return !!liveSelected.value;
+});
+
 const renderDisplayLabel = computed(() => {
+  if (!isAnySelected.value) return undefined;
+
   if (Array.isArray(liveSelected.value)) {
+    if (props.showTags) return `${liveSelected.value.length} Selected`;
     return liveSelected.value.map((item) => item?.text).join(", ");
-  } else {
-    return liveSelected.value?.text;
   }
+
+  return liveSelected.value?.text;
 });
 
 // SINGLE OPTION
@@ -578,6 +586,12 @@ const handleKeydown = (e: KeyboardEvent) => {
       focusNextOption();
     }
   }
+};
+
+// SELECTED TAGS
+
+const handleSelectedTagClick = (value: BaseModelValue) => {
+  select(value);
 };
 
 // STATES
