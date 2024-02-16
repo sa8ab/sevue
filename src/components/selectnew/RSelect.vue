@@ -85,12 +85,16 @@
                   </ROption>
                 </div>
               </template>
-              <template v-else-if="search">
-                <div>No results for "{{ search }}"</div>
-              </template>
-              <template v-else>
-                <div>No Items Available</div>
-              </template>
+              <div class="r-selectnew-empty" v-else-if="search">
+                <slot name="optionEmpty" :search="search">
+                  <span>"{{ search }}" Not found</span>
+                </slot>
+              </div>
+              <div class="r-selectnew-empty">
+                <slot name="empty">
+                  <span>No Options</span>
+                </slot>
+              </div>
               <slot name="after-options"></slot>
             </div>
           </div>
@@ -608,6 +612,12 @@ const emitSearch = () => {
     display: flex;
     flex-direction: column;
     gap: 2px;
+  }
+
+  &-empty {
+    color: color(disabled);
+    text-align: center;
+    padding: var(--r-normal-padding-y);
   }
 
   &_disabled {
