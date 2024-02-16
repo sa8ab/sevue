@@ -52,12 +52,19 @@
     </InputContainer>
 
     <div class="r-selectnew-selected-tags" v-if="showTags && Array.isArray(liveSelected)">
-      <div class="r-selectnew-selected-tag" v-for="item in liveSelected" @click="handleSelectedTagClick(item?.value)">
-        <span>
-          {{ item?.text }}
-        </span>
-        <SevueIcon name="close" size="18px" />
-      </div>
+      <slot
+        name="selected-tag"
+        v-for="item in liveSelected"
+        :option="item?.context"
+        :remove="() => handleSelectedTagClick(item?.value)"
+      >
+        <div class="r-selectnew-selected-tag" @click="handleSelectedTagClick(item?.value)">
+          <span>
+            {{ item?.text }}
+          </span>
+          <SevueIcon name="close" size="18px" />
+        </div>
+      </slot>
     </div>
 
     <HeightTransition>
