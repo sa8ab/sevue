@@ -72,7 +72,7 @@
           @mousedown="handleDropdownMousedown"
         >
           <div class="r-selectnew-dropdown-inner">
-            <slot name="r-selectnew-dropdown-header"></slot>
+            <slot name="dropdown-header"></slot>
             <div class="r-selectnew-dropdown-scroll-area">
               <slot name="before-options"></slot>
               <template v-if="searchedGroups?.length">
