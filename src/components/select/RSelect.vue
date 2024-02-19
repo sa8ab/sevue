@@ -518,11 +518,12 @@ const focusPrevOption = () => {
 const generateOptionAttrs = (option: LocalOption) => {
   return {
     text: option.text,
+    disabled: option.disabled,
     isFocused: getIsFocusedOption(option.value),
     isSelected: getIsSelected(option.value),
     isLastActive: getIsLastActive(option.value),
     color: props.color,
-    onClick: () => select(option.value),
+    onClick: () => (option.disabled ? undefined : select(option.value)),
     onMouseover: () => handleOptionMouseover(),
   };
 };

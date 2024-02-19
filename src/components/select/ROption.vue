@@ -5,6 +5,7 @@ import useColor from "@/composables/useColor";
 export interface Props {
   value?: string | number | null;
   text?: string | number | null;
+  disabled?: boolean;
   isSelected?: boolean;
   isFocused?: boolean;
   isLastActive?: boolean;
@@ -41,7 +42,10 @@ watch(
 
 <template>
   <div
-    :class="['r-optionnew', { 'r-optionnew_selected': isSelected, 'r-optionnew_focused': isFocused }]"
+    :class="[
+      'r-optionnew',
+      { 'r-optionnew_selected': isSelected, 'r-optionnew_focused': isFocused, 'r-optionnew_disabled': disabled },
+    ]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
     @click="$emit('click')"
     ref="selfRef"
@@ -66,6 +70,11 @@ watch(
   &_focused,
   &:hover {
     background: color(hover, var(--r-hover-alpha));
+  }
+
+  &_disabled {
+    pointer-events: none;
+    opacity: 0.7;
   }
 }
 </style>

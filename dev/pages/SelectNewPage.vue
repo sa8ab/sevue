@@ -17,6 +17,7 @@
         :getText="(option) => option.name"
         v-model="model1"
         :resetSearchAfterSelection="false"
+        :getIsDisabled="(option) => option.id == '46'"
       >
         <template #option="{ option }">
           <span> #{{ option.id }} {{ option.name }}</span>
