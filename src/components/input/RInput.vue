@@ -14,14 +14,19 @@
     <InputContainer @pointerdown="handlePointerDown" :focused="state.focused" :disabled="disabled">
       <slot name="before"></slot>
       <slot name="input" :state="state">
-        <input
+        <textarea
+          v-if="textarea"
           v-model="model"
           ref="inputRef"
-          :placeholder="placeholder"
-          :disabled="disabled"
-          :id="id"
-          :type="type"
-          v-bind="$attrs"
+          v-bind="{ ...inputAttributes, ...$attrs }"
+          @focus="handleFocus"
+          @blur="handleBlur"
+        />
+        <input
+          v-else
+          v-model="model"
+          ref="inputRef"
+          v-bind="{ ...inputAttributes, ...$attrs }"
           @focus="handleFocus"
           @blur="handleBlur"
         />
@@ -59,6 +64,7 @@ export interface Props {
   color?: string;
   containerClass?: string;
   type?: string;
+  textarea?: boolean;
 
   disabled?: boolean;
   error?: boolean;
@@ -95,6 +101,15 @@ const state = reactive({
 const inputRef = ref<HTMLInputElement>();
 const inputContainerRef = ref();
 
+const inputAttributes = computed(() => {
+  return {
+    placeholder: props.placeholder,
+    disabled: props.disabled,
+    id: props.id,
+    type: props.type,
+  };
+});
+
 const model = computed({
   set: (e) => emit("update:modelValue", e),
   get: () => props.modelValue,
@@ -102,6 +117,9 @@ const model = computed({
 
 const focus = () => {
   inputRef.value?.focus();
+};
+const blur = () => {
+  inputRef.value?.blur();
 };
 
 const handleFocus = () => {
@@ -128,6 +146,7 @@ const hasErrors = computed(() => !!props.error || !!props.errorMessage || !!slot
 
 defineExpose({
   focus,
+  blur,
   inputRef,
   inputContainerRef,
 });
@@ -144,6 +163,15 @@ defineExpose({
     width: 100%;
     color: inherit;
     height: var(--r-element-default-height);
+  }
+  textarea {
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    padding: var(--r-normal-padding-y);
+    font-family: inherit;
+    width: 100%;
+    color: inherit;
   }
 
   &.sharp .r-input-container {
