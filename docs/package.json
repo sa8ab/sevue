@@ -5,6 +5,7 @@
     "docs:preview": "vitepress preview"
   },
   "dependencies": {
+    "sevue": "^0.4.0",
     "vitepress": "^1.0.0-rc.45"
   }
 }
