@@ -85,3 +85,35 @@ Default css variables ( `--r-b1` & `--r-b2` are background colors ):
 ```
 
 <Colors />
+
+
+## Custom Theme
+
+
+### CSS
+
+To use your own theme you need to override the default theme colors provided by sevue, this can happen by setting your own css variables in `:root` or any parent element. The syntax should be `rgb` color without parantheses nor rgb. For example the color `rgba(0, 168, 255)` should be used as `0, 168, 255`.
+
+```css
+:root {
+  --r-prm: 46, 204, 113;
+  --r-red: 192, 57, 43;
+  --r-text: 0, 0, 0;
+}
+.dark {
+  --r-text: 255, 255, 255;
+}
+```
+
+
+## Disabling Ripple Effect
+
+The Ripple Effect is using internal version of [vue-material-design-ripple](https://github.com/partyka1/vue-material-design-ripple) directive.
+You can disable by setting `ripple: false` in options.
+
+```ts
+app.use(Sevue, {
+    ripple: false
+  },
+});
+```
