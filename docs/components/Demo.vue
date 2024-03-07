@@ -35,17 +35,18 @@ const active = ref(false);
   transition: box-shadow 0.3s;
   box-shadow: 0 0 0 1px rgba(var(--r-border-color), var(--r-border-alpha));
   &.active {
-    box-shadow: 0 0 4px rgba(var(--r-border-color), var(--r-border-active-alpha));
+    box-shadow: 0 0 4px 1px rgba(var(--r-border-color), var(--r-border-active-alpha));
   }
-}
-.view {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 20px;
-}
-.actions {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 8px;
+
+  .view {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+  }
+  .actions {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 8px;
+  }
 }
 </style>

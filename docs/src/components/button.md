@@ -7,3 +7,7 @@
 <ButtonDemo />
 
 ## Default
+
+<Demo>
+  123
+</Demo />
