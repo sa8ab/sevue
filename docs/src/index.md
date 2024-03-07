@@ -8,11 +8,11 @@ hero:
   tagline: My great project tagline
   actions:
     - theme: brand
-      text: Markdown Examples
+      text: Getting Started
       link: /markdown-examples
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: View On Github
+      link: https://github.com/sa8ab/sevue
 
 features:
   - title: Feature A
