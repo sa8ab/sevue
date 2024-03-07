@@ -161,3 +161,34 @@ You can use `RButton` as `nuxt-link / router-link` or `a` tag.
 </template>
 
 </Demo>
+
+::: warning Nuxt Links
+If you are using `to` or `href` prop on RButton in a nuxt application, the passed `options.nuxtOptions.NuxtLink` will be used, or you can pass it directly to `RButton`:
+```vue
+<RButton :tag="NuxtLink" to="/some-route" />
+```
+if you don't pass none of above, for `to` prop `router-link`, and for `href` prop `a` tag will be used.
+:::
+
+
+## Props
+
+
+| Name         | Type    | Required | Default | Description                                                    |
+| ------------ | ------- | -------- | ------- | -------------------------------------------------------------- |
+| to           | any     | No       | undefined| The target route of the link. Only use either to or href.      |
+| href         | string  | No       | undefined| The target URL of the link. Only use either to or href.        |
+| variant      | "light" \| "fill" \| "flat" \| "bordered" \| "text" \| "transparent" \| "link" \| "cancel" | No       | 'light'   | Variant of button |
+| color        | string  | No       | ''      | The primary color of the button.                               |
+| textColor    | string  | No       | ''      | The text color of the button ( only when fill is true ).       |
+| round        | boolean | No       | false   | If true, adds border radius to create a circular shape.        |
+| disabled     | boolean | No       | false   | If true, disables the button and changes its appearance.       |
+| iconOnly     | boolean | No       | false   | If true, gives specific width and height..                     |
+| tag | string \| component | No       | undefined   | The html tag or view components instead of button            |
+| size | "default" \| "small" \| "large" | No       | undefined   | Size of the component.            |
+| loading | boolean | No       | undefined   | If true set a loading state on component.            |
+
+
+## Events
+
+All events/attrs passed down will be passed to `button`/`nuxt-link`/`router-link`/`a` component.
