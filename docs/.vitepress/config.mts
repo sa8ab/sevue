@@ -4,6 +4,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Sevue",
   description: "Vue / Nuxt 3 UI Library",
+  srcDir: "./src",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
