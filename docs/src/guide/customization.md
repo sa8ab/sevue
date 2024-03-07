@@ -1,3 +1,7 @@
+<script setup>
+import Colors from '../../components/Colors.vue'
+</script>
+
 # Customization
 
 ## Default Theme
@@ -48,6 +52,7 @@ Default css variables ( `--r-b1` & `--r-b2` are background colors ):
 
   --r-element-min-height: 32px;
 
+  // shadows & borders
   --r-border-width: 1px;
   --r-hover-alpha: 0.3;
   --r-shadow-alpha: 0.2;
@@ -60,7 +65,6 @@ Default css variables ( `--r-b1` & `--r-b2` are background colors ):
   --r-border-active-alpha: 0.4;
   --r-focused-box-shadow-specs: 0px 0px 0px 2px;
 
-  // shadows & borders
   --r-popup-underlay-opacity: 0.2;
   --r-loading-background-opacity: 0.6;
 }
@@ -79,3 +83,5 @@ Default css variables ( `--r-b1` & `--r-b2` are background colors ):
 }
 
 ```
+
+<Colors />

@@ -1,6 +1,7 @@
 import DefaultTheme from "vitepress/theme";
 import type { Theme } from "vitepress";
 import Sevue from "sevue";
+import "sevue/dist/style.css";
 import "../styles/doc-style.scss";
 
 export default {
