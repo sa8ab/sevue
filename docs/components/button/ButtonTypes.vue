@@ -1,17 +1,10 @@
 <template>
-  <div class="items">
-    <RButton flat>Flat</RButton>
-    <RButton bordered>Bordered</RButton>
-    <RButton flat bordered>Flat & Bordered</RButton>
-    <RButton fill textColor="#fff">Filled Style</RButton>
-    <RButton textStyle>Text Style</RButton>
+  <div class="button-items">
+    <!-- #region snippet -->
+    <RButton variant="flat">Flat</RButton>
+    <RButton variant="bordered">Bordered</RButton>
+    <RButton variant="fill" textColor="#fff">Filled</RButton>
+    <RButton variant="text">Text Style</RButton>
+    <!-- #endregion snippet -->
   </div>
 </template>
-
-<style scoped lang="scss">
-.items {
-  display: flex;
-  gap: var(--space-1);
-  flex-wrap: wrap;
-}
-</style>
