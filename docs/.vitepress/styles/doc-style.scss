@@ -21,3 +21,16 @@ button:focus {
   flex-direction: column;
   gap: 10px;
 }
+
+.input-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.color-red {
+  color: var(--vp-c-red-1);
+}
+.color-yellow {
+  color: var(--vp-c-yellow-1);
+}

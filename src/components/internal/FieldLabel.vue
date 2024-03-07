@@ -8,7 +8,7 @@ const props = defineProps<{
 
 <template>
   <div class="r-field-label">
-    <label class="r-field-label-label" :for="labelFor" v-if="label || $slots.label">
+    <label class="r-field-label-label" :for="labelFor" v-if="label || $slots.default">
       <slot>{{ label }}</slot>
     </label>
     <span class="r-field-label-hint" v-if="hint || $slots.hint">
