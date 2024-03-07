@@ -115,14 +115,17 @@ const isRouterLink = computed(() => !!props.to);
 const isAnchorElement = computed(() => !!props.href);
 const renderComponent = computed(() => {
   if (props.tag) return props.tag;
-  if (isRouterLink.value) {
-    if (nuxtOptions.isNuxt && nuxtOptions.NuxtLink) {
-      return nuxtOptions.NuxtLink;
-    } else {
-      return "router-link";
-    }
+
+  if ((isRouterLink.value || isAnchorElement.value) && nuxtOptions.NuxtLink) {
+    return nuxtOptions.NuxtLink;
   }
+
+  if (isRouterLink.value) {
+    return "router-link";
+  }
+
   if (isAnchorElement.value) return "a";
+
   return "button";
 });
 
