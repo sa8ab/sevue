@@ -20,6 +20,10 @@ export default defineConfig({
           { text: "Customization", link: "/guide/customization" },
         ],
       },
+      {
+        text: "Components",
+        items: [{ text: "Button", link: "/components/button" }],
+      },
     ],
 
     socialLinks: [{ icon: "github", link: "https://github.com/sa8ab/sevue" }],
