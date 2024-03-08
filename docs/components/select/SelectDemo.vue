@@ -1,15 +1,29 @@
 <template>
-  <div class="doc-items two">
-    <RSelect v-model="selected" placeholder="Select An Option" label="Demo">
-      <ROption v-for="{ name, id } in items" :value="id" :text="name" />
+  <div class="input-items">
+    <RSelect
+      v-model="selected"
+      placeholder="Select An Option"
+      label="Demo"
+      :options="items"
+      :getText="(option) => option.name"
+      :getValue="(option) => option.id"
+    >
     </RSelect>
-    <RSelect v-model="selected" placeholder="Select An Option" label="Searchable" searchable>
-      <ROption v-for="{ name, id } in items" :value="id" :text="name" />
-    </RSelect>
+
+    <RSelect
+      v-model="selected"
+      placeholder="Select An Option"
+      searchable
+      label="Searchable"
+      :options="items"
+      :getText="(option) => option.name"
+      :getValue="(option) => option.id"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref } from "vue";
 const items = ref([
   { name: "Vue", id: 1 },
   { name: "React", id: 2 },
