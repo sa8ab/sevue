@@ -1,12 +1,23 @@
 <template>
-  <div class="doc-item">
-    <RSelect v-model="selected" multiple keepOpenAfterSelection placeholder="Multiple Select">
-      <ROption v-for="{ name, id } in items" :value="id" :text="name" />
+  <div style="max-width: 280px">
+    <!-- #region template -->
+    <RSelect
+      v-model="selected"
+      label="Multiple"
+      multiple
+      :closeAfterSelection="false"
+      :options="items"
+      :getText="(o) => o.name"
+      :getValue="(o) => o.id"
+    >
     </RSelect>
+    <!-- #endregion template -->
   </div>
 </template>
 
 <script lang="ts" setup>
+// #region script
+import { ref } from "vue";
 
 const items = ref([
   { name: "Germany", id: 1 },
@@ -16,5 +27,5 @@ const items = ref([
   { name: "Greece", id: 5 },
 ]);
 const selected = ref([]);
+// #endregion script
 </script>
-
