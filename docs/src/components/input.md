@@ -3,6 +3,8 @@
   import InputDefault from '../../components/input/InputDefault.vue'
   import InputLabel from '../../components/input/InputLabel.vue'
   import InputSlots from '../../components/input/InputSlots.vue'
+  import InputError from '../../components/input/InputError.vue'
+  import InputColor from '../../components/input/InputColor.vue'
 </script>
 
 # Input
@@ -68,5 +70,24 @@ RInput supports before and after slots for rendering custom template beside inpu
 
 <template #demo>
   <InputSlots />
+</template>
+</Demo>
+
+
+## States
+
+You can modify state of input using boolean props of `error` ( boolean ) or `errorMessage` ( string ). Either of them will override the color of input to red. You can also provide custom template in named `#errorMessage` slot.
+
+
+<Demo>
+
+:::code-group
+<<< ../../components/input/InputError.vue#template [template]
+<<< ../../components/input/InputError.vue#script{ts} [script]
+:::
+
+
+<template #demo>
+  <InputError />
 </template>
 </Demo>
