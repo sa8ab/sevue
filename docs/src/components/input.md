@@ -91,3 +91,37 @@ You can modify state of input using boolean props of `error` ( boolean ) or `err
   <InputError />
 </template>
 </Demo>
+
+
+## Color
+
+Available values are `prm`, `yellow`, `red`, `green`, any HEX or RGBA/RGB value.
+
+<Demo>
+
+:::code-group
+<<< ../../components/input/InputColor.vue#template [template]
+:::
+
+<template #demo>
+  <InputColor />
+</template>
+</Demo>
+
+
+
+## Props
+| Name            | Type    | Required | Default Value | Description                                                                        |
+| --------------- | ------- | -------- | ------------- | ---------------------------------------------------------------------------------- |
+| modelValue      | string  | No       | undefined     | The value of the input element.                                                    |
+| label           | string  | No       | undefined     | The label displayed above the input element.                                       |
+| hint            | string  | No       | undefined     | The hint displayed above the input element.                                       |
+| placeholder     | string  | No       | undefined     | The text displayed inside the input element before the user types anything.        |
+| message         | string  | No       | undefined     | The message displayed below the input element.                                     |
+| sharp           | boolean | No       | false         | If true, adds sharp corners to the input element.                                |
+| color           | string  | No       | undefined     | The color of the input element.                                                    |
+| disabled        | boolean | No       | false         | If true, disables the input element.                                             |
+| error           | boolean | No       | false         | If true, adds error styling to the input element.                                |
+| errorMessage    | string  | No       | undefined     | Shows error message.                                |
+| containerClass  | string  | No       | undefined     | Additional class name(s) to apply to the container element of the input component. |
+| textarea  | boolean  | No       | undefined     | renders a textarea instead of input. |
