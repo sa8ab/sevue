@@ -2,6 +2,7 @@
   import InputDemo from '../../components/input/InputDemo.vue'
   import InputDefault from '../../components/input/InputDefault.vue'
   import InputLabel from '../../components/input/InputLabel.vue'
+  import InputSlots from '../../components/input/InputSlots.vue'
 </script>
 
 # Input
@@ -49,5 +50,23 @@ You can also provide custom content on label and hint using named `#label` and `
 
 <template #demo>
 <InputLabel />
+</template>
+</Demo>
+
+
+## Before & After
+
+RInput supports before and after slots for rendering custom template beside input element
+
+
+<Demo>
+
+:::code-group
+<<< ../../components/input/InputSlots.vue#template{4,11,14,16} [template]
+:::
+
+
+<template #demo>
+  <InputSlots />
 </template>
 </Demo>

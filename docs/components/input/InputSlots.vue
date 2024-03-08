@@ -1,33 +1,34 @@
+<!-- #region template -->
 <template>
-  <div class="doc-item">
+  <div class="input-items">
     <RInput v-model="search" placeholder="Search..." label="Clearable Input">
       <template #after>
-        <RButton iconOnly icon="bx-x" flat color="red" @click="search = ''" v-if="!!search"></RButton>
-        <RButton icon="bx-search" flat iconOnly />
+        <RButton iconOnly variant="transparent" color="red" @click="search = ''" v-if="!!search">
+          <CloseIcon />
+        </RButton>
+        <RButton variant="transparent" iconOnly>
+          <SearchIcon />
+        </RButton>
       </template>
     </RInput>
     <RInput v-model="website" label="Website Address">
       <template #before>
         <div class="before">https://</div>
       </template>
-      <template #after>
-        <RButton iconOnly icon="bx-search" flat />
-      </template>
     </RInput>
   </div>
 </template>
+<!-- #endregion template -->
 
 <script lang="ts" setup>
+import { ref } from "vue";
+import SearchIcon from "../icons/SearchIcon.vue";
+import CloseIcon from "../icons/CloseIcon.vue";
 const search = ref("");
 const website = ref("");
 </script>
 
-<style scoped lang="scss">
-.doc-item {
-  display: flex;
-  flex-direction: column;
-  gap: var(--r-space-3);
-}
+<style lang="scss">
 .before {
   display: flex;
   align-items: center;
