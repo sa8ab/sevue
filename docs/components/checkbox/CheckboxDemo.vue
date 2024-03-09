@@ -1,15 +1,11 @@
 <template>
   <div class="doc-item">
-    <RCheckbox v-model="state">Checkbox</RCheckbox>
+    <RCheckbox v-model="state">Demo Checkbox</RCheckbox>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref } from "vue";
+
 const state = ref();
 </script>
-
-<style scoped>
-.doc-item {
-  max-width: 100%;
-}
-</style>
