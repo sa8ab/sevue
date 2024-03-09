@@ -67,6 +67,7 @@ const model = computed({
     return props.modelValue;
   },
 });
+
 const isChecked = computed(() => {
   if (Array.isArray(props.modelValue)) {
     return props.modelValue.includes(props.value);
@@ -74,8 +75,11 @@ const isChecked = computed(() => {
   return props.modelValue === props.trueValue;
 });
 
+const focus = () => inputRef.value?.focus();
+
 defineExpose({
   inputRef,
+  focus,
 });
 </script>
 
