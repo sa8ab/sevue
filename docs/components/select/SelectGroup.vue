@@ -1,15 +1,25 @@
 <template>
   <div class="doc-item two">
-    <RSelect v-model="selected" placeholder="Select City" searchable>
-      <RSelectGroup v-for="{ title, cities } in items" :title="title">
-        <ROption v-for="{ name, id } in cities" :value="id" :text="name" />
-      </RSelectGroup>
+    <!-- #region template -->
+    <RSelect
+      v-model="selected"
+      placeholder="Select City"
+      searchable
+      :groupedOptions="items"
+      :getGroupOptions="(group) => group.cities"
+      :getGroupTitle="(g) => g.title"
+      :getText="(o) => o.name"
+      :getValue="(o) => o.id"
+    >
     </RSelect>
+    <!-- #endregion template -->
   </div>
 </template>
 
 <script lang="ts" setup>
-const items = ref([
+// #region script
+import { ref } from "vue";
+const items = [
   {
     title: "UK",
     cities: [
@@ -25,6 +35,7 @@ const items = ref([
       { name: "Novosibirsk", id: 5 },
     ],
   },
-]);
+];
 const selected = ref();
+// #endregion script
 </script>

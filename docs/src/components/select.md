@@ -5,6 +5,7 @@
   import SelectCustomOptionContent from '../../components/select/SelectCustomOptionContent.vue'
   import SelectMultiple from '../../components/select/SelectMultiple.vue'
   import SelectDisabled from '../../components/select/SelectDisabled.vue'
+  import SelectGroup from '../../components/select/SelectGroup.vue'
 </script>
 
 # Select
@@ -117,6 +118,24 @@ If you want to disable some options, use `:getIsDisabled` prop.
 
 <template #demo>
 <SelectDisabled />
+</template>
+
+</Demo>
+
+## Group
+
+To show the items in goups, `groupedOptions` is used instead of `options`. Another required props when using groups are `getGroupOptions` and `getGroupTitle`, which is a similar syntax to `getText` which this one returns the options and title in each group.
+
+
+<Demo>
+
+:::code-group
+<<< ../../components/select/SelectGroup.vue#template [template]
+<<< ../../components/select/SelectGroup.vue#script{ts} [script]
+:::
+
+<template #demo>
+<SelectGroup />
 </template>
 
 </Demo>
