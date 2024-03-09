@@ -1,7 +1,7 @@
 <template>
   <div class="center-it">
     <div class="actions">
-      <RButton @click="disabled = !disabled">Toggle Disabled</RButton>
+      <RButton @click="disabled = !disabled" @blur="someEvent" @focus="someEvent" tag="span">Toggle Disabled</RButton>
     </div>
     <div class="items base">
       <RButton :loading="loading" :disabled="disabled">Normal</RButton>
@@ -45,6 +45,10 @@ const disabled = ref(false);
 const buttonRef = ref<HTMLButtonElement | undefined>(undefined);
 
 const customFocus = () => {};
+
+const someEvent = () => {
+  console.log("some event");
+};
 </script>
 
 <style lang="scss" scoped>

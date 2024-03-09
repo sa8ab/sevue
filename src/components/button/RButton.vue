@@ -1,8 +1,6 @@
 <template>
   <component
     :is="renderComponent"
-    @keyup.tab="focused = true"
-    @blur="focused = false"
     :disabled="disabled"
     v-bind="
       isRouterLink
@@ -28,7 +26,6 @@
         'r-button-round': round,
         'r-button-transparent': transparent,
         'r-button-icon-only': iconOnly,
-        focused,
         colorInherit,
         block,
         loading,
@@ -108,8 +105,6 @@ const props = withDefaults(defineProps<Props>(), {
   variant: "light",
 });
 const { color, foreground } = useColor(toRef(props, "color"), toRef(props, "textColor"));
-
-const focused = ref(false);
 
 const isRouterLink = computed(() => !!props.to);
 const isAnchorElement = computed(() => !!props.href);
@@ -291,7 +286,7 @@ button {
   }
 }
 
-.r-button.focused {
+.r-button:focus-visible {
   box-shadow: 0px 0px 0px calc(var(--r-space-1) / 2) color();
 }
 </style>
