@@ -2,6 +2,7 @@
   import PopupDemo from '../../components/popup/PopupDemo.vue'
   import PopupClose from '../../components/popup/PopupClose.vue'
   import PopupBeforeClose from '../../components/popup/PopupBeforeClose.vue'
+  import PopupSlots from '../../components/popup/PopupSlots.vue'
 </script>
 
 # Popup
@@ -38,10 +39,30 @@ If `noClose` is true popup won't be closed by clicking the underlay. and if `noC
 
 :::code-group
 <<< ../../components/popup/PopupBeforeClose.vue#template [template]
+<<< ../../components/popup/PopupBeforeClose.vue#script{ts} [script]
 :::
 
 <template #demo>
 <PopupBeforeClose />
+</template>
+
+</Demo>
+
+
+## Custom Header & Footer
+
+Header and Footer of the popup is customizable using `header` and `footer` named slot.
+
+<Demo>
+
+:::code-group
+<<< ../../components/popup/PopupSlots.vue#template [template]
+<<< ../../components/popup/PopupSlots.vue#script{ts} [script]
+<<< ../../components/popup/PopupSlots.vue#style{scss} [style]
+:::
+
+<template #demo>
+<PopupSlots />
 </template>
 
 </Demo>
