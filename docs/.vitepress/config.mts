@@ -29,6 +29,7 @@ export default defineConfig({
           { text: "Checkbox", link: "/components/checkbox" },
           { text: "Tabs", link: "/components/tabs" },
           { text: "Popup", link: "/components/popup" },
+          { text: "Pagination", link: "/components/pagination" },
         ],
       },
     ],
