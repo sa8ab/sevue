@@ -1,6 +1,6 @@
 <template>
   <label
-    :class="['r-cb', containerClass, { isChecked, disabled, focused }]"
+    :class="['r-cb', containerClass, { isChecked, disabled }]"
     :style="{
       '--r-color': color || 'var(--r-prm)',
       '--r-text-color': iconColor || 'var(--r-text)',
@@ -13,8 +13,6 @@
       :trueValue="trueValue"
       :falseValue="falseValue"
       :disabled="disabled"
-      @keyup.tab="onFocus"
-      @blur="onBlur"
       v-bind="$attrs"
       ref="inputRef"
     />
@@ -60,14 +58,7 @@ const emit = defineEmits(["update:modelValue"]);
 const { color } = useColor(toRef(props, "color"));
 const { color: iconColor } = useColor(toRef(props, "iconColor"));
 const inputRef = ref<HTMLInputElement | undefined>();
-const focused = ref(false);
 
-const onFocus = () => {
-  focused.value = true;
-};
-const onBlur = () => {
-  focused.value = false;
-};
 const model = computed({
   set(e) {
     emit("update:modelValue", e);
@@ -156,12 +147,6 @@ defineExpose({
   }
 
   &.isChecked {
-    &:hover {
-      .check-container {
-        box-shadow: 0 2px 10px -4px color();
-      }
-    }
-
     .check-container {
       border-color: color();
     }
@@ -180,9 +165,9 @@ defineExpose({
   &.disabled {
     pointer-events: none;
     opacity: var(--r-disabled-alpha);
-    --r-color: var(--r-disabled) !important;
   }
-  &.focused {
+
+  input:focus-visible ~ .check-container {
     box-shadow: var(--r-focused-box-shadow-specs) color();
     border-radius: var(--r-radius);
   }

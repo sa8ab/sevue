@@ -1,8 +1,8 @@
 <template>
   <div class="center-it">
-    <RCheckbox v-model="checked" ref="checkbox" color="red" iconColor="yellow">
-      Checkbox
-    </RCheckbox>
+    <RCheckbox v-model="checked" ref="checkbox" color="red"> Checkbox </RCheckbox>
+    <RCheckbox v-model="checked" ref="checkbox"> Checkbox </RCheckbox>
+    <RCheckbox v-model="checked" ref="checkbox" color="red" disabled> Checkbox </RCheckbox>
   </div>
 </template>
 
