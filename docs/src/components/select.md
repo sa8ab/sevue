@@ -139,3 +139,23 @@ To show the items in goups, `groupedOptions` is used instead of `options`. Anoth
 </template>
 
 </Demo>
+
+## Empty slots
+
+`#option-empty` named slot will be shown when there is some search but no items are found. receives `search` slot prop which is the currently searched query. Defaults to:
+```vue
+<span>"{{ search }}" Not found</span>
+```
+
+`#empty` slot will be shown when there are no items. Defaults to:
+```vue
+<span>No Options</span>
+```
+
+## Creating options
+
+Feature will be added soon.
+
+## Vitrual List
+
+Feature will be added soon.
