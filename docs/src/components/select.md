@@ -159,3 +159,39 @@ Feature will be added soon.
 ## Vitrual List
 
 Feature will be added soon.
+
+
+## State
+
+Refer to [Input State](/components/input#states)
+
+## Props
+
+## Props
+
+| Name                    | Type                                       | Required | Default Value                             | Description                                                                                                                                             |
+| ----------------------- | ------------------------------------------ | -------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| searchable              | boolean                                    | No       | false                                     | If true, allows users to search for and select options from a dropdown menu.                                                                            |
+| multiple                | boolean                                    | No       | false                                     | If true, allows users to select multiple options from the dropdown menu.                                                                                |
+| modelValue              | array \| number \| string                  | Yes      | undefined                                 | The selected value(s) of the dropdown menu.                  |
+| placeholder             | string                                     | No       | ""                                        | The text displayed inside the dropdown menu when no options are selected.                                                                               |
+| disabled                | boolean                                    | No       | false                                     | If true, disables the dropdown menu.                                                                                                                    |
+| label                   | string                                     | No       | undefined                                 | The label displayed above the dropdown menu.                                                                                                            |
+| closeAfterSelection    | boolean                                    | No       | true                                     | If true, closes the dropdown menu after a selection has been made.                                                                                  |
+| color                   | string                                     | No       | undefined                                 | The color of the Select.                                                                                                                                |
+| error                   | boolean                                    | No       | false                                     | If true, adds error styling.                                                                                                                            |
+| message                 | string                                     | No       | undefined                                 | The message displayed below the dropdown menu.                                                                                                          |
+| errorMessage            | string                                     | No       | undefined                                 | The errorMessage displayed below the dropdown menu.                                                                                                          |
+| inputProps              | object of any                              | No       | undefined                                 | Props to pass down to input                                                                                                                             |
+| showDropdownOnEmptySearch | boolean                                    | No       | true                                 | When search value is empty dropdown will not show (or hide of it is was open)                                                                           |
+| noDropdown              | boolean                                    | No       | undefined                                 | whether do show a dropdown or not. can be usefull when user can create options by itself                                                                |
+| loading                 | boolean                                    | No       | undefined                                 | Loading state on select ( shows a spinner instead of chevron )                                                                                          |
+| customSearch            | (search?: string, option: Option) => boolean    | No       | undefined                                 | called for each item and filters the list based on returned boolean                                 |
+| options                   | any\[]                                     | No       | undefined                                 | options of select                                                                                      |
+| getText         | (option: Option) => string                                     | No       | undefined                                     | returns text of each item                                  |
+| getValue         | (option: Option) => string                                     | No       | undefined                                     | returns value of each item                                  |
+| getIsDisabled         | (option: Option) => boolean                                     | No       | undefined                                     | returns if option is disabled                                  |
+| groupedOptions         |  any\[]                                     | No       | undefined                                     | will be used instead of options if grouped items are being used                                  |
+| getGroupOptions         |   (group: Group) => Option                                       | No       | undefined                                     | Returns options of each group                                  |
+| getGroupTitle         |   (group: Group) => string                                       | No       | undefined                                     | Returns title of each group                                  |
+| dropdownClass           | string                 | No       | undefined                                 | extra classes to pass down to dropdown ( since it's rendered on body you need to specify global styles for it. )                   |
