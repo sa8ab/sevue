@@ -57,7 +57,6 @@ Header and Footer of the popup is customizable using `header` and `footer` named
 
 :::code-group
 <<< ../../components/popup/PopupSlots.vue#template [template]
-<<< ../../components/popup/PopupSlots.vue#script{ts} [script]
 <<< ../../components/popup/PopupSlots.vue#style{scss} [style]
 :::
 
