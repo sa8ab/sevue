@@ -4,6 +4,7 @@
   import SelectCustomOption from '../../components/select/SelectCustomOption.vue'
   import SelectCustomOptionContent from '../../components/select/SelectCustomOptionContent.vue'
   import SelectMultiple from '../../components/select/SelectMultiple.vue'
+  import SelectDisabled from '../../components/select/SelectDisabled.vue'
 </script>
 
 # Select
@@ -96,6 +97,26 @@ To prevent closing of dropdown after each selection, you can use `closeAfterSele
 
 <template #demo>
 <SelectMultiple />
+</template>
+
+</Demo>
+
+
+## Disabled
+
+`disabled` prop can be passed to `RSelect` to disable the whole select.
+If you want to disable some options, use `:getIsDisabled` prop.
+
+
+<Demo>
+
+:::code-group
+<<< ../../components/select/SelectDisabled.vue#template{5,17} [template]
+<<< ../../components/select/SelectDisabled.vue#script{ts} [script]
+:::
+
+<template #demo>
+<SelectDisabled />
 </template>
 
 </Demo>

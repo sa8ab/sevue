@@ -1,7 +1,7 @@
 <template>
   <div class="center-it">
     <div class="actions">
-      <RButton @click="disabled = !disabled" @blur="someEvent" @focus="someEvent" tag="span">Toggle Disabled</RButton>
+      <RButton @click="disabled = !disabled" @blur="someEvent" @focus="someEvent">Toggle Disabled</RButton>
     </div>
     <div class="items base">
       <RButton :loading="loading" :disabled="disabled">Normal</RButton>
