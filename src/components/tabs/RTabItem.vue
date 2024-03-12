@@ -1,5 +1,5 @@
 <template>
-  <div :class="['r-tab-item', { 'r-tab-item-active': active, disabled }]" ref="elementRef" :tabindex="tabindex">
+  <div :class="['r-tab-item', { 'r-tab-item-active': active, disabled }]" :tabindex="tabindex" @click="handleClick">
     <slot></slot>
   </div>
 </template>
@@ -19,25 +19,16 @@ defineOptions({
 
 const props = defineProps<Props>();
 const emit = defineEmits<{
-  setMoverStyle: [HTMLElement | undefined];
+  setValue: [];
 }>();
 
-const elementRef = ref<HTMLElement | undefined>();
-
-const tabindex = computed(() => (props.active ? "0" : "-1"));
-
-const tryUpdateMover = () => {
-  if (props.active) emit("setMoverStyle", elementRef.value);
+const handleClick = () => {
+  if (props.active) return;
+  if (props.disabled) return;
+  emit("setValue");
 };
 
-onMounted(() => tryUpdateMover());
-
-watch(
-  () => props.active,
-  () => {
-    tryUpdateMover();
-  }
-);
+const tabindex = computed(() => (props.active ? "0" : "-1"));
 </script>
 
 <style lang="scss">
@@ -66,8 +57,6 @@ watch(
 
   &-active {
     color: color();
-    pointer-events: none;
-    // background: color(color, var(--r-light-alpha));
   }
 }
 </style>

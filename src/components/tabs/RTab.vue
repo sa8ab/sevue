@@ -11,8 +11,8 @@
           :value="item.value"
           :disabled="item.disabled"
           :active="getIsActive(item.value)"
-          @setMoverStyle="setMoverStyle"
-          @click="setValue(item.value)"
+          @setValue="setValue(item.value)"
+          ref="itemRefs"
         >
           {{ item.label }}
         </RTabItem>
@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import useColor from "@/composables/useColor";
-import { onMounted, reactive, ref, toRef, provide, onBeforeUnmount } from "vue";
+import { onMounted, reactive, ref, toRef, onBeforeUnmount, nextTick } from "vue";
 import type { RTabItemType } from "@/types";
 import { computed } from "vue";
 
@@ -45,7 +45,6 @@ type State = {
   moverLeft: string;
   // moverTop: string,
   observerInstance?: ResizeObserver;
-  lastActiveElement?: HTMLElement;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -67,16 +66,18 @@ const state = reactive<State>({
   moverLeft: "0",
   // moverTop: "0",
   observerInstance: undefined,
-  lastActiveElement: undefined,
 });
 
 const tabbarContainer = ref<HTMLElement>();
 const tabbar = ref<Element>();
+const itemRefs = ref<HTMLElement[]>([]);
 
 onMounted(async () => {
   runObserver();
   maybeSetInitialValue();
 });
+
+const currentIndex = computed(() => props.items?.findIndex((item) => item.value === model.value));
 
 const maybeSetInitialValue = () => {
   // if already has modelValue
@@ -108,38 +109,34 @@ const runObserver = () => {
   state.observerInstance.observe(tabbar.value!);
 };
 
-const setMoverStyle = async (el?: HTMLElement) => {
-  if (el) state.lastActiveElement = el;
-  if (!el) {
-    el = state.lastActiveElement;
+const setMoverStyle = async (options?: { focus: boolean }) => {
+  if (currentIndex.value === undefined) return;
+  // @ts-ignore
+  const tab = itemRefs.value[currentIndex.value]?.$el;
+
+  if (!tab) return;
+
+  if (options?.focus) {
+    tab.focus();
   }
 
-  if (!el) return;
+  state.moverWidth = `${tab.offsetWidth}px`;
+  state.moverLeft = `${tab.offsetLeft}px`;
 
-  const { width } = el.getBoundingClientRect();
-
-  const newTabBarItemOffset = el.offsetLeft;
-
-  // const top = el.offsetTop + (props.moverFull ? 0 : el.clientHeight);
-  // state.moverTop = `${top}px`;
-
-  state.moverWidth = `${width}px`;
-  state.moverLeft = `${newTabBarItemOffset}px`;
-  if (props.scrollable) {
-    //   TODO: fix for rtl version
-    tabbarContainer.value?.scrollTo({
-      left: newTabBarItemOffset - 80,
-      behavior: "smooth",
-    });
-  }
+  // if (props.scrollable) {
+  //   //   TODO: fix for rtl version
+  //   tabbarContainer.value?.scrollTo({
+  //     left: newTabBarItemOffset - 80,
+  //     behavior: "smooth",
+  //   });
+  // }
 };
 
-const setValue = (value: string | number) => {
+const setValue = (value: string | number, options?: { focus: boolean }) => {
   model.value = value;
   emit("change", value);
+  nextTick(() => setMoverStyle(options));
 };
-
-const currentIndex = computed(() => props.items?.findIndex((item) => item.value === model.value));
 
 const getIsActive = (value: RTabItemType["value"]) => {
   return value === model.value;
@@ -153,34 +150,36 @@ const selectNextItem = () => {
   const next = items.find((item, index) => !item.disabled && index > currentIndex.value!);
 
   if (next) {
-    setValue(next.value);
+    setValue(next.value, {
+      focus: true,
+    });
   }
 };
 
 const selectPrevItem = () => {
   const items = props.items;
 
-  const currentReversedIndex = props.items?.findIndex((item) => item.value === model.value);
-
-  if (!items?.length || currentReversedIndex === undefined || currentReversedIndex === -1) return;
+  if (!items?.length) return;
 
   const reversedList = [...items].reverse();
 
+  const currentReversedIndex = reversedList.findIndex((item) => item.value === model.value);
+  if (currentReversedIndex === -1) return;
+
   const previous = reversedList.find((item, index) => !item.disabled && index > currentReversedIndex);
 
-  console.log(reversedList, previous, currentIndex.value);
   if (previous) {
-    setValue(previous.value);
+    setValue(previous.value, {
+      focus: true,
+    });
   }
 };
 const handleKeyDown = (e: KeyboardEvent) => {
   const code = e.code;
   if (code === "ArrowLeft") {
-    // go to next item
     selectPrevItem();
   }
   if (code === "ArrowRight") {
-    // go to prev item
     selectNextItem();
   }
 };
