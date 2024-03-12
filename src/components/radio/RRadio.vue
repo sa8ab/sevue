@@ -1,6 +1,6 @@
 <template>
   <label
-    :class="['r-radio', containerClass, { disabled }]"
+    :class="['r-radio', containerClass, { 'r-radio-disabled': disabled }]"
     :style="{
       '--r-color': color || 'var(--r-prm)',
     }"
@@ -121,7 +121,7 @@ defineExpose({
     opacity: 1;
   }
 
-  &.disabled {
+  &-disabled {
     pointer-events: none;
     opacity: var(--r-disabled-alpha);
   }
