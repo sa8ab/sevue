@@ -24,9 +24,8 @@
 
 <script setup lang="ts">
 import useColor from "@/composables/useColor";
-import { onMounted, reactive, ref, toRef, onBeforeUnmount, nextTick } from "vue";
+import { onMounted, reactive, ref, toRef, onBeforeUnmount, nextTick, computed, watch } from "vue";
 import type { RTabItemType } from "@/types";
-import { computed } from "vue";
 
 export interface Props {
   items?: RTabItemType[];
@@ -109,16 +108,12 @@ const runObserver = () => {
   state.observerInstance.observe(tabbar.value!);
 };
 
-const setMoverStyle = async (options?: { focus: boolean }) => {
+const setMoverStyle = async () => {
   if (currentIndex.value === undefined) return;
   // @ts-ignore
   const tab = itemRefs.value[currentIndex.value]?.$el;
 
   if (!tab) return;
-
-  if (options?.focus) {
-    tab.focus();
-  }
 
   state.moverWidth = `${tab.offsetWidth}px`;
   state.moverLeft = `${tab.offsetLeft}px`;
@@ -135,8 +130,18 @@ const setMoverStyle = async (options?: { focus: boolean }) => {
 const setValue = (value: string | number, options?: { focus: boolean }) => {
   model.value = value;
   emit("change", value);
-  nextTick(() => setMoverStyle(options));
+
+  // @ts-ignore
+  const tab = itemRefs.value[currentIndex.value]?.$el;
+
+  if (tab && options?.focus) {
+    tab.focus();
+  }
 };
+
+watch(model, () => {
+  setMoverStyle();
+});
 
 const getIsActive = (value: RTabItemType["value"]) => {
   return value === model.value;

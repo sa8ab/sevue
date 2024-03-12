@@ -8,6 +8,7 @@
     </div>
     <div v-if="active">
       <RTab ref="tabbar" v-model="tab" :items="tabs"> </RTab>
+      <RTab ref="tabbar" v-model="tab" :items="tabs" moverFull> </RTab>
 
       <RPanel v-model="tab">
         <RPanelItem value="one">some text one</RPanelItem>
