@@ -7,13 +7,8 @@
       <RButton @click="dynamicTabTitle = 'changed'">change a tab title</RButton>
     </div>
     <div v-if="active">
-      <RTab ref="tabbar" v-model="tab">
-        <RTabItem value="one">{{ dynamicTabTitle }}</RTabItem>
-        <RTabItem value="two">Two</RTabItem>
-        <RTabItem value="other">Other</RTabItem>
-        <RTabItem value="three" disabled>three</RTabItem>
-        <!-- <RTabItem v-for="x in count" :title="`dynamic ${x}`" :name="`dynamic ${x}`"> test </RTabItem> -->
-      </RTab>
+      <RTab ref="tabbar" v-model="tab" :items="tabs"> </RTab>
+      <RTab ref="tabbar" v-model="tab" :items="tabs" moverFull> </RTab>
 
       <RPanel v-model="tab">
         <RPanelItem value="one">some text one</RPanelItem>
@@ -30,15 +25,16 @@ import { RTab, RTabItem, RButton, RPanel, RPanelItem } from "../../src/main";
 
 const tabbar = ref();
 const active = ref(true);
-const tab = ref("one");
 const count = ref(2);
 const dynamicTabTitle = ref("one");
 
+const tab = ref("settings");
+
 const tabs = ref([
-  { title: "Settings", name: "settings" },
-  { title: "Comments", name: "comments" },
-  { title: "Logs", name: "logs" },
-  { title: "Logs3", name: "logs2" },
+  { label: "Settings", value: "settings" },
+  { label: "Comments", value: "comments" },
+  { label: "Logs", value: "logs", disabled: true },
+  { label: "Logs3", value: "logs2" },
   // { title: "comments", name: "commentsrwef" },
   // { title: "logs", name: "logswef" },
   // { title: "logs3", name: "logsr2" },

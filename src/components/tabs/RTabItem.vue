@@ -1,54 +1,34 @@
 <template>
-  <div
-    :class="['r-tab-item', { 'r-tab-item-active': active, disabled }]"
-    @click="onClick"
-    ref="elementRef"
-    v-ripple
-    :tabindex="tabindex"
-  >
+  <div :class="['r-tab-item', { 'r-tab-item-active': active, disabled }]" :tabindex="tabindex" @click="handleClick">
     <slot></slot>
   </div>
 </template>
 
 <script setup lang="ts">
-import { tabKey } from "@/injectionKeys";
-import type { TabInject } from "@/types";
 import { inject, computed, ref, watch, onMounted } from "vue";
 
 export interface Props {
   value: string | number;
-  title?: string;
   disabled?: boolean;
+  active?: boolean;
 }
-
-const tab = inject(tabKey) as TabInject;
 
 defineOptions({
   isTabItem: true,
 });
 
 const props = defineProps<Props>();
+const emit = defineEmits<{
+  setValue: [];
+}>();
 
-const elementRef = ref<HTMLElement | undefined>();
-
-const onClick = () => {
-  tab.onItemClick(props);
+const handleClick = () => {
+  if (props.active) return;
+  if (props.disabled) return;
+  emit("setValue");
 };
 
-const active = computed(() => tab.activeTab.value === props.value);
-
-const tabindex = computed(() => (active.value ? "0" : "-1"));
-
-const setStyle = () => {
-  if (!active.value) return;
-  tab.setMoverStyle(elementRef.value!);
-};
-
-onMounted(() => setStyle());
-
-watch(tab.activeTab, () => {
-  setStyle();
-});
+const tabindex = computed(() => (props.active ? "0" : "-1"));
 </script>
 
 <style lang="scss">
@@ -77,8 +57,6 @@ watch(tab.activeTab, () => {
 
   &-active {
     color: color();
-    pointer-events: none;
-    // background: color(color, var(--r-light-alpha));
   }
 }
 </style>

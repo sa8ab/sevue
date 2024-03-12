@@ -101,3 +101,9 @@ export interface PanelInject {
   setHeight: (height: string) => void;
   direction: Ref<"forward" | "backward">;
 }
+
+export interface RTabItemType {
+  value: string | number;
+  label?: string | number;
+  disabled?: boolean;
+}

@@ -6,7 +6,16 @@
   >
     <div class="r-tabbar-container" ref="tabbarContainer">
       <div class="r-tabbar" ref="tabbar">
-        <slot />
+        <RTabItem
+          v-for="item in items"
+          :value="item.value"
+          :disabled="item.disabled"
+          :active="getIsActive(item.value)"
+          @setValue="setValue(item.value)"
+          ref="itemRefs"
+        >
+          {{ item.label }}
+        </RTabItem>
         <div class="r-tab-mover" :style="{ width: state.moverWidth, left: state.moverLeft }"></div>
       </div>
     </div>
@@ -15,12 +24,12 @@
 
 <script setup lang="ts">
 import useColor from "@/composables/useColor";
-import { onMounted, reactive, ref, toRef, provide, onBeforeUnmount } from "vue";
-import type { Props as Tab } from "./RTabItem.vue";
-import { tabKey } from "@/injectionKeys";
+import { onMounted, reactive, ref, toRef, onBeforeUnmount, nextTick, computed, watch } from "vue";
+import type { RTabItemType } from "@/types";
 
 export interface Props {
-  modelValue: string | number;
+  items?: RTabItemType[];
+  initialValue?: number | string;
   fit?: boolean;
   bordered?: boolean;
   scrollable?: boolean;
@@ -35,15 +44,19 @@ type State = {
   moverLeft: string;
   // moverTop: string,
   observerInstance?: ResizeObserver;
-  lastActiveElement?: HTMLElement;
 };
 
 const props = withDefaults(defineProps<Props>(), {
   activeTextColor: "#fff",
 });
+
 const emit = defineEmits<{
-  (e: "update:modelValue", arg0: Props["modelValue"]): void;
+  change: [RTabItemType["value"]];
 }>();
+const model = defineModel<string | number>({
+  required: false,
+});
+
 const { color } = useColor(toRef(props, "color"));
 const { color: activeTextColor } = useColor(toRef(props, "activeTextColor"));
 
@@ -52,15 +65,36 @@ const state = reactive<State>({
   moverLeft: "0",
   // moverTop: "0",
   observerInstance: undefined,
-  lastActiveElement: undefined,
 });
-const tabBarItems = ref<HTMLElement[]>([]);
-const tabbarContainer = ref();
+
+const tabbarContainer = ref<HTMLElement>();
 const tabbar = ref<Element>();
+const itemRefs = ref<HTMLElement[]>([]);
 
 onMounted(async () => {
   runObserver();
+  maybeSetInitialValue();
 });
+
+const currentIndex = computed(() => props.items?.findIndex((item) => item.value === model.value));
+
+const maybeSetInitialValue = () => {
+  // if already has modelValue
+  if (model.value) return;
+
+  // if has requested initalValue
+  if (props.initialValue !== undefined) {
+    model.value = props.initialValue;
+    return;
+  }
+
+  // pick first item
+  const firstActiveIndex = props.items?.findIndex(({ disabled }) => !disabled);
+
+  if (firstActiveIndex == -1 || firstActiveIndex === undefined) return;
+
+  model.value = props.items?.[firstActiveIndex].value;
+};
 
 onBeforeUnmount(() => {
   state.observerInstance?.disconnect();
@@ -74,51 +108,88 @@ const runObserver = () => {
   state.observerInstance.observe(tabbar.value!);
 };
 
-const onItemClick = (item: Tab) => {
-  emit("update:modelValue", item.value);
+const setMoverStyle = async () => {
+  if (currentIndex.value === undefined) return;
+  // @ts-ignore
+  const tab = itemRefs.value[currentIndex.value]?.$el;
+
+  if (!tab) return;
+
+  state.moverWidth = `${tab.offsetWidth}px`;
+  state.moverLeft = `${tab.offsetLeft}px`;
+
+  // if (props.scrollable) {
+  //   //   TODO: fix for rtl version
+  //   tabbarContainer.value?.scrollTo({
+  //     left: newTabBarItemOffset - 80,
+  //     behavior: "smooth",
+  //   });
+  // }
 };
 
-const setMoverStyle = async (el?: HTMLElement) => {
-  if (el) state.lastActiveElement = el;
-  if (!el) {
-    el = state.lastActiveElement;
-  }
+const setValue = (value: string | number, options?: { focus: boolean }) => {
+  model.value = value;
+  emit("change", value);
 
-  if (!el) return;
+  nextTick(() => {
+    // @ts-ignore
+    const tab = itemRefs.value[currentIndex.value]?.$el;
 
-  const { width } = el.getBoundingClientRect();
+    if (tab && options?.focus) {
+      tab.focus();
+    }
+  });
+};
 
-  const newTabBarItemOffset = el.offsetLeft;
+watch(model, () => {
+  setMoverStyle();
+});
 
-  // const top = el.offsetTop + (props.moverFull ? 0 : el.clientHeight);
-  // state.moverTop = `${top}px`;
+const getIsActive = (value: RTabItemType["value"]) => {
+  return value === model.value;
+};
 
-  state.moverWidth = `${width}px`;
-  state.moverLeft = `${newTabBarItemOffset}px`;
-  if (props.scrollable) {
-    //   TODO: fix for rtl version
-    tabbarContainer.value.scrollTo({
-      left: newTabBarItemOffset - 80,
-      behavior: "smooth",
+const selectNextItem = () => {
+  const items = props.items;
+
+  if (!items?.length || currentIndex.value === undefined || currentIndex.value === -1) return;
+
+  const next = items.find((item, index) => !item.disabled && index > currentIndex.value!);
+
+  if (next) {
+    setValue(next.value, {
+      focus: true,
     });
   }
 };
 
+const selectPrevItem = () => {
+  const items = props.items;
+
+  if (!items?.length) return;
+
+  const reversedList = [...items].reverse();
+
+  const currentReversedIndex = reversedList.findIndex((item) => item.value === model.value);
+  if (currentReversedIndex === -1) return;
+
+  const previous = reversedList.find((item, index) => !item.disabled && index > currentReversedIndex);
+
+  if (previous) {
+    setValue(previous.value, {
+      focus: true,
+    });
+  }
+};
 const handleKeyDown = (e: KeyboardEvent) => {
   const code = e.code;
   if (code === "ArrowLeft") {
-    // go to next item
+    selectPrevItem();
   }
   if (code === "ArrowRight") {
-    // go to prev item
+    selectNextItem();
   }
 };
-
-provide(tabKey, {
-  activeTab: toRef(props, "modelValue"),
-  onItemClick,
-  setMoverStyle,
-});
 </script>
 
 <style lang="scss">
