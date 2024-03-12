@@ -16,11 +16,11 @@
 <script setup lang="ts">
 import useColor from "@/composables/useColor";
 import { onMounted, reactive, ref, toRef, provide, onBeforeUnmount } from "vue";
-import type { Props as Tab } from "./RTabItem.vue";
-import { tabKey } from "@/injectionKeys";
+import type { RTabItemType } from "@/types";
 
 export interface Props {
-  modelValue: string | number;
+  items?: RTabItemType[];
+  initialValue?: number | string;
   fit?: boolean;
   bordered?: boolean;
   scrollable?: boolean;
@@ -41,9 +41,12 @@ type State = {
 const props = withDefaults(defineProps<Props>(), {
   activeTextColor: "#fff",
 });
-const emit = defineEmits<{
-  (e: "update:modelValue", arg0: Props["modelValue"]): void;
-}>();
+
+const emit = defineEmits<{}>();
+const model = defineModel<string | number>({
+  required: false,
+});
+
 const { color } = useColor(toRef(props, "color"));
 const { color: activeTextColor } = useColor(toRef(props, "activeTextColor"));
 
@@ -54,12 +57,15 @@ const state = reactive<State>({
   observerInstance: undefined,
   lastActiveElement: undefined,
 });
-const tabBarItems = ref<HTMLElement[]>([]);
-const tabbarContainer = ref();
+
+const tabbarContainer = ref<HTMLElement>();
 const tabbar = ref<Element>();
 
 onMounted(async () => {
   runObserver();
+  if (props.initialValue != undefined) {
+    model.value = props.initialValue;
+  }
 });
 
 onBeforeUnmount(() => {
@@ -72,10 +78,6 @@ const runObserver = () => {
   });
 
   state.observerInstance.observe(tabbar.value!);
-};
-
-const onItemClick = (item: Tab) => {
-  emit("update:modelValue", item.value);
 };
 
 const setMoverStyle = async (el?: HTMLElement) => {
@@ -97,7 +99,7 @@ const setMoverStyle = async (el?: HTMLElement) => {
   state.moverLeft = `${newTabBarItemOffset}px`;
   if (props.scrollable) {
     //   TODO: fix for rtl version
-    tabbarContainer.value.scrollTo({
+    tabbarContainer.value?.scrollTo({
       left: newTabBarItemOffset - 80,
       behavior: "smooth",
     });
@@ -113,12 +115,6 @@ const handleKeyDown = (e: KeyboardEvent) => {
     // go to prev item
   }
 };
-
-provide(tabKey, {
-  activeTab: toRef(props, "modelValue"),
-  onItemClick,
-  setMoverStyle,
-});
 </script>
 
 <style lang="scss">
