@@ -6,7 +6,16 @@
   >
     <div class="r-tabbar-container" ref="tabbarContainer">
       <div class="r-tabbar" ref="tabbar">
-        <slot />
+        <RTabItem
+          v-for="item in items"
+          :value="item.value"
+          :disabled="item.disabled"
+          :active="getIsActive(item.value)"
+          @setMoverStyle="setMoverStyle"
+          @click="setValue(item.value)"
+        >
+          {{ item.label }}
+        </RTabItem>
         <div class="r-tab-mover" :style="{ width: state.moverWidth, left: state.moverLeft }"></div>
       </div>
     </div>
@@ -17,6 +26,7 @@
 import useColor from "@/composables/useColor";
 import { onMounted, reactive, ref, toRef, provide, onBeforeUnmount } from "vue";
 import type { RTabItemType } from "@/types";
+import { computed } from "vue";
 
 export interface Props {
   items?: RTabItemType[];
@@ -42,7 +52,9 @@ const props = withDefaults(defineProps<Props>(), {
   activeTextColor: "#fff",
 });
 
-const emit = defineEmits<{}>();
+const emit = defineEmits<{
+  change: [RTabItemType["value"]];
+}>();
 const model = defineModel<string | number>({
   required: false,
 });
@@ -63,10 +75,26 @@ const tabbar = ref<Element>();
 
 onMounted(async () => {
   runObserver();
-  if (props.initialValue != undefined) {
-    model.value = props.initialValue;
-  }
+  maybeSetInitialValue();
 });
+
+const maybeSetInitialValue = () => {
+  // if already has modelValue
+  if (model.value) return;
+
+  // if has requested initalValue
+  if (props.initialValue !== undefined) {
+    model.value = props.initialValue;
+    return;
+  }
+
+  // pick first item
+  const firstActiveIndex = props.items?.findIndex(({ disabled }) => !disabled);
+
+  if (firstActiveIndex == -1 || firstActiveIndex === undefined) return;
+
+  model.value = props.items?.[firstActiveIndex].value;
+};
 
 onBeforeUnmount(() => {
   state.observerInstance?.disconnect();
@@ -106,13 +134,54 @@ const setMoverStyle = async (el?: HTMLElement) => {
   }
 };
 
+const setValue = (value: string | number) => {
+  model.value = value;
+  emit("change", value);
+};
+
+const currentIndex = computed(() => props.items?.findIndex((item) => item.value === model.value));
+
+const getIsActive = (value: RTabItemType["value"]) => {
+  return value === model.value;
+};
+
+const selectNextItem = () => {
+  const items = props.items;
+
+  if (!items?.length || currentIndex.value === undefined || currentIndex.value === -1) return;
+
+  const next = items.find((item, index) => !item.disabled && index > currentIndex.value!);
+
+  if (next) {
+    setValue(next.value);
+  }
+};
+
+const selectPrevItem = () => {
+  const items = props.items;
+
+  const currentReversedIndex = props.items?.findIndex((item) => item.value === model.value);
+
+  if (!items?.length || currentReversedIndex === undefined || currentReversedIndex === -1) return;
+
+  const reversedList = [...items].reverse();
+
+  const previous = reversedList.find((item, index) => !item.disabled && index > currentReversedIndex);
+
+  console.log(reversedList, previous, currentIndex.value);
+  if (previous) {
+    setValue(previous.value);
+  }
+};
 const handleKeyDown = (e: KeyboardEvent) => {
   const code = e.code;
   if (code === "ArrowLeft") {
     // go to next item
+    selectPrevItem();
   }
   if (code === "ArrowRight") {
     // go to prev item
+    selectNextItem();
   }
 };
 </script>
