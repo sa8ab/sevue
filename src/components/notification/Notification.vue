@@ -23,8 +23,10 @@
           <VNodeRenderer :param="before" />
         </div>
         <div class="notification-inner-main">
-          <VNodeRenderer class="title" :param="title" v-if="title" />
-          <VNodeRenderer class="text" :param="text" v-if="text" />
+          <div class="r-notification-title-and-text">
+            <VNodeRenderer class="title" :param="title" v-if="title" />
+            <VNodeRenderer class="text" :param="text" v-if="text" />
+          </div>
           <RButton @click="close" class="close" iconOnly round v-if="!noCloseButton" textStyle>
             <template #icon>
               <SevueIcon name="close" />
@@ -138,6 +140,12 @@ defineExpose({
 
     &-main {
       display: flex;
+      flex: 1;
+      justify-content: flex-start;
+    }
+
+    .r-notification-title-and-text {
+      display: flex;
       flex-direction: column;
       flex: 1;
     }
@@ -152,9 +160,9 @@ defineExpose({
     }
 
     .close {
-      position: absolute;
-      top: 2px;
-      right: 2px;
+      position: relative;
+      top: -4px;
+      right: -4px;
       padding: 2px;
 
       svg {
