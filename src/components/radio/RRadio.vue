@@ -1,6 +1,6 @@
 <template>
   <label
-    :class="['r-radio', containerClass, { isChecked, disabled }]"
+    :class="['r-radio', containerClass, { disabled }]"
     :style="{
       '--r-color': color || 'var(--r-prm)',
     }"
@@ -45,9 +45,6 @@ const model = computed({
   get() {
     return props.modelValue;
   },
-});
-const isChecked = computed(() => {
-  return props.modelValue === props.value;
 });
 
 onMounted(() => {
@@ -115,15 +112,12 @@ defineExpose({
     flex: 1;
   }
 
-  &.isChecked {
-    .r-radio-dot-container {
-      border-color: color();
-    }
-
-    .background {
-      top: 0;
-      opacity: 1;
-    }
+  input:checked ~ .r-radio-dot-container {
+    border-color: color();
+  }
+  input:checked ~ .r-radio-dot-container .background {
+    top: 0;
+    opacity: 1;
   }
 
   &.disabled {
