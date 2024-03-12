@@ -7,7 +7,7 @@
   >
     <input type="radio" :value="value" v-model="model" :disabled="disabled" v-bind="$attrs" ref="inputRef" />
     <div class="r-radio-dot-container">
-      <div class="background"></div>
+      <div class="r-radio-dot-circle"></div>
     </div>
     <div class="slot">
       <slot />
@@ -36,6 +36,7 @@ const props = withDefaults(defineProps<Props>(), {});
 const emit = defineEmits(["update:modelValue"]);
 
 const { color } = useColor(toRef(props, "color"));
+
 const inputRef = ref<HTMLInputElement | undefined>();
 
 const model = computed({
@@ -70,7 +71,7 @@ defineExpose({
   color: color(text-color);
 
   &:hover {
-    .check-container {
+    .r-radio-dot-container {
       background: color(hover, var(--r-hover-alpha));
     }
   }
@@ -97,7 +98,7 @@ defineExpose({
     transition: all var(--r-duration);
   }
 
-  .background {
+  &-dot-circle {
     position: relative;
     top: 4px;
     width: calc(100% - 4px);
@@ -115,7 +116,7 @@ defineExpose({
   input:checked ~ .r-radio-dot-container {
     border-color: color();
   }
-  input:checked ~ .r-radio-dot-container .background {
+  input:checked ~ .r-radio-dot-container .r-radio-dot-circle {
     top: 0;
     opacity: 1;
   }
