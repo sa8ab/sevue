@@ -16,9 +16,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRef, ref } from "vue";
+import { computed, toRef, ref, onMounted } from "vue";
 import useColor from "@/composables/useColor";
-import { onMounted } from "vue";
 
 export interface Props {
   modelValue?: string | number | boolean | null;
