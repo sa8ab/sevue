@@ -1,5 +1,5 @@
 <template>
-  <div class="center-it">
+  <div class="container">
     <div class="actions">
       <RButton @click="count++">change count</RButton>
       <RButton @click="tab = 'three'">change tab</RButton>
@@ -7,9 +7,10 @@
       <RButton @click="dynamicTabTitle = 'changed'">change a tab title</RButton>
     </div>
     <div v-if="active">
-      <RTab ref="tabbar" v-model="tab" bordered>
+      <RTab ref="tabbar" v-model="tab">
         <RTabItem value="one">{{ dynamicTabTitle }}</RTabItem>
-        <RTabItem value="two">two</RTabItem>
+        <RTabItem value="two">Two</RTabItem>
+        <RTabItem value="other">Other</RTabItem>
         <RTabItem value="three" disabled>three</RTabItem>
         <!-- <RTabItem v-for="x in count" :title="`dynamic ${x}`" :name="`dynamic ${x}`"> test </RTabItem> -->
       </RTab>
@@ -48,8 +49,10 @@ const goSecondTab = () => tabbar.value.setActiveTab("comments");
 </script>
 
 <style lang="scss" scoped>
-.center-it {
-  // max-width: 800px;
-  margin: auto;
+.container {
+  padding: 100px;
+}
+.actions {
+  margin-bottom: 20px;
 }
 </style>

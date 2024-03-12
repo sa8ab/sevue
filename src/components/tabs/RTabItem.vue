@@ -1,5 +1,11 @@
 <template>
-  <div :class="['r-tab-item', { 'r-tab-item-active': active, disabled }]" @click="onClick" ref="elementRef" v-ripple>
+  <div
+    :class="['r-tab-item', { 'r-tab-item-active': active, disabled }]"
+    @click="onClick"
+    ref="elementRef"
+    v-ripple
+    :tabindex="tabindex"
+  >
     <slot></slot>
   </div>
 </template>
@@ -31,6 +37,8 @@ const onClick = () => {
 
 const active = computed(() => tab.activeTab.value === props.value);
 
+const tabindex = computed(() => (active.value ? "0" : "-1"));
+
 const setStyle = () => {
   if (!active.value) return;
   tab.setMoverStyle(elementRef.value!);
@@ -49,10 +57,14 @@ watch(tab.activeTab, () => {
   align-items: center;
   justify-content: center;
   padding: var(--r-normal-padding);
-  transition: background var(--r-duration);
+  transition: background var(--r-duration), box-shadow var(--r-duration);
   border-radius: var(--radius);
   cursor: pointer;
   user-select: none;
+
+  &:focus-visible {
+    box-shadow: var(--r-focused-box-shadow-specs) color();
+  }
 
   &.disabled {
     color: color(disabled);

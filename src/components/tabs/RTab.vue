@@ -2,11 +2,12 @@
   <div
     :class="['r-tab', { fit, bordered, scrollable, moverFull, noBorder }]"
     :style="{ '--r-color': color || 'var(--r-prm)', '--r-active-text': activeTextColor }"
+    @keydown="handleKeyDown"
   >
     <div class="r-tabbar-container" ref="tabbarContainer">
       <div class="r-tabbar" ref="tabbar">
         <slot />
-        <div class="mover" :style="{ width: state.moverWidth, left: state.moverLeft }"></div>
+        <div class="r-tab-mover" :style="{ width: state.moverWidth, left: state.moverLeft }"></div>
       </div>
     </div>
   </div>
@@ -103,6 +104,16 @@ const setMoverStyle = async (el?: HTMLElement) => {
   }
 };
 
+const handleKeyDown = (e: KeyboardEvent) => {
+  const code = e.code;
+  if (code === "ArrowLeft") {
+    // go to next item
+  }
+  if (code === "ArrowRight") {
+    // go to prev item
+  }
+};
+
 provide(tabKey, {
   activeTab: toRef(props, "modelValue"),
   onItemClick,
@@ -124,7 +135,7 @@ provide(tabKey, {
     border-bottom: 1px solid color(border-color, var(--r-border-alpha));
   }
 
-  .mover {
+  &-mover {
     position: absolute;
     bottom: 0;
     height: 2px;
@@ -162,7 +173,7 @@ provide(tabKey, {
   }
 
   &.moverFull {
-    .mover {
+    .r-tab-mover {
       height: 100%;
       z-index: 0;
       border-radius: var(--radius);
