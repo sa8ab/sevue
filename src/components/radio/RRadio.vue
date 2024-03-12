@@ -9,7 +9,7 @@
     <div class="r-radio-dot-container">
       <div class="r-radio-dot-circle"></div>
     </div>
-    <div class="slot">
+    <div class="r-radio-slot">
       <slot />
     </div>
   </label>
@@ -109,7 +109,7 @@ defineExpose({
     opacity: 0;
   }
 
-  .slot {
+  &-slot {
     flex: 1;
   }
 
