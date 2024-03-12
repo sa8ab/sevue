@@ -1,24 +1,15 @@
 <template>
   <label
-    :class="['r-radio', containerClass, { isChecked, disabled, focused, tag }]"
+    :class="['r-radio', containerClass, { isChecked, disabled }]"
     :style="{
       '--r-color': color || 'var(--r-prm)',
     }"
   >
-    <input
-      type="radio"
-      :value="value"
-      v-model="model"
-      :disabled="disabled"
-      @keyup.tab="onFocus"
-      @blur="onBlur"
-      v-bind="$attrs"
-      ref="inputRef"
-    />
-    <div class="check-container" v-if="!tag">
+    <input type="radio" :value="value" v-model="model" :disabled="disabled" v-bind="$attrs" ref="inputRef" />
+    <div class="r-radio-dot-container">
       <div class="background"></div>
     </div>
-    <div :class="['slot', { 'check-container': tag }]">
+    <div class="slot">
       <slot />
     </div>
   </label>
@@ -27,6 +18,7 @@
 <script setup lang="ts">
 import { computed, toRef, ref } from "vue";
 import useColor from "@/composables/useColor";
+import { onMounted } from "vue";
 
 export interface Props {
   modelValue?: string | number | boolean | null;
@@ -34,7 +26,6 @@ export interface Props {
   color?: string;
   containerClass?: string;
   disabled?: boolean;
-  tag?: boolean;
 }
 
 defineOptions({
@@ -46,14 +37,7 @@ const emit = defineEmits(["update:modelValue"]);
 
 const { color } = useColor(toRef(props, "color"));
 const inputRef = ref<HTMLInputElement | undefined>();
-const focused = ref(false);
 
-const onFocus = () => {
-  focused.value = true;
-};
-const onBlur = () => {
-  focused.value = false;
-};
 const model = computed({
   set(e) {
     emit("update:modelValue", e);
@@ -64,6 +48,13 @@ const model = computed({
 });
 const isChecked = computed(() => {
   return props.modelValue === props.value;
+});
+
+onMounted(() => {
+  // @ts-ignore
+  if (props.tag) {
+    console.warn("Tag prop is depricated on RRadio");
+  }
 });
 
 defineExpose({
@@ -97,7 +88,7 @@ defineExpose({
     z-index: 0;
   }
 
-  .check-container {
+  &-dot-container {
     width: 20px;
     height: 20px;
     display: flex;
@@ -125,13 +116,7 @@ defineExpose({
   }
 
   &.isChecked {
-    &:hover {
-      .check-container {
-        box-shadow: 0 2px 10px -4px color();
-      }
-    }
-
-    .check-container {
+    .r-radio-dot-container {
       border-color: color();
     }
 
@@ -140,29 +125,14 @@ defineExpose({
       opacity: 1;
     }
   }
+
   &.disabled {
     pointer-events: none;
     opacity: var(--r-disabled-alpha);
-    --r-color: var(--r-disabled) !important;
   }
-  &.focused {
+
+  input:focus-visible ~ .r-radio-dot-container {
     box-shadow: var(--r-focused-box-shadow-specs) color();
-    border-radius: var(--r-radius);
-  }
-  &.tag {
-    .check-container {
-      width: auto;
-      height: auto;
-      padding: var(--r-space-1) var(--r-space-2);
-      font-size: var(--r-font-small);
-      border-radius: var(--r-radius);
-    }
-  }
-  &.isChecked.tag {
-    .check-container {
-      background-color: color();
-    }
-    // color: color();
   }
 }
 </style>
