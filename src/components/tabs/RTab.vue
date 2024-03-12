@@ -131,12 +131,14 @@ const setValue = (value: string | number, options?: { focus: boolean }) => {
   model.value = value;
   emit("change", value);
 
-  // @ts-ignore
-  const tab = itemRefs.value[currentIndex.value]?.$el;
+  nextTick(() => {
+    // @ts-ignore
+    const tab = itemRefs.value[currentIndex.value]?.$el;
 
-  if (tab && options?.focus) {
-    tab.focus();
-  }
+    if (tab && options?.focus) {
+      tab.focus();
+    }
+  });
 };
 
 watch(model, () => {
