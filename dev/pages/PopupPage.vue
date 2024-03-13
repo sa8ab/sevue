@@ -4,7 +4,7 @@
       <RButton @click="open">Button</RButton>
     </div>
 
-    <RPopup v-model:active="active" :beforeClose="onBeforeClose" title="hi">
+    <RPopup v-model:active="active" title="hi">
       <template #header> Custom header </template>
       <RSelect :options="users" :getText="(v) => v.name"> </RSelect>
       popup content
