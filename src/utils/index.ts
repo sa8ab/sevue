@@ -57,7 +57,7 @@ export const getForegroundColor = (color: string = "") => {
   if (color === "prm") return "var(--r-primary-foreground)";
   const isForeColor = foreColors.includes(color);
   if (isForeColor) return `var(--r-${color}-foreground)`;
-  return "var(--r-text)";
+  return "inherit";
 };
 
 export const uniqueArray = <T>(

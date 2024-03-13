@@ -2,15 +2,19 @@
   <div class="container">
     <div class="actions">
       <RButton @click="count++">change count</RButton>
-      <RButton @click="tab = 'three'">change tab</RButton>
       <RButton @click="active = !active">active </RButton>
       <RButton @click="dynamicTabTitle = 'changed'">change a tab title</RButton>
     </div>
     <div v-if="active">
-      <RTab ref="tabbar" v-model="tab" :items="tabs"> </RTab>
-      <RTab ref="tabbar" v-model="tab" :items="tabs" moverFull> </RTab>
+      <div class="tabs">
+        <RTab ref="tabbar" v-model="tab" :items="tabs"> </RTab>
+        <RTab ref="tabbar" v-model="tab" :items="tabs" :showBorder="false" type="segment"> </RTab>
+        <RTab ref="tabbar" v-model="tab" :items="tabs" color="yellow" moverFull fit> </RTab>
+        <RTab ref="tabbar" v-model="tab" :items="tabs" moverFull> </RTab>
+        <RTab ref="tabbar" v-model="tab" :items="tabs" bordered> </RTab>
+      </div>
 
-      <RPanel v-model="tab">
+      <RPanel :modelValue="'one'">
         <RPanelItem value="one">some text one</RPanelItem>
         <RPanelItem value="two">some text two</RPanelItem>
         <RPanelItem value="three">some text three</RPanelItem>
@@ -20,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { RTab, RTabItem, RButton, RPanel, RPanelItem } from "../../src/main";
 
 const tabbar = ref();
@@ -30,11 +34,11 @@ const dynamicTabTitle = ref("one");
 
 const tab = ref("settings");
 
-const tabs = ref([
+const tabs = computed(() => [
   { label: "Settings", value: "settings" },
   { label: "Comments", value: "comments" },
   { label: "Logs", value: "logs", disabled: true },
-  { label: "Logs3", value: "logs2" },
+  { label: dynamicTabTitle.value, value: "logs2" },
   // { title: "comments", name: "commentsrwef" },
   // { title: "logs", name: "logswef" },
   // { title: "logs3", name: "logsr2" },
@@ -46,9 +50,14 @@ const goSecondTab = () => tabbar.value.setActiveTab("comments");
 
 <style lang="scss" scoped>
 .container {
-  padding: 100px;
+  padding: 20px;
 }
 .actions {
   margin-bottom: 20px;
+}
+.tabs {
+  flex-direction: column;
+  display: flex;
+  gap: 80px;
 }
 </style>

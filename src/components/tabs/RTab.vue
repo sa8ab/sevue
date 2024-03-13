@@ -1,7 +1,11 @@
 <template>
   <div
-    :class="['r-tab', { fit, bordered, scrollable, moverFull, noBorder }]"
-    :style="{ '--r-color': color || 'var(--r-prm)', '--r-active-text': activeTextColor }"
+    :class="[
+      'r-tab',
+      `r-tab-type-${type}`,
+      { 'r-tab-fit': fit, 'r-tab-mover-full': moverFull, scrollable, 'r-tab-show-border': showBorder },
+    ]"
+    :style="{ '--r-color': color, '--r-foreground': foreground }"
     @keydown="handleKeyDown"
   >
     <div class="r-tabbar-container" ref="tabbarContainer">
@@ -33,12 +37,12 @@ export interface Props {
   items?: RTabItemType[];
   initialValue?: number | string;
   fit?: boolean;
-  bordered?: boolean;
   scrollable?: boolean;
   moverFull?: boolean;
   color?: string;
   activeTextColor?: string;
-  noBorder?: boolean;
+  showBorder?: boolean;
+  type?: "line" | "segment";
 }
 
 type State = {
@@ -49,7 +53,9 @@ type State = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-  activeTextColor: "#fff",
+  showBorder: true,
+  type: "line",
+  color: "prm",
 });
 
 const emit = defineEmits<{
@@ -59,8 +65,7 @@ const model = defineModel<string | number>({
   required: false,
 });
 
-const { color } = useColor(toRef(props, "color"));
-const { color: activeTextColor } = useColor(toRef(props, "activeTextColor"));
+const { color, foreground } = useColor(toRef(props, "color"), toRef(props, "activeTextColor"));
 
 const state = reactive<State>({
   moverWidth: "0",
@@ -205,7 +210,12 @@ const handleKeyDown = (e: KeyboardEvent) => {
   .r-tabbar-container {
     display: flex;
     justify-content: flex-start;
-    border-bottom: 1px solid color(border-color, var(--r-border-alpha));
+  }
+
+  &-show-border {
+    .r-tabbar-container {
+      border-bottom: 1px solid color(border-color, var(--r-border-alpha));
+    }
   }
 
   &-mover {
@@ -217,7 +227,7 @@ const handleKeyDown = (e: KeyboardEvent) => {
     transition: all var(--r-duration);
   }
 
-  &.fit {
+  &-fit {
     .r-tabbar {
       flex: 1;
     }
@@ -245,7 +255,7 @@ const handleKeyDown = (e: KeyboardEvent) => {
     }
   }
 
-  &.moverFull {
+  &-mover-full {
     .r-tab-mover {
       height: 100%;
       z-index: 0;
@@ -258,17 +268,11 @@ const handleKeyDown = (e: KeyboardEvent) => {
       z-index: 2;
 
       &-active {
-        background: transparent;
-        color: color(active-text);
+        color: color(foreground);
+        &:hover {
+          color: color(foreground);
+        }
       }
-    }
-  }
-
-  &.noBorder {
-    .r-tabbar-container {
-      border: none;
-      border-radius: var(--r-radius);
-      // padding: var(--r-space-1);
     }
   }
 }

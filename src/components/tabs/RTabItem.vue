@@ -37,7 +37,7 @@ const tabindex = computed(() => (props.active ? "0" : "-1"));
   align-items: center;
   justify-content: center;
   padding: var(--r-normal-padding);
-  transition: background var(--r-duration), box-shadow var(--r-duration);
+  transition: color var(--r-duration), box-shadow var(--r-duration);
   border-radius: var(--radius);
   cursor: pointer;
   user-select: none;
@@ -52,7 +52,7 @@ const tabindex = computed(() => (props.active ? "0" : "-1"));
   }
 
   &:hover {
-    background: color(hover, var(--r-hover-alpha));
+    color: color();
   }
 
   &-active {
