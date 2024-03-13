@@ -14,7 +14,9 @@
           @setValue="setValue(item.value)"
           ref="itemRefs"
         >
-          {{ item.label }}
+          <slot :name="item.value">
+            {{ item.label }}
+          </slot>
         </RTabItem>
         <div class="r-tab-mover" :style="{ width: state.moverWidth, left: state.moverLeft }"></div>
       </div>
