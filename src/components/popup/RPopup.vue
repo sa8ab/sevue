@@ -1,27 +1,3 @@
-<template>
-  <Teleport :to="teleport" :disabled="teleportDisabled">
-    <transition name="r-popup" v-bind="transitionProps">
-      <div class="r-popup" v-if="active" v-bind="$attrs">
-        <div class="r-popup-underlay" @click="onCloseReq"></div>
-        <div :class="['r-popup-inner', { fullWidth }]">
-          <div class="r-popup-header">
-            <slot name="header">
-              <div class="r-popup-title">{{ title }}</div>
-            </slot>
-            <RButton @click="onCloseReq" textStyle iconOnly compact v-if="!noCloseButton">
-              <SevueIcon name="close" width="24px" height="24px" />
-            </RButton>
-          </div>
-          <div class="r-popup-content overflow-x-scroll-bar">
-            <slot />
-          </div>
-          <slot name="footer" />
-        </div>
-      </div>
-    </transition>
-  </Teleport>
-</template>
-
 <script setup lang="ts">
 import SevueIcon from "@/components/icons/SevueIcon.vue";
 
@@ -29,7 +5,7 @@ export interface Props {
   active?: boolean;
   title?: string;
   noClose?: boolean;
-  noCloseButton?: boolean;
+  showClose?: boolean;
   fullWidth?: boolean;
   transitionProps?: Record<string, any>;
   teleport?: string;
@@ -43,6 +19,7 @@ const emit = defineEmits(["update:active", "close"]);
 const props = withDefaults(defineProps<Props>(), {
   active: false,
   teleport: "body",
+  showClose: true,
 });
 
 const onCloseReq = () => {
@@ -59,6 +36,30 @@ const onClose = () => {
   emit("update:active", false);
 };
 </script>
+
+<template>
+  <Teleport :to="teleport" :disabled="teleportDisabled">
+    <transition name="r-popup" v-bind="transitionProps">
+      <div class="r-popup" v-if="active" v-bind="$attrs">
+        <div class="r-popup-underlay" @click="onCloseReq"></div>
+        <div :class="['r-popup-inner', { fullWidth }]">
+          <div class="r-popup-header">
+            <slot name="header">
+              <div class="r-popup-title">{{ title }}</div>
+            </slot>
+            <RButton @click="onCloseReq" textStyle iconOnly compact v-if="showClose">
+              <SevueIcon name="close" width="24px" height="24px" />
+            </RButton>
+          </div>
+          <div class="r-popup-content overflow-x-scroll-bar">
+            <slot />
+          </div>
+          <slot name="footer" />
+        </div>
+      </div>
+    </transition>
+  </Teleport>
+</template>
 
 <style lang="scss">
 .r-popup {
