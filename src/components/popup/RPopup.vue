@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import SevueIcon from "@/components/icons/SevueIcon.vue";
+import { onMounted } from "vue";
 
 export interface Props {
   active?: boolean;
   title?: string;
-  noClose?: boolean;
+  preventClose?: boolean;
   showClose?: boolean;
   fullWidth?: boolean;
   transitionProps?: Record<string, any>;
@@ -27,7 +28,7 @@ const onCloseReq = () => {
     props.beforeClose(onClose);
     return;
   }
-  if (props.noClose) return;
+  if (props.preventClose) return;
   onClose();
 };
 
@@ -35,6 +36,17 @@ const onClose = () => {
   emit("close");
   emit("update:active", false);
 };
+
+onMounted(() => {
+  // @ts-ignore
+  if (props.noCloseButton) {
+    console.warn("`noCloseButton` prop is depricated on RPopup, use `showClose` instead");
+  }
+  // @ts-ignore
+  if (props.noClose) {
+    console.warn("`noClose` prop is depricated on RPopup, use `preventClose` instead");
+  }
+});
 </script>
 
 <template>
