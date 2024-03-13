@@ -4,11 +4,12 @@
       <RButton @click="open">Button</RButton>
     </div>
 
-    <RPopup :active="active" title="hi" @close="active = false">
+    <RPopup v-model:active="active" :showClose="false">
       <template #header> Custom header </template>
-      <RSelect :options="users" :getText="(v) => v.name"> </RSelect>
+      <!-- <RSelect :options="users" :getText="(v) => v.name"> </RSelect> -->
       popup content
     </RPopup>
+    <RButton @click="open">Button After</RButton>
   </div>
 </template>
 
@@ -37,4 +38,8 @@ const onBeforeClose = (done: any) => {
 }
 </style>
 
-<style lang="scss"></style>
+<style lang="scss">
+*:focus {
+  border: 1px solid red;
+}
+</style>
