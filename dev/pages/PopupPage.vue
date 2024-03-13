@@ -4,9 +4,9 @@
       <RButton @click="open">Button</RButton>
     </div>
 
-    <RPopup v-model:active="active" :showClose="false">
+    <RPopup v-model:active="active">
       <template #header> Custom header </template>
-      <!-- <RSelect :options="users" :getText="(v) => v.name"> </RSelect> -->
+      <RSelect :options="users" :getText="(v) => v.name"> </RSelect>
       popup content
     </RPopup>
     <RButton @click="open">Button After</RButton>

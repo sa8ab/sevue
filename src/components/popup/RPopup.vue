@@ -65,21 +65,6 @@ const handleKeydown = (e: KeyboardEvent) => {
 
 const innerRef = ref();
 
-// const activateFocus = async () => {
-//   setTimeout(() => {
-//     focusTrap.value?.activate();
-//   }, 1000);
-// };
-// const deactivateFocus = () => {};
-
-// watch(
-//   () => props.active,
-//   (active) => {
-//     if (active) activateFocus();
-//     else deactivateFocus();
-//   }
-// );
-
 const { deactivate, activate } = useFocusTrap(innerRef, {
   clickOutsideDeactivates: false,
   escapeDeactivates: false,
