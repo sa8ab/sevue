@@ -1,10 +1,10 @@
 <template>
-  <div class="center-it">
+  <div class="container">
     <div class="items">
       <RButton @click="open">Button</RButton>
     </div>
 
-    <RPopup v-model:active="active" title="hi">
+    <RPopup :active="active" title="hi" @close="active = false">
       <template #header> Custom header </template>
       <RSelect :options="users" :getText="(v) => v.name"> </RSelect>
       popup content
@@ -27,7 +27,7 @@ const onBeforeClose = (done: any) => {
 </script>
 
 <style lang="scss" scoped>
-.center-it {
+.container {
   max-width: 400px;
   margin: auto;
 }
@@ -36,3 +36,5 @@ const onBeforeClose = (done: any) => {
   align-items: center;
 }
 </style>
+
+<style lang="scss"></style>

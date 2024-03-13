@@ -5,13 +5,13 @@ import {
   ref,
   cloneVNode,
   onUnmounted,
-  PropType,
+  type PropType,
   Comment,
-  Prop,
-  ComponentPublicInstance,
+  type Prop,
+  type ComponentPublicInstance,
   computed,
 } from "vue";
-import { createFocusTrap, FocusTrap as FocusTrapI, Options } from "focus-trap";
+import { createFocusTrap, type FocusTrap as FocusTrapI, type Options } from "focus-trap";
 
 function defineFocusTrapProps<
   T extends {
@@ -59,7 +59,7 @@ const FocusTrapProps = defineFocusTrapProps({
   tabbableOptions: Object as PropType<Options["tabbableOptions"]>,
 });
 
-export const FocusTrap = defineComponent({
+export default defineComponent({
   props: Object.assign(
     {
       active: {

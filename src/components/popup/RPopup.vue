@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SevueIcon from "@/components/icons/SevueIcon.vue";
+import { FocusTrap } from "@/components";
 import { onMounted } from "vue";
 
 export interface Props {
@@ -59,20 +60,22 @@ onMounted(() => {
     <Transition name="r-popup" v-bind="transitionProps">
       <div class="r-popup" v-if="active" v-bind="$attrs">
         <div class="r-popup-underlay" @click="onCloseReq"></div>
-        <div :class="['r-popup-inner', { fullWidth }]">
-          <div class="r-popup-header">
-            <slot name="header">
-              <div class="r-popup-title">{{ title }}</div>
-            </slot>
-            <RButton @click="onCloseReq" textStyle iconOnly compact v-if="showClose">
-              <SevueIcon name="close" width="24px" height="24px" />
-            </RButton>
+        <FocusTrap :active="active" :clickOutsideDeactivates="false" :escapeDeactivates="false">
+          <div :class="['r-popup-inner', { fullWidth }]">
+            <div class="r-popup-header">
+              <slot name="header">
+                <div class="r-popup-title">{{ title }}</div>
+              </slot>
+              <RButton @click="onCloseReq" textStyle iconOnly compact v-if="showClose">
+                <SevueIcon name="close" width="24px" height="24px" />
+              </RButton>
+            </div>
+            <div class="r-popup-content overflow-x-scroll-bar">
+              <slot />
+            </div>
+            <slot name="footer" />
           </div>
-          <div class="r-popup-content overflow-x-scroll-bar">
-            <slot />
-          </div>
-          <slot name="footer" />
-        </div>
+        </FocusTrap>
       </div>
     </Transition>
   </Teleport>
