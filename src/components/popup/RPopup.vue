@@ -56,7 +56,7 @@ onMounted(() => {
 
 <template>
   <Teleport :to="teleport" :disabled="teleportDisabled">
-    <transition name="r-popup" v-bind="transitionProps">
+    <Transition name="r-popup" v-bind="transitionProps">
       <div class="r-popup" v-if="active" v-bind="$attrs">
         <div class="r-popup-underlay" @click="onCloseReq"></div>
         <div :class="['r-popup-inner', { fullWidth }]">
@@ -74,7 +74,7 @@ onMounted(() => {
           <slot name="footer" />
         </div>
       </div>
-    </transition>
+    </Transition>
   </Teleport>
 </template>
 
