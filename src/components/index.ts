@@ -12,8 +12,6 @@ import RSwitch, { type Props as RSwitchProps } from "./switch";
 import RLoading, { type Props as RLoadingProps } from "./loading/RLoading.vue";
 import RAlert, { type Props as RAlertProps } from "./alert";
 
-import FocusTrap from "./focus-trap/FocusTrap";
-
 export {
   RButton,
   RButtonProps,
@@ -45,5 +43,4 @@ export {
   RLoadingProps,
   RAlert,
   RAlertProps,
-  FocusTrap,
 };

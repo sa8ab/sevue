@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import SevueIcon from "@/components/icons/SevueIcon.vue";
-import { FocusTrap } from "@/components";
 import { onMounted, ref, watch, nextTick } from "vue";
 import { useFocusTrap } from "@/composables/useFocusTrap";
 
