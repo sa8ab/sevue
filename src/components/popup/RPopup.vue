@@ -1,35 +1,13 @@
-<template>
-  <Teleport :to="teleport" :disabled="teleportDisabled">
-    <transition name="r-popup" v-bind="transitionProps">
-      <div class="r-popup" v-if="active" v-bind="$attrs">
-        <div class="r-popup-underlay" @click="onCloseReq"></div>
-        <div :class="['r-popup-inner', { fullWidth }]">
-          <div class="r-popup-header">
-            <slot name="header">
-              <div class="r-popup-title">{{ title }}</div>
-            </slot>
-            <RButton @click="onCloseReq" textStyle iconOnly compact v-if="!noCloseButton">
-              <SevueIcon name="close" width="24px" height="24px" />
-            </RButton>
-          </div>
-          <div class="r-popup-content overflow-x-scroll-bar">
-            <slot />
-          </div>
-          <slot name="footer" />
-        </div>
-      </div>
-    </transition>
-  </Teleport>
-</template>
-
 <script setup lang="ts">
 import SevueIcon from "@/components/icons/SevueIcon.vue";
+import { onMounted, ref, watch, nextTick } from "vue";
+import { useFocusTrap } from "@/composables/useFocusTrap";
 
 export interface Props {
   active?: boolean;
   title?: string;
-  noClose?: boolean;
-  noCloseButton?: boolean;
+  preventClose?: boolean;
+  showClose?: boolean;
   fullWidth?: boolean;
   transitionProps?: Record<string, any>;
   teleport?: string;
@@ -39,26 +17,96 @@ export interface Props {
 defineOptions({
   inheritAttrs: false,
 });
-const emit = defineEmits(["update:active", "close"]);
+
+const emit = defineEmits<{
+  "update:active": [boolean];
+  close: [];
+}>();
+
 const props = withDefaults(defineProps<Props>(), {
   active: false,
   teleport: "body",
+  showClose: true,
 });
 
-const onCloseReq = () => {
+const tryClose = () => {
   if (props.beforeClose) {
-    props.beforeClose(onClose);
+    props.beforeClose(close);
     return;
   }
-  if (props.noClose) return;
-  onClose();
+  if (props.preventClose) return;
+  close();
 };
 
-const onClose = () => {
+const close = () => {
   emit("close");
   emit("update:active", false);
 };
+
+onMounted(() => {
+  // @ts-ignore
+  if (props.noCloseButton) {
+    console.warn("`noCloseButton` prop is depricated on RPopup, use `showClose` instead");
+  }
+  // @ts-ignore
+  if (props.noClose) {
+    console.warn("`noClose` prop is depricated on RPopup, use `preventClose` instead");
+  }
+});
+
+const handleKeydown = (e: KeyboardEvent) => {
+  const code = e.code;
+
+  if (code === "Escape") {
+    e.stopPropagation();
+    tryClose();
+  }
+};
+
+const innerRef = ref();
+
+const { deactivate, activate } = useFocusTrap(innerRef, {
+  clickOutsideDeactivates: false,
+  escapeDeactivates: false,
+  allowOutsideClick: true,
+  immediate: false,
+  fallbackFocus: () => innerRef.value,
+});
+
+watch(
+  () => props.active,
+  (active) => {
+    nextTick(() => {
+      if (active) activate();
+      else deactivate();
+    });
+  }
+);
 </script>
+
+<template>
+  <Teleport :to="teleport" :disabled="teleportDisabled">
+    <Transition name="r-popup" v-bind="transitionProps">
+      <div v-if="active" class="r-popup" v-bind="$attrs" @keydown="handleKeydown">
+        <div class="r-popup-underlay" @click="tryClose"></div>
+        <div :class="['r-popup-inner', { fullWidth }]" tabindex="-1" ref="innerRef">
+          <div class="r-popup-header">
+            <slot name="header">
+              <div class="r-popup-title">{{ title }}</div>
+            </slot>
+            <RButton @click="tryClose" textStyle iconOnly compact v-if="showClose">
+              <SevueIcon name="close" width="24px" height="24px" />
+            </RButton>
+          </div>
+          <div class="r-popup-content overflow-x-scroll-bar">
+            <slot></slot>
+          </div>
+          <slot name="footer" />
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
+</template>
 
 <style lang="scss">
 .r-popup {
@@ -119,6 +167,12 @@ const onClose = () => {
     flex: 1;
     overflow: auto;
     padding: var(--r-space-2);
+  }
+
+  &-focus-fallback {
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
   }
 
   &-enter-from,
