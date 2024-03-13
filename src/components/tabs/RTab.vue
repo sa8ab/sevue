@@ -192,9 +192,11 @@ const handleKeyDown = (e: KeyboardEvent) => {
   const code = e.code;
   if (code === "ArrowLeft") {
     selectPrevItem();
+    e.stopPropagation();
   }
   if (code === "ArrowRight") {
     selectNextItem();
+    e.stopPropagation();
   }
 };
 </script>
