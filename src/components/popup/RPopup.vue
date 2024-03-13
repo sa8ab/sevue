@@ -16,14 +16,7 @@ export interface Props {
 defineOptions({
   inheritAttrs: false,
 });
-const emit = defineEmits<{
-  close: [];
-}>();
-
-const active = defineModel<boolean>("active", {
-  default: false,
-});
-
+const emit = defineEmits(["update:active", "close"]);
 const props = withDefaults(defineProps<Props>(), {
   active: false,
   teleport: "body",
@@ -32,16 +25,16 @@ const props = withDefaults(defineProps<Props>(), {
 
 const onCloseReq = () => {
   if (props.beforeClose) {
-    props.beforeClose(close);
+    props.beforeClose(onClose);
     return;
   }
   if (props.preventClose) return;
-  close();
+  onClose();
 };
 
-const close = () => {
+const onClose = () => {
   emit("close");
-  active.value = false;
+  emit("update:active", false);
 };
 
 onMounted(() => {
