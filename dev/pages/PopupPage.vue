@@ -38,8 +38,4 @@ const onBeforeClose = (done: any) => {
 }
 </style>
 
-<style lang="scss">
-*:focus {
-  border: 1px solid red;
-}
-</style>
+<style lang="scss"></style>

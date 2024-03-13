@@ -238,15 +238,6 @@ const handleKeyDown = (e: KeyboardEvent) => {
     }
   }
 
-  &.bordered {
-    overflow: hidden;
-    border-radius: var(--r-radius);
-    box-shadow: 0 0 0 var(--r-border-width) rgba(var(--r-border-color), var(--r-border-alpha));
-    .r-tab-item {
-      padding: var(--r-space-2);
-    }
-  }
-
   &.scrollable {
     .r-tabbar {
       white-space: nowrap;
@@ -277,9 +268,5 @@ const handleKeyDown = (e: KeyboardEvent) => {
       }
     }
   }
-}
-
-.r-tab-item {
-  padding: var(--r-space-2) 0;
 }
 </style>
