@@ -82,6 +82,17 @@
       >
         <template #create-option="{ search }"> Add {{ search }} </template>
       </RSelect>
+
+      <RSelect
+        :options="remoteUsers"
+        :getText="(v) => v.name"
+        :getValue="(o) => o.id"
+        v-model="remoteModel"
+        multiple
+        searchable
+        remote
+        @search="getRemoteUsers"
+      ></RSelect>
     </div>
   </div>
 </template>
@@ -90,6 +101,7 @@
 import { ref } from "vue";
 import { RSelect } from "../../src/main";
 import { users, groupedUsers } from "../mock";
+import Axios from "axios";
 
 const model1 = ref(undefined);
 const model2 = ref(undefined);
@@ -102,8 +114,6 @@ const usersRef = ref([...users]);
 const createOptionModel = ref<string[]>([]);
 
 const handleCreateOption = (value: string) => {
-  console.log("create call");
-
   usersRef.value.push({
     id: "randomId" + value,
     company: "",
@@ -111,6 +121,21 @@ const handleCreateOption = (value: string) => {
   });
 
   createOptionModel.value.push("randomId" + value);
+};
+
+const remoteUsers = ref<any[]>([]);
+const remoteModel = ref([2]);
+
+const getRemoteUsers = async (query?: string) => {
+  const res = await Axios.get("https://jsonplaceholder.typicode.com/users", {
+    params: query
+      ? {
+          name: query,
+        }
+      : {},
+  });
+
+  remoteUsers.value = res.data;
 };
 </script>
 

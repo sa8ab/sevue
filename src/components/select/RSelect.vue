@@ -52,10 +52,10 @@
       </div>
     </InputContainer>
 
-    <div class="r-selectnew-selected-tags" v-if="showTags && Array.isArray(liveSelected)">
+    <div class="r-selectnew-selected-tags" v-if="showTags && Array.isArray(displaySelected)">
       <slot
         name="selected-tag"
-        v-for="item in liveSelected"
+        v-for="item in displaySelected"
         :option="item?.context"
         :remove="() => handleSelectedTagClick(item?.value)"
       >
@@ -148,7 +148,7 @@
 </template>
 
 <script setup lang="ts" generic="Option, OptionGroup">
-import { reactive, ref, toRef, computed, useSlots, watch } from "vue";
+import { reactive, ref, toRef, computed, useSlots, watch, unref } from "vue";
 import FieldLabel from "../internal/FieldLabel.vue";
 import InputContainer from "../internal/InputContainer.vue";
 import SevueIcon from "@/components/icons/SevueIcon.vue";
@@ -157,6 +157,7 @@ import RSelectGroup from "./RSelectGroup.vue";
 import HeightTransition from "../HeightTransition.vue";
 import FieldMessage from "../internal/FieldMessage.vue";
 import LoadingSpinner from "../LoadingSpinner.vue";
+import { uniqueArray } from "@/utils";
 import { useFloating, autoUpdate, flip, offset, size, shift } from "@floating-ui/vue";
 
 import useColor from "@/composables/useColor";
@@ -191,6 +192,7 @@ export interface Props {
   teleportDisabled?: boolean;
   teleport?: string;
   showTags?: boolean;
+  remote?: boolean;
 
   // options
   options?: Option[];
@@ -393,8 +395,6 @@ const searchedFlatOptions = computed(() => {
 // SELECTED ITEMS
 
 const select = (value: BaseModelValue) => {
-  console.log("select call");
-
   const isSelected = getIsSelected(value);
   // multiple
   if (props.multiple) {
@@ -441,7 +441,7 @@ const liveSelected = computed(() => {
     return (props.modelValue as Array<BaseModelValue>)
       ?.map?.((model) => {
         const local = flatOptions.value?.find(({ value }) => model == value);
-        return local;
+        return local as LocalOption;
       })
       .filter((v) => !!v);
   } else {
@@ -449,20 +449,54 @@ const liveSelected = computed(() => {
   }
 });
 
+const useCachedOptions = () => {
+  const unrefedLiveSelected = unref(liveSelected.value);
+
+  const cachedSelected = ref<LocalOption | LocalOption[] | undefined>(unrefedLiveSelected);
+
+  watch([flatOptions, () => props.modelValue], ([options, modelValue]) => {
+    if (props.multiple && Array.isArray(modelValue)) {
+      if (!Array.isArray(cachedSelected.value)) cachedSelected.value = [];
+
+      // Add new items to the list if not already there.
+      modelValue.forEach((v) => {
+        const found = options?.find((o) => o.value === v);
+        const alreadyAvailable = (cachedSelected.value as LocalOption[]).find((item) => item.value === found?.value);
+        if (found && !alreadyAvailable) (cachedSelected.value as LocalOption[]).push(found);
+      });
+
+      // Remove if some value is on the cache but not on the modelValue
+      cachedSelected.value = cachedSelected.value.filter((item) => {
+        return !!modelValue.find((v) => v === item.value);
+      });
+    } else {
+      const found = options?.find((o) => o.value === modelValue);
+      // @ts-ignore
+      if (found) cachedSelected.value = found;
+    }
+  });
+
+  return { cachedSelected };
+};
+
+const { cachedSelected } = useCachedOptions();
+
+const displaySelected = computed(() => (props.remote ? cachedSelected.value : liveSelected.value));
+
 const isAnySelected = computed(() => {
-  if (Array.isArray(liveSelected.value)) return !!liveSelected.value.length;
-  return !!liveSelected.value;
+  if (Array.isArray(displaySelected.value)) return !!displaySelected.value.length;
+  return !!displaySelected.value;
 });
 
 const renderDisplayLabel = computed(() => {
   if (!isAnySelected.value) return undefined;
 
-  if (Array.isArray(liveSelected.value)) {
-    if (props.showTags) return `${liveSelected.value.length} Selected`;
-    return liveSelected.value.map((item) => item?.text).join(", ");
+  if (Array.isArray(displaySelected.value)) {
+    if (props.showTags) return `${displaySelected.value.length} Selected`;
+    return displaySelected.value.map((item) => item?.text).join(", ");
   }
 
-  return liveSelected.value?.text;
+  return displaySelected.value?.text;
 });
 
 // CREATE OPTION
