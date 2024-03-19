@@ -393,6 +393,8 @@ const searchedFlatOptions = computed(() => {
 // SELECTED ITEMS
 
 const select = (value: BaseModelValue) => {
+  console.log("select call");
+
   const isSelected = getIsSelected(value);
   // multiple
   if (props.multiple) {
@@ -475,8 +477,8 @@ const createOption = computed(() => {
   return search.value;
 });
 
-const handleCreateOption = async () => {
-  await props.createOption?.(search.value);
+const handleCreateOption = () => {
+  props.createOption?.(search.value);
   afterSelectHook();
 };
 

@@ -47,7 +47,6 @@ watch(
       { 'r-optionnew_selected': isSelected, 'r-optionnew_focused': isFocused, 'r-optionnew_disabled': disabled },
     ]"
     :style="{ '--r-color': color || 'var(--r-prm)' }"
-    @click="$emit('click')"
     ref="selfRef"
   >
     <slot>{{ text }}</slot>

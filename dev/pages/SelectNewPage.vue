@@ -71,12 +71,14 @@
 
       <RSelect
         label="Creatable"
-        creatable
-        searchable
-        showCreateWhen="always"
-        :options="users"
+        :options="usersRef"
         :getText="(v) => v.name"
-        :loading="loading"
+        v-model="createOptionModel"
+        multiple
+        searchable
+        creatable
+        showCreateWhen="always"
+        :createOption="handleCreateOption"
       >
       </RSelect>
     </div>
@@ -94,6 +96,21 @@ const model3 = ref(undefined);
 const model4 = ref("46");
 
 const loading = ref(false);
+
+const usersRef = ref([...users]);
+const createOptionModel = ref<string[]>([]);
+
+const handleCreateOption = (value: string) => {
+  console.log("create call");
+
+  usersRef.value.push({
+    id: "randomId" + value,
+    company: "",
+    name: value,
+  });
+
+  createOptionModel.value.push("randomId" + value);
+};
 </script>
 
 <style lang="scss" scoped>
