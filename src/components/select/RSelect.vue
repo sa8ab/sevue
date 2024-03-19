@@ -122,7 +122,7 @@
               </template>
 
               <ROption class="r-selectnew-option-create" v-if="createOption" :color="color" @click="handleCreateOption">
-                <slot name="create-option">
+                <slot name="create-option" :search="createOption">
                   <span>Create "{{ createOption }}"</span>
                 </slot>
               </ROption>

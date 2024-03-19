@@ -80,6 +80,7 @@
         showCreateWhen="always"
         :createOption="handleCreateOption"
       >
+        <template #create-option="{ search }"> Add {{ search }} </template>
       </RSelect>
     </div>
   </div>
