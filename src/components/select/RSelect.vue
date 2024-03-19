@@ -120,12 +120,19 @@
                   </slot>
                 </div>
               </template>
-              <div class="r-selectnew-empty" v-else-if="search">
+
+              <ROption class="r-selectnew-option-create" v-if="createOption" :color="color" @click="handleCreateOption">
+                <slot name="create-option">
+                  <span>Create "{{ createOption }}"</span>
+                </slot>
+              </ROption>
+
+              <div class="r-selectnew-empty" v-else-if="search && !searchedGroups?.length && !searchedOptions?.length">
                 <slot name="option-empty" :search="search">
                   <span>"{{ search }}" Not found</span>
                 </slot>
               </div>
-              <div class="r-selectnew-empty" v-else>
+              <div class="r-selectnew-empty" v-else-if="!searchedGroups?.length && !searchedOptions?.length">
                 <slot name="empty">
                   <span>No Options</span>
                 </slot>
@@ -195,6 +202,8 @@ export interface Props {
   getGroupTitle?: (group: OptionGroup) => string | number | undefined | null;
   customSearch?: (search?: string, option: Option) => {};
   creatable?: boolean;
+  showCreateWhen?: "empty" | "always";
+  createOption?: (search: string | undefined) => any;
   focusable?: boolean;
   deselectable?: boolean;
   dropdownWidth?: string;
@@ -209,6 +218,7 @@ const props = withDefaults(defineProps<Props>(), {
   focusable: true,
   getText: (option: any) => option.title,
   getValue: (option: any) => option.id,
+  showCreateWhen: "empty",
 });
 
 const emit = defineEmits<{
@@ -453,6 +463,23 @@ const renderDisplayLabel = computed(() => {
   return liveSelected.value?.text;
 });
 
+// CREATE OPTION
+
+const createOption = computed(() => {
+  if (!props.creatable) return undefined;
+
+  if (search.value === "" || search.value === undefined) return undefined;
+
+  if (props.showCreateWhen === "empty" && searchedFlatOptions.value?.length) return undefined;
+
+  return search.value;
+});
+
+const handleCreateOption = async () => {
+  await props.createOption?.(search.value);
+  afterSelectHook();
+};
+
 // SINGLE OPTION
 
 const getIsSelected = (optionValue: BaseModelValue): boolean => {
@@ -641,6 +668,7 @@ const slots = useSlots();
 const hasErrors = computed(() => !!props.error || !!props.errorMessage);
 
 // EMITS
+
 const emitUpdateModelValue = (value: BaseModelValue | BaseModelValue[]) => {
   emit("update:modelValue", value);
   emit("change", value);

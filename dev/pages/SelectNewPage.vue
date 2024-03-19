@@ -68,6 +68,17 @@
           <div class="custom-option" @click="onClick">234{{ text }}</div>
         </template>
       </RSelect>
+
+      <RSelect
+        label="Creatable"
+        creatable
+        searchable
+        showCreateWhen="always"
+        :options="users"
+        :getText="(v) => v.name"
+        :loading="loading"
+      >
+      </RSelect>
     </div>
   </div>
 </template>
@@ -91,5 +102,6 @@ const loading = ref(false);
   grid-template-columns: repeat(2, 1fr);
   gap: 40px;
   padding: 40px;
+  margin-bottom: 100px;
 }
 </style>
