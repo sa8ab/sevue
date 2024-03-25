@@ -1,8 +1,10 @@
 <template>
-  <label
-    :class="['r-radio', containerClass, { 'r-radio-disabled': disabled }]"
-    :style="{
-      '--r-color': color || 'var(--r-prm)',
+  <RadioRoot
+    :containerAttrs="{
+      class: ['r-radio', containerClass, { 'r-radio-disabled': disabled }],
+      style: {
+        '--r-color': color || 'var(--r-prm)',
+      },
     }"
   >
     <input type="radio" :value="value" v-model="model" :disabled="disabled" v-bind="$attrs" ref="inputRef" />
@@ -12,19 +14,17 @@
     <div class="r-radio-slot">
       <slot />
     </div>
-  </label>
+  </RadioRoot>
 </template>
 
 <script setup lang="ts">
 import { computed, toRef, ref, onMounted } from "vue";
 import useColor from "@/composables/useColor";
+import RadioRoot, { type RadioRootProps } from "./RadioRoot.vue";
 
-export interface Props {
-  modelValue?: string | number | boolean | null;
-  value?: string | number;
+export interface Props extends RadioRootProps {
   color?: string;
   containerClass?: string;
-  disabled?: boolean;
 }
 
 defineOptions({
@@ -32,6 +32,7 @@ defineOptions({
 });
 
 const props = withDefaults(defineProps<Props>(), {});
+
 const emit = defineEmits(["update:modelValue"]);
 
 const { color } = useColor(toRef(props, "color"));

@@ -3,29 +3,29 @@ import { computed } from "vue";
 import { Primitive, type PrimitiveProps } from "@/components/primitive";
 import { useForwardRef } from "@/composables/useForwardRef";
 
-export interface CheckboxRootProps extends PrimitiveProps {
-  modelValue?: string | number | boolean | null | any[];
+export interface RadioRootProps extends PrimitiveProps {
+  modelValue?: string | number | boolean | null;
   value?: string | number | Record<string, any>;
   disabled?: boolean;
   containerAttrs?: any;
 }
 
 export type CheckboxRootEmits = {
-  "update:modelValue": [CheckboxRootProps["modelValue"]];
+  "update:modelValue": [RadioRootProps["modelValue"]];
 };
 
 defineOptions({
   inheritAttrs: false,
 });
 
-const props = withDefaults(defineProps<CheckboxRootProps>(), {
+const props = withDefaults(defineProps<RadioRootProps>(), {
   as: "label",
 });
 
 const emit = defineEmits<CheckboxRootEmits>();
 
 const model = computed({
-  set(e: CheckboxRootProps["modelValue"]) {
+  set(e: RadioRootProps["modelValue"]) {
     emit("update:modelValue", e);
   },
   get() {
@@ -34,10 +34,7 @@ const model = computed({
 });
 
 const isChecked = computed(() => {
-  if (Array.isArray(model.value)) {
-    return model.value.includes(props.value);
-  }
-  return !!model.value;
+  return model.value === props.value;
 });
 
 const { forwardRef } = useForwardRef();
@@ -48,7 +45,7 @@ const { forwardRef } = useForwardRef();
     <slot :isChecked="isChecked" />
     <input
       :ref="forwardRef"
-      type="checkbox"
+      type="radio"
       v-model="model"
       :value="value"
       :disabled="disabled"

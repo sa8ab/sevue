@@ -4,6 +4,7 @@
     v-model="model"
     :value="value"
     :disabled="disabled"
+    ref="inputRef"
     :containerAttrs="{
       class: ['r-cb', containerClass, { disabled }],
       style: {

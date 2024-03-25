@@ -15,7 +15,7 @@
       <RCheckbox v-model="groupCheked" value="3" color="red" disabled> Checkbox </RCheckbox>
     </div>
     <div class="section">
-      <CheckboxRoot v-slot="{ isChecked }" v-model="checked" value="on">
+      <CheckboxRoot v-slot="{ isChecked }" v-model="checked">
         <div :class="['contained', { isChecked }]">Contained Checkbox Item</div>
       </CheckboxRoot>
     </div>
