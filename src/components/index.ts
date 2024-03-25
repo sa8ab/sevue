@@ -13,6 +13,7 @@ import RLoading, { type Props as RLoadingProps } from "./loading/RLoading.vue";
 import RAlert, { type Props as RAlertProps } from "./alert";
 
 import { Slot, Primitive } from "./primitive";
+import { Label } from "./internal";
 
 export {
   RButton,
@@ -47,4 +48,5 @@ export {
   RAlertProps,
   Slot,
   Primitive,
+  Label,
 };

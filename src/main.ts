@@ -119,6 +119,7 @@ export {
   RAlert,
   Slot,
   Primitive,
+  Label,
 } from "./components";
 
 // inject keys
