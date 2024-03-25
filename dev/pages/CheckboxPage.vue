@@ -2,9 +2,9 @@
   <div class="page">
     <div class="section">
       <pre>{{ checked }}</pre>
-      <RCheckbox v-model="checked" color="red"> Checkbox </RCheckbox>
+      <RCheckbox v-model="checked" color="red" trueValue="yes" falseValue="no"> Checkbox </RCheckbox>
       <RCheckbox v-model="checked"> Checkbox </RCheckbox>
-      <RCheckbox v-model="checked" color="red" disabled> Checkbox </RCheckbox>
+      <RCheckbox v-model="checked" disabled> Checkbox </RCheckbox>
     </div>
     <div class="section">
       {{ groupCheked }}

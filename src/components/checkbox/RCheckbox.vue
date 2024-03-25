@@ -1,11 +1,10 @@
 <template>
   <CheckboxRoot
-    as="label"
+    :as="as"
+    :asChild="asChild"
     v-model="model"
     :value="value"
     :disabled="disabled"
-    :trueValue="trueValue"
-    :falseValue="falseValue"
     :containerAttrs="{
       class: ['r-cb', containerClass, { disabled }],
       style: {
@@ -46,7 +45,9 @@ defineOptions({
 
 const props = withDefaults(defineProps<Props>(), {
   iconColor: "#fff",
+  as: "label",
 });
+
 const emit = defineEmits(["update:modelValue"]);
 
 const { color } = useColor(toRef(props, "color"));

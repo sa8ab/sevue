@@ -6,8 +6,6 @@ import { useForwardRef } from "@/composables/useForwardRef";
 export interface CheckboxRootProps extends PrimitiveProps {
   modelValue?: string | number | boolean | null | any[];
   value?: string | number | Record<string, any>;
-  trueValue?: string | boolean;
-  falseValue?: string | boolean;
   disabled?: boolean;
   containerAttrs?: any;
 }
@@ -21,8 +19,6 @@ defineOptions({
 
 const props = withDefaults(defineProps<CheckboxRootProps>(), {
   as: "label",
-  trueValue: true,
-  falseValue: false,
 });
 
 const emit = defineEmits<CheckboxRootEmits>();
@@ -37,10 +33,10 @@ const model = computed({
 });
 
 const isChecked = computed(() => {
-  if (Array.isArray(props.modelValue)) {
-    return props.modelValue.includes(props.value);
+  if (Array.isArray(model.value)) {
+    return model.value.includes(props.value);
   }
-  return props.modelValue === props.trueValue;
+  return !!model.value;
 });
 
 const { forwardRef } = useForwardRef();
@@ -49,12 +45,10 @@ const { forwardRef } = useForwardRef();
 <template>
   <Primitive :as="as" :asChild="asChild" v-bind="containerAttrs">
     <input
-      ref="forwardRef"
+      :ref="forwardRef"
       type="checkbox"
-      :value="value"
       v-model="model"
-      :trueValue="trueValue"
-      :falseValue="falseValue"
+      :value="value"
       :disabled="disabled"
       :data-disabled="disabled ? '' : undefined"
       :style="{
