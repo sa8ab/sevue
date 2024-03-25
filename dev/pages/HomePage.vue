@@ -1,5 +1,6 @@
 <template>
   <div class="items">
+    <RouterLink to="/playground" class="item" v-ripple>Playground</RouterLink>
     <RouterLink to="/select" class="item" v-ripple>Select</RouterLink>
     <RouterLink to="/select-new" class="item" v-ripple>Select New</RouterLink>
     <RouterLink to="/pagination" class="item" v-ripple>Pagination</RouterLink>

@@ -117,6 +117,8 @@ export {
   RSwitch,
   RLoading,
   RAlert,
+  Slot,
+  Primitive,
 } from "./components";
 
 // inject keys
