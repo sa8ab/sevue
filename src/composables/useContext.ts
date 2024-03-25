@@ -15,5 +15,5 @@ export const useContext = <ContextType>(name: string) => {
     return context;
   };
 
-  return [injector, provider];
+  return [injector, provider] as const;
 };
