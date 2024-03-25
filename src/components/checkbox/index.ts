@@ -1,3 +1,6 @@
 import RCheckbox, { type Props } from "./RCheckbox.vue";
-export { Props }
+import CheckboxRoot from "./CheckboxRoot.vue";
+
+export { CheckboxRoot };
+export { Props };
 export default RCheckbox;

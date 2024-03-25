@@ -1,5 +1,5 @@
 import RButton, { type Props as RButtonProps } from "./button";
-import RCheckbox, { type Props as RCheckboxProps } from "./checkbox";
+import RCheckbox, { type Props as RCheckboxProps, CheckboxRoot } from "./checkbox";
 import RInput, { type Props as RInputProps } from "./input";
 import RPagination, { type Props as RPaginationProps } from "./pagination";
 import RPopup, { type Props as RPopupProps } from "./popup";
@@ -19,6 +19,7 @@ export {
   RButton,
   RButtonProps,
   RCheckbox,
+  CheckboxRoot,
   RCheckboxProps,
   RInput,
   RInputProps,

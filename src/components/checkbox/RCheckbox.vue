@@ -1,7 +1,6 @@
 <template>
   <CheckboxRoot
     :as="as"
-    :asChild="asChild"
     v-model="model"
     :value="value"
     :disabled="disabled"
@@ -20,7 +19,7 @@
         </slot>
         <div class="background"></div>
       </div>
-      <div class="slot">
+      <div class="r-cb-slot">
         <slot />
       </div>
     </template>
@@ -38,10 +37,6 @@ export interface Props extends CheckboxRootProps {
   iconColor?: string;
   containerClass?: string;
 }
-
-defineOptions({
-  inheritAttrs: false,
-});
 
 const props = withDefaults(defineProps<Props>(), {
   iconColor: "#fff",
@@ -124,7 +119,7 @@ defineExpose({
     // transition-delay: calc(var(--r-duration) / 2);
     color: color(text-color);
   }
-  .slot {
+  .r-cb-slot {
     flex: 1;
   }
 
@@ -149,7 +144,7 @@ defineExpose({
     opacity: var(--r-disabled-alpha);
   }
 
-  input:focus-visible ~ .check-container {
+  .check-container:has(~ input:focus-visible) {
     box-shadow: var(--r-focused-box-shadow-specs) color();
     border-radius: var(--r-radius);
   }

@@ -102,6 +102,7 @@ export { useNotification, useLoading, useSevue, useTimer, useColor, notification
 export {
   RButton,
   RCheckbox,
+  CheckboxRoot,
   RInput,
   ROption,
   RPagination,

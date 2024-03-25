@@ -13,6 +13,7 @@ export interface CheckboxRootProps extends PrimitiveProps {
 export type CheckboxRootEmits = {
   "update:modelValue": [CheckboxRootProps["modelValue"]];
 };
+
 defineOptions({
   inheritAttrs: false,
 });
@@ -44,6 +45,7 @@ const { forwardRef } = useForwardRef();
 
 <template>
   <Primitive :as="as" :asChild="asChild" v-bind="containerAttrs">
+    <slot :isChecked="isChecked" />
     <input
       :ref="forwardRef"
       type="checkbox"
@@ -62,6 +64,5 @@ const { forwardRef } = useForwardRef();
       }"
       v-bind="$attrs"
     />
-    <slot :isChecked="isChecked" />
   </Primitive>
 </template>
