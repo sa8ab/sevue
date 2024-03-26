@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRef, ref, onMounted } from "vue";
+import { toRef, ref, onMounted } from "vue";
 import useColor from "@/composables/useColor";
 import RadioRoot, { type RadioRootProps } from "./RadioRoot.vue";
 
