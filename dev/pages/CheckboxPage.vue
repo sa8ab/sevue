@@ -15,7 +15,7 @@
       <RCheckbox v-model="groupCheked" value="3" color="red" disabled> Checkbox </RCheckbox>
     </div>
     <div class="section">
-      <CheckboxRoot v-slot="{ isChecked }" v-model="checked">
+      <CheckboxRoot v-slot="{ isChecked }" v-model="checked" ref="elementRef">
         <div :class="['contained', { isChecked }]">Contained Checkbox Item</div>
       </CheckboxRoot>
     </div>
@@ -23,11 +23,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { CheckboxRoot } from "../../src/main";
 
 const checked = ref();
 const groupCheked = ref(["1"]);
+
+const elementRef = ref();
+
+onMounted(() => {
+  console.log(elementRef.value);
+});
 </script>
 
 <style lang="scss" scoped>
