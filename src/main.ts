@@ -99,29 +99,7 @@ export default {
 // composables
 export { useNotification, useLoading, useSevue, useTimer, useColor, notificationFactory, loadingFactory };
 
-export {
-  RButton,
-  RCheckbox,
-  CheckboxRoot,
-  RInput,
-  ROption,
-  RPagination,
-  RPopup,
-  RSelect,
-  RSelectGroup,
-  RSlider,
-  RTab,
-  RTabItem,
-  RPanel,
-  RPanelItem,
-  RRadio,
-  RSwitch,
-  RLoading,
-  RAlert,
-  Slot,
-  Primitive,
-  Label,
-} from "./components";
+export * from "./components";
 
 // inject keys
 export { notificationKey, sevueKey, loadingKey };

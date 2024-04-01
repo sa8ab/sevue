@@ -1,20 +1,8 @@
 import type { Ref, MaybeRef } from "vue";
-import { ref, watch, getCurrentScope, onScopeDispose, toValue } from "vue";
+import { ref, watch, nextTick } from "vue";
 import { createFocusTrap } from "focus-trap";
 import type { ActivateOptions, DeactivateOptions, FocusTrap, Options } from "focus-trap";
-
-const tryOnScopeDispose = (fn: any) => {
-  if (getCurrentScope()) {
-    onScopeDispose(fn);
-    return true;
-  }
-  return false;
-};
-
-const unrefElement = (elRef: MaybeRef) => {
-  const plain = toValue(elRef);
-  return (plain as any)?.$el ?? plain;
-};
+import { unrefElement, tryOnScopeDispose } from "@vueuse/core";
 
 export interface UseFocusTrapOptions extends Options {
   /**

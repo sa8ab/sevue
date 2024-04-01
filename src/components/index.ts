@@ -2,7 +2,7 @@ import RButton, { type Props as RButtonProps } from "./button";
 import RCheckbox, { type Props as RCheckboxProps, CheckboxRoot } from "./checkbox";
 import RInput, { type Props as RInputProps } from "./input";
 import RPagination, { type Props as RPaginationProps } from "./pagination";
-import RPopup, { type Props as RPopupProps } from "./popup";
+import RPopup, { type Props as RPopupProps, PopupRoot, PopupContent, PopupOverlay } from "./popup";
 // import { RSelect, ROption, RSelectGroup, type ROptionProps, type RSelectProps } from "./select";
 import { RSelect, ROption, RSelectGroup } from "./select";
 import RSlider, { type Props as RSliderProps } from "./slider";
@@ -26,6 +26,9 @@ export {
   RPagination,
   RPaginationProps,
   RPopup,
+  PopupRoot,
+  PopupContent,
+  PopupOverlay,
   RPopupProps,
   RSelect,
   // RSelectProps,
