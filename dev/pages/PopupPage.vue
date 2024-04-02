@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { users } from "../mock";
 
-import { PopupRoot, PopupContent } from "../../src/main";
+import { PopupRoot, PopupContent, PopupOverlay } from "../../src/main";
 
 const popupActive = ref(false);
 
@@ -21,7 +21,19 @@ const onBeforeClose = (done: any) => {
     <div class="headless">
       <RButton @click="popupActive = !popupActive">Headless</RButton>
       <PopupRoot v-model:active="popupActive">
-        <PopupContent v-if="popupActive">
+        <PopupOverlay
+          v-if="popupActive"
+          style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 10;
+          "
+        ></PopupOverlay>
+        <PopupContent v-if="popupActive" style="position: relative; z-index: 12">
           <section>Hello</section>
         </PopupContent>
       </PopupRoot>

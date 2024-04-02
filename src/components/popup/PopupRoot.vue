@@ -19,14 +19,31 @@ export type PopupRootEmits = {
 
 export interface PopupRootContext {
   active: Ref<boolean | undefined>;
+  tryClose: () => void;
 }
 
 const props = withDefaults(defineProps<PopupRootProps>(), {
   active: false,
 });
 
+const emit = defineEmits<PopupRootEmits>();
+
+const close = () => {
+  emit("update:active", false);
+  emit("close");
+};
+const tryClose = () => {
+  if (props.beforeClose) {
+    props.beforeClose(close);
+    return;
+  }
+  if (props.preventClose) return;
+  close();
+};
+
 providePopupRoot({
   active: toRef(props, "active"),
+  tryClose,
 });
 </script>
 
