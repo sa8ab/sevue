@@ -4,6 +4,8 @@ export { default as PopupContent, type PopupContentProps } from "./PopupContent.
 
 export { default as PopupOverlay, type PopupOverlayProps } from "./PopupOverlay.vue";
 
+export { default as PopupClose, type PopupCloseProps } from "./PopupClose.vue";
+
 import RPopup, { type Props } from "./RPopup.vue";
 export { Props };
 export default RPopup;
