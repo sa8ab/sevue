@@ -15,8 +15,8 @@ const { forwardRef, currentElement } = useForwardRef();
 
 const rootContext = injectPopupRoot();
 
-rootContext.titleId ||= useId(undefined, "radix-vue-dialog-title");
-rootContext.descriptionId ||= useId(undefined, "radix-vue-dialog-description");
+rootContext.titleId ||= useId(undefined, "sevue-dialog-title");
+rootContext.descriptionId ||= useId(undefined, "sevue-dialog-description");
 
 const handleKeydown = (e: KeyboardEvent) => {
   const code = e.code;
