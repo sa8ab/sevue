@@ -2,6 +2,7 @@
 import { watch, nextTick } from "vue";
 
 import { useForwardRef } from "@/composables/useForwardRef";
+import { useId } from "@/composables/useId";
 import { Primitive, type PrimitiveProps } from "@/components/primitive";
 import { injectPopupRoot } from "./PopupRoot.vue";
 import { useFocusTrap } from "@/composables/useFocusTrap";
@@ -13,6 +14,9 @@ const props = withDefaults(defineProps<PrimitiveProps>(), {});
 const { forwardRef, currentElement } = useForwardRef();
 
 const rootContext = injectPopupRoot();
+
+rootContext.titleId ||= useId(undefined, "radix-vue-dialog-title");
+rootContext.descriptionId ||= useId(undefined, "radix-vue-dialog-description");
 
 const handleKeydown = (e: KeyboardEvent) => {
   const code = e.code;
@@ -46,7 +50,15 @@ watch(
 </script>
 
 <template>
-  <Primitive :as="as" :asChild="asChild" :ref="forwardRef" tabindex="-1" @keydown="handleKeydown">
+  <Primitive
+    :as="as"
+    :asChild="asChild"
+    :ref="forwardRef"
+    tabindex="-1"
+    :aria-describedby="rootContext.descriptionId"
+    :aria-labelledby="rootContext.titleId"
+    @keydown="handleKeydown"
+  >
     <slot />
   </Primitive>
 </template>

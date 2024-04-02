@@ -4,7 +4,7 @@ export const [injectPopupRoot, providePopupRoot] = useContext<PopupRootContext>(
 
 <script setup lang="ts">
 import { useContext } from "@/composables/useContext";
-import { toRef, type Ref } from "vue";
+import { ref, toRef, type Ref } from "vue";
 
 export interface PopupRootProps {
   active?: boolean;
@@ -20,6 +20,9 @@ export type PopupRootEmits = {
 export interface PopupRootContext {
   active: Ref<boolean | undefined>;
   tryClose: () => void;
+  titleId: string;
+  descriptionId: string;
+  contentId: "";
 }
 
 const props = withDefaults(defineProps<PopupRootProps>(), {
@@ -44,6 +47,9 @@ const tryClose = () => {
 providePopupRoot({
   active: toRef(props, "active"),
   tryClose,
+  titleId: "",
+  descriptionId: "",
+  contentId: "",
 });
 </script>
 
