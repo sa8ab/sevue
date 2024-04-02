@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { users } from "../mock";
 
-import { PopupRoot, PopupContent, PopupOverlay, PopupClose } from "../../src/main";
+import { PopupRoot, PopupContent, PopupOverlay, PopupClose, PopupTitle, PopupDescription } from "../../src/main";
 
 const popupActive = ref(false);
 
@@ -36,6 +36,8 @@ const onBeforeClose = (done: any) => {
         <PopupContent v-if="popupActive" style="position: relative; z-index: 12">
           <section>
             <PopupClose style="background: gray">Click To Close</PopupClose>
+            <PopupTitle>Some Title</PopupTitle>
+            <PopupDescription>Are you sure to close it?</PopupDescription>
             <div>Some test component</div>
           </section>
         </PopupContent>
