@@ -20,9 +20,9 @@ export type PopupRootEmits = {
 export interface PopupRootContext {
   active: Ref<boolean | undefined>;
   tryClose: () => void;
-  titleId: string;
-  descriptionId: string;
-  contentId: "";
+  titleId: Ref<string>;
+  descriptionId: Ref<string>;
+  contentId: Ref<string>;
 }
 
 const props = withDefaults(defineProps<PopupRootProps>(), {
@@ -30,6 +30,10 @@ const props = withDefaults(defineProps<PopupRootProps>(), {
 });
 
 const emit = defineEmits<PopupRootEmits>();
+
+const titleId = ref("");
+const descriptionId = ref("");
+const contentId = ref("");
 
 const close = () => {
   emit("update:active", false);
@@ -47,9 +51,9 @@ const tryClose = () => {
 providePopupRoot({
   active: toRef(props, "active"),
   tryClose,
-  titleId: "",
-  descriptionId: "",
-  contentId: "",
+  titleId,
+  descriptionId,
+  contentId,
 });
 </script>
 
