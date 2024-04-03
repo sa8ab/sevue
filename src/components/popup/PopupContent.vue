@@ -55,8 +55,8 @@ watch(
     :asChild="asChild"
     :ref="forwardRef"
     tabindex="-1"
-    :aria-describedby="rootContext.descriptionId"
-    :aria-labelledby="rootContext.titleId"
+    :aria-describedby="rootContext.descriptionId.value"
+    :aria-labelledby="rootContext.titleId.value"
     @keydown="handleKeydown"
   >
     <slot />
