@@ -23,6 +23,7 @@ import RAlert, { type Props as RAlertProps } from "./alert";
 import { Slot, Primitive } from "./primitive";
 import { Label } from "./internal";
 
+export * from "./roving-focus";
 export {
   RButton,
   RButtonProps,

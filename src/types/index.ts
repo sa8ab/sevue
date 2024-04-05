@@ -6,9 +6,9 @@ export type Picked<T, K extends keyof T> = T[K];
 export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
 
 export type Orientation = "horizontal" | "vertical";
-export type Direction = "ltr" | "rtl";
+export type Dir = "ltr" | "rtl";
 
-export type FocusDirection = "forward" | "backward";
+export type Direction = "forward" | "backward";
 
 export type Sevue = {
   setDark: (dark: boolean) => void;

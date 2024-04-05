@@ -5,6 +5,31 @@
       <RButton @click="active = !active">active </RButton>
       <RButton @click="dynamicTabTitle = 'changed'">change a tab title</RButton>
     </div>
+    <div class="roving">
+      <RovingFocusRoot orientation="horizontal" class="roving-root">
+        <RovingFocusItem
+          class="roving-item"
+          :tabindex="activeRovingItem === '1' ? '0' : '-1'"
+          @focus="activeRovingItem = '1'"
+        >
+          Item
+        </RovingFocusItem>
+        <RovingFocusItem
+          class="roving-item"
+          :tabindex="activeRovingItem === '2' ? '0' : '-1'"
+          @focus="activeRovingItem = '2'"
+        >
+          Item 2
+        </RovingFocusItem>
+        <RovingFocusItem
+          class="roving-item"
+          :tabindex="activeRovingItem === '3' ? '0' : '-1'"
+          @focus="activeRovingItem = '3'"
+        >
+          Item 3
+        </RovingFocusItem>
+      </RovingFocusRoot>
+    </div>
     <div v-if="active">
       <div class="tabs">
         <RTab ref="tabbar" v-model="tab" :items="tabs"> </RTab>
@@ -25,7 +50,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { RTab, RTabItem, RButton, RPanel, RPanelItem } from "../../src/main";
+import { RTab, RTabItem, RButton, RPanel, RPanelItem, RovingFocusRoot, RovingFocusItem } from "../../src/main";
 
 const tabbar = ref();
 const active = ref(true);
@@ -46,6 +71,10 @@ const tabs = computed(() => [
 ]);
 
 const goSecondTab = () => tabbar.value.setActiveTab("comments");
+
+// roving focus
+
+const activeRovingItem = ref("1");
 </script>
 
 <style lang="scss" scoped>
@@ -59,5 +88,17 @@ const goSecondTab = () => tabbar.value.setActiveTab("comments");
   flex-direction: column;
   display: flex;
   gap: 80px;
+}
+
+.roving-root {
+  display: flex;
+  gap: 10px;
+  .roving-item {
+    padding: 10px;
+    border-radius: 8px;
+    &:focus-visible {
+      box-shadow: 0 0 0 2px #0ecf25;
+    }
+  }
 }
 </style>
