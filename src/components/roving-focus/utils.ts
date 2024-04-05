@@ -26,8 +26,6 @@ export function wrapArray<T>(array: T[], startIndex: number) {
 export const focusFirst = (list: Array<HTMLElement>) => {
   const currentlyFocuedElement = document.activeElement;
   for (const item of list) {
-    console.log(item);
-
     if (item === currentlyFocuedElement) return;
     item.focus();
     if (document.activeElement !== currentlyFocuedElement) return;
