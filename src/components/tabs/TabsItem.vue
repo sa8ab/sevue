@@ -10,12 +10,9 @@ export interface TabsItemProps extends PrimitiveProps {
   disabled?: boolean;
 }
 
-// export type TabsRootEmits = {
-// };
-
-const props = withDefaults(defineProps<TabsItemProps>(), {});
-
-// const emit = defineEmits<TabsRootEmits>();
+const props = withDefaults(defineProps<TabsItemProps>(), {
+  as: "span",
+});
 
 const { forwardRef } = useForwardRef();
 
@@ -24,6 +21,23 @@ const rootContext = injectTabsRootContext();
 const isSelected = computed(() => rootContext.modelValue.value === props.value);
 
 const tabindex = computed(() => (isSelected.value ? "0" : "-1"));
+
+const handleClick = () => {
+  if (isSelected.value || props.disabled) return;
+  rootContext.setModelValue(props.value);
+};
+
+const handleFocus = () => {
+  if (isSelected.value || props.disabled) return;
+  rootContext.setModelValue(props.value);
+};
+
+const handleMousedown = (e: MouseEvent) => {
+  if (props.disabled) {
+    // don't focus when disabled
+    e.preventDefault();
+  }
+};
 </script>
 
 <template>
@@ -34,7 +48,13 @@ const tabindex = computed(() => (isSelected.value ? "0" : "-1"));
       :ref="forwardRef"
       :tabindex="tabindex"
       :disabled="disabled"
-      :data-disabled="disabled"
+      :data-disabled="disabled ? '' : undefined"
+      :data-selected="isSelected ? '' : undefined"
+      role="tab"
+      :aria-selected="isSelected ? '' : undefined"
+      @click="handleClick"
+      @focus="handleFocus"
+      @mousedown="handleMousedown"
     >
       <slot />
     </Primitive>

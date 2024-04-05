@@ -8,7 +8,7 @@ import { RovingFocusRoot } from "@/components/roving-focus";
 import { useContext } from "@/composables/useContext";
 import { useForwardRef } from "@/composables/useForwardRef";
 
-import { type Orientation, Dir } from "@/types";
+import { type Orientation, type Dir } from "@/types";
 import { type Ref, toRefs } from "vue";
 
 export interface TabsRootProps extends PrimitiveProps {
@@ -50,8 +50,8 @@ provideTabsRootContext({
 </script>
 
 <template>
-  <RovingFocusRoot asChild :orientation="orientation">
-    <Primitive :asChild="asChild" :as="as" :ref="forwardRef">
+  <RovingFocusRoot asChild :orientation="orientation" :dir="dir">
+    <Primitive :asChild="asChild" :as="as" :ref="forwardRef" role="tablist" :aria-orientation="orientation">
       <slot />
     </Primitive>
   </RovingFocusRoot>

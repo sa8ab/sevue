@@ -24,6 +24,7 @@ import { Slot, Primitive } from "./primitive";
 import { Label } from "./internal";
 
 export * from "./roving-focus";
+export * from "./tabs";
 export {
   RButton,
   RButtonProps,

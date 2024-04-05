@@ -5,6 +5,13 @@
       <RButton @click="active = !active">active </RButton>
       <RButton @click="dynamicTabTitle = 'changed'">change a tab title</RButton>
     </div>
+    <div class="headless">
+      <TabsRoot class="headless-tabs-root" v-model="tab">
+        <TabsItem class="headless-tabs-item" v-for="item in tabs" :disabled="item.disabled" :value="item.value">{{
+          item.label
+        }}</TabsItem>
+      </TabsRoot>
+    </div>
     <div class="roving">
       <RovingFocusRoot orientation="horizontal" class="roving-root">
         <RovingFocusItem
@@ -50,7 +57,17 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { RTab, RTabItem, RButton, RPanel, RPanelItem, RovingFocusRoot, RovingFocusItem } from "../../src/main";
+import {
+  RTab,
+  RTabItem,
+  RButton,
+  RPanel,
+  RPanelItem,
+  RovingFocusRoot,
+  RovingFocusItem,
+  TabsRoot,
+  TabsItem,
+} from "../../src/main";
 
 const tabbar = ref();
 const active = ref(true);
@@ -96,6 +113,17 @@ const activeRovingItem = ref("1");
   .roving-item {
     padding: 10px;
     border-radius: 8px;
+    &:focus-visible {
+      box-shadow: 0 0 0 2px #0ecf25;
+    }
+  }
+}
+
+.headless-tabs-root {
+  display: flex;
+  gap: 10px;
+  .headless-tabs-item {
+    padding: 10px 14px;
     &:focus-visible {
       box-shadow: 0 0 0 2px #0ecf25;
     }
