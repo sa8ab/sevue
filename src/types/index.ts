@@ -8,6 +8,8 @@ export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
 export type Orientation = "horizontal" | "vertical";
 export type Direction = "ltr" | "rtl";
 
+export type FocusDirection = "forward" | "backward";
+
 export type Sevue = {
   setDark: (dark: boolean) => void;
   nuxtOptions: {
