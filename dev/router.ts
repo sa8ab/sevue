@@ -15,6 +15,7 @@ import SliderPage from "./pages/SliderPage.vue";
 import PopupPage from "./pages/PopupPage.vue";
 import AlertPage from "./pages/AlertPage.vue";
 import PlaygroundPage from "./pages/PlaygroundPage.vue";
+import DropdownPage from "./pages/DropdownPage.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -33,6 +34,7 @@ const routes = [
   { path: "/popup", component: PopupPage },
   { path: "/alert", component: AlertPage },
   { path: "/playground", component: PlaygroundPage },
+  { path: "/dropdown", component: DropdownPage },
 ];
 
 export default createRouter({

@@ -25,6 +25,7 @@ import { Label } from "./internal";
 
 export * from "./roving-focus";
 export * from "./tabs";
+export * from "./dropdown";
 export {
   RButton,
   RButtonProps,
