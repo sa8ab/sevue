@@ -1,16 +1,22 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { DropdownRoot, DropdownTrigger, DropdownContent } from "../../src/main";
+import { DropdownRoot, DropdownTrigger, DropdownContent, RButton } from "../../src/main";
 </script>
 
 <template>
   <div class="dropdown-page">
     <div class="item">
       <DropdownRoot v-slot="{ active }">
-        <DropdownTrigger class="dropdown-trigger" as="span">Trigger</DropdownTrigger>
+        <DropdownTrigger class="dropdown-trigger" asChild>
+          <RButton>Trigger</RButton>
+        </DropdownTrigger>
         <div>{{ active }}</div>
         <Teleport to="body">
-          <DropdownContent v-if="active" class="dropdown-content">Content</DropdownContent>
+          <DropdownContent v-if="active" class="dropdown-content">
+            <input />
+            <button>Button</button>
+            dropdown option-content
+          </DropdownContent>
         </Teleport>
       </DropdownRoot>
     </div>
@@ -21,14 +27,19 @@ import { DropdownRoot, DropdownTrigger, DropdownContent } from "../../src/main";
 .dropdown-page {
   gap: 20px;
   padding: 40px;
-  .dropdown-trigger {
-    border: 2px solid #0ae014;
-    border-radius: 8px;
-    padding: 8px 14px;
-    cursor: pointer;
-    display: flex;
-  }
-  .item {
-  }
+}
+</style>
+
+<style lang="scss">
+.dropdown-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #93faff;
+  color: black;
+  padding: 10px;
+}
+*:focus {
+  border: 2px solid red;
 }
 </style>
