@@ -27,6 +27,7 @@ export interface TabsRootContext {
   setModelValue: (v: string | number | undefined) => void;
   orientation: Ref<Orientation | undefined>;
   dir: Ref<Dir | undefined>;
+  tabbar: Ref<HTMLElement | undefined>;
 }
 
 const props = withDefaults(defineProps<TabsRootProps>(), {});
@@ -37,7 +38,7 @@ const model = defineModel<string | number>({
   required: false,
 });
 
-const { forwardRef } = useForwardRef();
+const { forwardRef, currentElement } = useForwardRef();
 
 const { dir, orientation } = toRefs(props);
 
@@ -46,6 +47,7 @@ provideTabsRootContext({
   orientation,
   modelValue: model,
   setModelValue: (v) => (model.value = v),
+  tabbar: currentElement,
 });
 </script>
 

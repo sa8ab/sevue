@@ -7,4 +7,6 @@ export { default as TabsRoot, type TabsRootProps, type TabsRootEmits } from "./T
 
 export { default as TabsItem, type TabsItemProps } from "./TabsItem.vue";
 
+export { default as TabsIndicator } from "./TabsIndicator.vue";
+
 export { RTabItem, RTab, RPanel, RPanelItem, Props };

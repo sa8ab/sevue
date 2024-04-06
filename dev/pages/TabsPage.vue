@@ -10,6 +10,7 @@
         <TabsItem class="headless-tabs-item" v-for="item in tabs" :disabled="item.disabled" :value="item.value">{{
           item.label
         }}</TabsItem>
+        <TabsIndicator></TabsIndicator>
       </TabsRoot>
     </div>
     <div class="roving">
@@ -67,6 +68,7 @@ import {
   RovingFocusItem,
   TabsRoot,
   TabsItem,
+  TabsIndicator,
 } from "../../src/main";
 
 const tabbar = ref();
