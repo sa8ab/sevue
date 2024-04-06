@@ -1,39 +1,11 @@
-<template>
-  <div
-    :class="[
-      'r-tab',
-      `r-tab-type-${type}`,
-      { 'r-tab-fit': fit, 'r-tab-mover-full': moverFull, scrollable, 'r-tab-show-border': showBorder },
-    ]"
-    :style="{ '--r-color': color, '--r-foreground': foreground }"
-    @keydown="handleKeyDown"
-  >
-    <div class="r-tabbar-container" ref="tabbarContainer">
-      <div class="r-tabbar" ref="tabbar">
-        <RTabItem
-          v-for="item in items"
-          :value="item.value"
-          :disabled="item.disabled"
-          :active="getIsActive(item.value)"
-          @setValue="setValue(item.value)"
-          ref="itemRefs"
-        >
-          <slot :name="item.value">
-            {{ item.label }}
-          </slot>
-        </RTabItem>
-        <div class="r-tab-mover" :style="{ width: state.moverWidth, left: state.moverLeft }"></div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import useColor from "@/composables/useColor";
-import { onMounted, reactive, ref, toRef, onBeforeUnmount, nextTick, computed, watch } from "vue";
+import { onMounted, toRef } from "vue";
 import type { RTabItemType } from "@/types";
+import { TabsRoot, TabsIndicator, type TabsRootProps, type TabsRootEmits } from "./";
+import { useEmitsAsProps } from "@/composables/useEmitsAsProps";
 
-export interface Props {
+export interface Props extends TabsRootProps {
   items?: RTabItemType[];
   initialValue?: number | string;
   fit?: boolean;
@@ -45,11 +17,8 @@ export interface Props {
   type?: "line" | "segment";
 }
 
-type State = {
-  moverWidth: string;
-  moverLeft: string;
-  // moverTop: string,
-  observerInstance?: ResizeObserver;
+export type RTabEmits = TabsRootEmits & {
+  change: [RTabItemType["value"]];
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -58,32 +27,17 @@ const props = withDefaults(defineProps<Props>(), {
   color: "prm",
 });
 
-const emit = defineEmits<{
-  change: [RTabItemType["value"]];
-}>();
+const emit = defineEmits<RTabEmits>();
 const model = defineModel<string | number>({
   required: false,
 });
 
 const { color, foreground } = useColor(toRef(props, "color"), toRef(props, "activeTextColor"));
-
-const state = reactive<State>({
-  moverWidth: "0",
-  moverLeft: "0",
-  // moverTop: "0",
-  observerInstance: undefined,
-});
-
-const tabbarContainer = ref<HTMLElement>();
-const tabbar = ref<Element>();
-const itemRefs = ref<HTMLElement[]>([]);
+const emitsAsProps = useEmitsAsProps(emit);
 
 onMounted(async () => {
-  runObserver();
   maybeSetInitialValue();
 });
-
-const currentIndex = computed(() => props.items?.findIndex((item) => item.value === model.value));
 
 const maybeSetInitialValue = () => {
   // if already has modelValue
@@ -103,103 +57,91 @@ const maybeSetInitialValue = () => {
   model.value = props.items?.[firstActiveIndex].value;
 };
 
-onBeforeUnmount(() => {
-  state.observerInstance?.disconnect();
-});
+// const setValue = (value: string | number, options?: { focus: boolean }) => {
+//   model.value = value;
+//   emit("change", value);
 
-const runObserver = () => {
-  state.observerInstance = new ResizeObserver(() => {
-    setMoverStyle();
-  });
+//   nextTick(() => {
+//     // @ts-ignore
+//     const tab = itemRefs.value[currentIndex.value]?.$el;
 
-  state.observerInstance.observe(tabbar.value!);
-};
-
-const setMoverStyle = async () => {
-  if (currentIndex.value === undefined) return;
-  // @ts-ignore
-  const tab = itemRefs.value[currentIndex.value]?.$el;
-
-  if (!tab) return;
-
-  state.moverWidth = `${tab.offsetWidth}px`;
-  state.moverLeft = `${tab.offsetLeft}px`;
-
-  // if (props.scrollable) {
-  //   //   TODO: fix for rtl version
-  //   tabbarContainer.value?.scrollTo({
-  //     left: newTabBarItemOffset - 80,
-  //     behavior: "smooth",
-  //   });
-  // }
-};
-
-const setValue = (value: string | number, options?: { focus: boolean }) => {
-  model.value = value;
-  emit("change", value);
-
-  nextTick(() => {
-    // @ts-ignore
-    const tab = itemRefs.value[currentIndex.value]?.$el;
-
-    if (tab && options?.focus) {
-      tab.focus();
-    }
-  });
-};
-
-watch(model, () => {
-  setMoverStyle();
-});
+//     if (tab && options?.focus) {
+//       tab.focus();
+//     }
+//   });
+// };
 
 const getIsActive = (value: RTabItemType["value"]) => {
   return value === model.value;
 };
 
-const selectNextItem = () => {
-  const items = props.items;
+// const selectNextItem = () => {
+//   const items = props.items;
 
-  if (!items?.length || currentIndex.value === undefined || currentIndex.value === -1) return;
+//   if (!items?.length || currentIndex.value === undefined || currentIndex.value === -1) return;
 
-  const next = items.find((item, index) => !item.disabled && index > currentIndex.value!);
+//   const next = items.find((item, index) => !item.disabled && index > currentIndex.value!);
 
-  if (next) {
-    setValue(next.value, {
-      focus: true,
-    });
-  }
-};
+//   if (next) {
+//     setValue(next.value, {
+//       focus: true,
+//     });
+//   }
+// };
 
-const selectPrevItem = () => {
-  const items = props.items;
+// const selectPrevItem = () => {
+//   const items = props.items;
 
-  if (!items?.length) return;
+//   if (!items?.length) return;
 
-  const reversedList = [...items].reverse();
+//   const reversedList = [...items].reverse();
 
-  const currentReversedIndex = reversedList.findIndex((item) => item.value === model.value);
-  if (currentReversedIndex === -1) return;
+//   const currentReversedIndex = reversedList.findIndex((item) => item.value === model.value);
+//   if (currentReversedIndex === -1) return;
 
-  const previous = reversedList.find((item, index) => !item.disabled && index > currentReversedIndex);
+//   const previous = reversedList.find((item, index) => !item.disabled && index > currentReversedIndex);
 
-  if (previous) {
-    setValue(previous.value, {
-      focus: true,
-    });
-  }
-};
-const handleKeyDown = (e: KeyboardEvent) => {
-  const code = e.code;
-  if (code === "ArrowLeft") {
-    selectPrevItem();
-    e.stopPropagation();
-  }
-  if (code === "ArrowRight") {
-    selectNextItem();
-    e.stopPropagation();
-  }
-};
+//   if (previous) {
+//     setValue(previous.value, {
+//       focus: true,
+//     });
+//   }
+// };
+// const handleKeyDown = (e: KeyboardEvent) => {
+//   const code = e.code;
+//   if (code === "ArrowLeft") {
+//     selectPrevItem();
+//     e.stopPropagation();
+//   }
+//   if (code === "ArrowRight") {
+//     selectNextItem();
+//     e.stopPropagation();
+//   }
+// };
 </script>
+
+<template>
+  <TabsRoot
+    :class="[
+      'r-tab',
+      `r-tab-type-${type}`,
+      { 'r-tab-fit': fit, 'r-tab-mover-full': moverFull, scrollable, 'r-tab-show-border': showBorder },
+    ]"
+    :style="{ '--r-color': color, '--r-foreground': foreground }"
+    v-bind="{ ...emitsAsProps, modelValue }"
+  >
+    <div class="r-tabbar-container">
+      <div class="r-tabbar">
+        <RTabItem v-for="item in items" :value="item.value" :disabled="item.disabled" :active="getIsActive(item.value)">
+          <slot :name="item.value">
+            {{ item.label }}
+          </slot>
+        </RTabItem>
+        <TabsIndicator class="r-tab-mover"></TabsIndicator>
+      </div>
+    </div>
+  </TabsRoot>
+</template>
 
 <style lang="scss">
 .r-tab {
@@ -224,6 +166,8 @@ const handleKeyDown = (e: KeyboardEvent) => {
     position: absolute;
     bottom: 0;
     height: 2px;
+    width: var(--sevue-tab-indicator-size);
+    left: var(--sevue-tab-indicator-indent);
     border-radius: var(--radius);
     background: color(color);
     transition: all var(--r-duration);

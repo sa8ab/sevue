@@ -12,6 +12,7 @@ import { type Orientation, type Dir } from "@/types";
 import { type Ref, toRefs } from "vue";
 
 export interface TabsRootProps extends PrimitiveProps {
+  modelValue?: string | number;
   initialValue?: number | string;
   orientation?: Orientation;
   dir?: Dir;
@@ -19,7 +20,7 @@ export interface TabsRootProps extends PrimitiveProps {
 
 export type TabsRootEmits = {
   change: [];
-  "update:modelValue": [];
+  "update:modelValue": [string | number | undefined];
 };
 
 export interface TabsRootContext {

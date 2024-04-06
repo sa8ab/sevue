@@ -11,6 +11,8 @@ const rootContext = injectTabsRootContext();
 const indicatorSize = ref<number>(0);
 const indicatorIndent = ref<number>(0);
 
+const activeTab = ref<HTMLElement>();
+
 watch(
   () => rootContext.modelValue.value,
   () => {
@@ -18,19 +20,21 @@ watch(
   }
 );
 
-useResizeObserver(rootContext.tabbar, () => {
+useResizeObserver([rootContext.tabbar, activeTab], () => {
   updateIndicatorStyle();
 });
 
 const updateIndicatorStyle = () => {
   if (!rootContext.tabbar.value) return;
 
-  const activeTab = rootContext.tabbar.value.querySelector('[role="tab"][data-selected]') as HTMLElement;
+  activeTab.value = rootContext.tabbar.value.querySelector('[role="tab"][data-selected]') as HTMLElement;
 
-  if (!activeTab) return;
+  if (!activeTab.value) return;
 
-  indicatorSize.value = rootContext.orientation.value === "horizontal" ? activeTab.offsetWidth : activeTab.offsetHeight;
-  indicatorIndent.value = rootContext.orientation.value === "horizontal" ? activeTab.offsetLeft : activeTab.offsetTop;
+  indicatorSize.value =
+    rootContext.orientation.value === "horizontal" ? activeTab.value.offsetWidth : activeTab.value.offsetHeight;
+  indicatorIndent.value =
+    rootContext.orientation.value === "horizontal" ? activeTab.value.offsetLeft : activeTab.value.offsetTop;
 };
 </script>
 

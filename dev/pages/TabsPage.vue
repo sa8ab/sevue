@@ -124,7 +124,7 @@ const activeRovingItem = ref("1");
 }
 
 .headless {
-  display: flex;
+  // display: flex;
 }
 .headless-tabs-root {
   display: flex;
