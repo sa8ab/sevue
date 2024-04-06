@@ -18,12 +18,19 @@ watch(
   }
 );
 
-useResizeObserver([rootContext.tabbar], () => {
+useResizeObserver(rootContext.tabbar, () => {
   updateIndicatorStyle();
 });
 
 const updateIndicatorStyle = () => {
-  console.log("setting indicator style");
+  if (!rootContext.tabbar.value) return;
+
+  const activeTab = rootContext.tabbar.value.querySelector('[role="tab"][data-selected]') as HTMLElement;
+
+  if (!activeTab) return;
+
+  indicatorSize.value = rootContext.orientation.value === "horizontal" ? activeTab.offsetWidth : activeTab.offsetHeight;
+  indicatorIndent.value = rootContext.orientation.value === "horizontal" ? activeTab.offsetLeft : activeTab.offsetTop;
 };
 </script>
 

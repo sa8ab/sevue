@@ -30,7 +30,9 @@ export interface TabsRootContext {
   tabbar: Ref<HTMLElement | undefined>;
 }
 
-const props = withDefaults(defineProps<TabsRootProps>(), {});
+const props = withDefaults(defineProps<TabsRootProps>(), {
+  orientation: "horizontal",
+});
 
 const emit = defineEmits<TabsRootEmits>();
 
