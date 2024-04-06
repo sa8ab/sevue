@@ -17,9 +17,7 @@ export interface Props extends TabsRootProps {
   type?: "line" | "segment";
 }
 
-export type RTabEmits = TabsRootEmits & {
-  change: [RTabItemType["value"]];
-};
+export type RTabEmits = TabsRootEmits;
 
 const props = withDefaults(defineProps<Props>(), {
   showBorder: true,
@@ -57,67 +55,9 @@ const maybeSetInitialValue = () => {
   model.value = props.items?.[firstActiveIndex].value;
 };
 
-// const setValue = (value: string | number, options?: { focus: boolean }) => {
-//   model.value = value;
-//   emit("change", value);
-
-//   nextTick(() => {
-//     // @ts-ignore
-//     const tab = itemRefs.value[currentIndex.value]?.$el;
-
-//     if (tab && options?.focus) {
-//       tab.focus();
-//     }
-//   });
-// };
-
 const getIsActive = (value: RTabItemType["value"]) => {
   return value === model.value;
 };
-
-// const selectNextItem = () => {
-//   const items = props.items;
-
-//   if (!items?.length || currentIndex.value === undefined || currentIndex.value === -1) return;
-
-//   const next = items.find((item, index) => !item.disabled && index > currentIndex.value!);
-
-//   if (next) {
-//     setValue(next.value, {
-//       focus: true,
-//     });
-//   }
-// };
-
-// const selectPrevItem = () => {
-//   const items = props.items;
-
-//   if (!items?.length) return;
-
-//   const reversedList = [...items].reverse();
-
-//   const currentReversedIndex = reversedList.findIndex((item) => item.value === model.value);
-//   if (currentReversedIndex === -1) return;
-
-//   const previous = reversedList.find((item, index) => !item.disabled && index > currentReversedIndex);
-
-//   if (previous) {
-//     setValue(previous.value, {
-//       focus: true,
-//     });
-//   }
-// };
-// const handleKeyDown = (e: KeyboardEvent) => {
-//   const code = e.code;
-//   if (code === "ArrowLeft") {
-//     selectPrevItem();
-//     e.stopPropagation();
-//   }
-//   if (code === "ArrowRight") {
-//     selectNextItem();
-//     e.stopPropagation();
-//   }
-// };
 </script>
 
 <template>

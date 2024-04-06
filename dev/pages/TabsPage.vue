@@ -7,14 +7,6 @@
         >change a tab title</RButton
       >
     </div>
-    <div class="headless">
-      <TabsRoot class="headless-tabs-root" v-model="tab">
-        <TabsItem class="headless-tabs-item" v-for="item in tabs" :disabled="item.disabled" :value="item.value">{{
-          item.label
-        }}</TabsItem>
-        <TabsIndicator class="headless-tabs-indicator"></TabsIndicator>
-      </TabsRoot>
-    </div>
     <div class="roving">
       <RovingFocusRoot orientation="horizontal" class="roving-root">
         <RovingFocusItem
@@ -39,6 +31,14 @@
           Item 3
         </RovingFocusItem>
       </RovingFocusRoot>
+    </div>
+    <div class="headless">
+      <TabsRoot class="headless-tabs-root" v-model="tab">
+        <TabsItem class="headless-tabs-item" v-for="item in tabs" :disabled="item.disabled" :value="item.value">{{
+          item.label
+        }}</TabsItem>
+        <TabsIndicator class="headless-tabs-indicator"></TabsIndicator>
+      </TabsRoot>
     </div>
     <div v-if="active">
       <div class="tabs">
@@ -125,6 +125,7 @@ const activeRovingItem = ref("1");
 
 .headless {
   // display: flex;
+  margin-bottom: 40px;
 }
 .headless-tabs-root {
   display: flex;
