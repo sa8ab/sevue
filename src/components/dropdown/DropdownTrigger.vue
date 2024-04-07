@@ -2,8 +2,8 @@
 import { Primitive, type PrimitiveProps } from "@/components/primitive";
 import { useForwardRef } from "@/composables/useForwardRef";
 import { injectDropdownRoot } from "./DropdownRoot.vue";
-import { watch } from "vue";
-import { type Ref } from "vue";
+import { watch, computed } from "vue";
+import { useId } from "@/composables/useId";
 
 export interface DropdownTriggerProps extends PrimitiveProps {}
 
@@ -21,13 +21,27 @@ const handleClick = () => {
   }
 };
 
+const id = computed(() => dropdownRoot.triggerId.value);
+const contentId = computed(() => dropdownRoot.contentId.value);
+
+dropdownRoot.triggerId.value = useId(undefined, "sevue-dropdown-trigger");
+
 watch(currentElement, (el) => {
   dropdownRoot.setReference(el);
 });
 </script>
 
 <template>
-  <Primitive :as="as" :asChild="asChild" :ref="forwardRef" @click="handleClick">
+  <Primitive
+    :as="as"
+    :asChild="asChild"
+    :ref="forwardRef"
+    @click="handleClick"
+    :id="id"
+    :aria-controls="dropdownRoot.active.value ? contentId : undefined"
+    aria-haspopup="menu"
+    :aria-expanded="dropdownRoot.active.value"
+  >
     <slot />
   </Primitive>
 </template>

@@ -3,7 +3,7 @@ export const [injectDropdownRoot, provideDropdownRoot] = useContext<DropdownRoot
 </script>
 
 <script setup lang="ts">
-import { type PrimitiveProps } from "@/components/primitive";
+import type { PrimitiveProps } from "@/components/primitive";
 import { useContext } from "@/composables/useContext";
 import { type Ref, ref } from "vue";
 
@@ -19,6 +19,8 @@ export interface DropdownRootContext {
   active: Ref<boolean>;
   open: () => void;
   close: () => void;
+  triggerId: Ref<string>;
+  contentId: Ref<string>;
   reference: Ref<HTMLElement | undefined>;
   setReference: (element: HTMLElement | undefined) => void;
 }
@@ -33,6 +35,8 @@ const activeModel = defineModel<boolean>("active", {
 });
 
 const reference = ref<HTMLElement | undefined>();
+const triggerId = ref("");
+const contentId = ref("");
 
 const open = () => {
   activeModel.value = true;
@@ -48,6 +52,8 @@ provideDropdownRoot({
   // used for popper positioning and click outside handling
   reference,
   setReference: (el) => (reference.value = el),
+  triggerId,
+  contentId,
 });
 </script>
 

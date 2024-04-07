@@ -5,6 +5,7 @@ import { ref, computed, watch, nextTick } from "vue";
 import { useFloating, offset, flip, shift, size, autoUpdate } from "@floating-ui/vue";
 import { useForwardRef } from "@/composables/useForwardRef";
 import { useFocusTrap } from "@/composables/useFocusTrap";
+import { useId } from "@/composables/useId";
 
 export interface DropdownContentProps extends PrimitiveProps {}
 
@@ -65,6 +66,11 @@ const { deactivate, activate } = useFocusTrap(currentElement, {
   fallbackFocus: () => currentElement.value,
 });
 
+const id = computed(() => dropdownRoot.contentId.value);
+const triggerId = computed(() => dropdownRoot.triggerId.value);
+
+dropdownRoot.contentId.value = useId(undefined, "sevue-dropdown-content");
+
 watch(
   () => dropdownRoot.active.value,
   async (active) => {
@@ -86,6 +92,8 @@ watch(
     :style="{
       ...floatingStyles,
     }"
+    :id="id"
+    :aria-labelledby="triggerId"
     @focusout="handleFocusout"
     @keydown="handleKeydown"
   >
