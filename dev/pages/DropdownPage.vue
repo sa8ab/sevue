@@ -1,24 +1,33 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { DropdownRoot, DropdownTrigger, DropdownContent, RButton } from "../../src/main";
+import { DropdownRoot, DropdownTrigger, DropdownContent, RButton, DropdownItem } from "../../src/main";
 </script>
 
 <template>
   <div class="dropdown-page">
     <div class="item">
+      <RButton>Random Button</RButton>
+      <RButton>Random Button</RButton>
+      <RButton>Random Button</RButton>
+
       <DropdownRoot v-slot="{ active }">
         <DropdownTrigger class="dropdown-trigger" asChild>
           <RButton>Trigger</RButton>
         </DropdownTrigger>
         <div>{{ active }}</div>
-        <Teleport to="body">
-          <DropdownContent v-if="active" class="dropdown-content">
-            <input />
+        <DropdownContent v-if="active" class="dropdown-content">
+          <DropdownItem>Item 1</DropdownItem>
+          <DropdownItem>Item 2</DropdownItem>
+          <DropdownItem disabled>Disabled Item 3</DropdownItem>
+          <DropdownItem v-for="x in 20">Item {{ x }}</DropdownItem>
+          <DropdownItem asChild>
             <button>Button</button>
-            dropdown option-content
-          </DropdownContent>
-        </Teleport>
+          </DropdownItem>
+        </DropdownContent>
       </DropdownRoot>
+      <RButton>Random Button</RButton>
+      <RButton>Random Button</RButton>
+      <RButton>Random Button</RButton>
     </div>
   </div>
 </template>
@@ -35,11 +44,16 @@ import { DropdownRoot, DropdownTrigger, DropdownContent, RButton } from "../../s
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: #93faff;
-  color: black;
+  background: #1a1a1a;
+  border-radius: 8px;
   padding: 10px;
+  button {
+    color: black;
+  }
+  height: 300px;
+  overflow: auto;
 }
 *:focus {
-  border: 2px solid red;
+  box-shadow: 0 0 0 2px red;
 }
 </style>

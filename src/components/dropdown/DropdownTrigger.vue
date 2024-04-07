@@ -5,9 +5,13 @@ import { injectDropdownRoot } from "./DropdownRoot.vue";
 import { watch, computed } from "vue";
 import { useId } from "@/composables/useId";
 
-export interface DropdownTriggerProps extends PrimitiveProps {}
+export interface DropdownTriggerProps extends PrimitiveProps {
+  disabled?: boolean;
+}
 
-const props = withDefaults(defineProps<DropdownTriggerProps>(), {});
+const props = withDefaults(defineProps<DropdownTriggerProps>(), {
+  as: "button",
+});
 
 const { forwardRef, currentElement } = useForwardRef();
 
@@ -36,11 +40,12 @@ watch(currentElement, (el) => {
     :as="as"
     :asChild="asChild"
     :ref="forwardRef"
-    @click="handleClick"
+    :disabled="disabled"
     :id="id"
     :aria-controls="dropdownRoot.active.value ? contentId : undefined"
     aria-haspopup="menu"
     :aria-expanded="dropdownRoot.active.value"
+    @click="handleClick"
   >
     <slot />
   </Primitive>

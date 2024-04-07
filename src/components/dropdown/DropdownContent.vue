@@ -1,19 +1,36 @@
+<script lang="ts">
+export const [injectDropdownContent, provideDropdownContent] = useContext<DropdownContentContext>("DropdownContent");
+</script>
+
 <script setup lang="ts">
 import { Primitive, type PrimitiveProps } from "@/components/primitive";
+import { RovingFocusRoot } from "@/components/roving-focus";
 import { injectDropdownRoot } from "./DropdownRoot.vue";
 import { ref, computed, watch, nextTick } from "vue";
 import { useFloating, offset, flip, shift, size, autoUpdate } from "@floating-ui/vue";
 import { useForwardRef } from "@/composables/useForwardRef";
 import { useFocusTrap } from "@/composables/useFocusTrap";
 import { useId } from "@/composables/useId";
+import { useContext } from "@/composables/useContext";
+import { useCollection } from "@/composables/useCollection";
 
 export interface DropdownContentProps extends PrimitiveProps {}
 
-const props = withDefaults(defineProps<DropdownContentProps>(), {});
+export interface DropdownContentContext {
+  focusContent: (options?: FocusOptions) => void;
+}
+
+const props = withDefaults(defineProps<PrimitiveProps>(), {});
+
+defineOptions({
+  inheritAttrs: false,
+});
 
 const dropdownRoot = injectDropdownRoot();
 
 const { forwardRef, currentElement } = useForwardRef();
+
+const floatingRef = ref<HTMLDivElement>();
 
 const handleFocusout = (e: FocusEvent) => {
   const relatedTarget = e.relatedTarget as HTMLElement | null;
@@ -28,9 +45,9 @@ const handleFocusout = (e: FocusEvent) => {
 };
 
 const handleKeydown = (e: KeyboardEvent) => {
-  const code = e.code;
-
   if (e.defaultPrevented) return;
+
+  const code = e.code;
 
   if (code === "Escape") {
     e.preventDefault();
@@ -51,7 +68,7 @@ const middleware = computed(() => [
   }),
 ]);
 
-const { floatingStyles, isPositioned } = useFloating(dropdownRoot.reference, currentElement, {
+const { floatingStyles, isPositioned } = useFloating(dropdownRoot.reference, floatingRef, {
   placement: "bottom",
   whileElementsMounted: autoUpdate,
   open: dropdownRoot.active,
@@ -62,6 +79,7 @@ const { deactivate, activate } = useFocusTrap(currentElement, {
   clickOutsideDeactivates: false,
   escapeDeactivates: false,
   allowOutsideClick: true,
+  returnFocusOnDeactivate: false,
   immediate: false,
   fallbackFocus: () => currentElement.value,
 });
@@ -81,22 +99,36 @@ watch(
   },
   { immediate: true }
 );
+
+provideDropdownContent({
+  focusContent: (options) => {
+    currentElement.value.focus(options);
+  },
+});
 </script>
 
 <template>
-  <Primitive
-    :as="as"
-    :asChild="asChild"
-    :ref="forwardRef"
-    tabindex="-1"
-    :style="{
-      ...floatingStyles,
-    }"
-    :id="id"
-    :aria-labelledby="triggerId"
-    @focusout="handleFocusout"
-    @keydown="handleKeydown"
-  >
-    <slot />
-  </Primitive>
+  <RovingFocusRoot asChild>
+    <div
+      data-sevue-floating-content
+      ref="floatingRef"
+      :style="{
+        ...floatingStyles,
+      }"
+    >
+      <Primitive
+        :as="as"
+        :asChild="asChild"
+        :ref="forwardRef"
+        v-bind="$attrs"
+        tabindex="-1"
+        :id="id"
+        :aria-labelledby="triggerId"
+        @focusout="handleFocusout"
+        @keydown="handleKeydown"
+      >
+        <slot />
+      </Primitive>
+    </div>
+  </RovingFocusRoot>
 </template>
