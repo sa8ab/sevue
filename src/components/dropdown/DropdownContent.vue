@@ -39,8 +39,6 @@ const handleFocusout = (e: FocusEvent) => {
 
   const isTrigger = dropdownRoot.reference.value?.contains(relatedTarget);
 
-  console.log({ isInContent, isTrigger });
-
   if (isInContent || isTrigger) return;
 
   dropdownRoot.close();
