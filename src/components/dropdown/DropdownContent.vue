@@ -62,6 +62,7 @@ const handleKeydown = (e: KeyboardEvent) => {
   if (code === "Escape") {
     e.preventDefault();
     dropdownRoot.close();
+    nextTick(() => dropdownRoot.reference.value?.focus({}));
   }
 };
 
