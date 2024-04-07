@@ -44,6 +44,7 @@ const handleFocusout = (e: FocusEvent) => {
   dropdownRoot.close();
 };
 
+// Might face issue when showing the content using v-show
 onClickOutside(
   currentElement,
   () => {
