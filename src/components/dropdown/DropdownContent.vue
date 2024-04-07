@@ -12,7 +12,7 @@ import { useForwardRef } from "@/composables/useForwardRef";
 import { useFocusTrap } from "@/composables/useFocusTrap";
 import { useId } from "@/composables/useId";
 import { useContext } from "@/composables/useContext";
-import { useCollection } from "@/composables/useCollection";
+import { onClickOutside } from "@vueuse/core";
 
 export interface DropdownContentProps extends PrimitiveProps {}
 
@@ -39,10 +39,22 @@ const handleFocusout = (e: FocusEvent) => {
 
   const isTrigger = dropdownRoot.reference.value?.contains(relatedTarget);
 
+  console.log({ isInContent, isTrigger });
+
   if (isInContent || isTrigger) return;
 
   dropdownRoot.close();
 };
+
+onClickOutside(
+  currentElement,
+  () => {
+    dropdownRoot.close();
+  },
+  {
+    ignore: [dropdownRoot.reference],
+  }
+);
 
 const handleKeydown = (e: KeyboardEvent) => {
   if (e.defaultPrevented) return;
@@ -76,7 +88,7 @@ const { floatingStyles, isPositioned } = useFloating(dropdownRoot.reference, flo
 });
 
 const { deactivate, activate } = useFocusTrap(currentElement, {
-  clickOutsideDeactivates: false,
+  clickOutsideDeactivates: true,
   escapeDeactivates: false,
   allowOutsideClick: true,
   returnFocusOnDeactivate: false,
@@ -114,6 +126,7 @@ provideDropdownContent({
       ref="floatingRef"
       :style="{
         ...floatingStyles,
+        'z-index': '10',
       }"
     >
       <Primitive
