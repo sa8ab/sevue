@@ -7,7 +7,7 @@ import { Primitive, type PrimitiveProps } from "@/components/primitive";
 import { RovingFocusRoot } from "@/components/roving-focus";
 import { injectDropdownRoot } from "./DropdownRoot.vue";
 import { ref, computed, watch, nextTick } from "vue";
-import { useFloating, offset, flip, shift, size, autoUpdate } from "@floating-ui/vue";
+import { useFloating, autoUpdate } from "@/composables/useFloating";
 import { useForwardRef } from "@/composables/useForwardRef";
 import { useFocusTrap } from "@/composables/useFocusTrap";
 import { useId } from "@/composables/useId";
@@ -67,25 +67,16 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 };
 
-const middleware = computed(() => [
-  offset(4),
-  flip({
-    crossAxis: false,
-  }),
-  shift(),
-  size({
-    apply: ({ availableHeight, availableWidth, elements }) => {
-      Object.assign(elements.floating.style, { maxWidth: `${availableWidth}px`, maxHeight: `${availableHeight}px` });
-    },
-  }),
-]);
-
-const { floatingStyles, isPositioned } = useFloating(dropdownRoot.reference, floatingRef, {
-  placement: "bottom",
-  whileElementsMounted: autoUpdate,
-  open: dropdownRoot.active,
-  middleware,
-});
+const { floatingStyles, isPositioned } = useFloating(
+  dropdownRoot.reference,
+  floatingRef,
+  computed(() => ({
+    placement: "bottom",
+    whileElementsMounted: autoUpdate,
+    open: dropdownRoot.active,
+    offset: 4,
+  }))
+);
 
 const { deactivate, activate } = useFocusTrap(currentElement, {
   clickOutsideDeactivates: true,
