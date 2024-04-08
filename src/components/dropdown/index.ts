@@ -5,3 +5,5 @@ export { default as DropdownTrigger, type DropdownTriggerProps } from "./Dropdow
 export { default as DropdownContent, type DropdownContentProps } from "./DropdownContent.vue";
 
 export { default as DropdownItem, type DropdownItemProps } from "./DropdownItem.vue";
+
+export { default as RDropdown } from "./RDropdown.vue";

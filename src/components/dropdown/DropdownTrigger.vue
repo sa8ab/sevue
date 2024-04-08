@@ -5,11 +5,9 @@ import { injectDropdownRoot } from "./DropdownRoot.vue";
 import { watch, computed } from "vue";
 import { useId } from "@/composables/useId";
 
-export interface DropdownTriggerProps extends PrimitiveProps {
-  disabled?: boolean;
-}
+export interface DropdownTriggerProps extends PrimitiveProps {}
 
-const props = withDefaults(defineProps<DropdownTriggerProps>(), {
+const props = withDefaults(defineProps<PrimitiveProps>(), {
   as: "button",
 });
 
@@ -40,7 +38,6 @@ watch(currentElement, (el) => {
     :as="as"
     :asChild="asChild"
     :ref="forwardRef"
-    :disabled="disabled"
     :id="id"
     :aria-controls="dropdownRoot.active.value ? contentId : undefined"
     aria-haspopup="menu"

@@ -18,7 +18,7 @@ export type DropdownRootEmits = {
 };
 
 export interface DropdownRootContext {
-  active: Ref<boolean>;
+  active: Ref<boolean | undefined>;
   open: () => void;
   close: () => void;
   closeOnClick: Ref<boolean | undefined>;
@@ -32,8 +32,7 @@ const props = withDefaults(defineProps<DropdownRootProps>(), {});
 
 const emit = defineEmits<DropdownRootEmits>();
 
-const activeModel = defineModel<boolean>("active", {
-  default: () => false,
+const activeModel = defineModel<boolean | undefined>("active", {
   required: false,
 });
 

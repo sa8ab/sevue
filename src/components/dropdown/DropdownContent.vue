@@ -14,7 +14,7 @@ import { useId } from "@/composables/useId";
 import { useContext } from "@/composables/useContext";
 import { onClickOutside } from "@vueuse/core";
 
-export interface DropdownContentProps extends PrimitiveProps, FloatingOptions {}
+export interface DropdownContentProps extends PrimitiveProps, Omit<FloatingOptions, "open"> {}
 
 export interface DropdownContentContext {
   focusContent: (options?: FocusOptions) => void;
