@@ -4,8 +4,7 @@ import { RovingFocusItem } from "@/components/roving-focus";
 import { useForwardRef } from "@/composables/useForwardRef";
 import { injectDropdownRoot } from "./DropdownRoot.vue";
 import { injectDropdownContent } from "./DropdownContent.vue";
-import { watch } from "vue";
-import { type Ref } from "vue";
+import { ref } from "vue";
 
 export interface DropdownItemProps extends PrimitiveProps {
   disabled?: boolean;
@@ -15,11 +14,14 @@ const props = withDefaults(defineProps<DropdownItemProps>(), {});
 
 const { forwardRef, currentElement } = useForwardRef();
 
-const rootContext = injectDropdownRoot();
 const contentContext = injectDropdownContent();
+const rootContext = injectDropdownRoot();
+
+const isFocused = ref();
 
 const handleClick = (e: Event) => {
-  if (props.disabled || e.defaultPrevented) return;
+  if (props.disabled || e.defaultPrevented || rootContext.closeOnClick.value) return;
+  rootContext.close();
 };
 
 const handlePointerEnter = (e: PointerEvent) => {
@@ -45,14 +47,17 @@ const handlePointerLeave = (e: PointerEvent) => {
       :as="as"
       :asChild="asChild"
       :ref="forwardRef"
-      @click="handleClick"
       :aria-disabled="disabled ? '' : undefined"
       :data-disabled="disabled ? '' : undefined"
+      :disabled="disabled"
       tabindex="-1"
+      @click="handleClick"
       @pointerenter="handlePointerEnter"
       @pointerleave="handlePointerLeave"
+      @focus="isFocused = true"
+      @blur="isFocused = false"
     >
-      <slot />
+      <slot :focused="isFocused" />
     </Primitive>
   </RovingFocusItem>
 </template>

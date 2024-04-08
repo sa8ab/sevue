@@ -5,10 +5,12 @@ export const [injectDropdownRoot, provideDropdownRoot] = useContext<DropdownRoot
 <script setup lang="ts">
 import type { PrimitiveProps } from "@/components/primitive";
 import { useContext } from "@/composables/useContext";
+import { toRef } from "vue";
 import { type Ref, ref } from "vue";
 
 export interface DropdownRootProps extends PrimitiveProps {
   active?: boolean;
+  closeOnClick?: boolean;
 }
 
 export type DropdownRootEmits = {
@@ -19,6 +21,7 @@ export interface DropdownRootContext {
   active: Ref<boolean>;
   open: () => void;
   close: () => void;
+  closeOnClick: Ref<boolean | undefined>;
   triggerId: Ref<string>;
   contentId: Ref<string>;
   reference: Ref<HTMLElement | undefined>;
@@ -54,9 +57,10 @@ provideDropdownRoot({
   setReference: (el) => (reference.value = el),
   triggerId,
   contentId,
+  closeOnClick: toRef(props, "closeOnClick"),
 });
 </script>
 
 <template>
-  <slot :active="activeModel" />
+  <slot :active="activeModel" :close="close" />
 </template>
