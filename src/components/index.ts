@@ -1,10 +1,6 @@
 import { RSelect, ROption, RSelectGroup } from "./select";
-import RSlider, { type Props as RSliderProps } from "./slider";
-import { RTab, RTabItem, RPanel, RPanelItem, type Props as RTabProps } from "./tabs";
-import RSwitch, { type Props as RSwitchProps } from "./switch";
 import RLoading, { type Props as RLoadingProps } from "./loading/RLoading.vue";
 
-import { Slot, Primitive } from "./primitive";
 import { Label } from "./internal";
 
 export * from "./alert";
@@ -18,24 +14,17 @@ export * from "./pagination";
 export * from "./popup";
 export * from "./primitive";
 export * from "./radio";
+export * from "./slider";
+export * from "./tabs";
+export * from "./switch";
+export * from "./primitive";
 export {
   RSelect,
   // RSelectProps,
   ROption,
   // ROptionProps,
   RSelectGroup,
-  RSlider,
-  RSliderProps,
-  RTab,
-  RTabProps,
-  RTabItem,
-  RPanel,
-  RPanelItem,
-  RSwitch,
-  RSwitchProps,
   RLoading,
   RLoadingProps,
-  Slot,
-  Primitive,
   Label,
 };
