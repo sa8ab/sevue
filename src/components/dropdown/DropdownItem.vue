@@ -48,7 +48,7 @@ const handlePointerLeave = (e: PointerEvent) => {
       @click="handleClick"
       :aria-disabled="disabled ? '' : undefined"
       :data-disabled="disabled ? '' : undefined"
-      :tabindex="disabled ? '-1' : '0'"
+      tabindex="-1"
       @pointerenter="handlePointerEnter"
       @pointerleave="handlePointerLeave"
     >

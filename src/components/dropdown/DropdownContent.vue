@@ -120,15 +120,15 @@ provideDropdownContent({
 </script>
 
 <template>
-  <RovingFocusRoot asChild>
-    <div
-      data-sevue-floating-content
-      ref="floatingRef"
-      :style="{
-        ...floatingStyles,
-        'z-index': '10',
-      }"
-    >
+  <div
+    data-sevue-floating-content
+    ref="floatingRef"
+    :style="{
+      ...floatingStyles,
+      'z-index': '10',
+    }"
+  >
+    <RovingFocusRoot asChild>
       <Primitive
         :as="as"
         :asChild="asChild"
@@ -142,6 +142,6 @@ provideDropdownContent({
       >
         <slot />
       </Primitive>
-    </div>
-  </RovingFocusRoot>
+    </RovingFocusRoot>
+  </div>
 </template>
