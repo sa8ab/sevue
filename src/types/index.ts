@@ -1,4 +1,3 @@
-import type { RTabProps } from "@/components";
 import type { ComputedRef } from "vue";
 import type { CSSProperties, Ref, VNode } from "vue";
 

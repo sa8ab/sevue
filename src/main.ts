@@ -104,22 +104,8 @@ export * from "./components";
 // inject keys
 export { notificationKey, sevueKey, loadingKey };
 
-// types
-export type {
-  RButtonProps,
-  RCheckboxProps,
-  RInputProps,
-  RPaginationProps,
-  RPopupProps,
-  // RSelectProps,
-  // ROptionProps,
-  RSliderProps,
-  RTabProps,
-  RRadioProps,
-  RSwitchProps,
-  RLoadingProps,
-  RAlertProps,
-} from "./components";
+export * from "./components";
+
 export type {
   Colors,
   LoadingOptions,
