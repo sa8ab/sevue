@@ -53,6 +53,8 @@ const handleDropdownItemClick = () => {
       <template #dropdown>
         <RDropdownItem @click="handleDropdownItemClick">Item 1</RDropdownItem>
         <RDropdownItem @click="handleDropdownItemClick">Item 2</RDropdownItem>
+        <RDropdownItem disabled @click="handleDropdownItemClick">Item 3</RDropdownItem>
+        <RDropdownItem @click="handleDropdownItemClick">Item 4</RDropdownItem>
       </template>
     </RDropdown>
   </div>

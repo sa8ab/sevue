@@ -8,7 +8,7 @@ const props = defineProps<RDropdownItemProps>();
 </script>
 
 <template>
-  <DropdownItem :class="['r-dropdown-item', { 'r-dropdown-item-disabled': disabled }]" v-bind="props">
+  <DropdownItem :class="['r-dropdown-item', { 'r-dropdown-item_disabled': disabled }]" v-bind="props">
     <template #default="{ focused }">
       <slot :focused="focused"></slot>
     </template>
@@ -22,9 +22,13 @@ const props = defineProps<RDropdownItemProps>();
   transition: all var(--r-duration);
   border-radius: var(--r-radius);
   font-size: var(--r-font-small);
-  min-width: 140px;
+  min-width: 160px;
   &:focus {
     background: color(hover, var(--r-hover-alpha));
+  }
+  &_disabled {
+    pointer-events: none;
+    opacity: 0.7;
   }
 }
 </style>
