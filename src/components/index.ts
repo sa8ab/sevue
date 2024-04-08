@@ -1,14 +1,3 @@
-import RInput, { type Props as RInputProps } from "./input";
-import RPagination, { type Props as RPaginationProps } from "./pagination";
-import RPopup, {
-  type Props as RPopupProps,
-  PopupRoot,
-  PopupContent,
-  PopupOverlay,
-  PopupClose,
-  PopupTitle,
-  PopupDescription,
-} from "./popup";
 import { RSelect, ROption, RSelectGroup } from "./select";
 import RSlider, { type Props as RSliderProps } from "./slider";
 import { RTab, RTabItem, RPanel, RPanelItem, type Props as RTabProps } from "./tabs";
@@ -25,19 +14,10 @@ export * from "./checkbox";
 export * from "./roving-focus";
 export * from "./tabs";
 export * from "./dropdown";
+export * from "./input";
+export * from "./pagination";
+export * from "./popup";
 export {
-  RInput,
-  RInputProps,
-  RPagination,
-  RPaginationProps,
-  RPopup,
-  PopupRoot,
-  PopupContent,
-  PopupOverlay,
-  PopupClose,
-  PopupTitle,
-  PopupDescription,
-  RPopupProps,
   RSelect,
   // RSelectProps,
   ROption,

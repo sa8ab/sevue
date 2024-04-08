@@ -1,3 +1,1 @@
-import RInput, { type Props } from "./RInput.vue";
-export { Props }
-export default RInput;
+export { default as RInput, type RInputProps } from "./RInput.vue";

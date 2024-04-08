@@ -12,7 +12,7 @@ import {
 } from "@/components/popup";
 import { useEmitsAsProps } from "@/composables/useEmitsAsProps";
 
-export interface Props extends PopupRootProps {
+export interface RPopupProps extends PopupRootProps {
   title?: string;
   showClose?: boolean;
   fullWidth?: boolean;
@@ -26,7 +26,7 @@ defineOptions({
 
 const emit = defineEmits<PopupRootEmits>();
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<RPopupProps>(), {
   active: false,
   teleport: "body",
   showClose: true,

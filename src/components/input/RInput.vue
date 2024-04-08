@@ -55,7 +55,7 @@ import FieldMessage from "../internal/FieldMessage.vue";
 import FieldLabel from "../internal/FieldLabel.vue";
 import InputContainer from "../internal/InputContainer.vue";
 
-export interface Props {
+export interface RInputProps {
   modelValue?: string | number | null;
   label?: string;
   placeholder?: string;
@@ -84,11 +84,11 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<RInputProps>(), {
   type: "text",
 });
 const emit = defineEmits<{
-  "update:modelValue": [Props["modelValue"]];
+  "update:modelValue": [RInputProps["modelValue"]];
 }>();
 
 const { color } = useColor(toRef(props, "color"));

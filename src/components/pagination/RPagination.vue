@@ -71,7 +71,7 @@ import RButton from "../button/RButton.vue";
 import { computed, watch, toRef } from "vue";
 import useColor from "@/composables/useColor";
 import SevueIcon from "@/components/icons/SevueIcon.vue";
-export interface Props {
+export interface RPaginationProps {
   color?: string;
   activeTextColor?: string;
   count: number;
@@ -85,7 +85,7 @@ export interface Props {
   compact?: boolean;
   activeShadow?: boolean;
 }
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<RPaginationProps>(), {
   activeTextColor: "#fff",
   sideRange: 2,
   mainRange: 1,

@@ -10,6 +10,4 @@ export { default as PopupTitle, type PopupTitleProps } from "./PopupTitle.vue";
 
 export { default as PopupDescription, type PopupDescriptionProps } from "./PopupDescription.vue";
 
-import RPopup, { type Props } from "./RPopup.vue";
-export { Props };
-export default RPopup;
+export { default as RPopup, type RPopupProps } from "./RPopup.vue";
