@@ -51,4 +51,24 @@ const activeModel = defineModel<boolean>("active");
   max-height: 200px;
   @extend .scroll-bar;
 }
+
+.r-dropdown {
+  &-enter-active,
+  &-leave-active {
+    --duration: calc(var(--r-duration) / 1.5);
+    // dummy property to transition to apply transition on child item
+    transition: opacity var(--duration);
+    .r-dropdown-content {
+      transition: opacity var(--duration), transform var(--duration);
+    }
+  }
+
+  &-enter-from,
+  &-leave-to {
+    .r-dropdown-content {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+}
 </style>
