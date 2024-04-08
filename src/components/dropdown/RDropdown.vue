@@ -19,8 +19,6 @@ const props = defineProps<RDropdownProps>();
 const emit = defineEmits<RDropdownEmits>();
 
 const activeModel = defineModel<boolean>("active");
-
-const emitsAsProps = useEmitsAsProps(emit);
 </script>
 
 <template>
@@ -49,9 +47,9 @@ const emitsAsProps = useEmitsAsProps(emit);
   background-color: color(b2);
   border-radius: var(--r-radius);
   box-shadow: 0 6px 12px color(shadow-color, var(--r-shadow-alpha)), generateBoxShadow(1px, border-color, 0.1);
-  padding: 4px;
-  // overflow-y: auto;
-  // max-height: 200px;
-  // @extend .scroll-bar;
+  padding: var(--r-space-1);
+  overflow-y: auto;
+  max-height: 200px;
+  @extend .scroll-bar;
 }
 </style>

@@ -4,6 +4,10 @@ import { DropdownRoot, DropdownTrigger, DropdownContent, RButton, DropdownItem, 
 import { onMounted } from "vue";
 
 const parentActiveRef = ref(false);
+
+const onUpdate = () => {
+  console.log("updated");
+};
 </script>
 
 <template>
@@ -33,7 +37,7 @@ const parentActiveRef = ref(false);
 
     <pre>parent ref:{{ parentActiveRef }}</pre>
 
-    <RDropdown v-model:active="parentActiveRef">
+    <RDropdown>
       <RButton>Styled Dropdown</RButton>
       <template #dropdown>
         <div>Dropdown content</div>
