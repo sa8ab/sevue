@@ -42,7 +42,7 @@
     </div>
     <div v-if="active">
       <div class="tabs">
-        <RTab ref="tabbar" v-model="tab" :items="tabs"> </RTab>
+        <RTab ref="tabbar" v-model="tab" :items="tabs" @update:modelValue="updateCall"> </RTab>
         <RTab ref="tabbar" v-model="tab" :items="tabs" :showBorder="false" type="segment"> </RTab>
         <RTab ref="tabbar" v-model="tab" :items="tabs" color="yellow" moverFull fit> </RTab>
         <RTab ref="tabbar" v-model="tab" :items="tabs" moverFull> </RTab>
@@ -93,6 +93,9 @@ const tabs = computed(() => [
 
 const goSecondTab = () => tabbar.value.setActiveTab("comments");
 
+const updateCall = () => {
+  console.log("updated");
+};
 // roving focus
 
 const activeRovingItem = ref("1");

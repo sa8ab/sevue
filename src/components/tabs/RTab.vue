@@ -68,7 +68,7 @@ const getIsActive = (value: RTabItemType["value"]) => {
       { 'r-tab-fit': fit, 'r-tab-mover-full': moverFull, scrollable, 'r-tab-show-border': showBorder },
     ]"
     :style="{ '--r-color': color, '--r-foreground': foreground }"
-    v-bind="{ ...emitsAsProps, modelValue }"
+    v-model="model"
   >
     <div class="r-tabbar-container">
       <div class="r-tabbar">
