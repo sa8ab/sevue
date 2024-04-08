@@ -10,7 +10,7 @@ export interface RadioRootProps extends PrimitiveProps {
   containerAttrs?: any;
 }
 
-export type CheckboxRootEmits = {
+export type RadioRootEmits = {
   "update:modelValue": [RadioRootProps["modelValue"]];
 };
 
@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<RadioRootProps>(), {
   as: "label",
 });
 
-const emit = defineEmits<CheckboxRootEmits>();
+const emit = defineEmits<RadioRootEmits>();
 
 const model = computed({
   set(e: RadioRootProps["modelValue"]) {

@@ -1,5 +1,3 @@
-import RTab, { type Props } from "./RTab.vue";
-import RTabItem from "./RTabItem.vue";
 import RPanel from "./RPanel.vue";
 import RPanelItem from "./RPanelItem.vue";
 
@@ -9,4 +7,6 @@ export { default as TabsItem, type TabsItemProps } from "./TabsItem.vue";
 
 export { default as TabsIndicator } from "./TabsIndicator.vue";
 
-export { RTabItem, RTab, RPanel, RPanelItem, Props };
+export { default as RTab, type RTabEmits, type RTabsProps } from "./RTab.vue";
+export { default as RTabItem, type RTabItemProps } from "./RTabItem.vue";
+export { RPanel, RPanelItem };

@@ -7,11 +7,11 @@
 <script setup lang="ts">
 import { TabsItem, type TabsItemProps } from "./index";
 
-export interface Props extends TabsItemProps {
+export interface RTabItemProps extends TabsItemProps {
   active?: boolean;
 }
 
-const props = defineProps<Props>();
+const props = defineProps<RTabItemProps>();
 </script>
 
 <style lang="scss">

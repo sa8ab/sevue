@@ -1,7 +1,6 @@
 import { RSelect, ROption, RSelectGroup } from "./select";
 import RSlider, { type Props as RSliderProps } from "./slider";
 import { RTab, RTabItem, RPanel, RPanelItem, type Props as RTabProps } from "./tabs";
-import RRadio, { type Props as RRadioProps } from "./radio";
 import RSwitch, { type Props as RSwitchProps } from "./switch";
 import RLoading, { type Props as RLoadingProps } from "./loading/RLoading.vue";
 
@@ -17,6 +16,8 @@ export * from "./dropdown";
 export * from "./input";
 export * from "./pagination";
 export * from "./popup";
+export * from "./primitive";
+export * from "./radio";
 export {
   RSelect,
   // RSelectProps,
@@ -30,8 +31,6 @@ export {
   RTabItem,
   RPanel,
   RPanelItem,
-  RRadio,
-  RRadioProps,
   RSwitch,
   RSwitchProps,
   RLoading,

@@ -5,7 +5,7 @@ import type { RTabItemType } from "@/types";
 import { TabsRoot, TabsIndicator, type TabsRootProps, type TabsRootEmits } from "./";
 import { useEmitsAsProps } from "@/composables/useEmitsAsProps";
 
-export interface Props extends TabsRootProps {
+export interface RTabsProps extends TabsRootProps {
   items?: RTabItemType[];
   initialValue?: number | string;
   fit?: boolean;
@@ -19,7 +19,7 @@ export interface Props extends TabsRootProps {
 
 export type RTabEmits = TabsRootEmits;
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<RTabsProps>(), {
   showBorder: true,
   type: "line",
   color: "prm",

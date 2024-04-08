@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import { reactive, toRef, computed, ref, watch, nextTick, onMounted } from "vue";
 import useColor from "@/composables/useColor";
-export interface Props {
+export interface RSwitchProps {
   modelValue?: boolean | string | number | null | Record<string, any>;
   color?: string;
   autoWidth?: boolean;
@@ -53,7 +53,7 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const props = defineProps<Props>();
+const props = defineProps<RSwitchProps>();
 const emit = defineEmits(["update:modelValue"]);
 
 const { color } = useColor(toRef(props, "color"));

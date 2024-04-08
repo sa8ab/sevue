@@ -25,7 +25,7 @@ import { toRef, ref, onMounted } from "vue";
 import useColor from "@/composables/useColor";
 import RadioRoot, { type RadioRootProps } from "./RadioRoot.vue";
 
-export interface Props extends RadioRootProps {
+export interface RRadioProps extends RadioRootProps {
   color?: string;
   containerClass?: string;
 }
@@ -34,7 +34,7 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const props = withDefaults(defineProps<Props>(), {});
+const props = withDefaults(defineProps<RRadioProps>(), {});
 
 const emit = defineEmits(["update:modelValue"]);
 

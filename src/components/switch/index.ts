@@ -1,3 +1,1 @@
-import RSwitch, { type Props } from "./RSwitch.vue";
-export { Props };
-export default RSwitch;
+export { default as RSwitch, type RSwitchProps } from "./RSwitch.vue";
