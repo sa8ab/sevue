@@ -35,13 +35,13 @@ import { toRef } from "vue";
 import SevueIcon from "../icons/SevueIcon.vue";
 import { reactive } from "vue";
 
-export interface Props {
+export interface RAlertProps {
   title?: string | number | null;
   content?: string | number | null;
   closable?: boolean;
   color?: string;
 }
-const props = withDefaults(defineProps<Props>(), {});
+const props = withDefaults(defineProps<RAlertProps>(), {});
 
 const emit = defineEmits<{
   (e: "close"): void;

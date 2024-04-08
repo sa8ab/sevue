@@ -33,13 +33,13 @@ import SevueIcon from "@/components/icons/SevueIcon.vue";
 import useColor from "@/composables/useColor";
 import CheckboxRoot, { type CheckboxRootProps } from "./CheckboxRoot.vue";
 
-export interface Props extends CheckboxRootProps {
+export interface RCheckboxProps extends CheckboxRootProps {
   color?: string;
   iconColor?: string;
   containerClass?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<RCheckboxProps>(), {
   iconColor: "#fff",
   as: "label",
 });

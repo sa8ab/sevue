@@ -1,3 +1,1 @@
-import RButton, { type Props } from "./RButton.vue";
-export { Props }
-export default RButton;
+export { default as RButton, type RButtonProps } from "./RButton.vue";
