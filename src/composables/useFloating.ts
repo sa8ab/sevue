@@ -9,29 +9,34 @@ import {
   type UseFloatingOptions,
   type OffsetOptions,
   type DetectOverflowOptions,
+  type Placement,
 } from "@floating-ui/vue";
 import { computed, type Ref } from "vue";
 
-interface Options extends UseFloatingOptions {
+export { Placement };
+
+export interface Options {
   offset?: OffsetOptions;
   boundry?: DetectOverflowOptions["boundary"];
   rootBoundry?: DetectOverflowOptions["rootBoundary"];
+  open?: Ref<boolean | undefined>;
+  placement?: Placement;
 }
 
 export const useFloating = (
   reference: Parameters<typeof useBaseFloating>[0],
   floating: Parameters<typeof useBaseFloating>[1],
-  options: Ref<Options>
+  options?: Ref<Options | undefined>
 ): UseFloatingReturn => {
   const detectOverflowOptions = computed<DetectOverflowOptions>(() => {
     return {
-      boundary: options.value.boundry,
-      rootBoundary: options.value.rootBoundry,
+      boundary: options?.value?.boundry,
+      rootBoundary: options?.value?.rootBoundry,
     };
   });
 
   const middleware = computed(() => [
-    offset(4),
+    offset(options?.value?.offset || 4),
     flip({
       ...detectOverflowOptions.value,
       crossAxis: false,
@@ -47,14 +52,12 @@ export const useFloating = (
     }),
   ]);
 
-  const localOptions = computed(() => {
-    return {
-      ...options.value,
-      middleware,
-    };
+  const result = useBaseFloating(reference, floating, {
+    whileElementsMounted: autoUpdate,
+    open: options?.value?.open,
+    placement: options?.value?.placement,
+    middleware,
   });
-
-  const result = useBaseFloating(reference, floating, localOptions.value);
 
   return result;
 };

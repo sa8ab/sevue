@@ -3,24 +3,24 @@ export const [injectDropdownContent, provideDropdownContent] = useContext<Dropdo
 </script>
 
 <script setup lang="ts">
+import { ref, computed, watch, nextTick, toRef } from "vue";
 import { Primitive, type PrimitiveProps } from "@/components/primitive";
 import { RovingFocusRoot } from "@/components/roving-focus";
 import { injectDropdownRoot } from "./DropdownRoot.vue";
-import { ref, computed, watch, nextTick } from "vue";
-import { useFloating, autoUpdate } from "@/composables/useFloating";
+import { useFloating, type Options as FloatingOptions } from "@/composables/useFloating";
 import { useForwardRef } from "@/composables/useForwardRef";
 import { useFocusTrap } from "@/composables/useFocusTrap";
 import { useId } from "@/composables/useId";
 import { useContext } from "@/composables/useContext";
 import { onClickOutside } from "@vueuse/core";
 
-export interface DropdownContentProps extends PrimitiveProps {}
+export interface DropdownContentProps extends PrimitiveProps, FloatingOptions {}
 
 export interface DropdownContentContext {
   focusContent: (options?: FocusOptions) => void;
 }
 
-const props = withDefaults(defineProps<PrimitiveProps>(), {});
+const props = withDefaults(defineProps<PrimitiveProps & FloatingOptions>(), {});
 
 defineOptions({
   inheritAttrs: false,
@@ -71,10 +71,11 @@ const { floatingStyles, isPositioned } = useFloating(
   dropdownRoot.reference,
   floatingRef,
   computed(() => ({
-    placement: "bottom",
-    whileElementsMounted: autoUpdate,
     open: dropdownRoot.active,
-    offset: 4,
+    boundry: props.boundry,
+    rootBoundry: props.rootBoundry,
+    offset: props.offset,
+    placement: props.placement,
   }))
 );
 
