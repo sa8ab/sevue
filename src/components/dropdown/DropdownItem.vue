@@ -24,6 +24,17 @@ const handleClick = (e: Event) => {
   rootContext.close();
 };
 
+const handleKeydown = (e: KeyboardEvent) => {
+  if (props.disabled || e.defaultPrevented) return;
+
+  // Enter key on normal elements don't work, has to be handled manually
+  if (e.code === "Enter" || e.code === " ") {
+    e.preventDefault();
+    (e.currentTarget as HTMLElement)?.click();
+    handleClick(e);
+  }
+};
+
 const handlePointerEnter = (e: PointerEvent) => {
   if (e.defaultPrevented) return;
 
@@ -52,6 +63,7 @@ const handlePointerLeave = (e: PointerEvent) => {
       :disabled="disabled"
       tabindex="-1"
       @click="handleClick"
+      @keydown="handleKeydown"
       @pointerenter="handlePointerEnter"
       @pointerleave="handlePointerLeave"
       @focus="isFocused = true"

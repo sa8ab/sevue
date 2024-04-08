@@ -7,7 +7,6 @@ import {
   type DropdownRootProps,
   type DropdownRootEmits,
   type DropdownContentProps,
-  type DropdownItemProps,
 } from "./index";
 
 export interface RDropdownProps extends DropdownRootProps, DropdownContentProps {}

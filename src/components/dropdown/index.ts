@@ -7,3 +7,5 @@ export { default as DropdownContent, type DropdownContentProps } from "./Dropdow
 export { default as DropdownItem, type DropdownItemProps } from "./DropdownItem.vue";
 
 export { default as RDropdown } from "./RDropdown.vue";
+
+export { default as RDropdownItem } from "./RDropdownItem.vue";

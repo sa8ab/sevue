@@ -1,12 +1,23 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { DropdownRoot, DropdownTrigger, DropdownContent, RButton, DropdownItem, RDropdown } from "../../src/main";
-import { onMounted } from "vue";
+import {
+  DropdownRoot,
+  DropdownTrigger,
+  DropdownContent,
+  RButton,
+  DropdownItem,
+  RDropdown,
+  RDropdownItem,
+} from "../../src/main";
 
 const parentActiveRef = ref(false);
 
 const onUpdate = () => {
   console.log("updated");
+};
+
+const handleDropdownItemClick = () => {
+  console.log("dropdown item clicked");
 };
 </script>
 
@@ -40,7 +51,8 @@ const onUpdate = () => {
     <RDropdown>
       <RButton>Styled Dropdown</RButton>
       <template #dropdown>
-        <div>Dropdown content</div>
+        <RDropdownItem @click="handleDropdownItemClick">Item 1</RDropdownItem>
+        <RDropdownItem @click="handleDropdownItemClick">Item 2</RDropdownItem>
       </template>
     </RDropdown>
   </div>
@@ -69,7 +81,7 @@ const onUpdate = () => {
   height: 300px;
   overflow: auto;
 }
-*:focus {
-  box-shadow: 0 0 0 2px red;
-}
+// *:focus {
+//   box-shadow: 0 0 0 2px red;
+// }
 </style>
