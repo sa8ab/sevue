@@ -1,3 +1,1 @@
-import RSlider, { type Props } from "./RSlider.vue";
-export { Props }
-export default RSlider;
+export { default as RSlider, type RSliderProps } from "./RSlider.vue";

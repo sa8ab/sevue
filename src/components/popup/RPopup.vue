@@ -1,47 +1,38 @@
 <script setup lang="ts">
 import SevueIcon from "@/components/icons/SevueIcon.vue";
-import { onMounted, ref, watch, nextTick } from "vue";
-import { useFocusTrap } from "@/composables/useFocusTrap";
+import { onMounted } from "vue";
+import {
+  PopupRoot,
+  PopupContent,
+  PopupClose,
+  PopupOverlay,
+  PopupTitle,
+  type PopupRootProps,
+  type PopupRootEmits,
+} from "@/components/popup";
+import { useEmitsAsProps } from "@/composables/useEmitsAsProps";
 
-export interface Props {
-  active?: boolean;
+export interface RPopupProps extends PopupRootProps {
   title?: string;
-  preventClose?: boolean;
   showClose?: boolean;
   fullWidth?: boolean;
   transitionProps?: Record<string, any>;
   teleport?: string;
   teleportDisabled?: boolean;
-  beforeClose?: (arg0: () => void) => any;
 }
 defineOptions({
   inheritAttrs: false,
 });
 
-const emit = defineEmits<{
-  "update:active": [boolean];
-  close: [];
-}>();
+const emit = defineEmits<PopupRootEmits>();
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<RPopupProps>(), {
   active: false,
   teleport: "body",
   showClose: true,
 });
 
-const tryClose = () => {
-  if (props.beforeClose) {
-    props.beforeClose(close);
-    return;
-  }
-  if (props.preventClose) return;
-  close();
-};
-
-const close = () => {
-  emit("close");
-  emit("update:active", false);
-};
+const emitsAsProps = useEmitsAsProps(emit);
 
 onMounted(() => {
   // @ts-ignore
@@ -53,59 +44,34 @@ onMounted(() => {
     console.warn("`noClose` prop is depricated on RPopup, use `preventClose` instead");
   }
 });
-
-const handleKeydown = (e: KeyboardEvent) => {
-  const code = e.code;
-
-  if (code === "Escape") {
-    e.stopPropagation();
-    tryClose();
-  }
-};
-
-const innerRef = ref();
-
-const { deactivate, activate } = useFocusTrap(innerRef, {
-  clickOutsideDeactivates: false,
-  escapeDeactivates: false,
-  allowOutsideClick: true,
-  immediate: false,
-  fallbackFocus: () => innerRef.value,
-});
-
-watch(
-  () => props.active,
-  (active) => {
-    nextTick(() => {
-      if (active) activate();
-      else deactivate();
-    });
-  }
-);
 </script>
 
 <template>
-  <Teleport :to="teleport" :disabled="teleportDisabled">
-    <Transition name="r-popup" v-bind="transitionProps">
-      <div v-if="active" class="r-popup" v-bind="$attrs" @keydown="handleKeydown">
-        <div class="r-popup-underlay" @click="tryClose"></div>
-        <div :class="['r-popup-inner', { fullWidth }]" tabindex="-1" ref="innerRef">
-          <div class="r-popup-header">
-            <slot name="header">
-              <div class="r-popup-title">{{ title }}</div>
-            </slot>
-            <RButton @click="tryClose" textStyle iconOnly compact v-if="showClose">
-              <SevueIcon name="close" width="24px" height="24px" />
-            </RButton>
-          </div>
-          <div class="r-popup-content overflow-x-scroll-bar">
-            <slot></slot>
-          </div>
-          <slot name="footer" />
+  <PopupRoot v-bind="{ ...emitsAsProps, active, preventClose, beforeClose }">
+    <Teleport :to="teleport" :disabled="teleportDisabled">
+      <Transition name="r-popup" v-bind="transitionProps">
+        <div v-if="active" class="r-popup" v-bind="$attrs">
+          <PopupOverlay class="r-popup-underlay"></PopupOverlay>
+          <PopupContent :class="['r-popup-inner', { fullWidth }]">
+            <div class="r-popup-header">
+              <slot name="header">
+                <PopupTitle as="div" class="r-popup-title">{{ title }}</PopupTitle>
+              </slot>
+              <PopupClose asChild>
+                <RButton textStyle iconOnly compact v-if="showClose">
+                  <SevueIcon name="close" width="24px" height="24px" />
+                </RButton>
+              </PopupClose>
+            </div>
+            <div class="r-popup-content overflow-x-scroll-bar">
+              <slot></slot>
+            </div>
+            <slot name="footer" />
+          </PopupContent>
         </div>
-      </div>
-    </Transition>
-  </Teleport>
+      </Transition>
+    </Teleport>
+  </PopupRoot>
 </template>
 
 <style lang="scss">

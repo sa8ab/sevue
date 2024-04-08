@@ -1,3 +1,1 @@
-import RPagination, { type Props } from "./RPagination.vue";
-export { Props }
-export default RPagination;
+export { default as RPagination, type RPaginationProps } from "./RPagination.vue";

@@ -1,5 +1,6 @@
 <template>
   <div class="center-it">
+    <pre>{{ selected }}</pre>
     <div class="container">
       <RRadio v-model="selected" value="1">radio item 1</RRadio>
       <RRadio v-model="selected" value="2">radio item 2</RRadio>

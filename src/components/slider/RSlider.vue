@@ -41,7 +41,7 @@ import { computed, provide, reactive, watch, ref, type StyleValue, toRef } from 
 import Dot from "./RSliderDot.vue";
 import RSliderTick from "./RSliderTick.vue";
 import { sliderKey } from "@/injectionKeys";
-export interface Props {
+export interface RSliderProps {
   modelValue?: number | Array<number> | null;
   min?: number;
   max?: number;
@@ -56,7 +56,7 @@ export interface Props {
   hideFirstAndLastTickLabel?: boolean;
   disabled?: boolean;
 }
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<RSliderProps>(), {
   modelValue: 0,
   min: 0,
   max: 100,

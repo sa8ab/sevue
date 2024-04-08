@@ -1,58 +1,49 @@
 <template>
-  <label
-    :class="['r-cb', containerClass, { isChecked, disabled }]"
-    :style="{
-      '--r-color': color || 'var(--r-prm)',
-      '--r-text-color': iconColor || 'var(--r-text)',
+  <CheckboxRoot
+    :as="as"
+    v-model="model"
+    :value="value"
+    :disabled="disabled"
+    ref="inputRef"
+    :containerAttrs="{
+      class: ['r-cb', containerClass, { disabled }],
+      style: {
+        '--r-color': color || 'var(--r-prm)',
+        '--r-text-color': iconColor || 'var(--r-text)',
+      },
     }"
   >
-    <input
-      type="checkbox"
-      :value="value"
-      v-model="model"
-      :trueValue="trueValue"
-      :falseValue="falseValue"
-      :disabled="disabled"
-      v-bind="$attrs"
-      ref="inputRef"
-    />
-    <div class="check-container">
-      <slot name="icon">
-        <SevueIcon name="check" class="r-checkbox-icon" />
-      </slot>
-      <div class="background"></div>
-    </div>
-    <div class="slot">
-      <slot />
-    </div>
-  </label>
+    <template #default="{ isChecked }">
+      <div :class="['check-container', { isChecked }]">
+        <slot name="icon">
+          <SevueIcon name="check" class="r-checkbox-icon" />
+        </slot>
+        <div class="background"></div>
+      </div>
+      <div class="r-cb-slot">
+        <slot />
+      </div>
+    </template>
+  </CheckboxRoot>
 </template>
 
 <script setup lang="ts">
 import { computed, toRef, ref } from "vue";
 import SevueIcon from "@/components/icons/SevueIcon.vue";
 import useColor from "@/composables/useColor";
+import CheckboxRoot, { type CheckboxRootProps } from "./CheckboxRoot.vue";
 
-export interface Props {
-  modelValue?: string | number | boolean | null | any[];
-  value?: string | number | Record<string, any>;
+export interface RCheckboxProps extends CheckboxRootProps {
   color?: string;
   iconColor?: string;
-  trueValue?: any;
-  falseValue?: any;
   containerClass?: string;
-  disabled?: boolean;
 }
 
-defineOptions({
-  inheritAttrs: false,
+const props = withDefaults(defineProps<RCheckboxProps>(), {
+  iconColor: "#fff",
+  as: "label",
 });
 
-const props = withDefaults(defineProps<Props>(), {
-  trueValue: true,
-  falseValue: false,
-  iconColor: "#fff",
-});
 const emit = defineEmits(["update:modelValue"]);
 
 const { color } = useColor(toRef(props, "color"));
@@ -60,19 +51,12 @@ const { color: iconColor } = useColor(toRef(props, "iconColor"));
 const inputRef = ref<HTMLInputElement | undefined>();
 
 const model = computed({
-  set(e) {
+  set(e: CheckboxRootProps["modelValue"]) {
     emit("update:modelValue", e);
   },
   get() {
     return props.modelValue;
   },
-});
-
-const isChecked = computed(() => {
-  if (Array.isArray(props.modelValue)) {
-    return props.modelValue.includes(props.value);
-  }
-  return props.modelValue === props.trueValue;
 });
 
 const focus = () => inputRef.value?.focus();
@@ -96,16 +80,6 @@ defineExpose({
     .check-container {
       background: color(hover, var(--r-hover-alpha));
     }
-  }
-
-  input {
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1px;
-    height: 1px;
-    z-index: 0;
   }
 
   .check-container {
@@ -146,12 +120,12 @@ defineExpose({
     // transition-delay: calc(var(--r-duration) / 2);
     color: color(text-color);
   }
-  .slot {
+  .r-cb-slot {
     flex: 1;
   }
 
-  &.isChecked {
-    .check-container {
+  .isChecked {
+    &.check-container {
       border-color: color();
     }
 
@@ -171,7 +145,7 @@ defineExpose({
     opacity: var(--r-disabled-alpha);
   }
 
-  input:focus-visible ~ .check-container {
+  .check-container:has(~ input:focus-visible) {
     box-shadow: var(--r-focused-box-shadow-specs) color();
     border-radius: var(--r-radius);
   }

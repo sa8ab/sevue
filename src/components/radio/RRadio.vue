@@ -1,51 +1,55 @@
 <template>
-  <label
-    :class="['r-radio', containerClass, { 'r-radio-disabled': disabled }]"
-    :style="{
-      '--r-color': color || 'var(--r-prm)',
+  <RadioRoot
+    :modelValue="modelValue"
+    @update:modelValue="$emit('update:modelValue', $event)"
+    :value="value"
+    :disabled="disabled"
+    :containerAttrs="{
+      class: ['r-radio', containerClass, { 'r-radio-disabled': disabled }],
+      style: {
+        '--r-color': color || 'var(--r-prm)',
+      },
     }"
   >
-    <input type="radio" :value="value" v-model="model" :disabled="disabled" v-bind="$attrs" ref="inputRef" />
     <div class="r-radio-dot-container">
       <div class="r-radio-dot-circle"></div>
     </div>
     <div class="r-radio-slot">
       <slot />
     </div>
-  </label>
+  </RadioRoot>
 </template>
 
 <script setup lang="ts">
-import { computed, toRef, ref, onMounted } from "vue";
+import { toRef, ref, onMounted } from "vue";
 import useColor from "@/composables/useColor";
+import RadioRoot, { type RadioRootProps } from "./RadioRoot.vue";
 
-export interface Props {
-  modelValue?: string | number | boolean | null;
-  value?: string | number;
+export interface RRadioProps extends RadioRootProps {
   color?: string;
   containerClass?: string;
-  disabled?: boolean;
 }
 
 defineOptions({
   inheritAttrs: false,
 });
 
-const props = withDefaults(defineProps<Props>(), {});
+const props = withDefaults(defineProps<RRadioProps>(), {});
+
 const emit = defineEmits(["update:modelValue"]);
 
 const { color } = useColor(toRef(props, "color"));
 
 const inputRef = ref<HTMLInputElement | undefined>();
 
-const model = computed({
-  set(e) {
-    emit("update:modelValue", e);
-  },
-  get() {
-    return props.modelValue;
-  },
-});
+// const model = computed({
+//   set(e) {
+//     emit("update:modelValue", e);
+//   },
+//   get() {
+//     return props.modelValue;
+//   },
+// });
 
 onMounted(() => {
   // @ts-ignore
@@ -112,10 +116,10 @@ defineExpose({
     flex: 1;
   }
 
-  input:checked ~ .r-radio-dot-container {
+  .r-radio-dot-container:has(~ input:checked) {
     border-color: color();
   }
-  input:checked ~ .r-radio-dot-container .r-radio-dot-circle {
+  .r-radio-dot-container:has(~ input:checked) .r-radio-dot-circle {
     top: 0;
     opacity: 1;
   }
@@ -125,7 +129,7 @@ defineExpose({
     opacity: var(--r-disabled-alpha);
   }
 
-  input:focus-visible ~ .r-radio-dot-container {
+  .r-radio-dot-container:has(~ input:focus-visible) {
     box-shadow: var(--r-focused-box-shadow-specs) color();
   }
 }

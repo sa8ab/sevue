@@ -1,3 +1,1 @@
-import RAlert, { type Props } from "./RAlert.vue";
-export { Props };
-export default RAlert;
+export { default as RAlert, type RAlertProps } from "./RAlert.vue";

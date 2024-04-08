@@ -65,7 +65,7 @@ import useColor from "@/composables/useColor";
 import { useSevue, RLoading } from "@/main";
 import { ref, computed, toRef } from "vue";
 
-export interface Props {
+export interface RButtonProps {
   flat?: boolean;
   bordered?: boolean;
   fill?: boolean;
@@ -100,7 +100,7 @@ const { nuxtOptions } = useSevue();
 //   href?: string
 // }
 // type Props = LinkProps | AnchorProps
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<RButtonProps>(), {
   color: "prm",
   variant: "light",
 });
