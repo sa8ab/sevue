@@ -83,7 +83,7 @@ const handleDropdownItemClick = () => {
   height: 300px;
   overflow: auto;
 }
-*:focus {
-  box-shadow: 0 0 0 2px red;
-}
+// *:focus {
+//   box-shadow: 0 0 0 2px red;
+// }
 </style>
