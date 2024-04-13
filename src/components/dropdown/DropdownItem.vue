@@ -43,7 +43,7 @@ const handlePointerEnter = (e: PointerEvent) => {
     return;
   }
 
-  currentElement.value.focus({ preventScroll: true });
+  currentElement.value?.focus({ preventScroll: true });
 };
 
 const handlePointerLeave = (e: PointerEvent) => {
@@ -61,7 +61,7 @@ const handlePointerLeave = (e: PointerEvent) => {
       :aria-disabled="disabled ? '' : undefined"
       :data-disabled="disabled ? '' : undefined"
       :disabled="disabled"
-      tabindex="-1"
+      tabindex="0"
       @click="handleClick"
       @keydown="handleKeydown"
       @pointerenter="handlePointerEnter"

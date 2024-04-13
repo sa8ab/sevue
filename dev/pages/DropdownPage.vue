@@ -29,7 +29,7 @@ const handleDropdownItemClick = () => {
 
     <DropdownRoot v-slot="{ active }">
       <DropdownTrigger class="dropdown-trigger" asChild>
-        <RButton>Trigger</RButton>
+        <RButton variant="fill">Trigger</RButton>
       </DropdownTrigger>
       <div>{{ active }}</div>
       <DropdownContent v-if="active" class="dropdown-content">
@@ -83,7 +83,7 @@ const handleDropdownItemClick = () => {
   height: 300px;
   overflow: auto;
 }
-// *:focus {
-//   box-shadow: 0 0 0 2px red;
-// }
+*:focus {
+  box-shadow: 0 0 0 2px red;
+}
 </style>
