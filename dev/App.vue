@@ -1,11 +1,14 @@
 <template>
   <div class="app">
-    <RouterView />
+    <SevueProvider>
+      <RouterView />
+    </SevueProvider>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from "vue";
+import { Provider as SevueProvider } from "../src/main";
 
 onMounted(() => {
   document.documentElement.classList.add("dark");
