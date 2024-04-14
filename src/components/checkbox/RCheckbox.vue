@@ -1,15 +1,49 @@
+<script setup lang="ts">
+import { computed, toRef, ref } from "vue";
+import SevueIcon from "@/components/icons/SevueIcon.vue";
+import useColor from "@/composables/useColor";
+import CheckboxRoot, { type CheckboxRootProps } from "./CheckboxRoot.vue";
+import { useForwardRef } from "@/composables/useForwardRef";
+
+export interface RCheckboxProps extends CheckboxRootProps {
+  color?: string;
+  iconColor?: string;
+  containerClass?: string;
+}
+
+const props = withDefaults(defineProps<RCheckboxProps>(), {
+  color: "prm",
+  as: "label",
+});
+
+const emit = defineEmits(["update:modelValue"]);
+
+const { color, foreground } = useColor(toRef(props, "color"), toRef(props, "iconColor"));
+
+const model = computed({
+  set(e: CheckboxRootProps["modelValue"]) {
+    emit("update:modelValue", e);
+  },
+  get() {
+    return props.modelValue;
+  },
+});
+
+const { forwardRef } = useForwardRef();
+</script>
+
 <template>
   <CheckboxRoot
     :as="as"
     v-model="model"
     :value="value"
     :disabled="disabled"
-    ref="inputRef"
+    :ref="forwardRef"
     :containerAttrs="{
       class: ['r-cb', containerClass, { disabled }],
       style: {
-        '--r-color': color || 'var(--r-prm)',
-        '--r-text-color': iconColor || 'var(--r-text)',
+        '--r-color': color,
+        '--r-foreground-color': foreground,
       },
     }"
   >
@@ -26,46 +60,6 @@
     </template>
   </CheckboxRoot>
 </template>
-
-<script setup lang="ts">
-import { computed, toRef, ref } from "vue";
-import SevueIcon from "@/components/icons/SevueIcon.vue";
-import useColor from "@/composables/useColor";
-import CheckboxRoot, { type CheckboxRootProps } from "./CheckboxRoot.vue";
-
-export interface RCheckboxProps extends CheckboxRootProps {
-  color?: string;
-  iconColor?: string;
-  containerClass?: string;
-}
-
-const props = withDefaults(defineProps<RCheckboxProps>(), {
-  iconColor: "#fff",
-  as: "label",
-});
-
-const emit = defineEmits(["update:modelValue"]);
-
-const { color } = useColor(toRef(props, "color"));
-const { color: iconColor } = useColor(toRef(props, "iconColor"));
-const inputRef = ref<HTMLInputElement | undefined>();
-
-const model = computed({
-  set(e: CheckboxRootProps["modelValue"]) {
-    emit("update:modelValue", e);
-  },
-  get() {
-    return props.modelValue;
-  },
-});
-
-const focus = () => inputRef.value?.focus();
-
-defineExpose({
-  inputRef,
-  focus,
-});
-</script>
 
 <style lang="scss">
 .r-cb {

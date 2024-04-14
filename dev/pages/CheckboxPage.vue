@@ -2,7 +2,14 @@
   <div class="page">
     <div class="section">
       <pre>{{ checked }}</pre>
-      <RCheckbox v-model="checked" class="custom-classname" color="red" trueValue="yes" falseValue="no">
+      <RCheckbox
+        v-model="checked"
+        ref="checkboxRef"
+        class="custom-classname"
+        color="red"
+        trueValue="yes"
+        falseValue="no"
+      >
         Checkbox
       </RCheckbox>
       <RCheckbox v-model="checked"> Checkbox </RCheckbox>
@@ -30,9 +37,11 @@ const checked = ref();
 const groupCheked = ref(["1"]);
 
 const elementRef = ref();
+const checkboxRef = ref();
 
 onMounted(() => {
   console.log(elementRef.value);
+  console.log(checkboxRef.value);
 });
 </script>
 

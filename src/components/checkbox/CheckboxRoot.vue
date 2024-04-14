@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { Primitive, type PrimitiveProps } from "@/components/primitive";
 import { useForwardRef } from "@/composables/useForwardRef";
+import { useVModel } from "@vueuse/core";
 
 export interface CheckboxRootProps extends PrimitiveProps {
   modelValue?: string | number | boolean | null | any[];
@@ -24,14 +25,7 @@ const props = withDefaults(defineProps<CheckboxRootProps>(), {
 
 const emit = defineEmits<CheckboxRootEmits>();
 
-const model = computed({
-  set(e: CheckboxRootProps["modelValue"]) {
-    emit("update:modelValue", e);
-  },
-  get() {
-    return props.modelValue;
-  },
-});
+const model = useVModel(props, "modelValue", emit);
 
 const isChecked = computed(() => {
   if (Array.isArray(model.value)) {
