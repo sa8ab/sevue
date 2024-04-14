@@ -7,6 +7,7 @@ import { type PrimitiveProps, Primitive } from "@/components/primitive";
 import { RovingFocusRoot } from "@/components/roving-focus";
 import { useContext } from "@/composables/useContext";
 import { useForwardRef } from "@/composables/useForwardRef";
+import { useVModel } from "@vueuse/core";
 
 import type { Orientation, Dir } from "@/types";
 import { type Ref, toRefs } from "vue";
@@ -19,7 +20,6 @@ export interface TabsRootProps extends PrimitiveProps {
 }
 
 export type TabsRootEmits = {
-  change: [];
   "update:modelValue": [string | number | undefined];
 };
 
@@ -37,7 +37,9 @@ const props = withDefaults(defineProps<TabsRootProps>(), {
 
 const emit = defineEmits<TabsRootEmits>();
 
-const model = defineModel<string | number>();
+const model = useVModel(props, "modelValue", emit, {
+  passive: (props.modelValue === undefined) as false,
+});
 
 const { forwardRef, currentElement } = useForwardRef();
 

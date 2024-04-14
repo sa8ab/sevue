@@ -42,8 +42,16 @@
     </div>
     <div v-if="active">
       <div class="tabs">
-        <RTab ref="tabbar" v-model="tab" :items="tabs" @update:modelValue="updateCall"> </RTab>
-        <RTab ref="tabbar" v-model="tab" :items="tabs" :showBorder="false" type="segment"> </RTab>
+        <RTab ref="tabbar" modelValue="comments" :items="tabs"> </RTab>
+        <RTab
+          ref="tabbar"
+          v-model="tab"
+          @update:modelValue="updateCall"
+          :items="tabs"
+          :showBorder="false"
+          type="segment"
+        >
+        </RTab>
         <RTab ref="tabbar" v-model="tab" :items="tabs" color="yellow" moverFull fit> </RTab>
         <RTab ref="tabbar" v-model="tab" :items="tabs" moverFull> </RTab>
         <RTab ref="tabbar" v-model="tab" :items="tabs" bordered> </RTab>

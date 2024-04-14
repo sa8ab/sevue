@@ -27,7 +27,7 @@ const handleClick = () => {
   rootContext.setModelValue(props.value);
 };
 
-const handleFocus = () => {
+const handleFocus = (e: FocusEvent) => {
   if (isSelected.value || props.disabled) return;
   rootContext.setModelValue(props.value);
 };

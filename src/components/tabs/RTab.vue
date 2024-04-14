@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import useColor from "@/composables/useColor";
-import { onMounted, toRef } from "vue";
+import { onMounted, toRef, computed } from "vue";
 import type { RTabItemType } from "@/types";
 import { TabsRoot, TabsIndicator, type TabsRootProps, type TabsRootEmits } from "./";
 import { useEmitsAsProps } from "@/composables/useEmitsAsProps";
@@ -25,11 +25,15 @@ const props = withDefaults(defineProps<RTabsProps>(), {
 });
 
 const emit = defineEmits<RTabEmits>();
-const model = defineModel<string | number>();
 
 const { color, foreground } = useColor(toRef(props, "color"), toRef(props, "activeTextColor"));
 
 const emitsAsProps = useEmitsAsProps(emit);
+
+const rootProps = computed(() => {
+  const { items, fit, scrollable, moverFull, color, activeTextColor, showBorder, type, ...rest } = props;
+  return rest;
+});
 
 // onMounted(async () => {
 //   maybeSetInitialValue();
@@ -56,14 +60,13 @@ const emitsAsProps = useEmitsAsProps(emit);
 
 <template>
   <TabsRoot
-    v-model="model"
     :class="[
       'r-tab',
       `r-tab-type-${type}`,
       { 'r-tab-fit': fit, 'r-tab-mover-full': moverFull, scrollable, 'r-tab-show-border': showBorder },
     ]"
     :style="{ '--r-color': color, '--r-foreground': foreground }"
-    v-bind="{ ...emitsAsProps, dir, orientation }"
+    v-bind="{ ...emitsAsProps, ...rootProps }"
   >
     <div class="r-tabbar-container">
       <div class="r-tabbar">
