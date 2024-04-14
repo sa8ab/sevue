@@ -4,6 +4,8 @@ import SevueIcon from "@/components/icons/SevueIcon.vue";
 import useColor from "@/composables/useColor";
 import CheckboxRoot, { type CheckboxRootProps } from "./CheckboxRoot.vue";
 import { useForwardRef } from "@/composables/useForwardRef";
+import { useVModel } from "@vueuse/core";
+import { useEmitsAsProps } from "@/composables/useEmitsAsProps";
 
 export interface RCheckboxProps extends CheckboxRootProps {
   color?: string;
@@ -18,15 +20,13 @@ const props = withDefaults(defineProps<RCheckboxProps>(), {
 
 const emit = defineEmits(["update:modelValue"]);
 
+const emitsAsProps = useEmitsAsProps(emit);
+
 const { color, foreground } = useColor(toRef(props, "color"), toRef(props, "iconColor"));
 
-const model = computed({
-  set(e: CheckboxRootProps["modelValue"]) {
-    emit("update:modelValue", e);
-  },
-  get() {
-    return props.modelValue;
-  },
+const rootProps = computed(() => {
+  const { color, iconColor, containerClass, ...rest } = props;
+  return rest;
 });
 
 const { forwardRef } = useForwardRef();
@@ -34,16 +34,13 @@ const { forwardRef } = useForwardRef();
 
 <template>
   <CheckboxRoot
-    :as="as"
-    v-model="model"
-    :value="value"
-    :disabled="disabled"
     :ref="forwardRef"
+    v-bind="{ ...rootProps, ...emitsAsProps }"
     :containerAttrs="{
-      class: ['r-cb', containerClass, { disabled }],
+      class: ['r-cb', containerClass, { 'r-cb-disabled': disabled }],
       style: {
         '--r-color': color,
-        '--r-foreground-color': foreground,
+        '--r-foreground': foreground,
       },
     }"
   >
@@ -88,7 +85,7 @@ const { forwardRef } = useForwardRef();
     overflow: hidden;
     border: 2px solid color(hover, var(--r-hover-alpha));
     transition: all var(--r-duration);
-    color: color(text-color);
+    color: color(foreground);
   }
 
   .background {
@@ -111,8 +108,7 @@ const { forwardRef } = useForwardRef();
     opacity: 0;
     transform: scale(0.8);
     transition: all calc(var(--r-duration));
-    // transition-delay: calc(var(--r-duration) / 2);
-    color: color(text-color);
+    color: color(foreground);
   }
   .r-cb-slot {
     flex: 1;
@@ -134,7 +130,7 @@ const { forwardRef } = useForwardRef();
       opacity: 1;
     }
   }
-  &.disabled {
+  &-disabled {
     pointer-events: none;
     opacity: var(--r-disabled-alpha);
   }
