@@ -39,6 +39,7 @@ const close = () => {
   emit("update:active", false);
   emit("close");
 };
+
 const tryClose = () => {
   if (props.beforeClose) {
     props.beforeClose(close);

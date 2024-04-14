@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SevueIcon from "@/components/icons/SevueIcon.vue";
-import { onMounted } from "vue";
+import { onMounted, useAttrs } from "vue";
 import {
   PopupRoot,
   PopupContent,
@@ -25,6 +25,7 @@ defineOptions({
 });
 
 const emit = defineEmits<PopupRootEmits>();
+const attrs = useAttrs();
 
 const props = withDefaults(defineProps<RPopupProps>(), {
   active: false,
@@ -35,12 +36,10 @@ const props = withDefaults(defineProps<RPopupProps>(), {
 const emitsAsProps = useEmitsAsProps(emit);
 
 onMounted(() => {
-  // @ts-ignore
-  if (props.noCloseButton) {
+  if (attrs.noCloseButton) {
     console.warn("`noCloseButton` prop is depricated on RPopup, use `showClose` instead");
   }
-  // @ts-ignore
-  if (props.noClose) {
+  if (attrs.noClose) {
     console.warn("`noClose` prop is depricated on RPopup, use `preventClose` instead");
   }
 });
