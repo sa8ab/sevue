@@ -18,6 +18,7 @@ export * from "./slider";
 export * from "./tabs";
 export * from "./switch";
 export * from "./primitive";
+export * from "./provider";
 export {
   RSelect,
   // RSelectProps,
