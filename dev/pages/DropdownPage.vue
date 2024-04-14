@@ -12,8 +12,8 @@ import {
 
 const parentActiveRef = ref(false);
 
-const onUpdate = () => {
-  console.log("updated");
+const onUpdate = (e) => {
+  console.log("update", e);
 };
 
 const handleDropdownItemClick = () => {

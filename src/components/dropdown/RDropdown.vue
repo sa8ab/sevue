@@ -8,20 +8,27 @@ import {
   type DropdownRootEmits,
   type DropdownContentProps,
 } from "./index";
+import { computed } from "vue";
 
 export interface RDropdownProps extends DropdownRootProps, DropdownContentProps {}
 
 export type RDropdownEmits = DropdownRootEmits;
 
-const props = defineProps<RDropdownProps>();
+const props = withDefaults(defineProps<RDropdownProps>(), {
+  active: undefined,
+});
 
 const emit = defineEmits<RDropdownEmits>();
+const emitsAsProps = useEmitsAsProps(emit);
 
-const activeModel = defineModel<boolean>("active");
+const rootProps = computed(() => {
+  const { active, closeOnClick } = props;
+  return { active, closeOnClick };
+});
 </script>
 
 <template>
-  <DropdownRoot v-model:active="activeModel" :closeOnClick="closeOnClick">
+  <DropdownRoot v-bind="{ ...emitsAsProps, ...rootProps }" v-slot="{ active: internalActive }">
     <DropdownTrigger asChild>
       <slot />
     </DropdownTrigger>
@@ -32,7 +39,7 @@ const activeModel = defineModel<boolean>("active");
         :rootBoundry="rootBoundry"
         :boundry="boundry"
         :placement="placement"
-        v-if="activeModel"
+        v-if="internalActive"
       >
         <slot name="dropdown" />
       </DropdownContent>

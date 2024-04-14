@@ -7,6 +7,7 @@ import type { PrimitiveProps } from "@/components/primitive";
 import { useContext } from "@/composables/useContext";
 import { toRef } from "vue";
 import { type Ref, ref } from "vue";
+import { useVModel } from "@vueuse/core";
 
 export interface DropdownRootProps extends PrimitiveProps {
   active?: boolean;
@@ -28,12 +29,14 @@ export interface DropdownRootContext {
   setReference: (element: HTMLElement | undefined) => void;
 }
 
-const props = withDefaults(defineProps<DropdownRootProps>(), {});
+const props = withDefaults(defineProps<DropdownRootProps>(), {
+  active: undefined,
+});
 
 const emit = defineEmits<DropdownRootEmits>();
 
-const activeModel = defineModel<boolean | undefined>("active", {
-  required: false,
+const activeModel = useVModel(props, "active", emit, {
+  passive: (props.active === undefined) as false,
 });
 
 const reference = ref<HTMLElement | undefined>();
