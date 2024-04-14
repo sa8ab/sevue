@@ -56,7 +56,7 @@ const handleMousedown = (e: MouseEvent) => {
       @focus="handleFocus"
       @mousedown="handleMousedown"
     >
-      <slot />
+      <slot :isSelected="isSelected" />
     </Primitive>
   </RovingFocusItem>
 </template>

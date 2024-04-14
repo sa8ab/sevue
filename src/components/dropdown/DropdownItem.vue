@@ -8,9 +8,12 @@ import { ref } from "vue";
 
 export interface DropdownItemProps extends PrimitiveProps {
   disabled?: boolean;
+  tabindex?: string;
 }
 
-const props = withDefaults(defineProps<DropdownItemProps>(), {});
+const props = withDefaults(defineProps<DropdownItemProps>(), {
+  tabindex: "-1",
+});
 
 const { forwardRef, currentElement } = useForwardRef();
 
@@ -61,7 +64,7 @@ const handlePointerLeave = (e: PointerEvent) => {
       :aria-disabled="disabled ? '' : undefined"
       :data-disabled="disabled ? '' : undefined"
       :disabled="disabled"
-      tabindex="0"
+      :tabindex="tabindex"
       @click="handleClick"
       @keydown="handleKeydown"
       @pointerenter="handlePointerEnter"

@@ -13,7 +13,7 @@ import { type Ref, toRefs } from "vue";
 
 export interface TabsRootProps extends PrimitiveProps {
   modelValue?: string | number;
-  initialValue?: number | string;
+  // initialValue?: number | string;
   orientation?: Orientation;
   dir?: Dir;
 }
@@ -37,9 +37,7 @@ const props = withDefaults(defineProps<TabsRootProps>(), {
 
 const emit = defineEmits<TabsRootEmits>();
 
-const model = defineModel<string | number>({
-  required: false,
-});
+const model = defineModel<string | number>();
 
 const { forwardRef, currentElement } = useForwardRef();
 

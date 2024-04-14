@@ -7,7 +7,6 @@ import { useEmitsAsProps } from "@/composables/useEmitsAsProps";
 
 export interface RTabsProps extends TabsRootProps {
   items?: RTabItemType[];
-  initialValue?: number | string;
   fit?: boolean;
   scrollable?: boolean;
   moverFull?: boolean;
@@ -26,53 +25,49 @@ const props = withDefaults(defineProps<RTabsProps>(), {
 });
 
 const emit = defineEmits<RTabEmits>();
-const model = defineModel<string | number>({
-  required: false,
-});
+const model = defineModel<string | number>();
 
 const { color, foreground } = useColor(toRef(props, "color"), toRef(props, "activeTextColor"));
+
 const emitsAsProps = useEmitsAsProps(emit);
 
-onMounted(async () => {
-  maybeSetInitialValue();
-});
+// onMounted(async () => {
+//   maybeSetInitialValue();
+// });
 
-const maybeSetInitialValue = () => {
-  // if already has modelValue
-  if (model.value) return;
+// const maybeSetInitialValue = () => {
+//   // if already has modelValue
+//   if (model.value) return;
 
-  // if has requested initalValue
-  if (props.initialValue !== undefined) {
-    model.value = props.initialValue;
-    return;
-  }
+//   // if has requested initalValue
+//   if (props.initialValue !== undefined) {
+//     model.value = props.initialValue;
+//     return;
+//   }
 
-  // pick first item
-  const firstActiveIndex = props.items?.findIndex(({ disabled }) => !disabled);
+//   // pick first item
+//   const firstActiveIndex = props.items?.findIndex(({ disabled }) => !disabled);
 
-  if (firstActiveIndex == -1 || firstActiveIndex === undefined) return;
+//   if (firstActiveIndex == -1 || firstActiveIndex === undefined) return;
 
-  model.value = props.items?.[firstActiveIndex].value;
-};
-
-const getIsActive = (value: RTabItemType["value"]) => {
-  return value === model.value;
-};
+//   model.value = props.items?.[firstActiveIndex].value;
+// };
 </script>
 
 <template>
   <TabsRoot
+    v-model="model"
     :class="[
       'r-tab',
       `r-tab-type-${type}`,
       { 'r-tab-fit': fit, 'r-tab-mover-full': moverFull, scrollable, 'r-tab-show-border': showBorder },
     ]"
     :style="{ '--r-color': color, '--r-foreground': foreground }"
-    v-model="model"
+    v-bind="{ ...emitsAsProps, dir, orientation }"
   >
     <div class="r-tabbar-container">
       <div class="r-tabbar">
-        <RTabItem v-for="item in items" :value="item.value" :disabled="item.disabled" :active="getIsActive(item.value)">
+        <RTabItem v-for="item in items" :value="item.value" :disabled="item.disabled">
           <slot :name="item.value">
             {{ item.label }}
           </slot>
@@ -144,7 +139,7 @@ const getIsActive = (value: RTabItemType["value"]) => {
       position: relative !important;
       z-index: 2;
 
-      &-active {
+      &[data-selected] {
         color: color(foreground);
         &:hover {
           color: color(foreground);

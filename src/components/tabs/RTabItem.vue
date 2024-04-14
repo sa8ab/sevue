@@ -1,18 +1,16 @@
-<template>
-  <TabsItem :class="['r-tab-item', { 'r-tab-item-active': active, disabled }]" :value="value" :disabled="disabled">
-    <slot></slot>
-  </TabsItem>
-</template>
-
 <script setup lang="ts">
 import { TabsItem, type TabsItemProps } from "./index";
 
-export interface RTabItemProps extends TabsItemProps {
-  active?: boolean;
-}
+export interface RTabItemProps extends TabsItemProps {}
 
 const props = defineProps<RTabItemProps>();
 </script>
+
+<template>
+  <TabsItem :class="['r-tab-item', { 'r-tab-item-disabled': disabled }]" v-bind="props" v-slot="{ isSelected }">
+    <slot :isSelected="isSelected"></slot>
+  </TabsItem>
+</template>
 
 <style lang="scss">
 .r-tab-item {
@@ -29,7 +27,7 @@ const props = defineProps<RTabItemProps>();
     box-shadow: var(--r-focused-box-shadow-specs) color();
   }
 
-  &.disabled {
+  &-disabled {
     color: color(disabled);
     pointer-events: none;
   }
@@ -38,7 +36,7 @@ const props = defineProps<RTabItemProps>();
     color: color();
   }
 
-  &-active {
+  &[data-selected] {
     color: color();
   }
 }
