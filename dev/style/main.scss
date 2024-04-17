@@ -27,3 +27,20 @@ a {
   text-decoration: none;
   color: var(--r-text);
 }
+
+.card {
+  padding: 18px;
+  .card-title {
+    font-size: 2rem;
+    font-weight: bold;
+    padding-bottom: 10px;
+  }
+  .card-content {
+  }
+}
+
+.divider {
+  width: 100%;
+  border-bottom: 1px solid #333;
+  margin: 20px 0;
+}

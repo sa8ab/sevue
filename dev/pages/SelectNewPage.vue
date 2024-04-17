@@ -1,6 +1,11 @@
 <template>
   <div>
     <div style="height: 200px"></div>
+    <div class="card">
+      <div class="card-title">Headless</div>
+      <div class="card-content"></div>
+    </div>
+    <div class="divider"></div>
     <div class="grid-4">
       <RInput skipFocusOn=".r-selectnew">
         <template #after>
@@ -142,7 +147,7 @@ const getRemoteUsers = async (query?: string) => {
 <style lang="scss" scoped>
 .grid-4 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 40px;
   padding: 40px;
   margin-bottom: 100px;
