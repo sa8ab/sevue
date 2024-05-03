@@ -1,5 +1,6 @@
 <template>
   <RadioRoot
+    :ref="forwardRef"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
     :value="value"
@@ -24,15 +25,12 @@
 import { toRef, ref, onMounted } from "vue";
 import useColor from "@/composables/useColor";
 import RadioRoot, { type RadioRootProps } from "./RadioRoot.vue";
+import { useForwardRef } from "@/composables/useForwardRef";
 
 export interface RRadioProps extends RadioRootProps {
   color?: string;
   containerClass?: string;
 }
-
-defineOptions({
-  inheritAttrs: false,
-});
 
 const props = withDefaults(defineProps<RRadioProps>(), {});
 
@@ -40,7 +38,7 @@ const emit = defineEmits(["update:modelValue"]);
 
 const { color } = useColor(toRef(props, "color"));
 
-const inputRef = ref<HTMLInputElement | undefined>();
+const { forwardRef } = useForwardRef();
 
 // const model = computed({
 //   set(e) {
@@ -56,10 +54,6 @@ onMounted(() => {
   if (props.tag) {
     console.warn("Tag prop is depricated on RRadio");
   }
-});
-
-defineExpose({
-  inputRef,
 });
 </script>
 
